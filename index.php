@@ -6,7 +6,7 @@
 -->
 <html>
 	<head>
-		<title>Alpha by HTML5 UP</title>
+		<title> School ticket </title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
@@ -16,10 +16,10 @@
 
 			<!-- Header -->
 				<header id="header" class="alt">
-					<h1><a href="index.html">Alpha</a> by HTML5 UP</h1>
+					<h1><a href="index.php"> School ticket </h1>
 					<nav id="nav">
 						<ul>
-							<li><a href="index.html">Home</a></li>
+							<li><a href="index.php">Home</a></li>
 							<li>
 								<a href="#" class="icon solid fa-angle-down">Layouts</a>
 								<ul>
@@ -44,11 +44,11 @@
 
 			<!-- Banner -->
 				<section id="banner">
-					<h2>Alpha</h2>
-					<p>Another fine responsive site template freebie by HTML5 UP.</p>
+					<h2>School ticket</h2>
+					<p>Un modo semplice e veloce per segnalare e risolvere i problemi della tua scuola</p>
 					<ul class="actions special">
-						<li><a href="#" class="button primary">Sign Up</a></li>
-						<li><a href="#" class="button">Learn More</a></li>
+						<li><a href="#" class="button primary">Registrati</a></li>
+						<li><a href="#" class="button">Scopri di più</a></li>
 					</ul>
 				</section>
 
@@ -70,25 +70,25 @@
 						<div class="features-row">
 							<section>
 								<span class="icon solid major fa-bolt accent2"></span>
-								<h3>Magna etiam</h3>
-								<p>Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
+								<h3> Velocità </h3>
+								<p>Attraverso questo sito potrai segnalare i problemi in modo rapido. </p>
 							</section>
 							<section>
 								<span class="icon solid major fa-chart-area accent3"></span>
-								<h3>Ipsum dolor</h3>
-								<p>Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
+								<h3> Semplicità </h3>
+								<p> Segnalare e risolvere problemi non è mai stato così facile. </p>
 							</section>
 						</div>
 						<div class="features-row">
 							<section>
 								<span class="icon solid major fa-cloud accent4"></span>
-								<h3>Sed feugiat</h3>
-								<p>Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
+								<h3> Commiunity </h3>
+								<p> Condividi le tue segnalazioni per migliorare l'ambiente intorno a te. </p>
 							</section>
 							<section>
 								<span class="icon solid major fa-lock accent5"></span>
-								<h3>Enim phasellus</h3>
-								<p>Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
+								<h3> Sicurezza </h3>
+								<p> Riporta le tue segnalazioni in modo efficiente e sicuro. </p>
 							</section>
 						</div>
 					</section>
@@ -98,7 +98,7 @@
 
 							<section class="box special">
 								<span class="image featured"><img src="images/pic02.jpg" alt="" /></span>
-								<h3>Sed lorem adipiscing</h3>
+								<h3>Hai riscontrato un problema ? <br> Riportalo qui </h3>
 								<p>Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
 								<ul class="actions special">
 									<li><a href="#" class="button alt">Learn More</a></li>
@@ -110,7 +110,7 @@
 
 							<section class="box special">
 								<span class="image featured"><img src="images/pic03.jpg" alt="" /></span>
-								<h3>Accumsan integer</h3>
+								<h3>Prosegui la tua esperenzia tramite la nostra app</h3>
 								<p>Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
 								<ul class="actions special">
 									<li><a href="#" class="button alt">Learn More</a></li>
@@ -148,11 +148,11 @@
 						<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
 						<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
 						<li><a href="#" class="icon brands fa-github"><span class="label">Github</span></a></li>
-						<li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
-						<li><a href="#" class="icon brands fa-google-plus"><span class="label">Google+</span></a></li>
+						<!-- <li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
+						<li><a href="#" class="icon brands fa-google-plus"><span class="label">Google+</span></a></li> -->
 					</ul>
 					<ul class="copyright">
-						<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+						<li>&copy; School ticket. Progetto "Idee in Nazione" 2020-2021.</li><li>Design: <a href="http://html5up.net"> Statuti, Giovannetti, Ricciardi, Meglioli, Berselli, Govi, Dealmeida, Prandi</a></li>
 					</ul>
 				</footer>
 
