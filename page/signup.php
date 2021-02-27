@@ -69,9 +69,9 @@
 									<input type="password" name="password" id="password" value="" placeholder="Password" />
 									<label for="email"  id="label_password"></label>
 								</div>
-                                <div class="col-6 col-12-mobilep" id="label_re_password">
+                                <div class="col-6 col-12-mobilep">
 									<input type="password" name="repassword" id="repassword" value="" placeholder="Conferma password" disabled/>
-									<label for="email"  id="label_re_password"></label>
+									<label for="email" id="label_re_password"></label>
 								</div>
                                 <div class="col-6 col-12-mobilep">
                                     <select name="type" id="type">
