@@ -1,12 +1,10 @@
 <!DOCTYPE HTML>
-<!--
-	Alpha by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
+<?php
+	$root = "ciao";
+?>
 <html>
 	<head>
-		<title> School ticket </title>
+		<title> Home - School ticket </title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
@@ -15,39 +13,16 @@
 		<div id="page-wrapper">
 
 			<!-- Header -->
-				<header id="header" class="alt">
-					<h1><a href="index.php"> School ticket </h1>
-					<nav id="nav">
-						<ul>
-							<li><a href="index.php">Home</a></li>
-							<li>
-								<a href="#" class="icon solid fa-angle-down">Layouts</a>
-								<ul>
-									<li><a href="generic.html">Generic</a></li>
-									<li><a href="contact.html">Contact</a></li>
-									<li><a href="elements.html">Elements</a></li>
-									<li>
-										<a href="#">Submenu</a>
-										<ul>
-											<li><a href="#">Option One</a></li>
-											<li><a href="#">Option Two</a></li>
-											<li><a href="#">Option Three</a></li>
-											<li><a href="#">Option Four</a></li>
-										</ul>
-									</li>
-								</ul>
-							</li>
-							<li><a href="#" class="button">Sign Up</a></li>
-						</ul>
-					</nav>
-				</header>
+				<?php
+					include_once("assets/php/utility/root/header.php");
+				?>
 
 			<!-- Banner -->
 				<section id="banner">
-					<h2>School ticket</h2>
+					<h2>SCHOOL TICKET</h2>
 					<p>Un modo semplice e veloce per segnalare e risolvere i problemi della tua scuola</p>
 					<ul class="actions special">
-						<li><a href="#" class="button primary">Registrati</a></li>
+						<li><a href="page/signup.php" class="button primary">Registrati</a></li>
 						<li><a href="#" class="button">Scopri di più</a></li>
 					</ul>
 				</section>
@@ -82,7 +57,7 @@
 						<div class="features-row">
 							<section>
 								<span class="icon solid major fa-cloud accent4"></span>
-								<h3> Commiunity </h3>
+								<h3> Community </h3>
 								<p> Condividi le tue segnalazioni per migliorare l'ambiente intorno a te. </p>
 							</section>
 							<section>
@@ -123,49 +98,21 @@
 				</section>
 
 			<!-- CTA -->
-				<section id="cta">
-
-					<h2>Sign up for beta access</h2>
-					<p>Blandit varius ut praesent nascetur eu penatibus nisi risus faucibus nunc.</p>
-
-					<form>
-						<div class="row gtr-50 gtr-uniform">
-							<div class="col-8 col-12-mobilep">
-								<input type="email" name="email" id="email" placeholder="Email Address" />
-							</div>
-							<div class="col-4 col-12-mobilep">
-								<input type="submit" value="Sign Up" class="fit" />
-							</div>
-						</div>
-					</form>
-
-				</section>
+				<?php
+					include_once("assets/php/utility/root/cta.php");
+				?>
 
 			<!-- Footer -->
-				<footer id="footer">
-					<ul class="icons">
-						<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-						<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-						<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-						<li><a href="#" class="icon brands fa-github"><span class="label">Github</span></a></li>
-						<!-- <li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
-						<li><a href="#" class="icon brands fa-google-plus"><span class="label">Google+</span></a></li> -->
-					</ul>
-					<ul class="copyright">
-						<li>&copy; School ticket. Progetto "Idee in Nazione" 2020-2021.</li><li>Design: <a href="http://html5up.net"> Statuti, Giovannetti, Ricciardi, Meglioli, Berselli, Govi, Dealmeida, Prandi</a></li>
-					</ul>
-				</footer>
+				<?php
+					include_once("assets/php/utility/footer.php");
+				?>
 
 		</div>
 
 		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.dropotron.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+			<?php
+				include_once("assets/php/utility/root/scripts.php");
+			?>
 
 	</body>
 </html>
