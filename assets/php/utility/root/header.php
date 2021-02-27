@@ -20,7 +20,7 @@
 									</li>
 								</ul>
 							</li>
-							<li><a href="page/signup.php" class="button">Sign Up</a></li>
+							<li><a href="page/signup.php" class="button">Registrati</a></li>
 						</ul>
 					</nav>
 				</header>

@@ -9,7 +9,7 @@
 
     DA FARE:
     - inserimento nome automatico in base all'email
-    - disabilitazione campi corso e classe in base al tipo di utente
+    - FATTO: disabilitazione campi corso e classe in base al tipo di utente
     - invio tramite ajax
     - altro
 
@@ -57,17 +57,21 @@
                                 <div class="col-6 col-12-mobilep">
 									<input type="text" name="surname" id="surname" value="" placeholder="Cognome" />
 								</div>
-								<div class="col-6 col-12-mobilep">
+								<div class="col-6 col-12-mobilep" >
 									<input type="email" name="email" id="email" value="" placeholder="Email" />
+									<label for="email" id="label_email"></label>
 								</div>
                                 <div class="col-6 col-12-mobilep">
-									<input type="email" name="reemail" id="reemail" value="" placeholder="Conferma email" />
+									<input type="email" name="reemail" id="reemail" value="" placeholder="Conferma email" disabled/>
+									<label for="email"  id="label_re_email"></label>
 								</div>
-                                <div class="col-6 col-12-mobilep">
+                                <div class="col-6 col-12-mobilep" >
 									<input type="password" name="password" id="password" value="" placeholder="Password" />
+									<label for="email"  id="label_password"></label>
 								</div>
-                                <div class="col-6 col-12-mobilep">
-									<input type="password" name="repassword" id="repassword" value="" placeholder="Conferma password" />
+                                <div class="col-6 col-12-mobilep" id="label_re_password">
+									<input type="password" name="repassword" id="repassword" value="" placeholder="Conferma password" disabled/>
+									<label for="email"  id="label_re_password"></label>
 								</div>
                                 <div class="col-6 col-12-mobilep">
                                     <select name="type" id="type">
@@ -80,7 +84,7 @@
 								</div>
 								<div class="col-3 col-6-mobilep">
 									<!--<input type="text" name="section" id="section" value="" placeholder="Corso: es. A" /> -->
-                                    <select name="section" id="section">
+                                    <select name="section" id="section" disabled>
                                         <option value="Unknown">-- Corso -- </option>
                                         <option value="A">A</option>
                                         <option value="B">B</option>
@@ -102,7 +106,7 @@
 								</div>
                                 <div class="col-3 col-6-mobilep">
 									<!--<input type="text" name="grade" id="grade" value="" placeholder="Classe: es. 1" />-->
-                                    <select name="grade" id="grade">
+                                    <select name="grade" id="grade" disabled>
                                         <option value="Unknown">-- Classe -- </option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>

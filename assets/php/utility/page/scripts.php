@@ -5,3 +5,6 @@
 			<script src="../assets/js/breakpoints.min.js"></script>
 			<script src="../assets/js/util.js"></script>
 			<script src="../assets/js/main.js"></script>
+			<!--	Scripts per il login e signup 	-->
+			<script src="../assets/js/login.js"></script>
+			<script src="../assets/js/signup.js"></script>
