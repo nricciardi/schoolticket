@@ -38,7 +38,7 @@
 								</div>
 								<div class="col-12">
 									<ul class="actions special">
-										<li><input type="submit" value="Invia Mesaggio" /></li>
+										<li><input type="button" id = "messaggio" value="Invia Mesaggio" /></li>
 									</ul>
 								</div>
 							</div>
