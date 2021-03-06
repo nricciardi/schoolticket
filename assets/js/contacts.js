@@ -1,9 +1,16 @@
-document.getElementById("messaggio").addEventListener("click", () => 
+//console.log("Collegato");
+
+
+document.getElementById("submit").addEventListener("click", () => 
 {
-	var nome = document.getElementById("nome").value; // Nome
+	var name = document.getElementById("name").value; // Nome
+  console.log("nome: " + name);
 	var email = document.getElementById("email").value; // Email
-	var soggetto = document.getElementById("soggetto").value; // Soggetto
-	var messaggio = document.getElementById("messaggio").value; // Messaggio
+  console.log("email: " + email);
+	var subject = document.getElementById("subject").value; // Soggetto
+  console.log("oggetto: " + subject);
+	var message = document.getElementById("message").value; // Messaggio
+  console.log("messaggio: " + message);
 	
 });						
 	
