@@ -1,5 +1,4 @@
 <?php
-
 	Class Auth{
 		private $PDOconn;
 
@@ -41,7 +40,6 @@
 	$cognome = 'Rossi';
 	$oggetto->registration($nome, $cognome);
 
-
 	//INSERIRE VALORI IN MANIERA FACILE:
 		//$st = $PDOconn->QUERY("INSERT INTO User(nome, cognome) VALUES (...)");
 		/*$st = $PDOconn->QUERY("SELECT * FROM User");
@@ -56,8 +54,5 @@
 		//fetch = riga successiva
 		//fetchAll = ritorna righe come arrey
 
-
-
-
-
+	
 ?>
