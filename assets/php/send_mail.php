@@ -21,6 +21,9 @@
 		else
 			ECHO 'False';
 
+		
+		var_dump($_POST);
+		
 	//}
 
 
