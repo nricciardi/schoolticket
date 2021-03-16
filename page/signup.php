@@ -73,18 +73,19 @@
 									<input type="password" name="repassword" id="repassword" value="" placeholder="Conferma password" disabled/>
 									<label for="email" id="label_re_password"></label>
 								</div>
-                                <div class="col-6 col-12-mobilep">
+                                <div class="col-12 col-12-mobilep">
                                     <select name="type" id="type">
                                             <option value="Unknown">-- Utente -- </option>
                                             <option value="1">Studente</option>
                                             <option value="2">Insegnante</option>
                                             <option value="3">Personale ATA</option>
-                                            <option value="4">Altro</option>
+                                            <!--<option value="4">Altro</option>-->
                                     </select>
 								</div>
-								<div class="col-3 col-6-mobilep">
-									<!--<input type="text" name="section" id="section" value="" placeholder="Corso: es. A" /> -->
-                                    <select name="section" id="section" disabled>
+								<!-- Deprecati -->
+								<!--<div class="col-3 col-6-mobilep">
+									<input type="text" name="section" id="section" value="" placeholder="Corso: es. A" /> -->
+                                    <!--<select name="section" id="section" disabled>
                                         <option value="Unknown">-- Corso -- </option>
                                         <option value="A">A</option>
                                         <option value="B">B</option>
@@ -103,10 +104,10 @@
                                         <option value="R">R</option>
                                         <option value="S">S</option>
                                     </select>
-								</div>
-                                <div class="col-3 col-6-mobilep">
-									<!--<input type="text" name="grade" id="grade" value="" placeholder="Classe: es. 1" />-->
-                                    <select name="grade" id="grade" disabled>
+								</div>-->
+                                <!--<div class="col-3 col-6-mobilep">
+									<input type="text" name="grade" id="grade" value="" placeholder="Classe: es. 1" />-->
+                                    <!--<select name="grade" id="grade" disabled>
                                         <option value="Unknown">-- Classe -- </option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
@@ -114,7 +115,7 @@
                                         <option value="4">4</option>
                                         <option value="5">5</option>
                                     </select>
-								</div>
+								</div>-->
 								<div class="col-12">
 									<ul class="actions special">
 										<li><input type="submit" value="Registrati" /></li>

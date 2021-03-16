@@ -27,7 +27,7 @@ var subject_validate = false;
 var message_validate = false;
 
 // URL da usare per contattare la pagina
-const HOSTNAME = window.location.protocol + "//" + window.location.hostname + "/phoneix";
+const HOSTNAME = window.location.protocol + "//" + window.location.hostname + "/" + window.location.pathname.split("/")[1];
 
 // funzione per inviare i dati tramite ajax 
 function send_data(data) {
