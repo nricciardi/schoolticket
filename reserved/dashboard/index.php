@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 
 <head>
     <!-- Required meta tags-->
@@ -10,29 +10,29 @@
     <meta name="keywords" content="au theme template">
 
     <!-- Title Page-->
-    <title>Dashboard 2</title>
+    <title>Schoolticket - Dashboard</title>
 
     <!-- Fontfaces CSS-->
-    <link href="css/font-face.css" rel="stylesheet" media="all">
-    <link href="vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
-    <link href="vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
-    <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+    <link href="assets/css/font-face.css" rel="stylesheet" media="all">
+    <link href="assets/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <link href="assets/vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
+    <link href="assets/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
 
     <!-- Bootstrap CSS-->
-    <link href="vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+    <link href="assets/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
 
     <!-- Vendor CSS-->
-    <link href="vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
-    <link href="vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
-    <link href="vendor/wow/animate.css" rel="stylesheet" media="all">
-    <link href="vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
-    <link href="vendor/slick/slick.css" rel="stylesheet" media="all">
-    <link href="vendor/select2/select2.min.css" rel="stylesheet" media="all">
-    <link href="vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
-    <link href="vendor/vector-map/jqvmap.min.css" rel="stylesheet" media="all">
+    <link href="assets/vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
+    <link href="assets/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
+    <link href="assets/vendor/wow/animate.css" rel="stylesheet" media="all">
+    <link href="assets/vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
+    <link href="assets/vendor/slick/slick.css" rel="stylesheet" media="all">
+    <link href="assets/vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="assets/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
+    <link href="assets/vendor/vector-map/jqvmap.min.css" rel="stylesheet" media="all">
 
     <!-- Main CSS-->
-    <link href="css/theme.css" rel="stylesheet" media="all">
+    <link href="assets/css/theme.css" rel="stylesheet" media="all">
 
 </head>
 
@@ -40,53 +40,39 @@
     <div class="page-wrapper">
         <!-- !!!!!!!!!!!!!!!MENU SIDEBAR!!!!!!!!!!!!!!! -->
         <?php
-            include_once("php/utilities/menu-sidebar.php");      // includo sidebar
+            include_once("assets/php/utilities/menu-sidebar.php");      // includo sidebar
         ?>
 
         <!-- PAGE CONTAINER-->
         <div class="page-container2">
             <!-- !!!!!!!!!!!!!!!HEADER DESKTOP!!!!!!!!!!!!!!! -->
             <?php
-                include_once("php/utilities/header-desktop.php");      // includo header-desktop
+                include_once("assets/php/utilities/header-desktop.php");      // includo header-desktop
             ?>
-            <!-- BREADCRUMB-->
-            <section class="au-breadcrumb m-t-75">
-                <div class="section__content section__content--p30">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="au-breadcrumb-content">
-                                    <div class="au-breadcrumb-left">
-                                        <span class="au-breadcrumb-span">You are here:</span>
-                                        <ul class="list-unstyled list-inline au-breadcrumb__list">
-                                            <li class="list-inline-item active">
-                                                <a href="#">Home</a>
-                                            </li>
-                                            <li class="list-inline-item seprate">
-                                                <span>/</span>
-                                            </li>
-                                            <li class="list-inline-item">Dashboard</li>
-                                        </ul>
-                                    </div>
-                                    <button class="au-btn au-btn-icon au-btn--green">
-                                        <i class="zmdi zmdi-plus"></i>add item</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <!-- END BREADCRUMB-->
+
+            <!-- !!!!!!!!!!!!!!!BREADCRUMB!!!!!!!!!!!!!!! -->
+            <?php
+                include_once("assets/php/utilities/breadcrumb.php");      // includo gli la sezione con il bottone new ticket
+            ?>
 
             <!-- !!!!!!!!!!!!!!!STATISTIC!!!!!!!!!!!!!!! -->
             <?php
-                include_once("php/utilities/statistic.php");      // includo gli script
+                include_once("assets/php/utilities/statistic.php");      // includo gli script
             ?>
 
             <section>
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
                         <div class="row">
+
+                            <!-- !!!!!!!!!!!!!!! FORM NEW TICKET !!!!!!!!!!!!!!! -->
+                            <div class="col-md-12" style="display: none;" id="div_form_add_ticket"> <!-- Di default è invisibile, viene visualizzato solo dopo il click di btn_add_ticket -->
+                                <?php
+                                    include_once("assets/php/utilities/add-ticket.php");      // includo il form per il new ticket
+                                ?>
+                            </div>
+                            
+
                             <!-- !!!!!!!!!!!!!!!RECENT REPORT!!!!!!!!!!!!!!! -->
                             
                             <!-- !!!!!!!!!!!!!!!TASK PROGRESS!!!!!!!!!!!!!!! -->
@@ -111,7 +97,7 @@
 
             <!-- !!!!!!!!!!!!!!!FOOTER!!!!!!!!!!!!!!! -->
             <?php
-                include_once("php/utilities/footer.php");      // includo gli script
+                include_once("assets/php/utilities/footer.php");      // includo gli script
             ?>
             <!-- END PAGE CONTAINER-->
         </div>
@@ -120,7 +106,7 @@
 
     <!-- !!!!!!!!!!!!!!!SCRIPTS!!!!!!!!!!!!!!! -->
     <?php
-        include_once("php/utilities/scripts.php");      // includo gli script
+        include_once("assets/php/utilities/scripts.php");      // includo gli script
     ?>
 </body>
 
