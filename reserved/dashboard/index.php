@@ -34,6 +34,8 @@
     <!-- Main CSS-->
     <link href="assets/css/theme.css" rel="stylesheet" media="all">
 
+    <!-- Prova per Icone-->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 
 <body class="animsition">
