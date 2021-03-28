@@ -6,7 +6,7 @@
                 <div class="col-md-12">
                     <div class="au-breadcrumb-content">
                         <div class="au-breadcrumb-left">
-                            <span class="au-breadcrumb-span">You are here:</span>
+                            <span class="au-breadcrumb-span">Tu sei qui:</span>
                             <ul class="list-unstyled list-inline au-breadcrumb__list">
                                 <li class="list-inline-item active">
                                     <a href="#">Home</a>
@@ -18,7 +18,7 @@
                             </ul>
                         </div>
                         <button class="au-btn au-btn-icon au-btn--green" id="btn_add_ticket">
-                            <i class="zmdi zmdi-plus"></i>add item</button>
+                            <i class="zmdi zmdi-plus"></i>Inserisci un nuovo ticket</button>
                     </div>
                 </div>
             </div>
