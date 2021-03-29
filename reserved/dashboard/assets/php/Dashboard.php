@@ -33,20 +33,22 @@ class Dashboard
         $st = $this->PDOconn->prepare($query);
         $result = $st->execute();
         // stampo in formato JSON le classi
+        $rows = $st->fetchAll(PDO::FETCH_ASSOC);
+        $temp = (json_encode($rows));
         if($result != false)
         {
-            echo '{"result":[';
-            foreach($result->fetchAll() as $row)
-            {
-                echo "IdAula:".$row['IdAula'];
-            }
+            $r = '{"result":';
+            $r .= $temp;
+            $r .= ', "description":"Sono state inserite le classi"}';
         }
         else
         {
-            echo '{"result":false, "description":"Riscontrato un problema nel recupero delle aule"}';
+            $r = '{"result":false, "description":"Riscontrato un problema nel recupero delle aule"}';
         }
-        
+        return $r;
     }
 }
 
+$dashboard = new Dashboard("localhost","schoolticket","root","");
+echo $dashboard->GetClassrooms();
 ?>
