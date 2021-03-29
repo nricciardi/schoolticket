@@ -132,5 +132,15 @@ if(isset($_POST["Submit"]) == "Show"){
   $ticket -> Show();
 }
 
+if(isset($_POST["Submit"]) == "Union"){
+  $ticket -> Union();
+}
+ 
+if(isset($_POST["Submit"]) == "ChangePriority"){
+  $ticket -> ChangePriority();  
+}
 
+if(isset($_POST["Submit"]) == "Update"){
+  $ticket -> Update();  
+}
  ?>
