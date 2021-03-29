@@ -47,13 +47,41 @@ class Dashboard
         }
         return $r;
     }
+
+    public function GetMacroaree()         // funzione per recuperare le aule dal db
+    {
+        $tabName = "macroarea";
+        $query = "SELECT * FROM schoolticket.".$tabName;
+        $st = $this->PDOconn->prepare($query);
+        $result = $st->execute();
+        // stampo in formato JSON le classi
+        $rows = $st->fetchAll(PDO::FETCH_ASSOC);
+        $temp = (json_encode($rows));
+        if($result != false)
+        {
+            $r = '{"result":';
+            $r .= $temp;
+            $r .= ', "description":"Sono state inserite le macroaree"}';
+        }
+        else
+        {
+            $r = '{"result":false, "description":"Riscontrato un problema nel recupero delle macroaree"}';
+        }
+        return $r;
+    }
 }
 
-
+$dashboard = new Dashboard("localhost","schoolticket","root","");
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "GetClassrooms")
 {
-    $dashboard = new Dashboard("localhost","schoolticket","root","");
     echo $dashboard->GetClassrooms();
 }
+
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "GetMacroaree")
+{
+    echo $dashboard->GetMacroaree();
+}
+
+
 
 ?>
