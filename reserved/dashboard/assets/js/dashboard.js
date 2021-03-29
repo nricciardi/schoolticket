@@ -1,4 +1,7 @@
 // VARIABILI GLOBALI
+// URL da usare per contattare la pagina
+const HOSTNAME = window.location.protocol + "//" + window.location.hostname + "/" + window.location.pathname.split("/")[1];
+
 // - Dato errato
 var error_data = "#ff5757";
 var error_background = "#ffeded";
@@ -108,8 +111,7 @@ function checkSubmit() {
     // ciclo di controllo campi tramite checkArray
     checkArray.forEach(element => {
         if(!element) {       // se un campo è sbagliato imposto il risultato false
-            checkResult = false
-            break;
+            return false;
         }
     });
     // se i campi di controllo sono tutti true abilito il bottone di submit
@@ -136,9 +138,47 @@ btn_submit_ticket.addEventListener("click", () => {
                         "Name": input_name_ticket.value.replace(/(<([^>]+)>)/gi, ""), 
                         "Description": input_description_ticket.value.replace(/(<([^>]+)>)/gi, ""), 
                         "Photo": null,
-                        "Classroom": input_classroom_ticket.value.replace(/(<([^>]+)>)/gi, "")
+                        "Classroom": input_classroom_ticket.value.replace(/(<([^>]+)>)/gi, ""),
+                        "IdMacroarea": null,
+                        "IdUtente": null  
                     }
+
+        // richiamo la funzione per l'invio 
+        send_data_add_ticket(data);
 
     }
 
 })
+
+// invio dei dati per la creazione del nuovo ticket
+function send_data_add_ticket(data) {
+    $.ajax({
+      url: HOSTNAME + 'reserved/dashboard/assets/php/send_mail.php',
+      method: 'POST',
+      data: data,
+      dataType: "text",
+      success: function( data, textStatus, jQxhr ){
+        console.log(data);
+        console.log(JSON.parse(data));
+        data = JSON.parse(data);
+        
+        // scrivo il messaggio che mi è stato restituito all'utente
+        let label = document.getElementById("label_submit");
+        
+  
+        // in base al tipo di messaggio imposto i colori
+        if(data.result) {
+          label.style.color = correct_data;
+          label.innerHTML = data.description + '<i class="far fa-check-circle"></i>';
+          
+  
+        } else {
+          label.style.color = error_data;
+          label.innerHTML = /*"<h1>" + */data.description + '<i class="far fa-exclamation-triangle"></i>';
+        }
+  
+  
+      }
+      });					
+  
+  }
