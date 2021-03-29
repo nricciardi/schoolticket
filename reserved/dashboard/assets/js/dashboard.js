@@ -153,7 +153,7 @@ btn_submit_ticket.addEventListener("click", () => {
 // invio dei dati per la creazione del nuovo ticket
 function send_data_add_ticket(data) {
     $.ajax({
-      url: HOSTNAME + 'reserved/dashboard/assets/php/send_mail.php',
+      url: HOSTNAME + '/assets/php/issues/Ticket.php',
       method: 'POST',
       data: data,
       dataType: "text",
@@ -163,7 +163,7 @@ function send_data_add_ticket(data) {
         data = JSON.parse(data);
         
         // scrivo il messaggio che mi è stato restituito all'utente
-        let label = document.getElementById("label_submit");
+        let label = document.getElementById("submit_result");
         
   
         // in base al tipo di messaggio imposto i colori
@@ -181,4 +181,39 @@ function send_data_add_ticket(data) {
       }
       });					
   
-  }
+}
+
+// restituisco le classi come oggetto
+function get_classrooms(data) {
+    $.ajax({
+      url: HOSTNAME + '/reserved/dashboard/assets/php/Dashboard.php',
+      method: 'POST',
+      data: data,
+      dataType: "text",
+      success: function( data, textStatus, jQxhr ){
+        console.log(data);
+        console.log(JSON.parse(data));
+        return data = JSON.parse(data);
+  
+      }
+      });					
+  
+}
+
+
+// alla creazione della select-box per le aule in add-ticket.php inserisco le option in modo dinamico
+input_classroom_ticket.addEventListener("load", () => {             // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    // creo la variabile data da passare per ricevere le classi
+    let data = {
+        "Submit": "GetClassrooms"
+    }
+
+    // recupero le classi attraverso una chiamata ajax
+    let classrooms = get_classrooms(data);
+    console.log("classrooms: ");
+    console.log(classrooms);
+
+    // per ogni classe creo un option e la aggiungo alla select-box
+
+});
