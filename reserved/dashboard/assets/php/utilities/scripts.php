@@ -27,4 +27,4 @@
     <script src="assets/js/main.js"></script>
 
     <!-- Custom js -->
-    <script src="assets/js/ticket.js"></script>
+    <script src="assets/js/dashboard.js"></script>
