@@ -33,7 +33,7 @@
                 </div>
                 <div class="form-actions form-group">
                     <button type="button" class="btn btn-success btn-sm" disabled name="Submit" id="submit">
-                        <i class="fas fa-check"></i>s Inserisci
+                        <i class="fas fa-check"></i> Inserisci
                     </button>
                     <button type="reset" class="btn btn-danger btn-sm">
                         <i class="fa fa-ban"></i> Reset

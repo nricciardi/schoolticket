@@ -35,9 +35,13 @@ Class auth{
 
 $oggetto = new auth("localhost","magazzino","root","");
 
-$oggetto->registration("Elia","Govi");
 
+if(isset($_POST["Submit"]) == "registration"){
+  $oggetto -> registration();  
+}
 
+if(isset($_POST["Submit"]) == "login"){
+  $ticket -> login(); 
 
 
 /*
