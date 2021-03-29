@@ -27,7 +27,13 @@
                             <i class="fas fa-map-marker-alt"></i>
                         </div>
                         <select name="Classroom" id="classroom" class="form-control">
-                            
+                            <?php
+                                //include_once("../Dashboard.php");
+                                //$dashboard = new Dashboard("localhost","schoolticket","root","");
+                                //$dashboard->GetClassrooms();
+                                //$classroom = json_decode($dashboard->GetClassrooms());          // recupero le classi e le traduco dal formato json
+                                //var_dump($classroom);
+                            ?>
                         </select>
                     </div>
                 </div>
@@ -38,6 +44,7 @@
                     <button type="reset" class="btn btn-danger btn-sm">
                         <i class="fa fa-ban"></i> Reset
                     </button>
+                    <p id="submit_result" style="//display:none">In attesa dell'inserimento.</p>
                 </div>
             </form>
         </div>

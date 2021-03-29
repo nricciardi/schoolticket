@@ -49,6 +49,11 @@ class Dashboard
     }
 }
 
-$dashboard = new Dashboard("localhost","schoolticket","root","");
-echo $dashboard->GetClassrooms();
+
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "GetClassrooms")
+{
+    $dashboard = new Dashboard("localhost","schoolticket","root","");
+    echo $dashboard->GetClassrooms();
+}
+
 ?>
