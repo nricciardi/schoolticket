@@ -27,13 +27,7 @@
                             <i class="fas fa-map-marker-alt"></i>
                         </div>
                         <select name="Classroom" id="classroom" class="form-control">
-                            <?php
-                                //include_once("../Dashboard.php");
-                                //$dashboard = new Dashboard("localhost","schoolticket","root","");
-                                //$dashboard->GetClassrooms();
-                                //$classroom = json_decode($dashboard->GetClassrooms());          // recupero le classi e le traduco dal formato json
-                                //var_dump($classroom);
-                            ?>
+                            <!-- verranno inseriti gli option tramite ajax -->
                         </select>
                     </div>
                 </div>
@@ -44,9 +38,7 @@
                         <i class="fas fa-folder-open"></i>
                         </div>
                         <select name="Macroaree" id="macroaree" class="form-control">
-                            <?php
-                                
-                            ?>
+                            <!-- verranno inseriti gli option tramite ajax -->
                         </select>
                     </div>
                 </div>
