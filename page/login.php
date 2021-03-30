@@ -114,7 +114,7 @@
 								</div>-->
 								<div class="col-12">
 									<ul class="actions special">
-										<li><input type="submit" value="Accedi" /></li>
+										<li><input type="button" id="button" value="Accedi" disabled/></li>
 									</ul>
 								</div>
 							</div>

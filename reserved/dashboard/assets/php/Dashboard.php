@@ -22,7 +22,7 @@ class Dashboard
         $this->PDOconn = new PDO($dsn, $this->username, $this->pass);
         $this->PDOconn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }catch(PDOExpetion $e){
-        echo $e->getMessage();
+            echo '{"result":' . 'false' . ', "description":"Errore nella connessione con il database: "' . $e->getMessage() . '}';
         }
     }
 
@@ -39,7 +39,7 @@ class Dashboard
         {
             $r = '{"result":';
             $r .= $temp;
-            $r .= ', "description":"Sono state inserite le classi"}';
+            $r .= ', "description":"Sono state prelevate le classi"}';
         }
         else
         {
@@ -61,7 +61,7 @@ class Dashboard
         {
             $r = '{"result":';
             $r .= $temp;
-            $r .= ', "description":"Sono state inserite le macroaree"}';
+            $r .= ', "description":"Sono state prelevate le macroaree"}';
         }
         else
         {
