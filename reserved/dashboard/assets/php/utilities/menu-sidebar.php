@@ -78,7 +78,7 @@
                         </li>
                         <li class="has-sub">
                             <a class="js-arrow" href="#">
-                                <i class="fas fa-copy"></i>Pages
+                                <i class="fas fa-copy"></i>Impostazioni account
                                 <span class="arrow">
                                     <i class="fas fa-angle-down"></i>
                                 </span>
@@ -86,15 +86,15 @@
                             <ul class="list-unstyled navbar__sub-list js-sub-list">
                                 <li>
                                     <a href="login.html">
-                                        <i class="fas fa-sign-in-alt"></i>Login</a>
+                                        <i class="fas fa-sign-in-alt"></i>Accedi</a>
                                 </li>
                                 <li>
                                     <a href="register.html">
-                                        <i class="fas fa-user"></i>Register</a>
+                                        <i class="fas fa-user"></i>Registrati</a>
                                 </li>
                                 <li>
                                     <a href="forget-pass.html">
-                                        <i class="fas fa-unlock-alt"></i>Forget Password</a>
+                                        <i class="fas fa-unlock-alt"></i>Cambia password</a>
                                 </li>
                             </ul>
                         </li>
