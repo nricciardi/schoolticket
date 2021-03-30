@@ -37,6 +37,20 @@
                         </select>
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                        <i class="fas fa-folder-open"></i>
+                        </div>
+                        <select name="Macroaree" id="macroaree" class="form-control">
+                            <?php
+                                
+                            ?>
+                        </select>
+                    </div>
+                </div>
+
                 <div class="form-actions form-group">
                     <button type="button" class="btn btn-success btn-sm" disabled name="Submit" id="submit">
                         <i class="fas fa-check"></i> Inserisci
