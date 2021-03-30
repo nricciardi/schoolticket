@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mar 23, 2021 alle 09:38
+-- Creato il: Mar 30, 2021 alle 08:58
 -- Versione del server: 10.4.14-MariaDB
 -- Versione PHP: 7.2.33
 
@@ -26,6 +26,28 @@ USE `schoolticket`;
 -- --------------------------------------------------------
 
 --
+-- Struttura della tabella `aula`
+--
+
+CREATE TABLE `aula` (
+  `IdAula` int(11) NOT NULL,
+  `Nome` varchar(100) NOT NULL,
+  `Descrizione` varchar(1000) DEFAULT NULL,
+  `Laboratorio` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dump dei dati per la tabella `aula`
+--
+
+INSERT INTO `aula` (`IdAula`, `Nome`, `Descrizione`, `Laboratorio`) VALUES
+(1, 'Nessuna Aula', 'Il ticket non si riferisce a un\'aula specifica.', 0),
+(2, 'Aula1', NULL, 0),
+(3, 'Aula2', NULL, 0);
+
+-- --------------------------------------------------------
+
+--
 -- Struttura della tabella `categoria`
 --
 
@@ -33,7 +55,7 @@ CREATE TABLE `categoria` (
   `IdCategoria` int(11) NOT NULL,
   `Nome` varchar(100) NOT NULL,
   `Descrizione` varchar(1000) DEFAULT NULL
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dump dei dati per la tabella `categoria`
@@ -70,7 +92,7 @@ CREATE TABLE `incarico` (
   `StatodiAvanzamento` varchar(100) NOT NULL,
   `IdUtente` int(11) NOT NULL,
   `IdTicket` int(11) NOT NULL
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -82,7 +104,7 @@ CREATE TABLE `macroarea` (
   `IdMacroarea` int(11) NOT NULL,
   `Nome` varchar(100) NOT NULL,
   `Descrizione` varchar(1000) DEFAULT NULL
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dump dei dati per la tabella `macroarea`
@@ -113,7 +135,7 @@ CREATE TABLE `note` (
   `Descrizione` varchar(1000) DEFAULT NULL,
   `IdTicket` int(11) NOT NULL,
   `IdUtente` int(11) NOT NULL
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -128,12 +150,20 @@ CREATE TABLE `ticket` (
   `UrlFoto` varchar(300) DEFAULT NULL,
   `StatoDiAvanzamento` varchar(100) NOT NULL,
   `Priorita` int(11) NOT NULL DEFAULT 1,
-  `Aula` varchar(100) NOT NULL,
   `Data` date NOT NULL,
   `Ora` time NOT NULL,
   `IdMacroarea` int(11) NOT NULL,
-  `IdUtente` int(11) NOT NULL
-) ;
+  `IdUtente` int(11) NOT NULL,
+  `IdAula` int(11) NOT NULL,
+  `IdUnione` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dump dei dati per la tabella `ticket`
+--
+
+INSERT INTO `ticket` (`IdTicket`, `Nome`, `Descrizione`, `UrlFoto`, `StatoDiAvanzamento`, `Priorita`, `Data`, `Ora`, `IdMacroarea`, `IdUtente`, `IdAula`, `IdUnione`) VALUES
+(1, 'ticket1', NULL, NULL, 'Nuovo', 1, '2021-03-30', '08:52:45', 12, 1, 2, NULL);
 
 -- --------------------------------------------------------
 
@@ -146,13 +176,26 @@ CREATE TABLE `utente` (
   `Cognome` varchar(100) NOT NULL,
   `Nome` varchar(100) NOT NULL,
   `Email` varchar(150) NOT NULL,
-  `Psw` varchar(128) NOT NULL,
+  `Password` varchar(128) NOT NULL,
   `IdCategoria` int(11) NOT NULL
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dump dei dati per la tabella `utente`
+--
+
+INSERT INTO `utente` (`IdUtente`, `Cognome`, `Nome`, `Email`, `Password`, `IdCategoria`) VALUES
+(1, 'Giovannetti', 'Laura', 'G@L.com', 'LauraLaura', 5);
 
 --
 -- Indici per le tabelle scaricate
 --
+
+--
+-- Indici per le tabelle `aula`
+--
+ALTER TABLE `aula`
+  ADD PRIMARY KEY (`IdAula`);
 
 --
 -- Indici per le tabelle `categoria`
@@ -196,13 +239,16 @@ ALTER TABLE `note`
 ALTER TABLE `ticket`
   ADD PRIMARY KEY (`IdTicket`),
   ADD KEY `IdMacroarea` (`IdMacroarea`,`IdUtente`),
-  ADD KEY `IdUtente` (`IdUtente`);
+  ADD KEY `IdUtente` (`IdUtente`),
+  ADD KEY `IdAula` (`IdAula`),
+  ADD KEY `IdUnione` (`IdUnione`);
 
 --
 -- Indici per le tabelle `utente`
 --
 ALTER TABLE `utente`
   ADD PRIMARY KEY (`IdUtente`),
+  ADD UNIQUE KEY `UQ_utente_Email` (`Email`),
   ADD KEY `IdCategoria` (`IdCategoria`);
 
 --
@@ -210,10 +256,16 @@ ALTER TABLE `utente`
 --
 
 --
+-- AUTO_INCREMENT per la tabella `aula`
+--
+ALTER TABLE `aula`
+  MODIFY `IdAula` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT per la tabella `categoria`
 --
 ALTER TABLE `categoria`
-  MODIFY `IdCategoria` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `IdCategoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT per la tabella `competenza`
@@ -231,7 +283,7 @@ ALTER TABLE `incarico`
 -- AUTO_INCREMENT per la tabella `macroarea`
 --
 ALTER TABLE `macroarea`
-  MODIFY `IdMacroarea` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `IdMacroarea` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT per la tabella `note`
@@ -243,13 +295,13 @@ ALTER TABLE `note`
 -- AUTO_INCREMENT per la tabella `ticket`
 --
 ALTER TABLE `ticket`
-  MODIFY `IdTicket` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `IdTicket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT per la tabella `utente`
 --
 ALTER TABLE `utente`
-  MODIFY `IdUtente` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `IdUtente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Limiti per le tabelle scaricate
@@ -280,8 +332,10 @@ ALTER TABLE `note`
 -- Limiti per la tabella `ticket`
 --
 ALTER TABLE `ticket`
+  ADD CONSTRAINT `FK_IdUnione_IdTicket` FOREIGN KEY (`IdUnione`) REFERENCES `ticket` (`IdTicket`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `ticket_ibfk_1` FOREIGN KEY (`IdMacroarea`) REFERENCES `macroarea` (`IdMacroarea`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `ticket_ibfk_2` FOREIGN KEY (`IdUtente`) REFERENCES `utente` (`IdUtente`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `ticket_ibfk_2` FOREIGN KEY (`IdUtente`) REFERENCES `utente` (`IdUtente`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ticket_ibfk_3` FOREIGN KEY (`IdAula`) REFERENCES `aula` (`IdAula`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `utente`
