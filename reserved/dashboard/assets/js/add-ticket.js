@@ -1,7 +1,4 @@
 // VARIABILI GLOBALI
-// URL da usare per contattare la pagina
-const HOSTNAME = window.location.protocol + "//" + window.location.hostname + "/" + window.location.pathname.split("/")[1];
-
 // - Dato errato
 var error_data = "#ff5757";
 var error_background = "#ffeded";
