@@ -1,18 +1,15 @@
 <?php
-	function send_mail($name, $email, $subject, $message){
+	function send_mail($name, $emailFrom, $subject, $message, $emailTo = "xssxprova0000@gmail.com"){
 		//echo "send";
 		
-		$emailTO 	= "xssxprova0000@gmail.com"; 
+		//$emailTo 	= "xssxprova0000@gmail.com"; 
 		/*$email 		= $_POST['email'];
 		
 		$subject	= $_POST['subject'];
 		$msg 		= $_POST['message'];
 		$name		= $_POST['name'];*/
 		
-		$headers = "From: " . strip_tags($email) . "\r\n";
-		//$headers .= "Reply-To: ". strip_tags($email) . "\r\n";
-		$headers .= "MIME-Version: 1.0\r\n";
-		$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+		
 		
 		/*$msg = '<html><body>';
 		$msg .= '<h1 align="center">Titolo mail da PHONEIX!</h1>';
@@ -24,7 +21,7 @@
 		
 		
 		
-		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+		if (!filter_var($emailFrom, FILTER_VALIDATE_EMAIL)) {
 			echo '{"result":false, "description":"Email errata"}';
 			return false;
 		}
@@ -43,9 +40,15 @@
 			echo '{"result":false, "description":"Messaggio errato"}';
 			return false;
 		}
+
+		$headers = "From: " . strip_tags($emailFrom) . "\r\n";
+		//$headers .= "Reply-To: ". strip_tags($email) . "\r\n";
+		$headers .= "MIME-Version: 1.0\r\n";
+		$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+
 		
 		//se email corretto echo True altrimenti echo false
-		if(mail($emailTO, $subject, $message, $headers))
+		if(mail($emailTo, $subject, $message, $headers))
 			echo '{"result":true, "description":"Email inviata correttamente"}';
 		else
 			echo '{"result":false, "description":"Email non inviata correttamente"}';;
@@ -56,7 +59,7 @@
 	}
 
 	// solo se è stato settato il submit viene inviata l'email
-	if(isset($_POST["submit"])) {
+	if(isset($_POST["Submit"]) && $_POST["Submit"] == "SendEmail") {
 		send_mail($_POST['name'], $_POST['email'], $_POST['subject'], $_POST['message']);
 	}
 

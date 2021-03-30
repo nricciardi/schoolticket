@@ -76,7 +76,7 @@ function get_data() {
   console.log("messaggio: " + message);
 
   // restituisco un oggetto coi valori
-  return {"submit": "submit", "name": name, "email": email, "subject": subject, "message": message};
+  return {"Submit": "SendEmail", "name": name, "email": email, "subject": subject, "message": message};
 
 }
 
