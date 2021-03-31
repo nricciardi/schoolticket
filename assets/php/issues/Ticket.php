@@ -27,51 +27,56 @@ class Ticket{
 
   }
 
-public function Insert(){
-//SETTO I VALORI DA INSERIRE NELLA TB TICKET:
-    $Nome = $_POST["Name"];
-    $Descrizione = $_POST["Description"];
-    $Url = $_POST["Photo"];
-    $Stato = $_POST["State"];
-    $Priorit = $_POST["Prt"];
-    $Aula = $_POST["Classroom"];
-    $Data = $_POST["Date"];
-    $Ora = $_POST["Time"];
-    $IdMacro = $_POST["IdMacroarea"];
-    $IdUtn = $_POST["IdUtente"];
+public function Insert($Nome, $Descrizione, $Url, $Stato, $Priorit, $IdAula, $Data, $Ora, $IdMacro, $IdUtn){
+
 
 //CONTROLLO I VALORI:
-$st = "";
+$st = '{"result":false,"description":"';
+$r = true;  // variabile per il controllo del messaggio
     if(!filter_var($Nome, FILTER_SANITIZE_STRING)){
-      $st =  '{"result":false,"description":"Nome errato"}';
-      return $st;
+      $st .=  " Nome errato;";
+      $r = false;
     }
 
     if(!filter_var($Descrizione, FILTER_SANITIZE_STRING)){
-      $st = '{"result":false,"description":"Descrizione errata"}';
-      return $st;
+      $st .= " Descrizione errata;";
+      $r = false;
     }
 
-    if(!filter_var($Url, FILTER_SANITIZE_STRING)){
-      $st = '{"result":false,"description":"UrlFoto errato"}';
-      return $st;
+    if($Url != null && !filter_var($Url, FILTER_SANITIZE_STRING)){
+      $st .= " UrlFoto errato;";
+      $r = false;
     }
 
     if(!filter_var($Stato, FILTER_SANITIZE_STRING)){
-      $st = '{"result":false,"description":"Stato errato"}';
-      return $st;
+      $st .= " Stato errato;";
+      $r = false;
     }
 
-    if(!filter_var($Aula, FILTER_SANITIZE_STRING)){
-      $st = '{"result":false,"description":"Aula errata"}';
-      return $st;
+    if(!filter_var($IdAula, FILTER_VALIDATE_INT)){
+      $st .= "Aula errata;";
+      $r = false;
+    }
+
+    if(!filter_var($IdMacro, FILTER_VALIDATE_INT)){
+      $st .= "Macroarea errata;";
+      $r = false;
+    }
+
+    if(!filter_var($IdUtn, FILTER_VALIDATE_INT)){
+      $st .= "Utente errato;";
+      $r = false;
+    }
+
+    if(!$r) {
+      return $st . '"}';
     }
 
 
 //ESEGUO LA QUERY:
-$q = "INSERT INTO schoolticket.ticket(Nome,Descrizione,UrlFoto,StatoDiAvanzamento,Priorita,Aula,Data,Ora,IdMacroarea,IdUtente) VALUES (?,?,?,?,?,?,?,?,?,?)";
+$q = "INSERT INTO schoolticket.ticket(Nome,Descrizione,UrlFoto,StatoDiAvanzamento,Priorita,IdAula,Data,Ora,IdMacroarea,IdUtente) VALUES (?,?,?,?,?,?,?,?,?,?)";
 $st = $this->PDOconn->prepare($q);
-$st->execute([$Nome,$Descrizione,$Url,$Stato,$Priorit,$Aula,$Data,$Ora,$IdMacro,$IdUtn]);
+$st->execute([$Nome,$Descrizione,$Url,$Stato,$Priorit,$IdAula,$Data,$Ora,$IdMacro,$IdUtn]);
 
   $st = '{"result":true,"description":"Ticket inserito correttamente"}';
   return $st;
@@ -138,28 +143,81 @@ return $st;
 $ticket = new Ticket("localhost","schoolticket","root","");
 
 
-if(isset($_POST["Submit"]) == "Delete"){
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "Delete"){
   $ID = $_POST["ID"];
   echo $ticket -> Delete($ID);
 }
 
-if(isset($_POST["Submit"]) == "Insert"){
-  echo $ticket->Insert();
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "Insert"){
+  //SETTO I VALORI DA INSERIRE NELLA TB TICKET:
+  if(isset($_POST["Name"]))
+    $Nome = $_POST["Name"];
+  else
+    $Nome = "Nuovo ticket";
+
+  if(isset($_POST["Description"]))
+    $Descrizione = $_POST["Description"];
+  else
+    $Nome = "Descrizione nuovo ticket";
+  
+  if(isset($_POST["Photo"]))
+    $Url = $_POST["Photo"];
+  else
+    $Url = null;
+  
+  if(isset($_POST["State"]))
+    $Stato = $_POST["State"];
+  else
+    $Stato = "Nuovo";  //$_POST["State"];
+
+  if(isset($_POST["Prt"]))
+    $Url = $_POST["Prt"];
+  else
+    $Priorit = 1; //$_POST["Prt"];
+
+  if(isset($_POST["Classroom"]))
+    $IdAula = $_POST["Classroom"];
+  else
+    $IdAula = 1;
+
+  if(isset($_POST["Date"]))
+    $Data = $_POST["Date"];
+  else
+    $Data = date("Y-m-d");
+
+  if(isset($_POST["Time"]))
+    $Ora = $_POST["Time"];
+  else
+    $Ora = date("H:i:s");//$_POST["Time"];
+
+  if(isset($_POST["IdMacroarea"]))
+    $IdMacro = $_POST["IdMacroarea"];
+  else
+    $IdMacro = 12;
+
+  if(isset($_POST["IdUtente"]))
+    $IdUtn = $_POST["IdUtente"];
+  else
+    $IdUtn = 1; // inserire $_SESSION[] con l'id dell'utente loggato    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+    
+  echo $ticket->Insert($Nome, $Descrizione, $Url, $Stato, $Priorit, $IdAula, $Data, $Ora, $IdMacro, $IdUtn);
 }
 
-if(isset($_POST["Submit"]) == "Show"){
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "Show"){
   echo $ticket -> Show();
 }
 
-if(isset($_POST["Submit"]) == "Union"){
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "Union"){
   echo $ticket -> Union();
 }
 
-if(isset($_POST["Submit"]) == "ChangePriority"){
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "ChangePriority"){
   echo $ticket -> ChangePriority();
 }
 
-if(isset($_POST["Submit"]) == "Update"){
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "Update"){
   echo $ticket -> Update();
 }
 ?>

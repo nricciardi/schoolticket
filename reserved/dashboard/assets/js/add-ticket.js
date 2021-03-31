@@ -29,7 +29,7 @@ var input_classroom_ticket = document.getElementById("classroom");
 var btn_submit_ticket = document.getElementById("submit");
 
 // variabile in cui sono contenuti i vari check per gli input
-var checkArray = Array(false, false,)       // 0: Nome, 1: Descrizione
+var checkArray = Array(false, false)       // 0: Nome, 1: Descrizione
 
 // - input per la presa delle macroaree
 var input_macroaree_ticket = document.getElementById("macroaree");
@@ -140,8 +140,8 @@ btn_add_ticket.addEventListener("click", () => {             // !!!!!!!!!!!!!!!!
 });
 
 // quando viene tolto il focus dal nome del ticket avviene il controllo che non sia vuoto
-input_name_ticket.addEventListener("blur", () => {
-    console.debug("Blur name");
+input_name_ticket.addEventListener("input", () => {
+    console.debug("Input name");
 
     // controllo che sia diverso da una stringa vuota dopo aver rimosso gli spazi
     if(input_name_ticket.value.trim() == "") {
@@ -152,6 +152,7 @@ input_name_ticket.addEventListener("blur", () => {
         input_name_ticket.style.backgroundColor = error_background;
         
         // controllo se posso abilitare il bottone di submit
+        checkArray[0] = false;
         checkSubmit();       
 
     } else {
@@ -161,6 +162,7 @@ input_name_ticket.addEventListener("blur", () => {
         input_name_ticket.style.backgroundColor = correct_background;
 
         // controllo se posso abilitare il bottone di submit
+        checkArray[0] = true;
         checkSubmit(); 
     }
     
@@ -168,8 +170,8 @@ input_name_ticket.addEventListener("blur", () => {
 
 
 // quando viene tolto il focus dalla descrizione del ticket avviene il controllo che non sia vuota
-input_description_ticket.addEventListener("blur", () => {
-    console.debug("Blur description");
+input_description_ticket.addEventListener("input", () => {
+    console.debug("Input description");
 
     // controllo che sia diverso da una stringa vuota dopo aver rimosso gli spazi
     if(input_description_ticket.value.trim() == "") {
@@ -180,6 +182,7 @@ input_description_ticket.addEventListener("blur", () => {
         input_description_ticket.style.backgroundColor = error_background;
         
         // controllo se posso abilitare il bottone di submit
+        checkArray[1] = false;
         checkSubmit(); 
 
     } else {
@@ -189,6 +192,7 @@ input_description_ticket.addEventListener("blur", () => {
         input_description_ticket.style.backgroundColor = correct_background;
 
         // controllo se posso abilitare il bottone di submit
+        checkArray[1] = true;
         checkSubmit(); 
     }
     
@@ -205,17 +209,18 @@ function checkSubmit() {
     // ciclo di controllo campi tramite checkArray
     checkArray.forEach(element => {
         if(!element) {       // se un campo è sbagliato imposto il risultato false
-            return false;
+            checkResult = false;
+            return
         }
     });
     // se i campi di controllo sono tutti true abilito il bottone di submit
     if(checkResult) {
         // abilito il bottone di submit
-        btn_add_ticket.removeAttribute("disabled"); 
+        btn_submit_ticket.removeAttribute("disabled"); 
 
     } else {
         // disabilito il bottone di submit
-        btn_add_ticket.setAttribute("disabled", "disabled"); 
+        btn_submit_ticket.setAttribute("disabled", "disabled"); 
     }
 
     return checkResult;
@@ -228,14 +233,13 @@ btn_submit_ticket.addEventListener("click", () => {
     if(checkSubmit()) {
 
         let data =  {   
-                        "submit": "Insert", 
+                        "Submit": "Insert", 
                         "Name": input_name_ticket.value.replace(/(<([^>]+)>)/gi, ""), 
                         "Description": input_description_ticket.value.replace(/(<([^>]+)>)/gi, ""), 
                         "Photo": null,
                         "Classroom": input_classroom_ticket.value.replace(/(<([^>]+)>)/gi, ""),
-                        "IdMacroarea": null,
-                        "IdUtente": null  
-                    }
+                        "IdMacroarea": input_macroaree_ticket.value.replace(/(<([^>]+)>)/gi, "")
+                    };
 
         // richiamo la funzione per l'invio 
         send_data_add_ticket(data);
@@ -247,32 +251,50 @@ btn_submit_ticket.addEventListener("click", () => {
 // invio dei dati per la creazione del nuovo ticket
 function send_data_add_ticket(data) {
     $.ajax({
-      url: HOSTNAME + '/assets/php/issues/Ticket.php',
-      method: 'POST',
-      data: data,
-      dataType: "text",
-      success: function( data, textStatus, jQxhr ){
-        console.log(data);
-        console.log(JSON.parse(data));
-        data = JSON.parse(data);
+        url: HOSTNAME + '/assets/php/issues/Ticket.php',
+        method: 'POST',
+        data: data,
+        dataType: "text",
+        success: function( data, textStatus, jQxhr ){
+            try {
+                console.log(data);
+                console.log(JSON.parse(data));
+                data = JSON.parse(data);
+                
+                // scrivo il messaggio che mi è stato restituito all'utente
+                let label = document.getElementById("submit_result");
+                
         
-        // scrivo il messaggio che mi è stato restituito all'utente
-        let label = document.getElementById("submit_result");
+                // in base al tipo di messaggio imposto i colori
+                if(data.result) {
+                
+                    label.style.color = correct_data;
+                    label.innerHTML = data.description + '<i class="far fa-check-circle"></i>';
+                
         
-  
-        // in base al tipo di messaggio imposto i colori
-        if(data.result) {
-          label.style.color = correct_data;
-          label.innerHTML = data.description + '<i class="far fa-check-circle"></i>';
-          
-  
-        } else {
-          label.style.color = error_data;
-          label.innerHTML = /*"<h1>" + */data.description + '<i class="far fa-exclamation-triangle"></i>';
+                } else {
+                    label.style.color = error_data;
+                    label.innerHTML = /*"<h1>" + */data.description + '<i class="far fa-exclamation-triangle"></i>';
+                }
+    
+
+            } catch(err) {
+
+                let label = document.getElementById("submit_result");
+                label.style.color = error_data;
+                label.innerHTML = /*"<h1>" + */"Errore durante l'invio dei dati, riprovare più tardi oppure contattare l'assistenza" + '<i class="far fa-exclamation-triangle"></i>';
+                console.error("ERRORE DURANTE L'INVIO DEI DATI DEL TICKET");
+                console.error(err);
+            }
+    
+    
+        },
+        error: function (request, status, error) {
+            label.style.color = error_data;
+            label.innerHTML = /*"<h1>" + */request.responseText + '<i class="far fa-exclamation-triangle"></i>';
+            console.error("ERRORE: " + request.responseText + "\nStatus: " + status + "\nError: " + error);
         }
-  
-  
-      }
+      
       });					
   
 }
