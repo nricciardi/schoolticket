@@ -6,7 +6,7 @@
 											<div class="form-group">
                                                 <div class="input-group">
                                                     <div class="input-group-addon"> Codice </div>
-                                                    <input type="number" id="codice" name="codice" class="form-control">
+                                                    <input type="text" id="codice" name="codice" class="form-control">
                                                     <div class="input-group-addon">
                                                         <i class="fas fa-key"></i>
                                                     </div>

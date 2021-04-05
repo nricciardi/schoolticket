@@ -93,8 +93,8 @@
                                         <i class="fas fa-user"></i>Registrati</a>
                                 </li>
                                 <li>
-                                    <a href="forget-pass.html">
-                                        <i class="fas fa-unlock-alt"></i>Cambia password</a>
+                                    <!--<a href="forget-pass.html">-->
+                                        <button id="btn_change_password"><i class="fas fa-unlock-alt"></i> Cambia password</button><!--</a>-->
                                 </li>
                             </ul>
                         </li>

@@ -61,7 +61,7 @@
                                 <div class="header-button-item mr-0 js-sidebar-btn">
                                     <i class="zmdi zmdi-menu"></i>
                                 </div>
-                                <div class="setting-menu js-right-sidebar d-none d-lg-block">
+                                <div class="setting-menu js-right-sidebar d-none d-lg-block" id="header-desktop-menu">
                                     <div class="account-dropdown__body">
                                         <div class="account-dropdown__item">
                                             <a href="#">
@@ -100,16 +100,16 @@
                     </div>
                 </div>
             </header>
-            <aside class="menu-sidebar2 js-right-sidebar d-block d-lg-none">
+            <aside class="menu-sidebar2 js-right-sidebar d-block d-lg-none" id="header-desktop-menu2">
                 <div class="logo">
                     <a href="#">
-                        <img src="images/icon/logo-white.png" alt="Cool Admin" />
+                        <img src="assets/images/icon/logo-white.png" alt="Cool Admin" />
                     </a>
                 </div>
                 <div class="menu-sidebar2__content js-scrollbar2">
                     <div class="account2">
                         <div class="image img-cir img-120">
-                            <img src="images/icon/avatar-big-01.jpg" alt="John Doe" />
+                            <img src="assets/images/icon/avatar-big-01.jpg" alt="John Doe" />
                         </div>
                         <h4 class="name">john doe</h4>
                         <a href="#">Sign out</a>
@@ -194,8 +194,8 @@
                                             <i class="fas fa-user"></i>Register</a>
                                     </li>
                                     <li>
-                                        <a href="forget-pass.html">
-                                            <i class="fas fa-unlock-alt"></i>Forget Password</a>
+                                        <!--<a href="forget-pass.html">-->
+                                            <button id="btn_change_password2"><i class="fas fa-unlock-alt"></i>Cambia Password</button><!--</a>-->
                                     </li>
                                 </ul>
                             </li>

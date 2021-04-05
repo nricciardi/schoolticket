@@ -74,7 +74,7 @@
                                 ?>
                             </div>
 							<!-- !!!!!!!!!!!!!!! FORM CHANGE PASSWORD !!!!!!!!!!!!!!! -->
-                            <div class="col-md-12" style="//display: none;" id="div_form_change_password"> <!-- Di default è invisibile, viene visualizzato solo dopo il click di btn_add_ticket -->
+                            <div class="col-md-12" style="display: none;" id="div_form_change_password"> <!-- Di default è invisibile, viene visualizzato solo dopo il click di btn_add_ticket -->
                                 <?php
                                    include_once("assets/php/utilities/change-password.php");      // includo il form per il new ticket
                                 ?>

@@ -13,9 +13,6 @@ var correct_background = "#edffee";
 // - Dato incerto
 var warning_data = "#f2d857";
 
-// div contenente il form di per l'aggiunta dei ticket
-var div_form_add_ticket = document.getElementById("div_form_add_ticket");
-
 // input nome ticket
 var input_name_ticket = document.getElementById("name");
 
@@ -73,13 +70,13 @@ btn_add_ticket.addEventListener("click", () => {
     input_macroaree_ticket.innerHTML = "";
 
     // recupero le classi attraverso una chiamata ajax
-    console.log("macroaree: ");
-    console.log(MACROAREE);
+    //console.log("macroaree: ");
+    //console.log(MACROAREE);
 
     // per ogni macroarea creo un option e la aggiungo alla select-box
     if(MACROAREE !== null) {
         MACROAREE.result.forEach(element => {
-            console.log(element);
+            //console.log(element);
             // creo l'elemento option
             let option = document.createElement("option");
             // inserisco il value nell'option
@@ -257,8 +254,8 @@ function send_data_add_ticket(data) {
         dataType: "text",
         success: function( data, textStatus, jQxhr ){
             try {
-                console.log(data);
-                console.log(JSON.parse(data));
+                //console.log(data);
+                //console.log(JSON.parse(data));
                 data = JSON.parse(data);
                 
                 // scrivo il messaggio che mi è stato restituito all'utente
