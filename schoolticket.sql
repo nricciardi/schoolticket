@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mar 30, 2021 alle 08:58
+-- Creato il: Apr 17, 2021 alle 11:55
 -- Versione del server: 10.4.14-MariaDB
 -- Versione PHP: 7.2.33
 
@@ -147,7 +147,7 @@ CREATE TABLE `ticket` (
   `IdTicket` int(11) NOT NULL,
   `Nome` varchar(100) NOT NULL,
   `Descrizione` varchar(1000) DEFAULT NULL,
-  `UrlFoto` varchar(300) DEFAULT NULL,
+  `Immagine` blob DEFAULT NULL,
   `StatoDiAvanzamento` varchar(100) NOT NULL,
   `Priorita` int(11) NOT NULL DEFAULT 1,
   `Data` date NOT NULL,
@@ -155,15 +155,16 @@ CREATE TABLE `ticket` (
   `IdMacroarea` int(11) NOT NULL,
   `IdUtente` int(11) NOT NULL,
   `IdAula` int(11) NOT NULL,
-  `IdUnione` int(11) DEFAULT NULL
+  `IdUnione` int(11) DEFAULT NULL,
+  `Visualizzato` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dump dei dati per la tabella `ticket`
 --
 
-INSERT INTO `ticket` (`IdTicket`, `Nome`, `Descrizione`, `UrlFoto`, `StatoDiAvanzamento`, `Priorita`, `Data`, `Ora`, `IdMacroarea`, `IdUtente`, `IdAula`, `IdUnione`) VALUES
-(1, 'ticket1', NULL, NULL, 'Nuovo', 1, '2021-03-30', '08:52:45', 12, 1, 2, NULL);
+INSERT INTO `ticket` (`IdTicket`, `Nome`, `Descrizione`, `Immagine`, `StatoDiAvanzamento`, `Priorita`, `Data`, `Ora`, `IdMacroarea`, `IdUtente`, `IdAula`, `IdUnione`, `Visualizzato`) VALUES
+(1, 'ticket1', NULL, NULL, 'Nuovo', 1, '2021-03-30', '08:52:45', 12, 1, 2, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -177,15 +178,16 @@ CREATE TABLE `utente` (
   `Nome` varchar(100) NOT NULL,
   `Email` varchar(150) NOT NULL,
   `Password` varchar(128) NOT NULL,
-  `IdCategoria` int(11) NOT NULL
+  `IdCategoria` int(11) NOT NULL,
+  `Permessi` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dump dei dati per la tabella `utente`
 --
 
-INSERT INTO `utente` (`IdUtente`, `Cognome`, `Nome`, `Email`, `Password`, `IdCategoria`) VALUES
-(1, 'Giovannetti', 'Laura', 'G@L.com', 'LauraLaura', 5);
+INSERT INTO `utente` (`IdUtente`, `Cognome`, `Nome`, `Email`, `Password`, `IdCategoria`, `Permessi`) VALUES
+(1, 'Giovannetti', 'Laura', 'G@L.com', 'LauraLaura', 5, 1);
 
 --
 -- Indici per le tabelle scaricate
