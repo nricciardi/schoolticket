@@ -32,11 +32,11 @@ public function Insert(){
     $Nome = $_POST["Name"];
     $Descrizione = $_POST["Description"];
     $Url = $_POST["Photo"];
-    $Stato = $_POST["State"];
-    $Priorit = $_POST["Prt"];
+    $Stato = "Nuovo";//settato di default;
+    $Priorit = 1;//settata di default;
     $Aula = $_POST["Classroom"];
-    $Data = $_POST["Date"];
-    $Ora = $_POST["Time"];
+    $Data = date('d/m/Y');
+    $Ora = date('H:i:s');
     $IdMacro = $_POST["IdMacroarea"];
     $IdUtn = $_POST["IdUtente"];
 
@@ -97,17 +97,7 @@ $st->execute([$Nome,$Descrizione,$Url,$Stato,$Priorit,$Aula,$Data,$Ora,$IdMacro,
             }
             return $r;
 
-//ESEGUO LA QUERY:
-/*echo '{"result":[';
-foreach ($this->PDOconn->query("SELECT * FROM schoolticket.ticket") as $row)
-{
-  echo "{IdTicket:".$row["IdTicket"] ." Nome:" .$row["Nome"]  ." Descrizione:" .$row["Descrizione"]  ." UrlFoto:" .$row["UrlFoto"] ." StatoDiAvanzamento:" .$row["StatoDiAvanzamento"] ." Priorita:" .$row["Priorita"] ." Aula:" .$row["Aula"];
-  echo " Data:" .$row["Data"] ." Ora:" .$row["Ora"] ." IdMacroarea:" .$row["IdMacroarea"] ." IdUtente:" .$row["IdUtente"];
-  echo '},';
-  //echo '</br>';
-}
- echo ']"description":"Output"}';
-*/
+
   }
 
 public function Delete($IdTicket){
@@ -138,28 +128,81 @@ return $st;
 $ticket = new Ticket("localhost","schoolticket","root","");
 
 
-if(isset($_POST["Submit"]) == "Delete"){
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "Delete"){
   $ID = $_POST["ID"];
   echo $ticket -> Delete($ID);
 }
 
-if(isset($_POST["Submit"]) == "Insert"){
-  echo $ticket->Insert();
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "Insert"){
+  //SETTO I VALORI DA INSERIRE NELLA TB TICKET:
+  if(isset($_POST["Name"]))
+    $Nome = $_POST["Name"];
+  else
+    $Nome = "Nuovo ticket";
+
+  if(isset($_POST["Description"]))
+    $Descrizione = $_POST["Description"];
+  else
+    $Nome = "Descrizione nuovo ticket";
+
+  if(isset($_POST["Photo"]))
+    $Url = $_POST["Photo"];
+  else
+    $Url = null;
+
+  if(isset($_POST["State"]))
+    $Stato = $_POST["State"];
+  else
+    $Stato = "Nuovo";  //$_POST["State"];
+
+  if(isset($_POST["Prt"]))
+    $Url = $_POST["Prt"];
+  else
+    $Priorit = 1; //$_POST["Prt"];
+
+  if(isset($_POST["Classroom"]))
+    $IdAula = $_POST["Classroom"];
+  else
+    $IdAula = 1;
+
+  if(isset($_POST["Date"]))
+    $Data = $_POST["Date"];
+  else
+    $Data = date("Y-m-d");
+
+  if(isset($_POST["Time"]))
+    $Ora = $_POST["Time"];
+  else
+    $Ora = date("H:i:s");//$_POST["Time"];
+
+  if(isset($_POST["IdMacroarea"]))
+    $IdMacro = $_POST["IdMacroarea"];
+  else
+    $IdMacro = 12;
+
+  if(isset($_POST["IdUtente"]))
+    $IdUtn = $_POST["IdUtente"];
+  else
+    $IdUtn = 1; // inserire $_SESSION[] con l'id dell'utente loggato    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
+  echo $ticket->Insert($Nome, $Descrizione, $Url, $Stato, $Priorit, $IdAula, $Data, $Ora, $IdMacro, $IdUtn);
 }
 
-if(isset($_POST["Submit"]) == "Show"){
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "Show"){
   echo $ticket -> Show();
 }
 
-if(isset($_POST["Submit"]) == "Union"){
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "Union"){
   echo $ticket -> Union();
 }
 
-if(isset($_POST["Submit"]) == "ChangePriority"){
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "ChangePriority"){
   echo $ticket -> ChangePriority();
 }
 
-if(isset($_POST["Submit"]) == "Update"){
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "Update"){
   echo $ticket -> Update();
 }
 ?>

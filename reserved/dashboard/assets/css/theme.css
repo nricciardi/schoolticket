@@ -1,13 +1,4 @@
 /*------------------------------------------------------------------
-[Master Stylesheet]
-
-Project:  CoolAdmin
-Version:	1.0
-Last change:	08/10/2018 [Add Define a table of contents Link]
-Assigned to:	Hau Nguyen
-Primary use:	Open Source
--------------------------------------------------------------------*/
-/*------------------------------------------------------------------
 [LAYOUT]
 
 * body
@@ -1617,6 +1608,10 @@ section {
     padding: 11.5px 0;
 }
 
+.menu-sidebar .navbar__list .navbar__sub-list li button {
+    padding: 11.5px 0;
+}
+
 .menu-sidebar__content {
     position: relative;
     height: -webkit-calc(100vh - 75px);
@@ -1636,6 +1631,13 @@ section {
     padding: 15px 0;
 }
 
+.navbar-sidebar .navbar__list li button {
+    display: block;
+    color: #555;
+    font-size: 16px;
+    padding: 15px 0;
+}
+
 .navbar-sidebar .navbar__list li a i {
     margin-right: 19px;
 }
@@ -1645,6 +1647,14 @@ section {
 }
 
 .navbar-sidebar .navbar__list li.active > a {
+    color: #4272d7;
+}
+
+.navbar-sidebar .navbar__list li button:hover {
+    color: #4272d7;
+}
+
+.navbar-sidebar .navbar__list li.active > button {
     color: #4272d7;
 }
 
@@ -2265,6 +2275,26 @@ section {
     color: #4272d7;
 }
 
+.navbar-sidebar2 .navbar__list li:hover > button {
+    color: #4272d7;
+}
+
+.navbar-sidebar2 .navbar__list li button {
+    font-size: 16px;
+    color: #555;
+    display: block;
+    padding: 18px 35px;
+    border-bottom: 1px solid #f2f2f2;
+}
+
+.navbar-sidebar2 .navbar__list li button > i {
+    margin-right: 20px;
+}
+
+.navbar-sidebar2 .navbar__list li.active > button {
+    color: #4272d7;
+}
+
 .navbar-sidebar2 .navbar__sub-list {
     display: none;
 }
@@ -2274,6 +2304,10 @@ section {
 }
 
 .navbar-sidebar2 .navbar__sub-list li a {
+    border-color: #ebebeb;
+}
+
+.navbar-sidebar2 .navbar__sub-list li button {
     border-color: #ebebeb;
 }
 
@@ -3074,6 +3108,15 @@ section {
 }
 
 .navbar-sidebar3 .has-sub.open > a {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+}
+
+.navbar-sidebar3 .navbar__sub-list li button {
+    padding: 11.5px 27px;
+}
+
+.navbar-sidebar3 .has-sub.open > button {
     background: #fff;
     border: 1px solid #e5e5e5;
 }
