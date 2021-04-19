@@ -143,11 +143,22 @@ $st->execute([$Nome,$Descrizione,$Url,$Stato,$Priorit,$Aula,$Data,$Ora,$IdMacro,
 public function Delete($IdTicket){
 
 //ESEGUO LA QUERY:
-$q = "DELETE FROM schoolticket.ticket WHERE IdTicket = $IdTicket";
-$st = $this->PDOconn->prepare($q);
-$st->execute();
-$st = '{"result":true,"description":"Ticket eliminato correttamente"}';
-return $st;
+if(is_array($IdTicket)){//Controllo se è un array o una variabile;
+  for($i = 0; $i < count($IdTicket); $i++){
+    $q = "DELETE FROM schoolticket.ticket WHERE IdTicket = $IdTicket[$i]";
+    $st = $this->PDOconn->prepare($q);
+    $st->execute();
+  }
+
+  $st = '{"result":true,"description":"Ticket eliminati correttamente"}';
+  return $st;
+}else{
+  $q = "DELETE FROM schoolticket.ticket WHERE IdTicket = $IdTicket";
+  $st = $this->PDOconn->prepare($q);
+  $st->execute();
+  $st = '{"result":true,"description":"Ticket eliminato correttamente"}';
+  return $st;
+}
 
   }
 
