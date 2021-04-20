@@ -364,7 +364,10 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "Show"){
 }
 
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "Union"){
-  echo $ticket -> Union();
+  $Ticket1 = $POST['ID1'];
+  $Ticket2 = $POST['ID2'];
+
+  echo $ticket -> Union($IdTicket1,$IdTicket2);
 }
 
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "ChangePriority"){
