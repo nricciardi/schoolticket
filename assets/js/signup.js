@@ -28,14 +28,13 @@ var re_password = document.getElementById("repassword");
 var re_password_validate = false;
 
 $(document).ready(function() {
-      $("input[type=button]").click(function () {
+      $("#submit").click(function () {
 	  
       var email = $('input[id=email]').val(); // Utente inserisce email
 	  var nome = $('input[id=nome]').val(); // Utente inserisce nome
 	  var cognome = $('input[id=cognome]').val(); // Utente inserisce cognome
 	  var password = $('input[id=password]').val(); // Utente inserisce password
-	  var id = $('input[id=id]').val(); // Utente inserisce l'ID
-	  var data = {"Submit": "registration", "nome": nome, "cognome": cognome, "email": email, "pssw": password, "id": id};
+	  var data = {"Submit": "registration", "nome": nome, "cognome": cognome, "email": email, "pssw": password};
 	  console.log(data);
 	  console.log(HOSTNAME + '/assets/php/authentication/auth.php');
                             $.ajax({
