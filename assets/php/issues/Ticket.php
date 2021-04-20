@@ -215,9 +215,74 @@ if(is_array($IdTicket)){//Controllo se è un array o una variabile;
 		return $st;
 	}
 
-  public function Union(){
+public function Union($IdTicket1, $IdTicket2){
 
-  }
+//SETTO I VALORI DA INSERIRE NEL NUOVO TICKET:
+        $Nome = 'elia';//$_POST["Name"];
+        $Descrizione = 'sfhssdf';//$_POST["Description"];
+        $Url = 'sdf';//$_POST["Photo"];
+        $Stato = "Nuovo";//settato di default;
+        $Priorit = 1;//settata di default;
+        $Aula = 1;//$_POST["Classroom"];
+        $Data = date('d/m/Y');
+        $Ora = date('H:i:s');
+        $IdMacro = 1;//$_POST["IdMacroarea"];
+        $IdUtn = 1;//$_POST["IdUtente"];
+
+//CONTROLLO I VALORI:
+        $st = "";
+            if(!filter_var($Nome, FILTER_SANITIZE_STRING)){
+              $st =  '{"result":false,"description":"Nome errato"}';
+              return $st;
+            }
+
+            if(!filter_var($Descrizione, FILTER_SANITIZE_STRING)){
+              $st = '{"result":false,"description":"Descrizione errata"}';
+              return $st;
+            }
+
+            if(!filter_var($Url, FILTER_SANITIZE_STRING)){
+              $st = '{"result":false,"description":"UrlFoto errato"}';
+              return $st;
+            }
+
+            if(!filter_var($Stato, FILTER_SANITIZE_STRING)){
+              $st = '{"result":false,"description":"Stato errato"}';
+              return $st;
+            }
+
+            if(!filter_var($Aula, FILTER_SANITIZE_STRING)){
+              $st = '{"result":false,"description":"Aula errata"}';
+              return $st;
+            }
+
+
+//ESEGUO LA QUERY:
+            $q = "INSERT INTO schoolticket.ticket(Nome,Descrizione,Immagine,StatoDiAvanzamento,Priorita,IdAula,Data,Ora,IdMacroarea,IdUtente) VALUES (?,?,?,?,?,?,?,?,?,?)";
+            $st = $this->PDOconn->prepare($q);
+            $st->execute([$Nome,$Descrizione,$Url,$Stato,$Priorit,$Aula,$Data,$Ora,$IdMacro,$IdUtn]);
+
+
+
+
+//PRENDO L ID DEL TICKET inserito
+  $st = $this->PDOconn->prepare("SELECT  schoolticket.ticket.IdTicket FROM schoolticket.ticket ORDER BY schoolticket.ticket.IdTicket DESC ");
+  $result = $st->execute();
+  $valore = $st->fetchAll();
+  $unione = $valore[0]['IdTicket'];
+
+//MODIFICO l'IdUtin:
+//aggiorno nel primo ticket:
+  $st2 = $this->PDOconn->prepare("UPDATE schoolticket.ticket SET IdUnione=? WHERE IdTicket=?");
+  $result2 = $st2->execute([$unione,$IdTicket1]);
+//aggiorno nel secondo ticket:
+  $st3 = $this->PDOconn->prepare("UPDATE schoolticket.ticket SET IdUnione=? WHERE IdTicket=?");
+  $result3 = $st3->execute([$unione,$IdTicket2]);
+
+  $st = '{"result":true,"description":"Ticket Uniti correttamente"}';
+  return $st;
+
+}
 
   public function ChangePriority(){
 
