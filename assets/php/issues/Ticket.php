@@ -284,6 +284,16 @@ public function Union($IdTicket1, $IdTicket2){
 
 }
 
+public function NewTicketNumber(){
+  $st = $this->PDOconn->prepare("SELECT schoolticket.ticket.IdTicket FROM schoolticket.ticket WHERE schoolticket.ticket.Visualizzato = 0 ");
+  $result = $st->execute();
+  $valore = $st->fetchAll();
+
+  $num = count($valore[0]);
+  $num++;
+  echo "Il numero dei nuovi ticket e' " .$num;
+}
+
   public function ChangePriority(){
 
   }
@@ -300,6 +310,10 @@ $ticket = new Ticket("localhost","schoolticket","root","");
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "Delete"){
   $ID = $_POST["ID"];
   echo $ticket -> Delete($ID);
+}
+
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "NewTicketNumber"){
+  $ticket->NewTicketNumber();
 }
 
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "Insert"){
