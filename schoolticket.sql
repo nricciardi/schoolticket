@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Apr 17, 2021 alle 11:55
--- Versione del server: 10.4.14-MariaDB
--- Versione PHP: 7.2.33
+-- Creato il: Apr 20, 2021 alle 11:49
+-- Versione del server: 10.4.13-MariaDB
+-- Versione PHP: 7.4.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -140,6 +140,30 @@ CREATE TABLE `note` (
 -- --------------------------------------------------------
 
 --
+-- Struttura della tabella `permessi`
+--
+
+CREATE TABLE `permessi` (
+  `IdPermessi` int(11) NOT NULL,
+  `Descrizione` varchar(1000) NOT NULL,
+  `ModificaVisualizzaTuttiUtenti` tinyint(1) NOT NULL DEFAULT 0,
+  `CreareTicket` tinyint(1) NOT NULL DEFAULT 1,
+  `ModificaTuttiTicket` tinyint(1) NOT NULL DEFAULT 0,
+  `UnireTicket` tinyint(1) NOT NULL DEFAULT 0,
+  `VisualizzaTuttiTicket` tinyint(1) NOT NULL DEFAULT 0,
+  `ModificaStatoAvanzamentoTicket` tinyint(1) NOT NULL DEFAULT 0,
+  `ModificaStatoAvanzamentoIncarico` tinyint(1) NOT NULL DEFAULT 0,
+  `CreaIncarico` tinyint(1) NOT NULL DEFAULT 0,
+  `CreaModificaEliminaAula` tinyint(1) NOT NULL DEFAULT 0,
+  `CreaModificaEliminaNote` tinyint(1) NOT NULL DEFAULT 0,
+  `CreaModificaEliminaMacroarea` tinyint(1) NOT NULL DEFAULT 0,
+  `CreaModificaEliminaCompetenza` tinyint(1) NOT NULL DEFAULT 0,
+  `CreaModificaEliminaCategoria` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Struttura della tabella `ticket`
 --
 
@@ -159,13 +183,6 @@ CREATE TABLE `ticket` (
   `Visualizzato` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dump dei dati per la tabella `ticket`
---
-
-INSERT INTO `ticket` (`IdTicket`, `Nome`, `Descrizione`, `Immagine`, `StatoDiAvanzamento`, `Priorita`, `Data`, `Ora`, `IdMacroarea`, `IdUtente`, `IdAula`, `IdUnione`, `Visualizzato`) VALUES
-(1, 'ticket1', NULL, NULL, 'Nuovo', 1, '2021-03-30', '08:52:45', 12, 1, 2, NULL, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -179,15 +196,8 @@ CREATE TABLE `utente` (
   `Email` varchar(150) NOT NULL,
   `Password` varchar(128) NOT NULL,
   `IdCategoria` int(11) NOT NULL,
-  `Permessi` int(11) NOT NULL DEFAULT 1
+  `IdPermessi` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dump dei dati per la tabella `utente`
---
-
-INSERT INTO `utente` (`IdUtente`, `Cognome`, `Nome`, `Email`, `Password`, `IdCategoria`, `Permessi`) VALUES
-(1, 'Giovannetti', 'Laura', 'G@L.com', 'LauraLaura', 5, 1);
 
 --
 -- Indici per le tabelle scaricate
@@ -236,6 +246,12 @@ ALTER TABLE `note`
   ADD KEY `IdUtente` (`IdUtente`);
 
 --
+-- Indici per le tabelle `permessi`
+--
+ALTER TABLE `permessi`
+  ADD PRIMARY KEY (`IdPermessi`);
+
+--
 -- Indici per le tabelle `ticket`
 --
 ALTER TABLE `ticket`
@@ -251,7 +267,8 @@ ALTER TABLE `ticket`
 ALTER TABLE `utente`
   ADD PRIMARY KEY (`IdUtente`),
   ADD UNIQUE KEY `UQ_utente_Email` (`Email`),
-  ADD KEY `IdCategoria` (`IdCategoria`);
+  ADD KEY `IdCategoria` (`IdCategoria`),
+  ADD KEY `IdPermessi` (`IdPermessi`);
 
 --
 -- AUTO_INCREMENT per le tabelle scaricate
@@ -292,6 +309,12 @@ ALTER TABLE `macroarea`
 --
 ALTER TABLE `note`
   MODIFY `IdNote` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT per la tabella `permessi`
+--
+ALTER TABLE `permessi`
+  MODIFY `IdPermessi` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT per la tabella `ticket`
@@ -343,7 +366,8 @@ ALTER TABLE `ticket`
 -- Limiti per la tabella `utente`
 --
 ALTER TABLE `utente`
-  ADD CONSTRAINT `utente_ibfk_1` FOREIGN KEY (`IdCategoria`) REFERENCES `categoria` (`IdCategoria`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `utente_ibfk_1` FOREIGN KEY (`IdCategoria`) REFERENCES `categoria` (`IdCategoria`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `utente_ibfk_2` FOREIGN KEY (`IdPermessi`) REFERENCES `permessi` (`IdPermessi`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
