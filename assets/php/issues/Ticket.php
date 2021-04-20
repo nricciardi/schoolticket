@@ -96,69 +96,55 @@ $st->execute([$Nome,$Descrizione,$Url,$Stato,$Priorit,$Aula,$Data,$Ora,$IdMacro,
                 $r = '{"result":false, "description":"Stampa non avvenuta con successo"}';
             }
             return $r;
-			
-			if()  // Vedere se l'utente è amministratore.
-			{
-				$st = $this->PDOconn->prepare("SELECT * FROM schoolticket.ticket");
-				$result = $st->execute();
-				// stampo in formato JSON le classi
-				$rows = $st->fetchAll(PDO::FETCH_ASSOC);
-				$temp = (json_encode($rows));
-				if($result != false)
-				{
-					$r = '{"result":';
-					$r .= $temp;
-					$r .= ', "description":"Stampa del ticket avvenuta con successo"}';
-				}
-				else
-				{
-					$r = '{"result":false, "description":"Stampa non avvenuta con successo"}';
-				}
-				return $r;	
-				
-			}
-			else
-			{
-				$st = $this->PDOconn->prepare("SELECT * FROM schoolticket.ticket WHERE schoolticket.ticket.IdUtente =  $_SESSION["logged"]"); // Aggiungere nella query e controllare se l'IdUtente è uguale a quello nella sessione.
-				$result = $st->execute();
-				// stampo in formato JSON le classi
-				$rows = $st->fetchAll(PDO::FETCH_ASSOC);
-				$temp = (json_encode($rows));
-				if($result != false)
-				{
-					$r = '{"result":';
-					$r .= $temp;
-					$r .= ', "description":"Stampa del ticket avvenuta con successo"}';
-				}
-				else
-				{
-					$r = '{"result":false, "description":"Stampa non avvenuta con successo"}';
-				}
-				return $r;	
-				
-			}
+
 
   }
-
+  // Nel caso in cui l'array è vuoto significa che non ha trovato nessun utente, 
+  // perciò restituisce false, se invece trova l'utente restituisce true.
+ public function controlId($IdTicket){
+		$q = "SELECT * FROM schoolticket.ticket WHERE IdTicket = :idPl";
+		$st = $this->PDOconn->prepare($q);
+		$st->execute(['idPl' => $IdTicket]);
+		$record = $st->fetchAll();
+		if(empty($record))
+			return false;
+		else
+			return true;
+			
+			//if($IdTicket = $record['Id'])
+	}
+	public function changeHour($IdTicket, $newHour){
+		
+		$q = "UPDATE schoolticket.ticket SET Ora = '$newHour' WHERE IdTicket = $IdTicket";
+		$st = $this->PDOconn->prepare($q);
+		$st->execute();
+		$st = '{"result":true,"description":"Ora Ticket aggiornata correttamente"}';
+		return $st;
+	}
+	
+	public function changeDate($IdTicket, $newDate){
+		$q = "UPDATE schoolticket.ticket SET Data = '$newDate' WHERE IdTicket = $IdTicket";
+		$st = $this->PDOconn->prepare($q);
+		$st->execute();
+		$st = '{"result":true,"description":"Data Ticket aggiornata correttamente"}';
+		return $st;
+	}
+	
+	public function changeName($IdTicket, $newName){
+		$q = "UPDATE schoolticket.ticket SET Nome = '$newName' WHERE IdTicket = $IdTicket";
+		$st = $this->PDOconn->prepare($q);
+		$st->execute();
+		$st = '{"result":true,"description":"Nome Ticket aggiornata correttamente"}';
+		return $st;
+	}
 public function Delete($IdTicket){
 
 //ESEGUO LA QUERY:
-if(is_array($IdTicket)){//Controllo se è un array o una variabile;
-  for($i = 0; $i < count($IdTicket); $i++){
-    $q = "DELETE FROM schoolticket.ticket WHERE IdTicket = $IdTicket[$i]";
-    $st = $this->PDOconn->prepare($q);
-    $st->execute();
-  }
-
-  $st = '{"result":true,"description":"Ticket eliminati correttamente"}';
-  return $st;
-}else{
-  $q = "DELETE FROM schoolticket.ticket WHERE IdTicket = $IdTicket";
-  $st = $this->PDOconn->prepare($q);
-  $st->execute();
-  $st = '{"result":true,"description":"Ticket eliminato correttamente"}';
-  return $st;
-}
+$q = "DELETE FROM schoolticket.ticket WHERE IdTicket = $IdTicket";
+$st = $this->PDOconn->prepare($q);
+$st->execute();
+$st = '{"result":true,"description":"Ticket eliminato correttamente"}';
+return $st;
 
   }
 
@@ -256,4 +242,6 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "ChangePriority"){
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "Update"){
   echo $ticket -> Update();
 }
+
+echo $ticket -> ControlId(1);
 ?>
