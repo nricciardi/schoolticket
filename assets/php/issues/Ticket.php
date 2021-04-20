@@ -164,7 +164,7 @@ if(is_array($IdTicket)){//Controllo se è un array o una variabile;
 
   // Nel caso in cui l'array è vuoto significa che non ha trovato nessun utente,
   // perciò restituisce false, se invece trova l'utente restituisce true.
- public function controlId($IdTicket){
+	private function controlId($IdTicket){
 		$q = "SELECT * FROM schoolticket.ticket WHERE IdTicket = :idPl";
 		$st = $this->PDOconn->prepare($q);
 		$st->execute(['idPl' => $IdTicket]);
@@ -176,12 +176,31 @@ if(is_array($IdTicket)){//Controllo se è un array o una variabile;
 
 			//if($IdTicket = $record['Id'])
 	}
+
+	private function controlDate($newDate){
+		$now = date("Y-m-d");
+		$date1=date_create($now);
+		$date2=date_create($newDate);
+		$diff=date_diff($date1, $date2);
+		
+		if($diff->y >= 0)
+		{
+			if($diff->m >= 0)
+				if($diff->d > 0)
+					return true;
+		}
+		else
+			return false;
+	}
 	public function changeHour($IdTicket, $newHour){
 
-		$now = date("H:i:s");
-		$diff=date_diff($newHour,$now);
-
-		if(controlId($IdTicket) and $diff > 0)
+		$q = "SELECT Data FROM schoolticket.ticket WHERE IdTicket = $IdTicket";
+		$st = $this->PDOconn->prepare($q);
+		$st->execute();
+		while($record = $st->fetch())
+			$data = $record['Data'];
+		echo ($this->controlDate($data));
+		if(($this->controlId($IdTicket)) and ($this->controlDate($data)))
 		{
 			$q = "UPDATE schoolticket.ticket SET Ora = '$newHour' WHERE IdTicket = $IdTicket";
 			$st = $this->PDOconn->prepare($q);
@@ -189,29 +208,66 @@ if(is_array($IdTicket)){//Controllo se è un array o una variabile;
 			$st = '{"result":true,"description":"Ora Ticket aggiornata correttamente"}';
 			return $st;
 		}
+		/*if(($this->controlId($IdTicket)) and ($this->controlDate($data)) == false)
+		{
+			$now = date("H-i-s");
+			$date1=date_create($now);
+			$date2=date_create($newHour);
+			$diff=date_diff($date1, $date2);
+			
+			if($diff->H > 0)
+			{
+						$q = "UPDATE schoolticket.ticket SET Ora = '$newHour' WHERE IdTicket = $IdTicket";
+						$st = $this->PDOconn->prepare($q);
+						$st->execute();
+						$st = '{"result":true,"description":"Ora Ticket aggiornata correttamente"}';
+						return $st;
+			}
+		}*/
 
 	}
 
 	public function changeDate($IdTicket, $newDate){
 		$now = date("Y-m-d");
-		$diff=date_diff($newDate,$now);
-		echo $diff;
-		if(controlId($IdTicket) and $diff > 0)
-		{
-			echo $diff;
-			$q = "UPDATE schoolticket.ticket SET Data = '$newDate' WHERE IdTicket = $IdTicket";
-			$st = $this->PDOconn->prepare($q);
-			$st->execute();
-			$st = '{"result":true,"description":"Data Ticket aggiornata correttamente"}';
-			return $st;
-		}
+		$date1 = date_create($now);
+		$date2 = date_create($newDate);
+		$diff = date_diff($date1, $date2);
+		
+		if(($this->controlId($IdTicket)) and $diff->y >= 0)
+			if($diff->m >= 0)
+				if($diff->d >= 0)
+				{
+					$q = "UPDATE schoolticket.ticket SET Data = '$newDate' WHERE IdTicket = $IdTicket";
+					$st = $this->PDOconn->prepare($q);
+					$st->execute();
+					$st = '{"result":true,"description":"Data Ticket aggiornata correttamente"}';
+					return $st;
+				}
 	}
 
 	public function changeName($IdTicket, $newName){
+		$st = "";
+		if(!filter_var($newName, FILTER_SANITIZE_STRING)){
+			$st =  '{"result":false,"description":"Nome errato"}';
+			return $st;
+		}
 		$q = "UPDATE schoolticket.ticket SET Nome = '$newName' WHERE IdTicket = $IdTicket";
 		$st = $this->PDOconn->prepare($q);
 		$st->execute();
 		$st = '{"result":true,"description":"Nome Ticket aggiornata correttamente"}';
+		return $st;
+	}
+	
+	public function changeDescr($IdTicket, $newDescr){
+		$st = "";
+		if(!filter_var($newDescr, FILTER_SANITIZE_STRING)){
+			$st = '{"result":false,"description":"Descrizione errata"}';
+			return $st;
+		}
+		$q = "UPDATE schoolticket.ticket SET Descrizione = '$newDescr' WHERE IdTicket = $IdTicket";
+		$st = $this->PDOconn->prepare($q);
+		$st->execute();
+		$st = '{"result":true,"description":"Descrizione Ticket aggiornata correttamente"}';
 		return $st;
 	}
 
