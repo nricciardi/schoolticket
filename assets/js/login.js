@@ -17,12 +17,11 @@ var password_validate = false;
 // HOSTNAME per il percorso
 const HOSTNAME = window.location.protocol + "//" + window.location.hostname + "/" + window.location.pathname.split("/")[1];
 
-
 $(document).ready(function() {
       $("input[type=button]").click(function () {
       var email = $('input[id=email]').val(); // Utente inserisce email
       var password = $('input[id=password]').val(); // Utente inserisce password
-	  var data = {"submit": "login", "email": email, "password": password};
+	  var data = {"Submit": "login", "mail": email, "passw": password};
 	  console.log(data);
 	  console.log(HOSTNAME + '/assets/php/authentication/auth.php');
                             $.ajax({
@@ -30,14 +29,16 @@ $(document).ready(function() {
                             url: HOSTNAME + '/assets/php/authentication/auth.php',
                             data : data,
                             dataType: "text",
-                            success: function (data) {
+                            success: function (data) 
+							{
                             var success = data['success'];
-                            if(success == false){
-        var error = data['message'];
-                            alert(error); // Nel caso non scriva niente :
+                            if(success == false)
+							{
+								var error = data['message'];
+								alert(error); // Nel caso non scriva niente :
 
 
-                                }
+                            }
 
                                 if(success == true) {
    $('#mask , .login-popup').fadeOut(300 , function() {
