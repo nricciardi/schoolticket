@@ -68,7 +68,8 @@ btn2.addEventListener("click", () => {
 				
         },
         error: (response) => {
-			console.log("Error");
+			console.debug("Error:");
+            console.debug(response);
         },
         complete: (response) => {
             console.log("Complete");
