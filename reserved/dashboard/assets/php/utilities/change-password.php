@@ -12,7 +12,12 @@
                                                     <div class="input-group-addon">
                                                         <i class="fas fa-key"></i>
                                                     </div>
-                                                </div>
+                                                </div><br>
+												<div class="card-footer">
+													<button type="button" class="btn btn-info" id="inviacodice">
+														Invia codice
+													</button>
+												</div>
                                             </div><br>
                                             <div class="form-group">
                                                 <div class="input-group">
@@ -21,15 +26,23 @@
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-asterisk"></i>
                                                     </div>
+                                                </div><br>
+												<div class="input-group">
+                                                    <div class="input-group-addon"> Conferma Password </div>
+                                                    <input type="password" id="confermaPassword" name="confermaPassword" class="form-control">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-asterisk"></i>
+                                                    </div>
                                                 </div>
                                             </div><br>
 										<div class="card-footer">
 											<button type="submit" class="btn btn-success btn-sm " id="bottone">
-												<i class="fa fa-dot-circle-o"></i> Submit
+												<i class="fas fa-check"></i> Conferma
 											</button>
 											<button type="reset" class="btn btn-danger btn-sm">
 												<i class="fa fa-ban"></i> Reset
 											</button>
+											<span id="span"> </span>
 										</div>
                                         </form>
                                     </div>

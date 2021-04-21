@@ -1,7 +1,7 @@
 <?php
 	include_once '../send_mail.php';
-	include_once '../default.php';
-	
+	session_start();
+	$_SESSION["logged"] = array();
 
 	Class Auth{
 		private $PDOconn;
@@ -135,10 +135,8 @@
 			else
 				echo '{"result":false, "description":"Credenziali errate."}';
 		}
-		
-		public function logout(){
-			$_SESSION["logged"] = false;			
-		}
+
+
 
 //MANDA IL CODICE DI VERIFICA:
 		public function SendCode(){
@@ -161,14 +159,12 @@
 			//INSERIMENTO PASSWORD:
 			//$Pssw = $_POST["password"];
 			$Pssw = "password";
-			
-			$msg = "";
 
-//CONTROLLI DELLA PASSWORD:
-			$verPsw = $this->verifyPsw($psw);
-			if(!$verPsw){
-				$msg = '{"result":false,"description":"Codice errato"}';
-				
+		//CONTROLLI DELLA PASSWORD:
+		$verPsw = $this->verifyPsw($psw);
+		if(!$verPsw){
+			echo '{"result":false,"description":"Codice errato"}';
+			break;
 		}else{
 //QUERY PER CAMBIARE LA PASSWORD:
 				$codice = $_POST["code"];
@@ -176,13 +172,11 @@
 						$q = "UPDATE schoolticket.utente SET Password = ? WHERE ?";
 						$st = $this->PDOconn->prepare($q);
 						$st->execute([$Pssw,$ID]);
-						$msg = '{"result":true,"description":"Password cambiata correttamente"}';
+						echo '{"result":true,"description":"Password cambiata correttamente"}';
 				}else{
-						$msg = '{"result":false,"description":"Codice errato"}';
+						echo '{"result":false,"description":"Codice errato"}';
 							}
 				}
-		
-			Return $msg;
 		}
 
 //FINE CLASSE
@@ -214,12 +208,12 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "registration"){
 
 //DELETE:
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "delete"){
- 	$ticket -> delete($id);//L'id va peso dalla sessione!!
+ 	$auth -> delete($id);//L'id va peso dalla sessione!!
 }
 
 //SHOW:
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "show"){
- 	$ticket -> show($id);//L'id va peso dalla sessione!!
+ 	$auth -> show($id);//L'id va peso dalla sessione!!
 }
 
 //LOGIN:
@@ -230,12 +224,17 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "login"){
 	if(isset($_POST["passw"]))
 	   $pssw = $_POST["passw"];
 
- 	$ticket -> login($mail, $passw);
+ 	$auth -> login($mail, $passw);
 }
 
-//ChagnePssw:
+//ChangePssw:
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "ChangePssw"){
- 	$ticket -> ChagnePssw();
+ 	$auth -> ChangePssw();
+}
+
+//SendCode:
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "SendCode"){
+ 	$auth -> SendCode();
 }
 
 ?>
