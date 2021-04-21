@@ -1,7 +1,7 @@
 <?php
 	include_once '../send_mail.php';
-	session_start();
-	$_SESSION["logged"] = array();
+	include_once '../default.php';
+	
 
 	Class Auth{
 		private $PDOconn;
@@ -135,8 +135,10 @@
 			else
 				echo '{"result":false, "description":"Credenziali errate."}';
 		}
-
-
+		
+		public function logout(){
+			$_SESSION["logged"] = false;			
+		}
 
 //MANDA IL CODICE DI VERIFICA:
 		public function SendCode(){
@@ -159,12 +161,14 @@
 			//INSERIMENTO PASSWORD:
 			//$Pssw = $_POST["password"];
 			$Pssw = "password";
+			
+			$msg = "";
 
-		//CONTROLLI DELLA PASSWORD:
-		$verPsw = $this->verifyPsw($psw);
-		if(!$verPsw){
-			echo '{"result":false,"description":"Codice errato"}';
-			break;
+//CONTROLLI DELLA PASSWORD:
+			$verPsw = $this->verifyPsw($psw);
+			if(!$verPsw){
+				$msg = '{"result":false,"description":"Codice errato"}';
+				
 		}else{
 //QUERY PER CAMBIARE LA PASSWORD:
 				$codice = $_POST["code"];
@@ -172,11 +176,13 @@
 						$q = "UPDATE schoolticket.utente SET Password = ? WHERE ?";
 						$st = $this->PDOconn->prepare($q);
 						$st->execute([$Pssw,$ID]);
-						echo '{"result":true,"description":"Password cambiata correttamente"}';
+						$msg = '{"result":true,"description":"Password cambiata correttamente"}';
 				}else{
-						echo '{"result":false,"description":"Codice errato"}';
+						$msg = '{"result":false,"description":"Codice errato"}';
 							}
 				}
+		
+			Return $msg;
 		}
 
 //FINE CLASSE

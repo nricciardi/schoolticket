@@ -5,4 +5,11 @@
 		$_SESSION["logged"] = false;
 		//header('Location: http://www.example.com/');
 	}
+	
+	if($_SESSION["logged"] == false)
+	{
+		header('Location: http://www.example.com/');
+		
+	}
+	
 ?>
