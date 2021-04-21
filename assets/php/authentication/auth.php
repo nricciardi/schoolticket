@@ -136,7 +136,9 @@
 				echo '{"result":false, "description":"Credenziali errate."}';
 		}
 
-
+		public function logout(){
+			$_SESSION["logged"] = false;			
+		}
 
 //MANDA IL CODICE DI VERIFICA:
 		public function SendCode(){
@@ -161,10 +163,10 @@
 			$Pssw = "password";
 
 		//CONTROLLI DELLA PASSWORD:
-		$verPsw = $this->verifyPsw($psw);
+		$verPsw = $this->verifyPsw($Pssw);
 		if(!$verPsw){
 			echo '{"result":false,"description":"Codice errato"}';
-			break;
+			
 		}else{
 //QUERY PER CAMBIARE LA PASSWORD:
 				$codice = $_POST["code"];
