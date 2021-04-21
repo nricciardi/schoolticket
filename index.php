@@ -1,7 +1,7 @@
-<!DOCTYPE HTML>
 <?php
-	$root = "ciao";
+	include_once('config.php'); //includo per la variabile root
 ?>
+<!DOCTYPE HTML>
 <html>
 	<head>
 		<title> Home - School ticket </title>
@@ -14,7 +14,8 @@
 
 			<!-- Header -->
 				<?php
-					include_once("assets/php/utility/root/header.php");
+					//include_once("assets/php/utility/root/header.php");
+					include_once(PATH_ROOT."/assets/php/utility/root/header.php");
 				?>
 
 			<!-- Banner -->

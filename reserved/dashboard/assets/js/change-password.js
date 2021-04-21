@@ -14,10 +14,12 @@ btn.addEventListener("click", () => {
 	console.log(nuovaPassword);
 
 
+    let data = {"Submit": "ChangePssw", "codice": codice.value, "nuovaPassword": nuovaPassword.value};
+
     $.ajax({
         type: "POST",
         url: "../../php/utilities/change-password.php",
-        data: codice, nuovaPassword,
+        data: data,
         dataType: "json",
         success: function (response)
 		{
@@ -29,10 +31,9 @@ btn.addEventListener("click", () => {
             console.log("Dati restituiti " + response["codice"] + " " + response["nuovaPassword"]);
         },
         error: (response) => {
-
+            
         }
       });
-
 });
 
 /*

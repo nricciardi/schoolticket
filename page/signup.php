@@ -118,7 +118,7 @@
 								</div>-->
 								<div class="col-12">
 									<ul class="actions special">
-										<li><input type="submit" value="Registrati" /></li>
+										<li><input type="button" id="submit" value="Registrati" /></li>
 									</ul>
 								</div>
 							</div>
@@ -136,7 +136,10 @@
 		<!-- Scripts -->
             <?php
 				include_once("../assets/php/utility/page/scripts.php");
+				
 			?>
+			
+			<script src="../assets/js/signup.js"></script>
             <script>
                 // imposta grigio l'header
                 $("#header.alt").css("background-color", "#444");

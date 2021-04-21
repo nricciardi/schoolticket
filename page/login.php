@@ -132,7 +132,9 @@
 		<!-- Scripts -->
             <?php
 				include_once("../assets/php/utility/page/scripts.php");
+				
 			?>
+			<script src="../assets/js/login.js"></script>
             <script>
                 // imposta grigio l'header
                 $("#header.alt").css("background-color", "#444");

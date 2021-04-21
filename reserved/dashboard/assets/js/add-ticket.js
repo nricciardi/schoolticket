@@ -40,6 +40,13 @@ var CLASSROOMS = null;
 // variabile contenente le macroaree
 var MACROAREE = null;
 
+// variabili per il controllo della corretta lunghezza dell'input nome e descrizione del Ticket
+var input_name = document.getElementById("name");                               // input nome del Ticket
+var input_conta_name = document.getElementById("conta_name");                   // contatore di nome
+
+var input_description = document.getElementById("description");                 // input descrizione del Ticket
+var input_conta_description = document.getElementById("conta_description");     // contatore descrizione
+
 
 // EVENTI
 // quando il documento viene creato inizializzo le classi e le macroaree
@@ -329,3 +336,29 @@ function get_macroaree(data) {
       }
       });					
 }
+
+// funzione per calcolare e verificare che la lunghezza del nome del Ticket sia corretta
+input_name.addEventListener("keyup", () => 
+{
+    input_conta_name.value = input_name.value.length;
+    var massimo = 100;      // valore massimo di caratteri consentiti
+    if (input_name.value.length > massimo)      // se la lunghezza è superiore a quella massima stabilita
+    {
+        input_name.value = input_name.value.substr(0, massimo);     // la stringa inserita viene troncata al valore massimo
+        input_conta_name.value = massimo;
+        alert("Massimo " + massimo + " caratteri!");        // viene mostrato un messaggio d'errore
+    }
+});
+
+// funzione per calcolare e verificare che la lunghezza della descrizione del Ticket sia corretta
+input_description.addEventListener("keyup", () => 
+{
+    input_conta_description.value = input_description.value.length;
+    var massimo = 1000;       // valore massimo di caratteri consentiti
+    if (input_description.value.length > massimo)       // se la lunghezza è superiore a quella massima stabilita
+    {
+        input_description.value = input_description.value.substr(0, massimo);   // la stringa inserita viene troncata al valore massimo
+        input_conta_description.value = massimo;
+        alert("Massimo " + massimo + " caratteri!");        // viene mostrato un messaggio d'errore
+    }
+});
