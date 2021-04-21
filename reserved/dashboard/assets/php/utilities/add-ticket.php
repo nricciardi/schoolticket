@@ -52,7 +52,7 @@
                     <button type="reset" class="btn btn-danger btn-sm">
                         <i class="fa fa-ban"></i> Reset
                     </button>
-                    <p id="submit_result" style="//display:none">In attesa dell'inserimento.</p>
+                    <span id="submit_result" style="//display:none">In attesa dell'inserimento.</span>
                 </div>
             </form>
         </div>

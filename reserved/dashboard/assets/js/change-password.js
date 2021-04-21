@@ -53,6 +53,7 @@ btn2.addEventListener("click", () => {
         dataType: "json",
         success: function (response)
 		{
+            console.log("Success");
 			if(response.result == false)
 			{
 				span.innerText = response.description;
@@ -67,7 +68,10 @@ btn2.addEventListener("click", () => {
 				
         },
         error: (response) => {
-			
+			console.log("Error");
+        },
+        complete: (response) => {
+            console.log("Complete");
         }
       });
 });
