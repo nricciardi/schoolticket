@@ -56,3 +56,5 @@
         </div>
     </div>
 </div>
+
+<script src="assets/js/add-ticket.js"></script>
