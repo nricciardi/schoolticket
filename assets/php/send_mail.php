@@ -19,26 +19,27 @@
 				</table>';
 		$msg .= '</body></html>';*/
 		
-		
+		// variabile contentente il messaggio di errore
+		$msg = "";
 		
 		if (!filter_var($emailFrom, FILTER_VALIDATE_EMAIL)) {
-			echo '{"result":false, "description":"Email errata"}';
-			return false;
+			$msg = '{"result":false, "description":"Email errata"}';
+			return $msg;
 		}
 				
 		if (!filter_var($name, FILTER_SANITIZE_STRING)) {
-			echo '{"result":false, "description":"Nome errato"}';
-			return false;
+			$msg = '{"result":false, "description":"Nome errato"}';
+			return $msg;
 		}
 		
 		if (!filter_var($subject, FILTER_SANITIZE_STRING)) {
-			echo '{"result":false, "description":"Soggetto errato"}';
-			return false;
+			$msg = '{"result":false, "description":"Soggetto errato"}';
+			return $msg;
 		}
 		
 		if (!filter_var($message, FILTER_SANITIZE_STRING)) {
-			echo '{"result":false, "description":"Messaggio errato"}';
-			return false;
+			$msg = '{"result":false, "description":"Messaggio errato"}';
+			return $msg;
 		}
 
 		$headers = "From: " . strip_tags($emailFrom) . "\r\n";
@@ -49,9 +50,11 @@
 		
 		//se email corretto echo True altrimenti echo false
 		if(mail($emailTo, $subject, $message, $headers))
-			echo '{"result":true, "description":"Email inviata correttamente"}';
+			$msg = '{"result":true, "description":"Email inviata correttamente"}';
 		else
-			echo '{"result":false, "description":"Email non inviata correttamente"}';;
+			$msg = '{"result":false, "description":"Email non inviata correttamente"}';
+
+		return $msg;
 
 		
 		//var_dump($_POST);
@@ -60,7 +63,7 @@
 
 	// solo se è stato settato il submit viene inviata l'email
 	if(isset($_POST["Submit"]) && $_POST["Submit"] == "SendEmail") {
-		send_mail($_POST['name'], $_POST['email'], $_POST['subject'], $_POST['message']);
+		echo send_mail($_POST['name'], $_POST['email'], $_POST['subject'], $_POST['message']);
 	}
 
 	//var_dump($_POST);
