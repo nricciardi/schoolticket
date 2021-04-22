@@ -1,5 +1,3 @@
-					<html>
-						<body>
 							<div class="col-lg-12">
 								<div class="card">
                                     <div class="card-header">Cambio Password </div><br>
@@ -51,7 +49,7 @@
 												</button>
 												<button type="reset" class="btn btn-danger btn-sm">
 													<i class="fa fa-ban"></i> Reset
-												</button><br>
+												</button>
 												<span id="span"> In attesa dell'inserimento </span>
 											</div>
                                         </form>

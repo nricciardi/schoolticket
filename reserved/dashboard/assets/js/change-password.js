@@ -23,15 +23,16 @@ btn.addEventListener("click", () => {
         dataType: "json",
         success: function (response)
 		{
-			/*
-            alert(response.input);
-            console.log("dati restituiti dal server come oggetto:");
-            console.log(response);
-			
-			document.getElementById("").innerHTML = "";
-
-            console.log("Dati manipolati:");
-            console.log("Dati restituiti " + response["codice"] + " " + response["nuovaPassword"]);*/
+			if(response.result == false)
+			{
+				span.innerText = response.description;
+				span.style.color = error_data;
+			}
+			else
+			{
+				span.innerHTML = response.description;
+				span.style.color = correct_data;
+			}
         },
         error: (response) => {
 			
