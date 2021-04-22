@@ -52,10 +52,10 @@
 						<form method="post" action="#">
 							<div class="row gtr-50 gtr-uniform">
 								<div class="col-6 col-12-mobilep">
-									<input type="text" name="name" id="name" value="" placeholder="Nome" />
+									<input type="text" name="name" id="nome" value="" placeholder="Nome" />
 								</div>
                                 <div class="col-6 col-12-mobilep">
-									<input type="text" name="surname" id="surname" value="" placeholder="Cognome" />
+									<input type="text" name="surname" id="cognome" value="" placeholder="Cognome" />
 								</div>
 								<div class="col-6 col-12-mobilep" >
 									<input type="email" name="email" id="email" value="" placeholder="Email" />
