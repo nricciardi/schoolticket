@@ -140,7 +140,7 @@ $st->execute([$Nome,$Descrizione,$Url,$Stato,$Priorit,$Aula,$Data,$Ora,$IdMacro,
 
   }
 
-public function Delete($IdTicket){
+public function Delete($IdTicket){//Elimino il/i ticket in base all'IdTicket;
 
 //ESEGUO LA QUERY:
 if(is_array($IdTicket)){//Controllo se è un array o una variabile;
@@ -152,15 +152,15 @@ if(is_array($IdTicket)){//Controllo se è un array o una variabile;
 
   $st = '{"result":true,"description":"Ticket eliminati correttamente"}';
   return $st;
-}else{
+}else{//se non è un array elimino solo un ticket
   $q = "DELETE FROM schoolticket.ticket WHERE IdTicket = $IdTicket";
   $st = $this->PDOconn->prepare($q);
   $st->execute();
   $st = '{"result":true,"description":"Ticket eliminato correttamente"}';
   return $st;
 }
-
-  }
+//Fine DELETE;
+}
 
   // Nel caso in cui l'array è vuoto significa che non ha trovato nessun utente,
   // perciò restituisce false, se invece trova l'utente restituisce true.
@@ -274,16 +274,16 @@ if(is_array($IdTicket)){//Controllo se è un array o una variabile;
 public function Union($IdTicket1, $IdTicket2){
 
 //SETTO I VALORI DA INSERIRE NEL NUOVO TICKET:
-        $Nome = 'elia';//$_POST["Name"];
-        $Descrizione = 'sfhssdf';//$_POST["Description"];
-        $Url = 'sdf';//$_POST["Photo"];
+        $Nome = $_POST["Name"];
+        $Descrizione = $_POST["Description"];
+        $Url = $_POST["Photo"];
         $Stato = "Nuovo";//settato di default;
         $Priorit = 1;//settata di default;
-        $Aula = 1;//$_POST["Classroom"];
+        $Aula = $_POST["Classroom"];
         $Data = date('d/m/Y');
         $Ora = date('H:i:s');
-        $IdMacro = 1;//$_POST["IdMacroarea"];
-        $IdUtn = 1;//$_POST["IdUtente"];
+        $IdMacro = $_POST["IdMacroarea"];
+        $IdUtn = $_POST["IdUtente"];
 
 //CONTROLLO I VALORI:
         $st = "";
@@ -313,7 +313,7 @@ public function Union($IdTicket1, $IdTicket2){
             }
 
 
-//ESEGUO LA QUERY:
+//ESEGUO LA QUERY (inserisce il nuovo ticket):
             $q = "INSERT INTO schoolticket.ticket(Nome,Descrizione,Immagine,StatoDiAvanzamento,Priorita,IdAula,Data,Ora,IdMacroarea,IdUtente) VALUES (?,?,?,?,?,?,?,?,?,?)";
             $st = $this->PDOconn->prepare($q);
             $st->execute([$Nome,$Descrizione,$Url,$Stato,$Priorit,$Aula,$Data,$Ora,$IdMacro,$IdUtn]);
@@ -327,7 +327,7 @@ public function Union($IdTicket1, $IdTicket2){
   $valore = $st->fetchAll();
   $unione = $valore[0]['IdTicket'];
 
-//MODIFICO l'IdUtin:
+//MODIFICO l'IdUnione:
 //aggiorno nel primo ticket:
   $st2 = $this->PDOconn->prepare("UPDATE schoolticket.ticket SET IdUnione=? WHERE IdTicket=?");
   $result2 = $st2->execute([$unione,$IdTicket1]);
@@ -337,16 +337,17 @@ public function Union($IdTicket1, $IdTicket2){
 
   $st = '{"result":true,"description":"Ticket Uniti correttamente"}';
   return $st;
-
+//Fine UNION;
 }
 
-public function NewTicketNumber(){
+public function NewTicketNumber(){//Restituisce il numero di ticket non letti:
+//Eseguo la query che trova i ticket non letti:
   $st = $this->PDOconn->prepare("SELECT schoolticket.ticket.IdTicket FROM schoolticket.ticket WHERE schoolticket.ticket.Visualizzato = 0 ");
   $result = $st->execute();
   $valore = $st->fetchAll();
-
-  $num = count($valore[0]);
-  $num++;
+//Vedo il risultato come un array e conto da quanti elementi è composto;
+  $num = count($valore[0]);//perchè $valore è una matrice;
+  $num++;//perchè l'array parte da zero;
   echo "Il numero dei nuovi ticket e' " .$num;
 }
 
