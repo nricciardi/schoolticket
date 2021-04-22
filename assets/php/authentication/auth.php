@@ -208,12 +208,12 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "registration"){
 
 //DELETE:
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "delete"){
- 	$ticket -> delete($id);//L'id va peso dalla sessione!!
+ 	$auth -> delete($id);//L'id va peso dalla sessione!!
 }
 
 //SHOW:
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "show"){
- 	$ticket -> show($id);//L'id va peso dalla sessione!!
+ 	$auth -> show($id);//L'id va peso dalla sessione!!
 }
 
 //LOGIN:
@@ -224,12 +224,17 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "login"){
 	if(isset($_POST["passw"]))
 	   $pssw = $_POST["passw"];
 
- 	$ticket -> login($mail, $passw);
+ 	$auth -> login($mail, $passw);
 }
 
-//ChagnePssw:
+//ChangePssw:
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "ChangePssw"){
- 	$ticket -> ChagnePssw();
+ 	$auth -> ChangePssw();
+}
+
+//SendCode:
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "SendCode"){
+ 	$auth -> SendCode();
 }
 
 ?>
