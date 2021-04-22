@@ -141,18 +141,37 @@
 		}
 
 //MANDA IL CODICE DI VERIFICA:
-		public function SendCode(){
-				$ID = 1;//andrà preso nella sessione
+		public function SendCode($ID){	// $ID andrà preso nella sessione
 				//CONTROLLO CON IL CODICE:
 				$q = "SELECT Email FROM schoolticket.utente WHERE IdUtente = ? ";
 				$st = $this->PDOconn->prepare($q);
 				$result = $st->execute([$ID]);
-				$rows = $st->fetchAll(PDO::FETCH_ASSOC);
+				
+				// controllo se la query è andata a buon fine per evitare errori, in caso invio il feedback
+				if(!$result)
+					return '{"result":false, "description":"Errore nell\'invio del codice."}';
 
-				$mail = $rows[0]["Email"];
-				$codice = rand(1000,9999);
-				$this->code = $codice;
-				return send_mail(" ",$mail,"Codice",$this->code);
+				try {
+					
+					$rows = $st->fetchAll(PDO::FETCH_ASSOC);	// recupero i risultati della query
+					$mail = $rows[0]["Email"];					// recupero l'email
+					$codice = rand(10000000,99999999);			// genero un numero causuale (codice) da inviare all'utente
+					$this->code = $codice;						// tengo in memoria il codice						!!!!!!!!!!!!!!!!!!! controllare che in caso di più utenti non sia necessario tenere in memoria il codice in una variabile di sessione
+					$result = send_mail(" ",$mail,"Codice",$this->code);		// richiamo la funzione per l'invio dell'email
+					
+					// DEBUG:
+					//var_dump(json_decode($result));
+					//echo json_decode($result)->result;
+					$result = json_decode($result)->result;		// catturo la risposta della funzione
+					if($result)
+						return '{"result":true, "description":"Codice inviato! Controlla la tua casella di posta elettronica."}';
+					else
+						return '{"result":false, "description":"Errore nell\'invio del codice."}';
+
+				} catch (Exception $e) {
+					return '{"result":false, "description":"Errore nell\'invio del codice."}';
+				}
+
 		}
 
 //CAMBIO DELLA PASSWORD:
@@ -243,7 +262,8 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "ChangePssw"){
 
 //SendCode:
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "SendCode"){
- 	echo $auth -> SendCode();
+	$id_to_send_code = 1; // $_SESSION["logged"];
+ 	echo $auth -> SendCode($id_to_send_code);
 }
 
 ?>

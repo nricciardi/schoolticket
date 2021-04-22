@@ -56,6 +56,7 @@ btn2.addEventListener("click", () => {
         success: function (response)
 		{
             console.log("Success");
+            console.log(response);
 			if(response.result == false)
 			{
 				span.innerText = response.description;
@@ -69,10 +70,12 @@ btn2.addEventListener("click", () => {
         },
         error: (response) => {
 			console.debug("Error:");
+            console.log(response);
             console.debug(response);
         },
         complete: (response) => {
             console.log("Complete");
+            console.log(response);
         }
       });
 });
