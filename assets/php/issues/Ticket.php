@@ -345,10 +345,16 @@ public function NewTicketNumber(){//Restituisce il numero di ticket non letti:
   $st = $this->PDOconn->prepare("SELECT schoolticket.ticket.IdTicket FROM schoolticket.ticket WHERE schoolticket.ticket.Visualizzato = 0 ");
   $result = $st->execute();
   $valore = $st->fetchAll();
+
 //Vedo il risultato come un array e conto da quanti elementi è composto;
-  $num = count($valore[0]);//perchè $valore è una matrice;
-  $num++;//perchè l'array parte da zero;
-  echo "Il numero dei nuovi ticket e' " .$num;
+  $num = 0;
+  $num = count($valore);
+
+  $r = '{"result":';
+  $r .= $num;
+  $r .= ', "description":"Numero dei ticket non letti"}';
+
+  return $r;
 }
 
   public function ChangePriority(){

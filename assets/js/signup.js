@@ -44,22 +44,24 @@ $(document).ready(function() {
                             dataType: "text",
                             success: function (data) 
 							{
-                            var success = data['success'];
-                            if(success == false)
-							{
-								var error = data['message'];
-								alert(error); // Nel caso non scriva niente :
+								console.log(data);
+								var success = data['success'];
+								if(success == false)
+								{
+									var error = data['message'];
+									alert(error); // Nel caso non scriva niente :
 
 
-                            }
+								}
 
                                 if(success == true) {
-   $('#mask , .login-popup').fadeOut(300 , function() {
-   $('#mask').remove();  
-                                });// end fadeOut function()
-    setTimeout("location.href = 'home.php';",1000);                                 
-                                                }
-                                                    }
+								   $('#mask , .login-popup').fadeOut(300 , function() {
+								   $('#mask').remove();  
+																});// end fadeOut function()
+									setTimeout("location.href = 'home.php';",1000);                                 
+																				}
+                            }
+							//error:function(console.log(data));
 
                         });//end ajax             
                  });//end click function
