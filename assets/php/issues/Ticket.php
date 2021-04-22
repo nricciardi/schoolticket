@@ -140,7 +140,7 @@ $st->execute([$Nome,$Descrizione,$Url,$Stato,$Priorit,$Aula,$Data,$Ora,$IdMacro,
 
   }
 
-public function Delete($IdTicket){
+public function Delete($IdTicket){//Elimino il/i ticket in base all'IdTicket;
 
 //ESEGUO LA QUERY:
 if(is_array($IdTicket)){//Controllo se è un array o una variabile;
@@ -152,19 +152,19 @@ if(is_array($IdTicket)){//Controllo se è un array o una variabile;
 
   $st = '{"result":true,"description":"Ticket eliminati correttamente"}';
   return $st;
-}else{
+}else{//se non è un array elimino solo un ticket
   $q = "DELETE FROM schoolticket.ticket WHERE IdTicket = $IdTicket";
   $st = $this->PDOconn->prepare($q);
   $st->execute();
   $st = '{"result":true,"description":"Ticket eliminato correttamente"}';
   return $st;
 }
-
-  }
+//Fine DELETE;
+}
 
   // Nel caso in cui l'array è vuoto significa che non ha trovato nessun utente,
   // perciò restituisce false, se invece trova l'utente restituisce true.
- public function controlId($IdTicket){
+	private function controlId($IdTicket){
 		$q = "SELECT * FROM schoolticket.ticket WHERE IdTicket = :idPl";
 		$st = $this->PDOconn->prepare($q);
 		$st->execute(['idPl' => $IdTicket]);
@@ -176,12 +176,31 @@ if(is_array($IdTicket)){//Controllo se è un array o una variabile;
 
 			//if($IdTicket = $record['Id'])
 	}
+
+	private function controlDate($newDate){
+		$now = date("Y-m-d");
+		$date1=date_create($now);
+		$date2=date_create($newDate);
+		$diff=date_diff($date1, $date2);
+		
+		if($diff->y >= 0)
+		{
+			if($diff->m >= 0)
+				if($diff->d > 0)
+					return true;
+		}
+		else
+			return false;
+	}
 	public function changeHour($IdTicket, $newHour){
 
-		$now = date("H:i:s");
-		$diff=date_diff($newHour,$now);
-
-		if(controlId($IdTicket) and $diff > 0)
+		$q = "SELECT Data FROM schoolticket.ticket WHERE IdTicket = $IdTicket";
+		$st = $this->PDOconn->prepare($q);
+		$st->execute();
+		while($record = $st->fetch())
+			$data = $record['Data'];
+		echo ($this->controlDate($data));
+		if(($this->controlId($IdTicket)) and ($this->controlDate($data)))
 		{
 			$q = "UPDATE schoolticket.ticket SET Ora = '$newHour' WHERE IdTicket = $IdTicket";
 			$st = $this->PDOconn->prepare($q);
@@ -189,45 +208,82 @@ if(is_array($IdTicket)){//Controllo se è un array o una variabile;
 			$st = '{"result":true,"description":"Ora Ticket aggiornata correttamente"}';
 			return $st;
 		}
+		/*if(($this->controlId($IdTicket)) and ($this->controlDate($data)) == false)
+		{
+			$now = date("H-i-s");
+			$date1=date_create($now);
+			$date2=date_create($newHour);
+			$diff=date_diff($date1, $date2);
+			
+			if($diff->H > 0)
+			{
+						$q = "UPDATE schoolticket.ticket SET Ora = '$newHour' WHERE IdTicket = $IdTicket";
+						$st = $this->PDOconn->prepare($q);
+						$st->execute();
+						$st = '{"result":true,"description":"Ora Ticket aggiornata correttamente"}';
+						return $st;
+			}
+		}*/
 
 	}
 
 	public function changeDate($IdTicket, $newDate){
 		$now = date("Y-m-d");
-		$diff=date_diff($newDate,$now);
-		echo $diff;
-		if(controlId($IdTicket) and $diff > 0)
-		{
-			echo $diff;
-			$q = "UPDATE schoolticket.ticket SET Data = '$newDate' WHERE IdTicket = $IdTicket";
-			$st = $this->PDOconn->prepare($q);
-			$st->execute();
-			$st = '{"result":true,"description":"Data Ticket aggiornata correttamente"}';
-			return $st;
-		}
+		$date1 = date_create($now);
+		$date2 = date_create($newDate);
+		$diff = date_diff($date1, $date2);
+		
+		if(($this->controlId($IdTicket)) and $diff->y >= 0)
+			if($diff->m >= 0)
+				if($diff->d >= 0)
+				{
+					$q = "UPDATE schoolticket.ticket SET Data = '$newDate' WHERE IdTicket = $IdTicket";
+					$st = $this->PDOconn->prepare($q);
+					$st->execute();
+					$st = '{"result":true,"description":"Data Ticket aggiornata correttamente"}';
+					return $st;
+				}
 	}
 
 	public function changeName($IdTicket, $newName){
+		$st = "";
+		if(!filter_var($newName, FILTER_SANITIZE_STRING)){
+			$st =  '{"result":false,"description":"Nome errato"}';
+			return $st;
+		}
 		$q = "UPDATE schoolticket.ticket SET Nome = '$newName' WHERE IdTicket = $IdTicket";
 		$st = $this->PDOconn->prepare($q);
 		$st->execute();
 		$st = '{"result":true,"description":"Nome Ticket aggiornata correttamente"}';
 		return $st;
 	}
+	
+	public function changeDescr($IdTicket, $newDescr){
+		$st = "";
+		if(!filter_var($newDescr, FILTER_SANITIZE_STRING)){
+			$st = '{"result":false,"description":"Descrizione errata"}';
+			return $st;
+		}
+		$q = "UPDATE schoolticket.ticket SET Descrizione = '$newDescr' WHERE IdTicket = $IdTicket";
+		$st = $this->PDOconn->prepare($q);
+		$st->execute();
+		$st = '{"result":true,"description":"Descrizione Ticket aggiornata correttamente"}';
+		return $st;
+	}
 
 public function Union($IdTicket1, $IdTicket2){
 
 //SETTO I VALORI DA INSERIRE NEL NUOVO TICKET:
-        $Nome = 'elia';//$_POST["Name"];
-        $Descrizione = 'sfhssdf';//$_POST["Description"];
-        $Url = 'sdf';//$_POST["Photo"];
+        $Nome = $_POST["Name"];
+        $Descrizione = $_POST["Description"];
+        $Url = $_POST["Photo"];
         $Stato = "Nuovo";//settato di default;
         $Priorit = 1;//settata di default;
-        $Aula = 1;//$_POST["Classroom"];
+        $Aula = $_POST["Classroom"];
         $Data = date('d/m/Y');
         $Ora = date('H:i:s');
-        $IdMacro = 1;//$_POST["IdMacroarea"];
-        $IdUtn = 1;//$_POST["IdUtente"];
+        $IdMacro = $_POST["IdMacroarea"];
+        $IdUtn = $_POST["IdUtente"];
 
 //CONTROLLO I VALORI:
         $st = "";
@@ -257,7 +313,7 @@ public function Union($IdTicket1, $IdTicket2){
             }
 
 
-//ESEGUO LA QUERY:
+//ESEGUO LA QUERY (inserisce il nuovo ticket):
             $q = "INSERT INTO schoolticket.ticket(Nome,Descrizione,Immagine,StatoDiAvanzamento,Priorita,IdAula,Data,Ora,IdMacroarea,IdUtente) VALUES (?,?,?,?,?,?,?,?,?,?)";
             $st = $this->PDOconn->prepare($q);
             $st->execute([$Nome,$Descrizione,$Url,$Stato,$Priorit,$Aula,$Data,$Ora,$IdMacro,$IdUtn]);
@@ -271,7 +327,7 @@ public function Union($IdTicket1, $IdTicket2){
   $valore = $st->fetchAll();
   $unione = $valore[0]['IdTicket'];
 
-//MODIFICO l'IdUtin:
+//MODIFICO l'IdUnione:
 //aggiorno nel primo ticket:
   $st2 = $this->PDOconn->prepare("UPDATE schoolticket.ticket SET IdUnione=? WHERE IdTicket=?");
   $result2 = $st2->execute([$unione,$IdTicket1]);
@@ -281,16 +337,17 @@ public function Union($IdTicket1, $IdTicket2){
 
   $st = '{"result":true,"description":"Ticket Uniti correttamente"}';
   return $st;
-
+//Fine UNION;
 }
 
-public function NewTicketNumber(){
+public function NewTicketNumber(){//Restituisce il numero di ticket non letti:
+//Eseguo la query che trova i ticket non letti:
   $st = $this->PDOconn->prepare("SELECT schoolticket.ticket.IdTicket FROM schoolticket.ticket WHERE schoolticket.ticket.Visualizzato = 0 ");
   $result = $st->execute();
   $valore = $st->fetchAll();
-
-  $num = count($valore[0]);
-  $num++;
+//Vedo il risultato come un array e conto da quanti elementi è composto;
+  $num = count($valore[0]);//perchè $valore è una matrice;
+  $num++;//perchè l'array parte da zero;
   echo "Il numero dei nuovi ticket e' " .$num;
 }
 
@@ -391,4 +448,15 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "ChangePriority"){
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "Update"){
   echo $ticket -> Update();
 }
+
+
+//NON CANCELLARE(GOVI):
+/*if (isset($_POST['invia'])) {
+  if(!empty($_POST['testo']) ){
+    $prova = $_POST['testo'];
+    echo $prova;
+  }else{
+    echo "è vuota";
+  }
+}*/
 ?>

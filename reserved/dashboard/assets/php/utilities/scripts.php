@@ -28,5 +28,6 @@
 
     <!-- Custom js -->
     <script src="assets/js/dashboard.js"></script>
-    <script src="assets/js/add-ticket.js"></script>
     <script src="assets/js/default.js"></script>
+    <script src="assets/js/add-ticket.js"></script>
+    <script src="assets/js/change-password.js"></script>

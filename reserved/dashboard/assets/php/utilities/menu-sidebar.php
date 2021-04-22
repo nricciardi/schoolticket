@@ -11,7 +11,7 @@
                         <img src="assets/images/icon/avatar-big-01.jpg" alt="John Doe" />
                     </div>
                     <h4 class="name">john doe</h4>
-                    <a href="#">Sign out</a>
+                    <a href="assets/php/utilities/sign_out.php">Sign out</a>
                 </div>
                 <nav class="navbar-sidebar2">
                     <ul class="list-unstyled navbar__list">
@@ -58,6 +58,14 @@
                                 </span>
                             </a>
                             <ul class="list-unstyled navbar__sub-list js-sub-list">
+                                <li>
+                                    <a href="table.html">
+                                        <i class="fas fa-ticket-alt"></i>Ticket</a>
+                                </li>
+                                <li>
+                                    <a href="table.html">
+                                        <i class="fas fa-user"></i>Utenti</a>
+                                </li>
                                 <li>
                                     <a href="table.html">
                                         <i class="fas fa-table"></i>Tables</a>

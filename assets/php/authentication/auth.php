@@ -136,7 +136,9 @@
 				echo '{"result":false, "description":"Credenziali errate."}';
 		}
 
-
+		public function logout(){
+			$_SESSION["logged"] = false;			
+		}
 
 //MANDA IL CODICE DI VERIFICA:
 		public function SendCode(){
@@ -150,7 +152,7 @@
 				$mail = $rows[0]["Email"];
 				$codice = rand(1000,9999);
 				$this->code = $codice;
-				send_mail(" ",$mail,"Codice",$this->code);
+				return send_mail(" ",$mail,"Codice",$this->code);
 		}
 
 //CAMBIO DELLA PASSWORD:
@@ -161,10 +163,14 @@
 			$Pssw = "password";
 
 		//CONTROLLI DELLA PASSWORD:
-		$verPsw = $this->verifyPsw($psw);
+		$verPsw = $this->verifyPsw($Pssw);
+
+		// variabile contentente il messaggio di errore
+		$msg = "";
+
 		if(!$verPsw){
-			echo '{"result":false,"description":"Codice errato"}';
-			break;
+			$msg = '{"result":false,"description":"Codice errato"}';
+			
 		}else{
 //QUERY PER CAMBIARE LA PASSWORD:
 				$codice = $_POST["code"];
@@ -172,12 +178,15 @@
 						$q = "UPDATE schoolticket.utente SET Password = ? WHERE ?";
 						$st = $this->PDOconn->prepare($q);
 						$st->execute([$Pssw,$ID]);
-						echo '{"result":true,"description":"Password cambiata correttamente"}';
+						$msg = '{"result":true,"description":"Password cambiata correttamente"}';
 				}else{
-						echo '{"result":false,"description":"Codice errato"}';
-							}
+					$msg = '{"result":false,"description":"Codice errato"}';
 				}
 		}
+
+		// restituisco il risultato JSON
+		return $msg;
+	}
 
 //FINE CLASSE
 	}
@@ -203,7 +212,7 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "registration"){
     $pssw = $_POST["pssw"];
 
 
-		echo $auth->registration($id, $nome, $cognome, $email, $pssw);
+	$auth->registration($id, $nome, $cognome, $email, $pssw);
 }
 
 //DELETE:
@@ -229,12 +238,12 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "login"){
 
 //ChangePssw:
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "ChangePssw"){
- 	$auth -> ChangePssw();
+ 	echo $auth -> ChangePssw();
 }
 
 //SendCode:
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "SendCode"){
- 	$auth -> SendCode();
+ 	echo $auth -> SendCode();
 }
 
 ?>
