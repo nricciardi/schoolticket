@@ -448,4 +448,15 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "ChangePriority"){
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "Update"){
   echo $ticket -> Update();
 }
+
+
+//NON CANCELLARE(GOVI):
+/*if (isset($_POST['invia'])) {
+  if(!empty($_POST['testo']) ){
+    $prova = $_POST['testo'];
+    echo $prova;
+  }else{
+    echo "è vuota";
+  }
+}*/
 ?>
