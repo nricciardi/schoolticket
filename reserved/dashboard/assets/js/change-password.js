@@ -3,7 +3,10 @@ var codice = document.getElementById("codice");					// Variabile che prende in i
 var nuovaPassword = document.getElementById("nuovaPassword");	// Variabile che prende in ingresso la password
 var re_password = document.getElementById("confermaPassword");	// Variabile che prende in ingresso la conferma della password
 var btn2 = document.getElementById("inviacodice");				// Variabile bottone che invia il codice per mail
-var span = document.getElementById("span");
+var span = document.getElementById("span");						// Variabile per scrivere
+var span2 = document.getElementById("span2");					// Variabile per scrivere usata per codice
+var span3 = document.getElementById("span3");					// Variabile per scrivere usata per nuovaPassword
+var span4 = document.getElementById("span4");					// Variabile per scrivere usata per re_password
 
 var error_data = "#ff5757";										// "dato errato" --> Rosso
 var correct_data = "#67f257";									// "dato corretto" --> Verde
@@ -11,8 +14,12 @@ var warning_data = "#f2d857";									// "dato warning" --> Giallo
 
 var password_validate = false;
 var re_password_validate = false;
+var codice_validate = false;
 
-btn.setAttribute("disabled", "disabled");
+if(password_validate == false && re_password_validate == false && codice_validate == false){
+	btn.setAttribute("disabled", "disabled");
+}
+
 
 // Dopo l'inserimento della password valida abilito la conferma
 nuovaPassword.addEventListener("input", () => {
@@ -23,7 +30,7 @@ nuovaPassword.addEventListener("input", () => {
 		console.log("password valida");
 
 		// messaggio utente:
-		document.getElementById("nuovaPassword").innerHTML = "Password valida";
+		span3.innerHTML = "Password valida";
 		document.getElementById("nuovaPassword").style.color = correct_data;
 
 		nuovaPassword.style.borderColor = correct_data;
@@ -39,7 +46,7 @@ nuovaPassword.addEventListener("input", () => {
 		console.log("password NON valida");
 
 		// messaggio utente:
-		document.getElementById("nuovaPassword").innerHTML = "Password debole, usare: caratteri speciali, lettere maiuscole/minuscole, numeri";
+		span3.innerHTML = "Password debole, usare: caratteri speciali, lettere maiuscole/minuscole, numeri";
 		document.getElementById("nuovaPassword").style.color = error_data;
 
 		nuovaPassword.style.borderColor = error_data;
@@ -62,6 +69,7 @@ re_password.addEventListener("input", () => {
 	if(re_password.value == nuovaPassword.value) {
 
 		// messaggio utente:
+		span4.innerHTML = "Le due password combaciano";
 		document.getElementById("confermaPassword").style.color = correct_data;
 
 		re_password.style.borderColor = correct_data;
@@ -72,7 +80,7 @@ re_password.addEventListener("input", () => {
 	} else {
 
 		// messaggio utente:
-		document.getElementById("confermaPassword").innerHTML = "La password non combacia";
+		span4.innerHTML = "La password non combacia";
 		document.getElementById("confermaPassword").style.color = error_data;
 
 		re_password.style.borderColor = error_data;
@@ -125,6 +133,44 @@ function validatePassword (nuovaPassword)
     return false; 
   }
 }
+
+// verifico che il codice non sia vuoto
+codice.addEventListener("input", () => {
+
+	if(codice.value > 99999 && codice.value < 1000000) { 
+
+		// messaggio utente:
+		span2.innerHTML = "Codice valido";
+		document.getElementById("codice").style.color = correct_data;
+
+		codice.style.borderColor = correct_data;
+		codice.style.color = correct_data;
+		codice.style.boxShadow = "0 0 0 2px" + correct_data;
+		
+		codice_validate = true;
+
+	} else {
+		
+		// messaggio utente:
+		span2.innerHTML = "Inserire un codice di 6 cifre";
+		document.getElementById("codice").style.color = error_data;
+
+		codice.style.borderColor = error_data;
+		codice.style.color = error_data;
+		codice.style.boxShadow = "0 0 0 2px" + error_data;
+		
+		codice_validate = false;
+	}
+
+	console.log("--------------");
+
+});
+
+// Controllo per riabilitare il bottone di conferma solo se codice, password e confermaPassword sono corretti
+if(password_validate == true && re_password_validate == true && codice_validate == true){
+	btn.removeAttribute("disabled");
+}
+
 
 // Button 'conferma' delle password
 btn.addEventListener("click", () => {

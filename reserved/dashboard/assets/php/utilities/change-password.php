@@ -23,8 +23,9 @@
                                                             </button>
                                                         </div>
                                                     </div>
+													
                                                 </div>
-											</div><!--<br>-->
+											</div><!--<br>--><span id="span2"> </span>
 											
                                             <div class="form-group" style="border-top: 1px solid rgba(0,0,0,.125); padding-top: 0.75rem">
                                                 <div class="input-group">
@@ -33,15 +34,15 @@
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-asterisk"></i>
                                                     </div>
-                                                </div><br>
+                                                </div><br><span id="span3"> </span>
 												<div class="input-group">
                                                     <div class="input-group-addon"> Conferma Password </div>
                                                     <input type="password" id="confermaPassword" name="confermaPassword" class="form-control">
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-asterisk"></i>
                                                     </div>
-                                                </div>
-                                            </div><br>
+                                                </div><br><span id="span4"> </span>
+                                            </div>
 											
 											<div class="card-footer">
 												<button type="submit" class="btn btn-success btn-sm " id="bottone">
