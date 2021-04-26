@@ -57,15 +57,7 @@
                                     <i class="fas fa-angle-down"></i>
                                 </span>
                             </a>
-                            <ul class="list-unstyled navbar__sub-list js-sub-list">
-                                <li>
-                                    <a href="table.html">
-                                        <i class="fas fa-ticket-alt"></i>Ticket</a>
-                                </li>
-                                <li>
-                                    <a href="table.html">
-                                        <i class="fas fa-user"></i>Utenti</a>
-                                </li>
+                            <ul class="list-unstyled navbar__sub-list js-sub-list" id="menu_funzionalita">
                                 <li>
                                     <a href="table.html">
                                         <i class="fas fa-table"></i>Tables</a>
