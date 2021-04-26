@@ -2,19 +2,21 @@
 // ----------------------- VARIABILI ------------------------------
 // ----------------------------------------------------------------
 
-var btn = document.getElementById("bottone");					// Variabile bottone che invia i dati
+var btn_conferma = document.getElementById("bottone");			// Variabile bottone che invia i dati
 var codice = document.getElementById("codice");					// Variabile che prende in ingresso il codice
 var nuovaPassword = document.getElementById("nuovaPassword");	// Variabile che prende in ingresso la password
 var re_password = document.getElementById("confermaPassword");	// Variabile che prende in ingresso la conferma della password
-var btn2 = document.getElementById("inviacodice");				// Variabile bottone che invia il codice per mail
+var btn_inviaCodice = document.getElementById("inviacodice");	// Variabile bottone che invia il codice per mail
 var span = document.getElementById("span");						// Variabile per scrivere
-var span2 = document.getElementById("span2");					// Variabile per scrivere usata per codice
-var span3 = document.getElementById("span3");					// Variabile per scrivere usata per nuovaPassword
-var span4 = document.getElementById("span4");					// Variabile per scrivere usata per re_password
+var span_codice = document.getElementById("span2");					// Variabile per scrivere usata per codice
+var span_nuovaPassword = document.getElementById("span3");					// Variabile per scrivere usata per nuovaPassword
+var span4_rePassword = document.getElementById("span4");					// Variabile per scrivere usata per re_password
 
 var error_data = "#ff5757";										// "dato errato" --> Rosso
 var correct_data = "#67f257";									// "dato corretto" --> Verde
 var warning_data = "#f2d857";									// "dato warning" --> Giallo
+var default_text_color = "#495057";								// "colore di default testo" --> Colore standard Grigio
+var default_border_color = "#ced4da";							// "colore di default bordo" --> Colore standard Grigio
 
 var password_validate = false;
 var re_password_validate = false;
@@ -42,15 +44,16 @@ function checkPassword() {
 
 		console.log("password valida");
 
-		// messaggio utente:
-		span3.innerHTML = "Password valida";
+		// Scrivo all'utente che la Password è valida e imposto ai vari elementi il colore verde
+		span_nuovaPassword.innerHTML = "Password valida";
 		document.getElementById("nuovaPassword").style.color = correct_data;
-        span3.style.color = correct_data;
+        span_nuovaPassword.style.color = correct_data;
 
 		nuovaPassword.style.borderColor = correct_data;
 		nuovaPassword.style.color = correct_data;
 		nuovaPassword.style.boxShadow = "0 0 0 2px" + correct_data;
 
+		// Faccio in modo che la conferma della password venga abilitata
 		re_password.removeAttribute("disabled");
 
 		password_validate = true;
@@ -59,10 +62,10 @@ function checkPassword() {
 	} else {
 		console.log("password NON valida");
 
-		// messaggio utente:
-		span3.innerHTML = "Password debole, usare: caratteri speciali, lettere maiuscole/minuscole, numeri";
+		// Scrivo all'utente che la password non è valida e imposto ai vari elementi il colore rosso
+		span_nuovaPassword.innerHTML = "Password debole, usare: caratteri speciali, lettere maiuscole/minuscole, numeri";
 		document.getElementById("nuovaPassword").style.color = error_data;
-        span3.style.color = error_data;
+        span_nuovaPassword.style.color = error_data;
 
 		nuovaPassword.style.borderColor = error_data;
 		nuovaPassword.style.color = error_data;
@@ -70,19 +73,20 @@ function checkPassword() {
 
 		password_validate = false;
 
+		// Faccio in modo che la conferma della password venga disabilitata
 		re_password.setAttribute("disabled", "disabled");
 	}
 }
 
 // verifico l'input per il controllo della password di conferma
 function checkRePassword() {
-    // se la password è valida imposto i diversi colori
+    // Se le due password combaciano imposto i diversi colori
 	if(re_password.value == nuovaPassword.value) {
 
-		// messaggio utente:
-		span4.innerHTML = "Le due password combaciano";
+		// Scrivo all'utente che le password combaciano e imposto ai vari elementi il colore verde
+		span4_rePassword.innerHTML = "Le due password combaciano";
 		document.getElementById("confermaPassword").style.color = correct_data;
-        span4.style.color = correct_data;
+        span4_rePassword.style.color = correct_data;
 
 		re_password.style.borderColor = correct_data;
 		re_password.style.color = correct_data;
@@ -91,10 +95,10 @@ function checkRePassword() {
 
 	} else {
 
-		// messaggio utente:
-		span4.innerHTML = "La password non combacia";
+		// Scrivo all'utente che le password non combaciano e imposto ai vari elementi il colore rosso
+		span4_rePassword.innerHTML = "La password non combacia";
 		document.getElementById("confermaPassword").style.color = error_data;
-        span4.style.color = error_data;
+        span4_rePassword.style.color = error_data;
 
 		re_password.style.borderColor = error_data;
 		re_password.style.color = error_data;
@@ -106,25 +110,26 @@ function checkRePassword() {
 
 // funzione per il controllo dell'input del codice
 function checkCodice() {
+	// Se il codice è stato inserito imposto ai vari elementi il colore di default (Grigio)
+    if(codice.value != "") {
 
-    if(codice.value > 99999 && codice.value < 1000000) {        // !!!!!!!!!!! verificare solo che non sia vuoto, reimpostare i colori neutri
+		// Imposto i vari colori
+		span_codice.innerHTML = "";
+		document.getElementById("codice").style.color = default_text_color;
+        span_codice.style.color = default_text_color;
 
-		// messaggio utente:
-		span2.innerHTML = "Codice valido";
-		document.getElementById("codice").style.color = correct_data;
-        span2.style.color = correct_data;
-
-		codice.style.borderColor = correct_data;
-		codice.style.color = correct_data;
-		codice.style.boxShadow = "0 0 0 2px" + correct_data;
+		codice.style.borderColor = default_border_color;
+		codice.style.color = default_text_color;
+		codice.style.boxShadow = "0 0 0 2px" + default_text_color;
 		
 		codice_validate = true;
 
 	} else {
 		
-		// messaggio utente:
-		span2.innerHTML = "Inserire un codice valido";
-        span2.style.color = error_data;
+		// Scrivo all'utente che il codice non è valido in quanto non è stato inserito e
+		// imposto ai vari elementi il colore rosso
+		span_codice.innerHTML = "Inserire un codice valido";
+        span_codice.style.color = error_data;
 		document.getElementById("codice").style.color = error_data;
 
 		codice.style.borderColor = error_data;
@@ -140,11 +145,11 @@ function checkInput() {
     // se tutti i controlli danno esito positivo (true) abilito il btn di conferma
     if(codice_validate && re_password_validate && password_validate) {
 
-        btn.removeAttribute("disabled");
+        btn_conferma.removeAttribute("disabled");
 
     } else { // altrimenti disabilito
         
-        btn.setAttribute("disabled", "disabled");
+        btn_conferma.setAttribute("disabled", "disabled");
 
     }
 
@@ -157,9 +162,9 @@ function checkInput() {
 // Dopo l'inserimento della password valida abilito la conferma
 nuovaPassword.addEventListener("input", () => {
 
-	checkPassword();    // controllo l'input per la password
+	checkPassword();    	// controllo l'input per la password
 
-    checkInput();   // controllo tutti gli input in modo da valutare se abilitare il bottone per la conferma
+    checkInput();   		// controllo tutti gli input in modo da valutare se abilitare il bottone per la conferma
 
 });
 
@@ -167,14 +172,14 @@ nuovaPassword.addEventListener("input", () => {
 // verifico che le due password siano uguali
 re_password.addEventListener("input", () => {
 
-	checkRePassword();  // controllo l'input per il conferma della password
+	checkRePassword();  	// controllo l'input per il conferma della password
 
-    checkInput();   // controllo tutti gli input in modo da valutare se abilitare il bottone per la conferma
+    checkInput();   		// controllo tutti gli input in modo da valutare se abilitare il bottone per la conferma
 
 });
 
 
-// tolto il focus imposto il colore
+// Tolgo ai vari elementi il colore
 nuovaPassword.addEventListener("blur", () => {
 
 	nuovaPassword.style.borderColor = "";
@@ -188,7 +193,7 @@ nuovaPassword.addEventListener("blur", () => {
 	}
 });
 
-// tolto il focus imposto il colore
+// Tolgo ai vari elementi il colore
 re_password.addEventListener("blur", () => {
 
 	re_password.style.borderColor = "";
@@ -216,12 +221,12 @@ codice.addEventListener("input", () => {
 
 // Controllo per riabilitare il bottone di conferma solo se codice, password e confermaPassword sono corretti
 if(password_validate == true && re_password_validate == true && codice_validate == true){
-	btn.removeAttribute("disabled");
+	btn_conferma.removeAttribute("disabled");
 }
 
 
 // Button 'conferma' delle password
-btn.addEventListener("click", () => {
+btn_conferma.addEventListener("click", () => {
 
     console.log("click");
 
@@ -247,14 +252,14 @@ btn.addEventListener("click", () => {
 			}
         },
         error: (response) => {
-			
+			span.innerText = "Errore nella risposta del server. Riprovare più tardi.";
         }
       });
 });
 
 
 // Button invio codice
-btn2.addEventListener("click", () => {
+btn_inviaCodice.addEventListener("click", () => {
 
     console.log("click");
 
@@ -284,6 +289,7 @@ btn2.addEventListener("click", () => {
 			console.debug("Error:");
             console.log(response);
             console.debug(response);
+			span.innerText = "Errore nella risposta del server. Riprovare più tardi.";
         },
         complete: (response) => {
             console.log("Complete");
