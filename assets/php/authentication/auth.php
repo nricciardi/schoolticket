@@ -57,7 +57,7 @@
 				return true;
 
 		}
-		public function registration($id, $nome, $cognome, $email, $psw){
+		public function registration(/*$id,*/ $nome, $cognome, $email, $psw){
 
 			if (!filter_var($nome, FILTER_SANITIZE_STRING)) {
 				echo '{"result":false, "description":"Nome errato"}';
@@ -88,8 +88,8 @@
 			{
 				$q = "INSERT INTO user (Id, Nome, Cognome, Email, Psw) VALUES (:IdPl, :nomePl, :cognomePl, :emailPl, :pswPl)";
 				$st = $this->PDOconn->prepare($q);
-				$st->execute(['IdPl' => $id, 'nomePl' => $nome, 'cognomePl' => $cognome, 'emailPl' => $email, 'pswPl' => $psw]);
-				if($st->execute(['IdPl' => $id, 'nomePl' => $nome, 'cognomePl' => $cognome, 'emailPl' => $email, 'pswPl' => $psw]))
+				$st->execute([/*'IdPl' => $id,*/ 'nomePl' => $nome, 'cognomePl' => $cognome, 'emailPl' => $email, 'pswPl' => $psw]);
+				if($st->execute([/*'IdPl' => $id,*/ 'nomePl' => $nome, 'cognomePl' => $cognome, 'emailPl' => $email, 'pswPl' => $psw]))
 					echo '{"result":true, "description":"Registrazione effettuata con successo."}';
 				else
 					echo '{"result":false, "description":"Registrazione non andata a buon fine."}';
@@ -214,24 +214,27 @@
 
 //REGISTRAZIONE:
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "registration"){
-
+	
+	/*
+	// Deprecato, l'id dell'utente è autoincrementale
 	if(isset($_POST["id"]))
-    $id = $_POST["id"];
+    	$id = $_POST["id"];
+	*/
 
 	if(isset($_POST["nome"]))
-    $nome = $_POST["nome"];
+    	$nome = $_POST["nome"];
 
-  if(isset($_POST["cognome"]))
-    $cognome = $_POST["cognome"];
+  	if(isset($_POST["cognome"]))
+   		$cognome = $_POST["cognome"];
 
-  if(isset($_POST["email"]))
-    $email = $_POST["email"];
+  	if(isset($_POST["email"]))
+    	$email = $_POST["email"];
 
-  if(isset($_POST["pssw"]))
-    $pssw = $_POST["pssw"];
+  	if(isset($_POST["pssw"]))
+    	$pssw = $_POST["pssw"];
 
 
-	$auth->registration($id, $nome, $cognome, $email, $pssw);
+	$auth->registration(/*$id,*/ $nome, $cognome, $email, $pssw);	// Deprecato, l'id dell'utente è autoincrementale
 }
 
 //DELETE:
