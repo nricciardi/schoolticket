@@ -1,4 +1,7 @@
-// VARIABILI GLOBALI
+// ----------------------------------------------------------------
+// ----------------------- VARIABILI ------------------------------
+// ----------------------------------------------------------------
+
 // - Dato errato
 var error_data = "#ff5757";
 var error_background = "#ffeded";
@@ -23,8 +26,22 @@ var div_form_add_ticket = document.getElementById("div_form_add_ticket");
 // div contenente il form di per cambiare password
 var div_form_change_password = document.getElementById("div_form_change_password");
 
+// -------------------------------------------------------------------------------
+// ---------------------- FUNZIONI GENERICHE -------------------------------------
+// -------------------------------------------------------------------------------
 
-// EVENTI
+// nascondo tutte le interfacce (form) creati
+function hideAllForm() {
+
+    div_form_add_ticket.style.display = "none";     // form per aggiungere un nuovo ticket
+    div_form_change_password.style.display = "none";     // form per cambiare password
+
+}
+
+// ----------------------------------------------------------------
+// ----------------------- EVENTI --------------------------------- 
+// ----------------------------------------------------------------
+
 // al click del add ticket viene mostrato il form
 btn_add_ticket.addEventListener("click", () => {
     // nascondo tutti i form 
@@ -54,10 +71,3 @@ btn_change_password2.addEventListener("click", () => {
 });
 
 
-// nascondo tutte le interfacce (form) creati
-function hideAllForm() {
-
-    div_form_add_ticket.style.display = "none";     // form per aggiungere un nuovo ticket
-    div_form_change_password.style.display = "none";     // form per cambiare password
-
-}

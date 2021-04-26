@@ -1,3 +1,7 @@
+// ----------------------------------------------------------------
+// ----------------------- VARIABILI ------------------------------
+// ----------------------------------------------------------------
+
 var btn = document.getElementById("bottone");					// Variabile bottone che invia i dati
 var codice = document.getElementById("codice");					// Variabile che prende in ingresso il codice
 var nuovaPassword = document.getElementById("nuovaPassword");	// Variabile che prende in ingresso la password
