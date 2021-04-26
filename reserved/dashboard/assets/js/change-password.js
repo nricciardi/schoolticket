@@ -16,15 +16,24 @@ var password_validate = false;
 var re_password_validate = false;
 var codice_validate = false;
 
-if(password_validate == false && re_password_validate == false && codice_validate == false){
-	btn.setAttribute("disabled", "disabled");
+// -------------------------------------------------------------------------------
+// ---------------------- FUNZIONI GENERICHE -------------------------------------
+// -------------------------------------------------------------------------------
+
+// Funzione per capire se la password inserita è corretta
+function validatePassword (nuovaPassword)
+{
+  let regexEmail = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+  if (nuovaPassword.match(regexEmail)) {
+    return true; 
+  } else {
+    return false; 
+  }
 }
 
-
-// Dopo l'inserimento della password valida abilito la conferma
-nuovaPassword.addEventListener("input", () => {
-
-	// se la password è valida imposto i diversi colori
+// verifico l'input per il controllo della password
+function checkPassword() {
+    // se la password è valida imposto i diversi colori
 	if(validatePassword(nuovaPassword.value)) {
 
 		console.log("password valida");
@@ -32,6 +41,7 @@ nuovaPassword.addEventListener("input", () => {
 		// messaggio utente:
 		span3.innerHTML = "Password valida";
 		document.getElementById("nuovaPassword").style.color = correct_data;
+        span3.style.color = correct_data;
 
 		nuovaPassword.style.borderColor = correct_data;
 		nuovaPassword.style.color = correct_data;
@@ -48,6 +58,7 @@ nuovaPassword.addEventListener("input", () => {
 		// messaggio utente:
 		span3.innerHTML = "Password debole, usare: caratteri speciali, lettere maiuscole/minuscole, numeri";
 		document.getElementById("nuovaPassword").style.color = error_data;
+        span3.style.color = error_data;
 
 		nuovaPassword.style.borderColor = error_data;
 		nuovaPassword.style.color = error_data;
@@ -57,20 +68,17 @@ nuovaPassword.addEventListener("input", () => {
 
 		re_password.setAttribute("disabled", "disabled");
 	}
+}
 
-	console.log("--------------");
-
-});
-				
-// verifico che le due password siano uguali
-re_password.addEventListener("input", () => {
-
-	// se la password è valida imposto i diversi colori
+// verifico l'input per il controllo della password di conferma
+function checkRePassword() {
+    // se la password è valida imposto i diversi colori
 	if(re_password.value == nuovaPassword.value) {
 
 		// messaggio utente:
 		span4.innerHTML = "Le due password combaciano";
 		document.getElementById("confermaPassword").style.color = correct_data;
+        span4.style.color = correct_data;
 
 		re_password.style.borderColor = correct_data;
 		re_password.style.color = correct_data;
@@ -82,6 +90,7 @@ re_password.addEventListener("input", () => {
 		// messaggio utente:
 		span4.innerHTML = "La password non combacia";
 		document.getElementById("confermaPassword").style.color = error_data;
+        span4.style.color = error_data;
 
 		re_password.style.borderColor = error_data;
 		re_password.style.color = error_data;
@@ -89,11 +98,78 @@ re_password.addEventListener("input", () => {
 
 		re_password_validate = false;
 	}
+} 
 
-	console.log("--------------");
+// funzione per il controllo dell'input del codice
+function checkCodice() {
+
+    if(codice.value > 99999 && codice.value < 1000000) {        // !!!!!!!!!!! verificare solo che non sia vuoto, reimpostare i colori neutri
+
+		// messaggio utente:
+		span2.innerHTML = "Codice valido";
+		document.getElementById("codice").style.color = correct_data;
+        span2.style.color = correct_data;
+
+		codice.style.borderColor = correct_data;
+		codice.style.color = correct_data;
+		codice.style.boxShadow = "0 0 0 2px" + correct_data;
+		
+		codice_validate = true;
+
+	} else {
+		
+		// messaggio utente:
+		span2.innerHTML = "Inserire un codice valido";
+        span2.style.color = error_data;
+		document.getElementById("codice").style.color = error_data;
+
+		codice.style.borderColor = error_data;
+		codice.style.color = error_data;
+		codice.style.boxShadow = "0 0 0 2px" + error_data;
+		
+		codice_validate = false;
+	}
+}
+
+// controllo che tutti gli input abbiano dato esito positivo sui controlli, nel caso abilito il bottone di conferma
+function checkInput() {
+    // se tutti i controlli danno esito positivo (true) abilito il btn di conferma
+    if(codice_validate && re_password_validate && password_validate) {
+
+        btn.removeAttribute("disabled");
+
+    } else { // altrimenti disabilito
+        
+        btn.setAttribute("disabled", "disabled");
+
+    }
+
+} 
+
+// ----------------------------------------------------------------
+// ----------------------- EVENTI --------------------------------- 
+// ----------------------------------------------------------------
+
+// Dopo l'inserimento della password valida abilito la conferma
+nuovaPassword.addEventListener("input", () => {
+
+	checkPassword();    // controllo l'input per la password
+
+    checkInput();   // controllo tutti gli input in modo da valutare se abilitare il bottone per la conferma
 
 });
-				
+
+
+// verifico che le due password siano uguali
+re_password.addEventListener("input", () => {
+
+	checkRePassword();  // controllo l'input per il conferma della password
+
+    checkInput();   // controllo tutti gli input in modo da valutare se abilitare il bottone per la conferma
+
+});
+
+
 // tolto il focus imposto il colore
 nuovaPassword.addEventListener("blur", () => {
 
@@ -122,49 +198,17 @@ re_password.addEventListener("blur", () => {
 	}
 
 });
-				
-// Funzione per capire se la password inserita è corretta
-function validatePassword (nuovaPassword)
-{
-  let regexEmail = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
-  if (nuovaPassword.match(regexEmail)) {
-    return true; 
-  } else {
-    return false; 
-  }
-}
 
 // verifico che il codice non sia vuoto
 codice.addEventListener("input", () => {
 
-	if(codice.value > 99999 && codice.value < 1000000) { 
+	checkCodice();      // verifico il codice con l'apposita funziona
 
-		// messaggio utente:
-		span2.innerHTML = "Codice valido";
-		document.getElementById("codice").style.color = correct_data;
+    checkInput();   // controllo tutti gli input in modo da valutare se abilitare il bottone per la conferma
 
-		codice.style.borderColor = correct_data;
-		codice.style.color = correct_data;
-		codice.style.boxShadow = "0 0 0 2px" + correct_data;
-		
-		codice_validate = true;
-
-	} else {
-		
-		// messaggio utente:
-		span2.innerHTML = "Inserire un codice di 6 cifre";
-		document.getElementById("codice").style.color = error_data;
-
-		codice.style.borderColor = error_data;
-		codice.style.color = error_data;
-		codice.style.boxShadow = "0 0 0 2px" + error_data;
-		
-		codice_validate = false;
-	}
-
-	console.log("--------------");
 
 });
+
 
 // Controllo per riabilitare il bottone di conferma solo se codice, password e confermaPassword sono corretti
 if(password_validate == true && re_password_validate == true && codice_validate == true){

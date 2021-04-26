@@ -9,7 +9,7 @@
                                                     <div class="col-9">
                                                         <div class="input-group">
                                                             <div class="input-group-addon"> Codice </div>
-                                                            <input type="number" id="codice" name="codice" class="form-control">
+                                                            <input type="text" id="codice" name="codice" class="form-control">
                                                             <div class="input-group-addon">
                                                                 <i class="fas fa-key"></i>
                                                             </div>
@@ -45,7 +45,7 @@
                                             </div>
 											
 											<div class="card-footer">
-												<button type="submit" class="btn btn-success btn-sm " id="bottone">
+												<button type="button" class="btn btn-success btn-sm " id="bottone" disabled>
 													<i class="fas fa-check"></i> Conferma
 												</button>
 												<button type="reset" class="btn btn-danger btn-sm">
