@@ -1,8 +1,6 @@
 <?php
-	// pagina per il login degli utenti
-    include_once("../default.php");
+	require_once("../config.php"); //includo per la variabile root
 ?>
-
 
 <!DOCTYPE HTML>
 <!--
@@ -38,7 +36,7 @@
 			<!-- Header -->
             
                 <?php
-					include_once("../assets/php/utility/page/header.php");
+					require_once("..".DS."assets".DS."php".DS."utility".DS."page".DS."header.php");
 				?>
             
                 
@@ -124,14 +122,14 @@
 
 			<!-- Footer -->
                 <?php
-					include_once("../assets/php/utility/footer.php");
+					require_once("..".DS."assets".DS."php".DS."utility".DS."footer.php");
 				?>
 
 		</div>
 
 		<!-- Scripts -->
             <?php
-				include_once("../assets/php/utility/page/scripts.php");
+				require_once("..".DS."assets".DS."php".DS."utility".DS."page".DS."scripts.php");
 				
 			?>
 			<script src="../assets/js/login.js"></script>

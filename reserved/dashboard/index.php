@@ -1,5 +1,5 @@
 <?php
-	include_once ('../../config.php');
+	require_once("../../config.php");
 ?>
 
 <!DOCTYPE html>
@@ -46,24 +46,24 @@
     <div class="page-wrapper">
         <!-- !!!!!!!!!!!!!!!MENU SIDEBAR!!!!!!!!!!!!!!! -->
         <?php
-            include_once("assets/php/utilities/menu-sidebar.php");      // includo sidebar
+            require_once("assets".DS."php".DS."utilities".DS."menu-sidebar.php");      // includo sidebar
         ?>
 
         <!-- PAGE CONTAINER-->
         <div class="page-container2">
             <!-- !!!!!!!!!!!!!!!HEADER DESKTOP!!!!!!!!!!!!!!! -->
             <?php
-                include_once("assets/php/utilities/header-desktop.php");      // includo header-desktop
+                require_once("assets".DS."php".DS."utilities".DS."header-desktop.php");      // includo header-desktop
             ?>
 
             <!-- !!!!!!!!!!!!!!!BREADCRUMB!!!!!!!!!!!!!!! -->
             <?php
-                include_once("assets/php/utilities/breadcrumb.php");      // includo gli la sezione con il bottone new ticket
+                require_once("assets".DS."php".DS."utilities".DS."breadcrumb.php");      // includo gli la sezione con il bottone new ticket
             ?>
 
             <!-- !!!!!!!!!!!!!!!STATISTIC!!!!!!!!!!!!!!! -->
             <?php
-                include_once("assets/php/utilities/statistic.php");      // includo gli script
+                require_once("assets".DS."php".DS."utilities".DS."statistic.php");      // includo gli script
             ?>
 
             <section>
@@ -74,13 +74,13 @@
                             <!-- !!!!!!!!!!!!!!! FORM NEW TICKET !!!!!!!!!!!!!!! -->
                             <div class="col-md-12" style="display: none;" id="div_form_add_ticket"> <!-- Di default è invisibile, viene visualizzato solo dopo il click di btn_add_ticket -->
                                 <?php
-                                   include_once("assets/php/utilities/add-ticket.php");      // includo il form per il new ticket
+                                   require_once("assets".DS."php".DS."utilities".DS."add-ticket.php");      // includo il form per il new ticket
                                 ?>
                             </div>
 							<!-- !!!!!!!!!!!!!!! FORM CHANGE PASSWORD !!!!!!!!!!!!!!! -->
                             <div class="col-md-12" style="display: none;" id="div_form_change_password"> <!-- Di default è invisibile, viene visualizzato solo dopo il click di btn_add_ticket -->
                                 <?php
-                                   include_once("assets/php/utilities/change-password.php");      // includo il form per il new ticket
+                                   require_once("assets".DS."php".DS."utilities".DS."change-password.php");      // includo il form per il new ticket
                                 ?>
                             </div>
                             
@@ -109,7 +109,7 @@
 
             <!-- !!!!!!!!!!!!!!!FOOTER!!!!!!!!!!!!!!! -->
             <?php
-                include_once("assets/php/utilities/footer.php");      // includo gli script
+                require_once("assets".DS."php".DS."utilities".DS."footer.php");      // includo gli script
             ?>
             <!-- END PAGE CONTAINER-->
         </div>
@@ -118,7 +118,7 @@
 
     <!-- !!!!!!!!!!!!!!!SCRIPTS!!!!!!!!!!!!!!! -->
     <?php
-        include_once("assets/php/utilities/scripts.php");      // includo gli script
+        include_once("assets".DS."php".DS."utilities".DS."scripts.php");      // includo gli script
     ?>
 </body>
 

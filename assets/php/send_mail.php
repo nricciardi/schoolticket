@@ -1,4 +1,7 @@
 <?php
+	
+	require_once("../../config.php");
+	
 	function send_mail($name, $emailFrom, $subject, $message, $emailTo = "xssxprova0000@gmail.com"){
 		//echo "send";
 		

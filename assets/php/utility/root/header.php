@@ -1,3 +1,4 @@
+
                 <header id="header" class="alt">
 					<h1><a href="index.php"> School ticket </h1>
 					<nav id="nav">

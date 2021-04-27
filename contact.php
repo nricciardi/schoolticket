@@ -1,5 +1,7 @@
 <!DOCTYPE HTML>
-
+<?php
+	require_once('config.php'); //includo per la variabile root
+?>
 <html>
 	<head>
 		<title>Contatti - School Ticket </title>
@@ -12,7 +14,7 @@
 
 			<!-- Header -->
 				<?php
-					include_once("assets/php/utility/root/header.php");
+					require_once(PATH_ROOT.DS."assets".DS."php".DS."utility".DS."root".DS."header.php");
 				?>
 
 			<!-- Main -->
@@ -53,14 +55,14 @@
 
 			<!-- Footer -->
 				<?php
-					include_once("assets/php/utility/footer.php");
+					require_once(PATH_ROOT.DS."assets".DS."php".DS."utility".DS."footer.php");
 				?>
 
 		</div>
 
 		<!-- Scripts -->
 		<?php
-			include_once("assets/php/utility/root/scripts.php");
+			require_once(PATH_ROOT.DS."assets".DS."php".DS."utility".DS."root".DS."scripts.php");
 		?>
 		<script>
                 // imposta grigio l'header

@@ -1,5 +1,4 @@
 
-
 <div class="col-lg-12">
     <div class="card">
         <div class="card-header">Crea un nuovo ticket</div>

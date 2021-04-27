@@ -1,5 +1,5 @@
 <?php
-	include_once '../send_mail.php';
+	require_once("../../../config.php");
 	session_start();
 	$_SESSION["logged"] = array();
 

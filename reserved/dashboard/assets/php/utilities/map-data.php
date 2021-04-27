@@ -1,3 +1,4 @@
+
 <div class="col-xl-6">                          
 <!-- MAP DATA-->
 <div class="map-data m-b-40">
