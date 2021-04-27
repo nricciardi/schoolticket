@@ -385,6 +385,10 @@ public function NewTicketNumber(){//Restituisce il numero di ticket non letti:
 //Eseguo la query che trova i ticket non letti:
   $st = $this->PDOconn->prepare("SELECT schoolticket.ticket.IdTicket FROM schoolticket.ticket WHERE schoolticket.ticket.Visualizzato = 0 ");
   $result = $st->execute();
+  if($result == false){
+    $st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
+    return $st;
+  }
   $valore = $st->fetchAll();
 
 //Vedo il risultato come un array e conto da quanti elementi è composto;
@@ -404,6 +408,10 @@ public function DeviationTicketNumber(){
   //Calcolo i ticket totali:
   $st = $this->PDOconn->prepare("SELECT COUNT(schoolticket.ticket.IdTicket) FROM schoolticket.ticket ");
   $result = $st->execute();
+  if($result == false){
+    $st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
+    return $st;
+  }
   $valore = $st->fetchAll();
   $TicketTotali = $valore[0][0];
 
@@ -415,6 +423,10 @@ $dataFinale =  strftime('%Y-%m-%d',strtotime($str));//trova la data di 30 giorni
 
 $st = $this->PDOconn->prepare("SELECT COUNT(schoolticket.ticket.IdTicket) FROM schoolticket.ticket WHERE schoolticket.ticket.Data >= ? ");
 $result = $st->execute([$dataFinale]);
+if($result == false){
+  $st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
+  return $st;
+}
 $risultato = $st->fetchAll();
 $Ticket30g = $risultato[0][0];//Qui abbiamo i ticket inseriti negli ultimi 30 giorni;
 //echo $Ticket30g;
@@ -427,6 +439,10 @@ $dataFinale2 =  strftime('%Y-%m-%d',strtotime($str2));//trova la data di 2nGiorn
 
 $st = $this->PDOconn->prepare("SELECT COUNT(schoolticket.ticket.IdTicket) FROM schoolticket.ticket WHERE schoolticket.ticket.Data >= ? AND schoolticket.ticket.Data <= ? ");
 $result = $st->execute([$dataFinale2,$dataFinale]);
+if($result == false){
+  $st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
+  return $st;
+}
 $risultato2 = $st->fetchAll();
 $Ticket2ngiorni = $risultato2[0][0];
 //echo $Ticket2ngiorni;
@@ -469,7 +485,7 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "Delete"){
 }
 
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "NewTicketNumber"){
-  $ticket->NewTicketNumber();
+  echo $ticket->NewTicketNumber();
 }
 
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "Insert"){
