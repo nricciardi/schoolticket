@@ -398,6 +398,55 @@ public function NewTicketNumber(){//Restituisce il numero di ticket non letti:
   return $r;
 }
 
+//Calcolo ticket con discostamento percentuale:
+public function DeviationTicketNumber(){
+  //$nGiorni
+  //Calcolo i ticket totali:
+  $st = $this->PDOconn->prepare("SELECT COUNT(schoolticket.ticket.IdTicket) FROM schoolticket.ticket ");
+  $result = $st->execute();
+  $valore = $st->fetchAll();
+  $TicketTotali = $valore[0][0];
+
+//Calcolo ticket inseriti negli ultimi $nGiorni(30):
+$str = "- " .$this->nGiorni ." day";
+$dataFinale =  strftime('%Y-%m-%d',strtotime($str));//trova la data di 30 giorni fa;
+//echo $dataFinale;
+
+
+$st = $this->PDOconn->prepare("SELECT COUNT(schoolticket.ticket.IdTicket) FROM schoolticket.ticket WHERE schoolticket.ticket.Data >= ? ");
+$result = $st->execute([$dataFinale]);
+$risultato = $st->fetchAll();
+$Ticket30g = $risultato[0][0];//Qui abbiamo i ticket inseriti negli ultimi 30 giorni;
+//echo $Ticket30g;
+
+//Calcolo i ticket inseriti nei 2nGiorni prima:
+$nGiorni2 = 2*$this->nGiorni;
+$str2 = "- " .$nGiorni2 ." day";
+$dataFinale2 =  strftime('%Y-%m-%d',strtotime($str2));//trova la data di 2nGiorni fa;
+//echo $dataFinale2;
+
+$st = $this->PDOconn->prepare("SELECT COUNT(schoolticket.ticket.IdTicket) FROM schoolticket.ticket WHERE schoolticket.ticket.Data >= ? AND schoolticket.ticket.Data <= ? ");
+$result = $st->execute([$dataFinale2,$dataFinale]);
+$risultato2 = $st->fetchAll();
+$Ticket2ngiorni = $risultato2[0][0];
+//echo $Ticket2ngiorni;
+
+//Calcolo il discostamento percentuale:  $Ticket2ngiorni : 100 = $Ticket30g : x
+$Ticket30g *= 100;
+$temp = $Ticket30g * $Ticket2ngiorni;
+
+//Composizione stringa JSON:
+  $r = '{"result": {"TicketTotali":';
+  $r .= $TicketTotali;
+  $r .= ',';
+  $r .= '"deviation" :';
+  $r .= $temp;
+  $r .= '}';
+  $r .= ', "description":"Ticket totali e discostamento percentuale"}';
+
+  return $r;
+
+}
   public function ChangePriority(){
 
   }
@@ -410,6 +459,9 @@ public function NewTicketNumber(){//Restituisce il numero di ticket non letti:
 
 $ticket = new Ticket("localhost","schoolticket","root","");
 
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "DeviationTicketNumber"){
+  echo $ticket -> DeviationTicketNumber();
+}
 
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "Delete"){
   $ID = $_POST["ID"];
