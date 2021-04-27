@@ -1,16 +1,18 @@
 <?php
-	function send_mail(){
+	
+	require_once("../../config.php");
+	
+	function send_mail($name, $emailFrom, $subject, $message, $emailTo = "xssxprova0000@gmail.com"){
+		//echo "send";
 		
-		$email 		= $_POST['email'];
-		$emailTO 	= "xssxprova0000@gmail.com"; 
-		$subject	= $_POST['subject']
+		//$emailTo 	= "xssxprova0000@gmail.com"; 
+		/*$email 		= $_POST['email'];
+		
+		$subject	= $_POST['subject'];
 		$msg 		= $_POST['message'];
-		$name		= $_POST['name'];
+		$name		= $_POST['name'];*/
 		
-		$headers = "From: " . strip_tags($email) . "\r\n";
-		//$headers .= "Reply-To: ". strip_tags($email) . "\r\n";
-		$headers .= "MIME-Version: 1.0\r\n";
-		$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+		
 		
 		/*$msg = '<html><body>';
 		$msg .= '<h1 align="center">Titolo mail da PHONEIX!</h1>';
@@ -20,39 +22,53 @@
 				</table>';
 		$msg .= '</body></html>';*/
 		
+		// variabile contentente il messaggio di errore
+		$msg = "";
 		
-		
-		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-			echo '{"result":false, "description":"email errata"}';
-			return false;
+		if (!filter_var($emailFrom, FILTER_VALIDATE_EMAIL)) {
+			$msg = '{"result":false, "description":"Email errata"}';
+			return $msg;
 		}
 				
 		if (!filter_var($name, FILTER_SANITIZE_STRING)) {
-			echo '{"result":false, "description":"nome errato"}';
-			return false;
+			$msg = '{"result":false, "description":"Nome errato"}';
+			return $msg;
 		}
 		
 		if (!filter_var($subject, FILTER_SANITIZE_STRING)) {
-			echo '{"result":false, "description":"soggetto errato"}';
-			return false;
+			$msg = '{"result":false, "description":"Soggetto errato"}';
+			return $msg;
 		}
 		
-		if (!filter_var($msg, FILTER_SANITIZE_STRING)) {
-			echo '{"result":false, "description":"messaggio errato"}';
-			return false;
+		if (!filter_var($message, FILTER_SANITIZE_STRING)) {
+			$msg = '{"result":false, "description":"Messaggio errato"}';
+			return $msg;
 		}
+
+		$headers = "From: " . strip_tags($emailFrom) . "\r\n";
+		//$headers .= "Reply-To: ". strip_tags($email) . "\r\n";
+		$headers .= "MIME-Version: 1.0\r\n";
+		$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+
 		
 		//se email corretto echo True altrimenti echo false
-		if(mail($emailTO, $subject, $msg, $headers))
-			ECHO '{"result":true, "description":"email inviata correttamente"}';
+		if(mail($emailTo, $subject, $message, $headers))
+			$msg = '{"result":true, "description":"Email inviata correttamente"}';
 		else
-			ECHO '{"result":false, "description":"email non inviata correttamente"}';;
+			$msg = '{"result":false, "description":"Email non inviata correttamente"}';
+
+		return $msg;
 
 		
 		//var_dump($_POST);
 		
 	}
 
+	// solo se è stato settato il submit viene inviata l'email
+	if(isset($_POST["Submit"]) && $_POST["Submit"] == "SendEmail") {
+		echo send_mail($_POST['name'], $_POST['email'], $_POST['subject'], $_POST['message']);
+	}
 
+	//var_dump($_POST);
 
 ?>

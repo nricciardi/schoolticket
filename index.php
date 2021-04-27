@@ -1,7 +1,7 @@
-<!DOCTYPE HTML>
 <?php
-	$root = "ciao";
+	require_once('config.php'); //includo per la variabile root
 ?>
+<!DOCTYPE HTML>
 <html>
 	<head>
 		<title> Home - School ticket </title>
@@ -14,7 +14,8 @@
 
 			<!-- Header -->
 				<?php
-					include_once("assets/php/utility/root/header.php");
+					//include_once("assets/php/utility/root/header.php");
+					require_once(PATH_ROOT.DS."assets".DS."php".DS."utility".DS."root".DS."header.php");
 				?>
 
 			<!-- Banner -->
@@ -99,19 +100,19 @@
 
 			<!-- CTA -->
 				<?php
-					include_once("assets/php/utility/root/cta.php");
+					require_once(PATH_ROOT.DS."assets".DS."php".DS."utility".DS."root".DS."cta.php");
 				?>
 
 			<!-- Footer -->
 				<?php
-					include_once("assets/php/utility/footer.php");
+					require_once(PATH_ROOT.DS."assets".DS."php".DS."utility".DS."footer.php");
 				?>
 
 		</div>
 
 		<!-- Scripts -->
 			<?php
-				include_once("assets/php/utility/root/scripts.php");
+				require_once(PATH_ROOT.DS."assets".DS."php".DS."utility".DS."root".DS."scripts.php");
 			?>
 
 	</body>

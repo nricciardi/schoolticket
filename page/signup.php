@@ -1,5 +1,5 @@
 <?php
-    include_once("../default.php");
+	require_once("../config.php"); //includo per la variabile root
 ?>
 
 
@@ -37,7 +37,7 @@
 			<!-- Header -->
             
                 <?php
-					include_once("../assets/php/utility/page/header.php");
+					require_once("..".DS."assets".DS."php".DS."utility".DS."page".DS."header.php");
 				?>
             
                 
@@ -52,10 +52,10 @@
 						<form method="post" action="#">
 							<div class="row gtr-50 gtr-uniform">
 								<div class="col-6 col-12-mobilep">
-									<input type="text" name="name" id="name" value="" placeholder="Nome" />
+									<input type="text" name="name" id="nome" value="" placeholder="Nome" />
 								</div>
                                 <div class="col-6 col-12-mobilep">
-									<input type="text" name="surname" id="surname" value="" placeholder="Cognome" />
+									<input type="text" name="surname" id="cognome" value="" placeholder="Cognome" />
 								</div>
 								<div class="col-6 col-12-mobilep" >
 									<input type="email" name="email" id="email" value="" placeholder="Email" />
@@ -73,18 +73,19 @@
 									<input type="password" name="repassword" id="repassword" value="" placeholder="Conferma password" disabled/>
 									<label for="email" id="label_re_password"></label>
 								</div>
-                                <div class="col-6 col-12-mobilep">
+                                <div class="col-12 col-12-mobilep">
                                     <select name="type" id="type">
                                             <option value="Unknown">-- Utente -- </option>
                                             <option value="1">Studente</option>
                                             <option value="2">Insegnante</option>
                                             <option value="3">Personale ATA</option>
-                                            <option value="4">Altro</option>
+                                            <!--<option value="4">Altro</option>-->
                                     </select>
 								</div>
-								<div class="col-3 col-6-mobilep">
-									<!--<input type="text" name="section" id="section" value="" placeholder="Corso: es. A" /> -->
-                                    <select name="section" id="section" disabled>
+								<!-- Deprecati -->
+								<!--<div class="col-3 col-6-mobilep">
+									<input type="text" name="section" id="section" value="" placeholder="Corso: es. A" /> -->
+                                    <!--<select name="section" id="section" disabled>
                                         <option value="Unknown">-- Corso -- </option>
                                         <option value="A">A</option>
                                         <option value="B">B</option>
@@ -103,10 +104,10 @@
                                         <option value="R">R</option>
                                         <option value="S">S</option>
                                     </select>
-								</div>
-                                <div class="col-3 col-6-mobilep">
-									<!--<input type="text" name="grade" id="grade" value="" placeholder="Classe: es. 1" />-->
-                                    <select name="grade" id="grade" disabled>
+								</div>-->
+                                <!--<div class="col-3 col-6-mobilep">
+									<input type="text" name="grade" id="grade" value="" placeholder="Classe: es. 1" />-->
+                                    <!--<select name="grade" id="grade" disabled>
                                         <option value="Unknown">-- Classe -- </option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
@@ -114,10 +115,10 @@
                                         <option value="4">4</option>
                                         <option value="5">5</option>
                                     </select>
-								</div>
+								</div>-->
 								<div class="col-12">
 									<ul class="actions special">
-										<li><input type="submit" value="Registrati" /></li>
+										<li><input type="button" id="submit" value="Registrati" /></li>
 									</ul>
 								</div>
 							</div>
@@ -127,15 +128,18 @@
 
 			<!-- Footer -->
                 <?php
-					include_once("../assets/php/utility/footer.php");
+					require_once("..".DS."assets".DS."php".DS."utility".DS."footer.php");
 				?>
 
 		</div>
 
 		<!-- Scripts -->
             <?php
-				include_once("../assets/php/utility/page/scripts.php");
+				require_once("..".DS."assets".DS."php".DS."utility".DS."page".DS."scripts.php");
+				
 			?>
+			
+			<script src="../assets/js/signup.js"></script>
             <script>
                 // imposta grigio l'header
                 $("#header.alt").css("background-color", "#444");

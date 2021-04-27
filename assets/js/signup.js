@@ -27,26 +27,46 @@ var password_validate = false;
 var re_password = document.getElementById("repassword");
 var re_password_validate = false;
 
+$(document).ready(function() {
+      $("#submit").click(function () {
+	  
+      var email = $('input[id=email]').val(); // Utente inserisce email
+	  var nome = $('input[id=nome]').val(); // Utente inserisce nome
+	  var cognome = $('input[id=cognome]').val(); // Utente inserisce cognome
+	  var password = $('input[id=password]').val(); // Utente inserisce password
+	  var data = {"Submit": "registration", "nome": nome, "cognome": cognome, "email": email, "pssw": password};
+	  console.log(data);
+	  console.log(HOSTNAME + '../assets/php/authentication/auth.php');
+                            $.ajax({
+                            type: "POST",
+                            url: HOSTNAME + '/assets/php/authentication/auth.php',
+                            data : data,
+                            dataType: "text",
+                            success: function (data) 
+							{
+								console.log(data);
+								var success = data['success'];
+								if(success == false)
+								{
+									var error = data['message'];
+									alert(error); // Nel caso non scriva niente :
 
-// EVENTI:
-// - Al cambio del tipo di utente disabilito classe e sezione
-type_user.addEventListener("change", () => {
 
-    /*console.log("change");
-    console.log("value: ");
-    console.log(type_user.value);*/
-    // verifico che sia value == 1 (che sia uno studente) per abilitare/disabilitare corso e classe
-    if(type_user.value != 1) {
-        console.log("change: !student");
-        section_student.setAttribute("disabled", "disabled");
-        grade_student.setAttribute("disabled", "disabled");
-    } else {
-        console.log("change: student");
-        section_student.removeAttribute("disabled");
-        grade_student.removeAttribute("disabled");
-    }
+								}
 
-});
+                                if(success == true) {
+								   $('#mask , .login-popup').fadeOut(300 , function() {
+								   $('#mask').remove();  
+																});// end fadeOut function()
+									setTimeout("location.href = 'home.php';",1000);                                 
+																				}
+                            }
+							//error:function(console.log(data));
+
+                        });//end ajax             
+                 });//end click function
+         });//end ready function
+		 
 
 // - Dopo l'inserimento dell'email valida abilito la conferma
 email.addEventListener("input", () => {

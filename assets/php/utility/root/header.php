@@ -1,3 +1,4 @@
+
                 <header id="header" class="alt">
 					<h1><a href="index.php"> School ticket </h1>
 					<nav id="nav">
@@ -20,6 +21,7 @@
 									</li>
 								</ul>
 							</li>
+							<li><a href="page/login.php" class="button">Accedi</a></li>
 							<li><a href="page/signup.php" class="button">Registrati</a></li>
 						</ul>
 					</nav>
