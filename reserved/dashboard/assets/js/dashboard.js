@@ -29,6 +29,10 @@ var div_form_change_password = document.getElementById("div_form_change_password
 // menù con le funzionalità della pagina
 var menu_features = document.getElementById("menu_funzionalita");
 
+// Variabile per scrivere il numero di ticket
+var newTicket = document.getElementById("ticketNumber");
+
+
 // -------------------------------------------------------------------------------
 // ---------------------- FUNZIONI GENERICHE -------------------------------------
 // -------------------------------------------------------------------------------
@@ -60,6 +64,40 @@ function hideAllForm() {
 
 }
 
+// restituisce il numero di ticket non visualizzati
+function setNewTicketNumber()
+{
+	// Chiamata Ajax
+	let data = {"Submit":"NewTicketNumber"};
+
+	$.ajax({
+		type: "POST",
+		url: HOSTNAME + "/assets/php/issues/Ticket.php",
+		data: data,
+		dataType: "json",
+		success: function (response)
+		{
+			if(response.result == false)
+			{
+				// In caso response.result == False --> restituisce il messaggio di errore
+				newTicket.innerText = "N / D";													// Messaggio restituito all'utente
+				console.debug(response.description);
+				console.error("Errore nella restituzione dei dati da parte del server");		// Messaggio restituito su console
+			}
+			else
+			{
+				// In caso response.result == True --> restituisce il numero di ticket
+				newTicket.innerHTML = response.result;											// Restituisce all'utente il numero di ticket non visualizzati			
+			}
+		},
+		error: (response) => {
+			// Errore in caso di problemi al server
+			newTicket.innerText = "N / D";														// Messaggio restituito all'utente
+			console.error("Impossibile collegarsi al server");									// Messaggio restituito su console
+		}
+	});
+}
+
 // ----------------------------------------------------------------
 // ----------------------- EVENTI --------------------------------- 
 // ----------------------------------------------------------------
@@ -81,6 +119,7 @@ btn_change_password.addEventListener("click", () => {
     console.debug("change psw");
     div_form_change_password.style.display = "";
 });
+
 btn_change_password2.addEventListener("click", () => {
     // nascondo tutti i form 
     hideAllForm();  
@@ -95,11 +134,11 @@ btn_change_password2.addEventListener("click", () => {
 
 /*
 <li>
-                                    <a href="table.html">
-                                        <i class="fas fa-ticket-alt"></i>Ticket</a>
-                                </li>
-                                <li>
-                                    <a href="table.html">
-                                        <i class="fas fa-user"></i>Utenti</a>
-                                </li>
-                                */
+<a href="table.html">
+<i class="fas fa-ticket-alt"></i>Ticket</a>
+</li>
+<li>
+<a href="table.html">
+<i class="fas fa-user"></i>Utenti</a>
+ </li>
+*/

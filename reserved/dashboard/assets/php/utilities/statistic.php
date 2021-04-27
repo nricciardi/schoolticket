@@ -14,8 +14,8 @@
                             </div>
                             <div class="col-md-6 col-lg-3">
                                 <div class="statistic__item">
-                                    <h2 class="number">388,688</h2>
-                                    <span class="desc">items sold</span>
+                                    <h2 class="number" id="ticketNumber"> N / D </h2>
+                                    <span class="desc"> Nuovi Ticket </span>
                                     <div class="icon">
                                         <i class="zmdi zmdi-shopping-cart"></i>
                                     </div>
