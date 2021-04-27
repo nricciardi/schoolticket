@@ -1,4 +1,7 @@
-// VARIABILI:
+// ----------------------------------------------------------------
+// ----------------------- VARIABILI ------------------------------
+// ----------------------------------------------------------------
+
 // - Dato errato
 var error_data = "#ff5757";
 // - Dato corretto
@@ -9,9 +12,17 @@ var warning_data = "#f2d857";
 // - Tipo di utente
 var type_user = document.getElementById("type");
 // - Sezione
-var section_student = document.getElementById("section");
+//var section_student = document.getElementById("section");
 // - Grado
-var grade_student = document.getElementById("grade");
+//var grade_student = document.getElementById("grade");
+
+// - Nome
+var name = document.getElementById("nome");
+var name_validate = false;
+
+// - Cognome
+var cognome = document.getElementById("cognome");
+var surname_validate = false;
 
 // - Email
 var email = document.getElementById("email");
@@ -27,45 +38,75 @@ var password_validate = false;
 var re_password = document.getElementById("repassword");
 var re_password_validate = false;
 
-$(document).ready(function() {
-      $("#submit").click(function () {
+// HOSTNAME per il percorso
+const HOSTNAME = window.location.protocol + "//" + window.location.hostname + "/" + window.location.pathname.split("/")[1];
+
+// -------------------------------------------------------------------------------
+// ---------------------- FUNZIONI GENERICHE -------------------------------------
+// -------------------------------------------------------------------------------
+
+function validateEmail (emailAdress)
+{
+  let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  if (emailAdress.match(regexEmail)) {
+    return true; 
+  } else {
+    return false; 
+  }
+}
+
+function validatePassword (password)
+{
+  let regexEmail = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+  if (password.match(regexEmail)) {
+    return true; 
+  } else {
+    return false; 
+  }
+}
+
+
+// ----------------------------------------------------------------
+// ----------------------- EVENTI --------------------------------- 
+// ----------------------------------------------------------------
+
+$("#submit").click(function () {
 	  
-      var email = $('input[id=email]').val(); // Utente inserisce email
-	  var nome = $('input[id=nome]').val(); // Utente inserisce nome
-	  var cognome = $('input[id=cognome]').val(); // Utente inserisce cognome
-	  var password = $('input[id=password]').val(); // Utente inserisce password
-	  var data = {"Submit": "registration", "nome": nome, "cognome": cognome, "email": email, "pssw": password};
-	  console.log(data);
-	  console.log(HOSTNAME + '../assets/php/authentication/auth.php');
-                            $.ajax({
-                            type: "POST",
-                            url: HOSTNAME + '/assets/php/authentication/auth.php',
-                            data : data,
-                            dataType: "text",
-                            success: function (data) 
-							{
-								console.log(data);
-								var success = data['success'];
-								if(success == false)
-								{
-									var error = data['message'];
-									alert(error); // Nel caso non scriva niente :
+    var email = $('input[id=email]').val(); // Utente inserisce email
+    var nome = $('input[id=nome]').val(); // Utente inserisce nome
+    var cognome = $('input[id=cognome]').val(); // Utente inserisce cognome
+    var password = $('input[id=password]').val(); // Utente inserisce password
+    var data = {"Submit": "registration", "nome": nome, "cognome": cognome, "email": email, "pssw": password};
+    console.log(data);
+    console.log(HOSTNAME + '../assets/php/authentication/auth.php');
+    $.ajax({
+        type: "POST",
+        url: HOSTNAME + '/assets/php/authentication/auth.php',
+        data : data,
+        dataType: "text",
+        success: function (data) 
+        {
+            console.log(data);
+            var success = data['success'];
+            if(success == false)
+            {
+                var error = data['message'];
+                alert(error); // Nel caso non scriva niente :
 
 
-								}
+            }
 
-                                if(success == true) {
-								   $('#mask , .login-popup').fadeOut(300 , function() {
-								   $('#mask').remove();  
-																});// end fadeOut function()
-									setTimeout("location.href = 'home.php';",1000);                                 
-																				}
-                            }
-							//error:function(console.log(data));
+            if(success == true) {
+                $('#mask , .login-popup').fadeOut(300 , function() {
+                $('#mask').remove();  
+                                            });// end fadeOut function()
+                setTimeout("location.href = 'home.php';",1000);                                 
+                                                            }
+        }
+        //error:function(console.log(data));
 
-                        });//end ajax             
-                 });//end click function
-         });//end ready function
+    });//end ajax             
+});//end click function
 		 
 
 // - Dopo l'inserimento dell'email valida abilito la conferma
@@ -81,7 +122,7 @@ email.addEventListener("input", () => {
         document.getElementById("label_email").style.color = correct_data;
 
         email.style.borderColor = correct_data;
-        email.style.color = correct_data;
+        //email.style.color = correct_data;
         email.style.boxShadow = "0 0 0 2px" + correct_data;
 
         re_email.removeAttribute("disabled");
@@ -172,15 +213,6 @@ re_email.addEventListener("blur", () => {
 
 });
 
-function validateEmail (emailAdress)
-{
-  let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-  if (emailAdress.match(regexEmail)) {
-    return true; 
-  } else {
-    return false; 
-  }
-}
 
 // - Dopo l'inserimento della password valida abilito la conferma
 password.addEventListener("input", () => {
@@ -286,12 +318,3 @@ re_password.addEventListener("blur", () => {
 
 });
 
-function validatePassword (password)
-{
-  let regexEmail = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
-  if (password.match(regexEmail)) {
-    return true; 
-  } else {
-    return false; 
-  }
-}
