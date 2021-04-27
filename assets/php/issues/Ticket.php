@@ -78,67 +78,108 @@ $st->execute([$Nome,$Descrizione,$Url,$Stato,$Priorit,$Aula,$Data,$Ora,$IdMacro,
 
 }
 
-  public function Show(){
+// Metodo per la visualizzazione dei ticket in base ai permessi dell'utente
+public function Show($id) {
 
-    $st = $this->PDOconn->prepare("SELECT * FROM schoolticket.ticket");
-            $result = $st->execute();
-            // stampo in formato JSON le classi
-            $rows = $st->fetchAll(PDO::FETCH_ASSOC);
-            $temp = (json_encode($rows));
-            if($result != false)
-            {
-                $r = '{"result":';
-                $r .= $temp;
-                $r .= ', "description":"Stampa del ticket avvenuta con successo"}';
-            }
-            else
-            {
-                $r = '{"result":false, "description":"Stampa non avvenuta con successo"}';
-            }
-            return $r;
-
-			if()  // Vedere se l'utente è amministratore.
-			{
-				$st = $this->PDOconn->prepare("SELECT * FROM schoolticket.ticket");
-				$result = $st->execute();
-				// stampo in formato JSON le classi
-				$rows = $st->fetchAll(PDO::FETCH_ASSOC);
-				$temp = (json_encode($rows));
-				if($result != false)
-				{
-					$r = '{"result":';
-					$r .= $temp;
-					$r .= ', "description":"Stampa del ticket avvenuta con successo"}';
-				}
-				else
-				{
-					$r = '{"result":false, "description":"Stampa non avvenuta con successo"}';
-				}
-				return $r;
-
-			}
-			else
-			{
-				$st = $this->PDOconn->prepare("SELECT * FROM schoolticket.ticket WHERE schoolticket.ticket.IdUtente =  $_SESSION["logged"]"); // Aggiungere nella query e controllare se l'IdUtente è uguale a quello nella sessione.
-				$result = $st->execute();
-				// stampo in formato JSON le classi
-				$rows = $st->fetchAll(PDO::FETCH_ASSOC);
-				$temp = (json_encode($rows));
-				if($result != false)
-				{
-					$r = '{"result":';
-					$r .= $temp;
-					$r .= ', "description":"Stampa del ticket avvenuta con successo"}';
-				}
-				else
-				{
-					$r = '{"result":false, "description":"Stampa non avvenuta con successo"}';
-				}
-				return $r;
-
-			}
+  if(is_numeric($id))  // Vedere se l'utente è loggato.
+  {
+    $controlloId = $this->PDOconn->prepare("SELECT schoolticket.Utente.IdUtente FROM schoolticket.Utente");
+    $resultId = $controlloId->execute();
+    $risultatoControlloId = $controlloId->fetchAll(PDO::FETCH_ASSOC);
+    
+    echo '<br>';
+    
+    $IdCorretto = 0; 	//Dopo il for contiene 1 se l'ID passato alla funzione esiste nel Database degli utenti
+    
+    for($i = 0; $i < COUNT($risultatoControlloId); $i++)	//Ciclo for per controllare che l'Id sia presente nel Database
+    {
+      if($risultatoControlloId[$i]["IdUtente"] == $id)
+      {
+        $IdCorretto = 1;
+        break;
+      }
+    }
+    
+    if($IdCorretto == 1)	//Se l'Id è presente allora possiamo andare a stampare i ticket
+    {
+      
+    $st = $this->PDOconn->prepare("SELECT schoolticket.Permessi.VisualizzaTuttiTicket FROM schoolticket.Utente JOIN schoolticket.Permessi ON schoolticket.Permessi.IdPermessi = schoolticket.Utente.IdPermessi WHERE schoolticket.Utente.IdUtente = ?");
+    $result = $st->execute([$id]);
+          
+    if($result == false) // Se la query è sbagliata 
+    {
+      $r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
+      return $r;
+    }
+    else
+    {
+      $risultatoquery = $st->fetchAll(PDO::FETCH_ASSOC);	//Contiene il risultato della query 
+                          
+      if($risultatoquery[0]["VisualizzaTuttiTicket"] == 1)	//Verifichiamo se ha permesso 1 o 0 nel visualizzare i ticket
+      {
+        $st = $this->PDOconn->prepare("SELECT schoolticket.Ticket.* FROM schoolticket.Ticket");		// Se è 1 visualizza tutti i ticket
+        $result = $st->execute([$id]);	//Result contiene 1 o 0 in base al corretto funzionamento della query 
+        
+        if($result == 0)	//Verifica la corretta connessione al Database 
+        {
+          echo "Errore di connessione al Database.";
+          return -1;		//In caso di errore di connessione la funzione ritorna -1
+        }
+      }
+      else
+      {
+        $st = $this->PDOconn->prepare("SELECT schoolticket.Ticket.* FROM schoolticket.Ticket WHERE schoolticket.Ticket.IdUtente = ?"); // Se è 0 visualizzo solo i miei ticket
+        $result = $st->execute([$id]);
+        if($result == 0)	//Verifica la corretta connessione al Database 
+        {
+          echo "Errore di connessione al Database.";
+          return -1;		//In caso di errore di connessione la funzione ritorna -1
+        }
+      }
+    }
+  
+    // stampo in formato JSON le classi
+    $rows = $st->fetchAll(PDO::FETCH_ASSOC);
+    $temp = (json_encode($rows));
+    if($result != false)
+    {
+      $r = '{"result":';
+      $r .= $temp;
+      $r .= ', "description":"Stampa del ticket avvenuta con successo"}';
+    }
+    else
+    {
+      $r = '{"result":false, "description":"Stampa non avvenuta con successo"}';
+    }
+    return $r;
+    }
+    else
+    {
+      echo "L'Id inserito non è contenuto nel Database!";
+    }
+  }
+  else
+  {
+    $st = $this->PDOconn->prepare('SELECT * FROM schoolticket.ticket WHERE schoolticket.ticket.IdUtente =  $_SESSION["logged"]'); // Aggiungere nella query e controllare se l'IdUtente è uguale a quello nella sessione.
+    $result = $st->execute();
+    // stampo in formato JSON le classi
+    $rows = $st->fetchAll(PDO::FETCH_ASSOC);
+    $temp = (json_encode($rows));
+    if($result != false)
+    {
+      $r = '{"result":';
+      $r .= $temp;
+      $r .= ', "description":"Stampa del ticket avvenuta con successo"}';
+    }
+    else
+    {
+      $r = '{"result":false, "description":"Stampa non avvenuta con successo"}';
+    }
+    return $r;
 
   }
+
+}
 
 public function Delete($IdTicket){//Elimino il/i ticket in base all'IdTicket;
 
@@ -437,7 +478,8 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "Insert"){
 }
 
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "Show"){
-  echo $ticket -> Show();
+  $ID = 1; // $_SESSION["logged"]
+  echo $ticket -> Show($ID);
 }
 
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "Union"){

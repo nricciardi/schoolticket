@@ -1,4 +1,7 @@
-// VARIABILI GLOBALI
+// ----------------------------------------------------------------
+// ----------------------- VARIABILI ------------------------------
+// ----------------------------------------------------------------
+
 // - Dato errato
 var error_data = "#ff5757";
 var error_background = "#ffeded";
@@ -23,8 +26,44 @@ var div_form_add_ticket = document.getElementById("div_form_add_ticket");
 // div contenente il form di per cambiare password
 var div_form_change_password = document.getElementById("div_form_change_password");
 
+// menù con le funzionalità della pagina
+var menu_features = document.getElementById("menu_funzionalita");
 
-// EVENTI
+// -------------------------------------------------------------------------------
+// ---------------------- FUNZIONI GENERICHE -------------------------------------
+// -------------------------------------------------------------------------------
+
+// in base ai permessi ottenuti creo il menù della dashboard
+function createMenu() {
+
+    console.debug("Create menù");
+
+    // prendo il codice HTML del menu per le features
+    let html_menu_features = _get_menu_features();
+
+
+}
+
+// restituisce il codice HTML del menù funzionalità
+function _get_menu_features() {
+
+    // return dei permessi dell'utente con una chiamata ajax
+}
+
+// 
+
+// nascondo tutte le interfacce (form) creati
+function hideAllForm() {
+
+    div_form_add_ticket.style.display = "none";     // form per aggiungere un nuovo ticket
+    div_form_change_password.style.display = "none";     // form per cambiare password
+
+}
+
+// ----------------------------------------------------------------
+// ----------------------- EVENTI --------------------------------- 
+// ----------------------------------------------------------------
+
 // al click del add ticket viene mostrato il form
 btn_add_ticket.addEventListener("click", () => {
     // nascondo tutti i form 
@@ -54,10 +93,13 @@ btn_change_password2.addEventListener("click", () => {
 });
 
 
-// nascondo tutte le interfacce (form) creati
-function hideAllForm() {
-
-    div_form_add_ticket.style.display = "none";     // form per aggiungere un nuovo ticket
-    div_form_change_password.style.display = "none";     // form per cambiare password
-
-}
+/*
+<li>
+                                    <a href="table.html">
+                                        <i class="fas fa-ticket-alt"></i>Ticket</a>
+                                </li>
+                                <li>
+                                    <a href="table.html">
+                                        <i class="fas fa-user"></i>Utenti</a>
+                                </li>
+                                */

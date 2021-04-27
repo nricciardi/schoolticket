@@ -57,7 +57,7 @@
 				return true;
 
 		}
-		public function registration($id, $nome, $cognome, $email, $psw){
+		public function registration(/*$id,*/ $nome, $cognome, $email, $psw){
 
 			if (!filter_var($nome, FILTER_SANITIZE_STRING)) {
 				echo '{"result":false, "description":"Nome errato"}';
@@ -88,8 +88,8 @@
 			{
 				$q = "INSERT INTO user (Id, Nome, Cognome, Email, Psw) VALUES (:IdPl, :nomePl, :cognomePl, :emailPl, :pswPl)";
 				$st = $this->PDOconn->prepare($q);
-				$st->execute(['IdPl' => $id, 'nomePl' => $nome, 'cognomePl' => $cognome, 'emailPl' => $email, 'pswPl' => $psw]);
-				if($st->execute(['IdPl' => $id, 'nomePl' => $nome, 'cognomePl' => $cognome, 'emailPl' => $email, 'pswPl' => $psw]))
+				$st->execute([/*'IdPl' => $id,*/ 'nomePl' => $nome, 'cognomePl' => $cognome, 'emailPl' => $email, 'pswPl' => $psw]);
+				if($st->execute([/*'IdPl' => $id,*/ 'nomePl' => $nome, 'cognomePl' => $cognome, 'emailPl' => $email, 'pswPl' => $psw]))
 					echo '{"result":true, "description":"Registrazione effettuata con successo."}';
 				else
 					echo '{"result":false, "description":"Registrazione non andata a buon fine."}';
@@ -142,35 +142,41 @@
 
 //MANDA IL CODICE DI VERIFICA:
 		public function SendCode($ID){	// $ID andrà preso nella sessione
-				//CONTROLLO CON IL CODICE:
-				$q = "SELECT Email FROM schoolticket.utente WHERE IdUtente = ? ";
-				$st = $this->PDOconn->prepare($q);
-				$result = $st->execute([$ID]);
+			//CONTROLLO CON IL CODICE:
+			$q = "SELECT Email FROM schoolticket.utente WHERE IdUtente = ? ";
+			$st = $this->PDOconn->prepare($q);
+			$result = $st->execute([$ID]);
+			
+			// controllo se la query è andata a buon fine per evitare errori, in caso invio il feedback
+			if(!$result)
+				return '{"result":false, "description":"Errore nell\'invio del codice."}';
+
+			try {
 				
-				// controllo se la query è andata a buon fine per evitare errori, in caso invio il feedback
-				if(!$result)
+				$rows = $st->fetchAll(PDO::FETCH_ASSOC);	// recupero i risultati della query
+				
+				// controllo che sia presente un'email nella ricerca, in caso negativo genero un'eccezione
+				if(!isset($rows[0]["Email"]))
+					throw new Exception("Non esiste nessuna email o non esiste l'utente con ID: $ID");
+
+				// in caso sia presente l'email dalla ricerca nel database:
+				$mail = $rows[0]["Email"];					// recupero l'email
+				$codice = rand(10000000,99999999);			// genero un numero causuale (codice) da inviare all'utente
+				$this->code = $codice;						// tengo in memoria il codice						!!!!!!!!!!!!!!!!!!! controllare che in caso di più utenti non sia necessario tenere in memoria il codice in una variabile di sessione
+				$result = send_mail(" ",$mail,"Codice",$this->code);		// richiamo la funzione per l'invio dell'email
+				
+				// DEBUG:
+				//var_dump(json_decode($result));
+				//echo json_decode($result)->result;
+				$result = json_decode($result)->result;		// catturo la risposta della funzione
+				if($result)
+					return '{"result":true, "description":"Codice inviato! Controlla la tua casella di posta elettronica."}';
+				else
 					return '{"result":false, "description":"Errore nell\'invio del codice."}';
 
-				try {
-					
-					$rows = $st->fetchAll(PDO::FETCH_ASSOC);	// recupero i risultati della query
-					$mail = $rows[0]["Email"];					// recupero l'email
-					$codice = rand(10000000,99999999);			// genero un numero causuale (codice) da inviare all'utente
-					$this->code = $codice;						// tengo in memoria il codice						!!!!!!!!!!!!!!!!!!! controllare che in caso di più utenti non sia necessario tenere in memoria il codice in una variabile di sessione
-					$result = send_mail(" ",$mail,"Codice",$this->code);		// richiamo la funzione per l'invio dell'email
-					
-					// DEBUG:
-					//var_dump(json_decode($result));
-					//echo json_decode($result)->result;
-					$result = json_decode($result)->result;		// catturo la risposta della funzione
-					if($result)
-						return '{"result":true, "description":"Codice inviato! Controlla la tua casella di posta elettronica."}';
-					else
-						return '{"result":false, "description":"Errore nell\'invio del codice."}';
-
-				} catch (Exception $e) {
-					return '{"result":false, "description":"Errore nell\'invio del codice."}';
-				}
+			} catch (Exception $e) {
+				return '{"result":false, "description":"Errore nell\'invio del codice."}';
+			}
 
 		}
 
@@ -194,10 +200,10 @@
 //QUERY PER CAMBIARE LA PASSWORD:
 				$codice = $_POST["code"];
 				if($this->code == $codice){
-						$q = "UPDATE schoolticket.utente SET Password = ? WHERE ?";
-						$st = $this->PDOconn->prepare($q);
-						$st->execute([$Pssw,$ID]);
-						$msg = '{"result":true,"description":"Password cambiata correttamente"}';
+					$q = "UPDATE schoolticket.utente SET Password = ? WHERE ?";
+					$st = $this->PDOconn->prepare($q);
+					$st->execute([$Pssw,$ID]);
+					$msg = '{"result":true,"description":"Password cambiata correttamente"}';
 				}else{
 					$msg = '{"result":false,"description":"Codice errato"}';
 				}
@@ -214,24 +220,27 @@
 
 //REGISTRAZIONE:
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "registration"){
-
+	
+	/*
+	// Deprecato, l'id dell'utente è autoincrementale
 	if(isset($_POST["id"]))
-    $id = $_POST["id"];
+    	$id = $_POST["id"];
+	*/
 
 	if(isset($_POST["nome"]))
-    $nome = $_POST["nome"];
+    	$nome = $_POST["nome"];
 
-  if(isset($_POST["cognome"]))
-    $cognome = $_POST["cognome"];
+  	if(isset($_POST["cognome"]))
+   		$cognome = $_POST["cognome"];
 
-  if(isset($_POST["email"]))
-    $email = $_POST["email"];
+  	if(isset($_POST["email"]))
+    	$email = $_POST["email"];
 
-  if(isset($_POST["pssw"]))
-    $pssw = $_POST["pssw"];
+  	if(isset($_POST["pssw"]))
+    	$pssw = $_POST["pssw"];
 
 
-	$auth->registration($id, $nome, $cognome, $email, $pssw);
+	$auth->registration(/*$id,*/ $nome, $cognome, $email, $pssw);	// Deprecato, l'id dell'utente è autoincrementale
 }
 
 //DELETE:
