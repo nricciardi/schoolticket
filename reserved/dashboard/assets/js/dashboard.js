@@ -37,6 +37,13 @@ var newTicket = document.getElementById("ticketNumber");
 // ---------------------- FUNZIONI GENERICHE -------------------------------------
 // -------------------------------------------------------------------------------
 
+// funzione che viene richiamata all'inizio
+function init() {
+
+	
+
+}
+
 // in base ai permessi ottenuti creo il menù della dashboard
 function createMenu() {
 
