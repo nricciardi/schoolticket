@@ -69,7 +69,7 @@
             <section>
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
-                        <div class="row">
+                        <div class="row" id="dynamic-page">
 
                             <!-- !!!!!!!!!!!!!!! FORM NEW TICKET !!!!!!!!!!!!!!! -->
                             <div class="col-md-12" style="display: none;" id="div_form_add_ticket"> <!-- Di default è invisibile, viene visualizzato solo dopo il click di btn_add_ticket -->
@@ -81,6 +81,12 @@
                             <div class="col-md-12" style="display: none;" id="div_form_change_password"> <!-- Di default è invisibile, viene visualizzato solo dopo il click di btn_add_ticket -->
                                 <?php
                                    require_once("assets".DS."php".DS."utilities".DS."change-password.php");      // includo il form per il new ticket
+                                ?>
+                            </div>
+                            <!-- !!!!!!!!!!!!!!! PAGE MANAGEMENT USERS !!!!!!!!!!!!!!! -->
+                            <div class="col-md-12" style="/*display: none;*/" id="div_form_change_password"> <!-- Di default è invisibile, viene visualizzato solo dopo il click di btn_add_ticket -->
+                                <?php
+                                   require_once("assets".DS."php".DS."utilities".DS."management-users.php");      // includo il form per il new ticket
                                 ?>
                             </div>
                             

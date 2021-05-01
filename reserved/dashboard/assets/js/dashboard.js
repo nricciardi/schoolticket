@@ -32,6 +32,9 @@ var menu_features = document.getElementById("menu_funzionalita");
 // Variabile per scrivere il numero di ticket
 var newTicket = document.getElementById("ticketNumber");
 
+// box contenitore delle pagine visualizzate in modo dinamico
+var dynamic_page_box = document.getElementById("dynamic-page");
+
 
 // -------------------------------------------------------------------------------
 // ---------------------- FUNZIONI GENERICHE -------------------------------------
@@ -59,8 +62,16 @@ function _get_menu_features() {
 // nascondo tutte le interfacce (form) creati
 function hideAllForm() {
 
-    div_form_add_ticket.style.display = "none";     // form per aggiungere un nuovo ticket
-    div_form_change_password.style.display = "none";     // form per cambiare password
+    //div_form_add_ticket.style.display = "none";     // form per aggiungere un nuovo ticket
+    //div_form_change_password.style.display = "none";     // form per cambiare password
+
+	// recupero i figli del box contenitore
+	let children = dynamic_page_box.children;
+
+	// per ogni figlio, imposto il display su none
+	children.forEach((item, index)=>{
+		console.log(index, item);
+	});
 
 }
 
