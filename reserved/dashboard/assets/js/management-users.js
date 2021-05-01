@@ -57,6 +57,9 @@ function createRecordUser(user) {   //User è un oggetto contenente le informazi
     record += '<span class="au-checkmark"></span>';
     record += '</label>    </td>';
 
+    // inserisco l'ID
+    record += '<td>' + user.IdUtente + '</td>';
+    
     // inserisco il COGNOME
     record += '<td>' + user.Cognome + '</td>';
     
@@ -88,6 +91,90 @@ function createRecordUser(user) {   //User è un oggetto contenente le informazi
     return record;
 }
 
+// richiama gli utenti dal database tramite chiamata AJAX e successivamente crea la tabella
+function createTableUser() {
+    
+    // creo l'oggetto data da mandare in post
+    let data = {"Submit": "show"};
+
+    // effettuo la chiamata
+    $.ajax({
+        url: HOSTNAME + "/assets/php/authentication/auth.php",
+        type: "post",
+        data: data,
+        dataType: "json",
+        success: (res) => {
+
+            console.log(res);
+            // verifico che la siano stati restituiti correttamente i dati
+            if(res.result === false) {
+
+                // in caso di errore stampo un messaggio nel box al posto della tabella
+                div_management_users.innerText = res.description;
+                div_management_users.style.color = error_data;
+
+            } else {
+
+                // in caso positivo creo la tabella per gli utenti
+                
+            }
+
+        },
+        error: (res) => {
+
+            // in caso di errore stampo un messaggio nel box al posto della tabella
+            div_management_users.innerText = "Errore durante la connessione con il server, riprovare più tardi o contattare l'assistenza.";
+            div_management_users.style.color = error_data;
+
+        }
+    });
+    
+
+}
+
+// in base all'id passato elimino l'utente
+function deleteUser(ID) {   // può anche essere passato un array
+    
+    console.log("Elimino: " + ID);
+
+    // creo l'oggetto data da mandare in post
+    let data = {"Submit": "delete", "Data": ID};
+
+    // effettuo la chiamata ajax
+    $.ajax({
+
+        url: HOSTNAME + "/assets/php/authentication/auth.php",
+        type: "post",
+        data: data,
+        dataType: "json",
+        success: (res) => {
+
+            console.log(res);
+            // verifico che la siano stati restituiti correttamente i dati
+            if(res.result === false) {
+
+                // in caso di errore stampo un messaggio nel box al posto della tabella
+                div_management_users.innerText = res.description;
+                div_management_users.style.color = error_data;
+
+            } else {
+
+                // in caso positivo creo la tabella per gli utenti
+                
+            }
+
+        },
+        error: (res) => {
+
+            // in caso di errore stampo un messaggio nel box al posto della tabella
+            //div_management_users.innerText = "Errore durante la connessione con il server, riprovare più tardi o contattare l'assistenza.";
+            //div_management_users.style.color = error_data;
+            alert("Errore durante la connessione con il server, riprovare più tardi o contattare l'assistenza.");   // !!!!!!!!!!! cambiare con lo span in fondo
+        }
+
+    });
+
+}
 
 
 // ----------------------------------------------------------------

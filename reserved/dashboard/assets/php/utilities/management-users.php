@@ -46,12 +46,12 @@
                                 <span class="au-checkmark"></span>
                             </label>
                         </th>
-                        <th>name</th>
-                        <th>email</th>
-                        <th>description</th>
-                        <th>date</th>
-                        <th>status</th>
-                        <th>price</th>
+                        <th>Id utente</th>
+                        <th>Cognome</th>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Categoria</th>
+                        <th>Permessi</th>
                         <th></th>
                     </tr>
                 </thead>

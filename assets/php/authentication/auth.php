@@ -243,7 +243,11 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "registration"){
 
 //DELETE:
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "delete"){
- 	$auth -> delete($id);//L'id va peso dalla sessione!!
+	// verifico che sia stato passato anche l'id da eliminare
+	if(isset($_POST["Data"]))
+ 		$auth -> delete($_POST["Data"]);
+	else	// in caso negativo stampo l'errore
+		echo '{"result":false,"description":"Problema durante l\'invio dei dati al server, riprovare più tardi o contattare l\'assistenza"}';
 }
 
 //SHOW:
