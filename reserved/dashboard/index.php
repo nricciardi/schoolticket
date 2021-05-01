@@ -66,6 +66,8 @@
                 require_once("assets".DS."php".DS."utilities".DS."statistic.php");      // includo gli script
             ?>
 
+            <hr style="width: 90%; margin-left: 5%;">
+
             <section>
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
@@ -84,7 +86,7 @@
                                 ?>
                             </div>
                             <!-- !!!!!!!!!!!!!!! PAGE MANAGEMENT USERS !!!!!!!!!!!!!!! -->
-                            <div class="col-md-12" style="/*display: none;*/" id="div_form_change_password"> <!-- Di default è invisibile, viene visualizzato solo dopo il click di btn_add_ticket -->
+                            <div class="col-md-12" style="/*display: none;*/" id="div_management_users"> <!-- Di default è invisibile, viene visualizzato solo dopo il click di btn_add_ticket -->
                                 <?php
                                    require_once("assets".DS."php".DS."utilities".DS."management-users.php");      // includo il form per il new ticket
                                 ?>

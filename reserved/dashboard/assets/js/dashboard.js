@@ -26,6 +26,9 @@ var div_form_add_ticket = document.getElementById("div_form_add_ticket");
 // div contenente il form di per cambiare password
 var div_form_change_password = document.getElementById("div_form_change_password");
 
+// div contenente la tabella per il controllo degli utenti
+var div_management_users = document.getElementById("div_management_users");
+
 // menù con le funzionalità della pagina
 var menu_features = document.getElementById("menu_funzionalita");
 
@@ -40,10 +43,20 @@ var dynamic_page_box = document.getElementById("dynamic-page");
 // ---------------------- FUNZIONI GENERICHE -------------------------------------
 // -------------------------------------------------------------------------------
 
+// all'avvio della pagina, dopo che tutto è stato caricato, richiamo la funzione di inizializzazione
+$(document).ready(() => {
+
+	init();
+
+});
+
 // funzione che viene richiamata all'inizio
 function init() {
 
-	
+	console.log("Initialized...");
+
+	// nascondo tutte le pagine dimaniche presenti
+	hideAllDynamicPage();
 
 }
 
@@ -67,18 +80,18 @@ function _get_menu_features() {
 // 
 
 // nascondo tutte le interfacce (form) creati
-function hideAllForm() {
-
-    //div_form_add_ticket.style.display = "none";     // form per aggiungere un nuovo ticket
-    //div_form_change_password.style.display = "none";     // form per cambiare password
+function hideAllDynamicPage() {
 
 	// recupero i figli del box contenitore
 	let children = dynamic_page_box.children;
 
 	// per ogni figlio, imposto il display su none
-	children.forEach((item, index)=>{
-		console.log(index, item);
-	});
+	for(let i = 0; i < children.length; i += 1) {
+		children[i].style.display = "none";
+	}
+
+	// DEBUG:
+	div_management_users.style.display = "";
 
 }
 
@@ -123,7 +136,7 @@ function setNewTicketNumber()
 // al click del add ticket viene mostrato il form
 btn_add_ticket.addEventListener("click", () => {
     // nascondo tutti i form 
-    hideAllForm();  
+    hideAllDynamicPage(); 
     // mostro il form selezionato
     console.debug("add ticket");
     div_form_add_ticket.style.display = "";
@@ -132,7 +145,7 @@ btn_add_ticket.addEventListener("click", () => {
 // al click del cambio password mostro il relativo form
 btn_change_password.addEventListener("click", () => {
     // nascondo tutti i form 
-    hideAllForm();  
+    hideAllDynamicPage();
     // mostro il form selezionato
     console.debug("change psw");
     div_form_change_password.style.display = "";
@@ -140,7 +153,7 @@ btn_change_password.addEventListener("click", () => {
 
 btn_change_password2.addEventListener("click", () => {
     // nascondo tutti i form 
-    hideAllForm();  
+    hideAllDynamicPage();  
     // mostro il form selezionato
     console.debug("change psw");
     div_form_change_password.style.display = "";

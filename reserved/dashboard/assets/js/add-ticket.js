@@ -1,4 +1,7 @@
-// VARIABILI GLOBALI
+// ----------------------------------------------------------------
+// ----------------------- VARIABILI ------------------------------
+// ----------------------------------------------------------------
+
 // messaggio di feeback di default
 var default_message = "In attesa dell'inserimento.";
 
@@ -41,10 +44,182 @@ var CLASSROOMS = null;
 var MACROAREE = null;
 
 
+// -------------------------------------------------------------------------------
+// ---------------------- FUNZIONI GENERICHE -------------------------------------
+// -------------------------------------------------------------------------------
+
+
+// controllo se posso abilitare il bottone di submit
+function checkSubmit() {
+
+    // all'inizio per default i campi sono giusti
+    checkResult = true;
+
+    // ciclo di controllo campi tramite checkArray
+    checkArray.forEach(element => {
+        if(!element) {       // se un campo è sbagliato imposto il risultato false
+            checkResult = false;
+            return
+        }
+    });
+    // se i campi di controllo sono tutti true abilito il bottone di submit
+    if(checkResult) {
+        // abilito il bottone di submit
+        btn_submit_ticket.removeAttribute("disabled"); 
+
+    } else {
+        // disabilito il bottone di submit
+        btn_submit_ticket.setAttribute("disabled", "disabled"); 
+    }
+
+    return checkResult;
+
+}
+
+// invio dei dati per la creazione del nuovo ticket
+function send_data_add_ticket(data) {
+    $.ajax({
+        url: HOSTNAME + '/assets/php/issues/Ticket.php',
+        method: 'POST',
+        data: data,
+        dataType: "text",
+        success: function( data, textStatus, jQxhr ){
+            try {
+                //console.log(data);
+                //console.log(JSON.parse(data));
+                data = JSON.parse(data);
+                
+                // scrivo il messaggio che mi è stato restituito all'utente
+                let label = document.getElementById("submit_result");
+                
+        
+                // in base al tipo di messaggio imposto i colori
+                if(data.result) {
+                
+                    label.style.color = correct_data;
+                    label.innerHTML = data.description + '<i class="far fa-check-circle"></i>';
+                
+        
+                } else {
+                    label.style.color = error_data;
+                    label.innerHTML = /*"<h1>" + */data.description + '<i class="far fa-exclamation-triangle"></i>';
+                }
+    
+
+            } catch(err) {
+
+                let label = document.getElementById("submit_result");
+                label.style.color = error_data;
+                label.innerHTML = /*"<h1>" + */"Errore durante l'invio dei dati, riprovare più tardi oppure contattare l'assistenza" + '<i class="far fa-exclamation-triangle"></i>';
+                console.error("ERRORE DURANTE L'INVIO DEI DATI DEL TICKET");
+                console.error(err);
+            }
+    
+    
+        },
+        error: function (request, status, error) {
+            label.style.color = error_data;
+            label.innerHTML = /*"<h1>" + */request.responseText + '<i class="far fa-exclamation-triangle"></i>';
+            console.error("ERRORE: " + request.responseText + "\nStatus: " + status + "\nError: " + error);
+        }
+      
+      });					
+  
+}
+
+// restituisco le classi come oggetto
+function get_classrooms(data) {
+    $.ajax({
+      url: HOSTNAME + '/reserved/dashboard/assets/php/Dashboard.php',
+      method: 'POST',
+      data: data,
+      dataType: "text",
+      success: function( data, textStatus, jQxhr ){
+        //console.log(data);
+        //console.log(JSON.parse(data));
+        CLASSROOMS = JSON.parse(data);
+  
+      }
+      });
+  
+}
+
+
+// funzione per inviare i dati tramite ajax 
+function get_macroaree(data) {
+    $.ajax({
+      url: HOSTNAME + '/reserved/dashboard/assets/php/Dashboard.php',
+      method: 'POST',
+      data: data,
+      dataType: "text",
+      success: function( data, textStatus, jQxhr ){
+        //console.log(data);
+        //console.log(JSON.parse(data));
+        MACROAREE = JSON.parse(data);
+  
+      }
+      });					
+}
+
+// ----------------------------------------------------------------
+// ----------------------- EVENTI --------------------------------- 
+// ----------------------------------------------------------------
+
+btn_submit_ticket.addEventListener("click", () => {
+
+    // se posso avviare il submit
+    if(checkSubmit()) {
+
+        let data =  {   
+                        "Submit": "Insert", 
+                        "Name": input_name_ticket.value.replace(/(<([^>]+)>)/gi, ""), 
+                        "Description": input_description_ticket.value.replace(/(<([^>]+)>)/gi, ""), 
+                        "Photo": null,
+                        "Classroom": input_classroom_ticket.value.replace(/(<([^>]+)>)/gi, ""),
+                        "IdMacroarea": input_macroaree_ticket.value.replace(/(<([^>]+)>)/gi, "")
+                    };
+
+        // richiamo la funzione per l'invio 
+        send_data_add_ticket(data);
+
+    }
+
+})
+
+// quando viene tolto il focus dalla descrizione del ticket avviene il controllo che non sia vuota
+input_description_ticket.addEventListener("input", () => {
+    console.debug("Input description");
+
+    // controllo che sia diverso da una stringa vuota dopo aver rimosso gli spazi
+    if(input_description_ticket.value.trim() == "") {
+
+        console.log("Devi inserire un nome per il ticket");
+        // imposto i colori di errore
+        input_description_ticket.style.borderColor = error_data;
+        input_description_ticket.style.backgroundColor = error_background;
+        
+        // controllo se posso abilitare il bottone di submit
+        checkArray[1] = false;
+        checkSubmit(); 
+
+    } else {
+        console.log("Hai inserito un nome per il ticket");
+        // imposto i colori correct
+        input_description_ticket.style.borderColor = correct_data;
+        input_description_ticket.style.backgroundColor = correct_background;
+
+        // controllo se posso abilitare il bottone di submit
+        checkArray[1] = true;
+        checkSubmit(); 
+    }
+    
+})
+
 // EVENTI
 // quando il documento viene creato inizializzo le classi e le macroaree
 $(document).ready(() => {
-    console.log("pagina caricata");
+    // DEBUG: console.log("pagina caricata");
+
     // recupero le classi attraverso una chiamata ajax
     // creo la variabile data da passare per ricevere le classi
     let data = {
@@ -164,168 +339,3 @@ input_name_ticket.addEventListener("input", () => {
     }
     
 })
-
-
-// quando viene tolto il focus dalla descrizione del ticket avviene il controllo che non sia vuota
-input_description_ticket.addEventListener("input", () => {
-    console.debug("Input description");
-
-    // controllo che sia diverso da una stringa vuota dopo aver rimosso gli spazi
-    if(input_description_ticket.value.trim() == "") {
-
-        console.log("Devi inserire un nome per il ticket");
-        // imposto i colori di errore
-        input_description_ticket.style.borderColor = error_data;
-        input_description_ticket.style.backgroundColor = error_background;
-        
-        // controllo se posso abilitare il bottone di submit
-        checkArray[1] = false;
-        checkSubmit(); 
-
-    } else {
-        console.log("Hai inserito un nome per il ticket");
-        // imposto i colori correct
-        input_description_ticket.style.borderColor = correct_data;
-        input_description_ticket.style.backgroundColor = correct_background;
-
-        // controllo se posso abilitare il bottone di submit
-        checkArray[1] = true;
-        checkSubmit(); 
-    }
-    
-})
-
-
-// FUNCTIONs
-// controllo se posso abilitare il bottone di submit
-function checkSubmit() {
-
-    // all'inizio per default i campi sono giusti
-    checkResult = true;
-
-    // ciclo di controllo campi tramite checkArray
-    checkArray.forEach(element => {
-        if(!element) {       // se un campo è sbagliato imposto il risultato false
-            checkResult = false;
-            return
-        }
-    });
-    // se i campi di controllo sono tutti true abilito il bottone di submit
-    if(checkResult) {
-        // abilito il bottone di submit
-        btn_submit_ticket.removeAttribute("disabled"); 
-
-    } else {
-        // disabilito il bottone di submit
-        btn_submit_ticket.setAttribute("disabled", "disabled"); 
-    }
-
-    return checkResult;
-
-}
-
-btn_submit_ticket.addEventListener("click", () => {
-
-    // se posso avviare il submit
-    if(checkSubmit()) {
-
-        let data =  {   
-                        "Submit": "Insert", 
-                        "Name": input_name_ticket.value.replace(/(<([^>]+)>)/gi, ""), 
-                        "Description": input_description_ticket.value.replace(/(<([^>]+)>)/gi, ""), 
-                        "Photo": null,
-                        "Classroom": input_classroom_ticket.value.replace(/(<([^>]+)>)/gi, ""),
-                        "IdMacroarea": input_macroaree_ticket.value.replace(/(<([^>]+)>)/gi, "")
-                    };
-
-        // richiamo la funzione per l'invio 
-        send_data_add_ticket(data);
-
-    }
-
-})
-
-// invio dei dati per la creazione del nuovo ticket
-function send_data_add_ticket(data) {
-    $.ajax({
-        url: HOSTNAME + '/assets/php/issues/Ticket.php',
-        method: 'POST',
-        data: data,
-        dataType: "text",
-        success: function( data, textStatus, jQxhr ){
-            try {
-                //console.log(data);
-                //console.log(JSON.parse(data));
-                data = JSON.parse(data);
-                
-                // scrivo il messaggio che mi è stato restituito all'utente
-                let label = document.getElementById("submit_result");
-                
-        
-                // in base al tipo di messaggio imposto i colori
-                if(data.result) {
-                
-                    label.style.color = correct_data;
-                    label.innerHTML = data.description + '<i class="far fa-check-circle"></i>';
-                
-        
-                } else {
-                    label.style.color = error_data;
-                    label.innerHTML = /*"<h1>" + */data.description + '<i class="far fa-exclamation-triangle"></i>';
-                }
-    
-
-            } catch(err) {
-
-                let label = document.getElementById("submit_result");
-                label.style.color = error_data;
-                label.innerHTML = /*"<h1>" + */"Errore durante l'invio dei dati, riprovare più tardi oppure contattare l'assistenza" + '<i class="far fa-exclamation-triangle"></i>';
-                console.error("ERRORE DURANTE L'INVIO DEI DATI DEL TICKET");
-                console.error(err);
-            }
-    
-    
-        },
-        error: function (request, status, error) {
-            label.style.color = error_data;
-            label.innerHTML = /*"<h1>" + */request.responseText + '<i class="far fa-exclamation-triangle"></i>';
-            console.error("ERRORE: " + request.responseText + "\nStatus: " + status + "\nError: " + error);
-        }
-      
-      });					
-  
-}
-
-// restituisco le classi come oggetto
-function get_classrooms(data) {
-    $.ajax({
-      url: HOSTNAME + '/reserved/dashboard/assets/php/Dashboard.php',
-      method: 'POST',
-      data: data,
-      dataType: "text",
-      success: function( data, textStatus, jQxhr ){
-        //console.log(data);
-        //console.log(JSON.parse(data));
-        CLASSROOMS = JSON.parse(data);
-  
-      }
-      });
-  
-}
-
-
-// funzione per inviare i dati tramite ajax 
-function get_macroaree(data) {
-    $.ajax({
-      url: HOSTNAME + '/reserved/dashboard/assets/php/Dashboard.php',
-      method: 'POST',
-      data: data,
-      dataType: "text",
-      success: function( data, textStatus, jQxhr ){
-        //console.log(data);
-        //console.log(JSON.parse(data));
-        MACROAREE = JSON.parse(data);
-  
-      }
-      });					
-}
