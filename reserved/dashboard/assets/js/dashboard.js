@@ -40,6 +40,13 @@ var dynamic_page_box = document.getElementById("dynamic-page");
 // ---------------------- FUNZIONI GENERICHE -------------------------------------
 // -------------------------------------------------------------------------------
 
+// funzione che viene richiamata all'inizio
+function init() {
+
+	
+
+}
+
 // in base ai permessi ottenuti creo il menù della dashboard
 function createMenu() {
 
