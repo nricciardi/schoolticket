@@ -77,10 +77,10 @@ function createRecordUser(user) {   //User è un oggetto contenente le informazi
 
     // inserisco i bottoni per le diverse azioni
     record += '<td> <div class="table-data-feature">';
-    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Send" id="send' + user.IdUtente + '" onclick="sendUser(' + user.IdUtente + ')">    <i class="zmdi zmdi-mail-send"></i> </button>';        // tasto SEND
-    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Edit" id="edit' + user.IdUtente + '" onclick="editUser(' + user.IdUtente + ')">    <i class="zmdi zmdi-edit"></i>  </button>';            // tasto EDIT
-    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Delete" id="delete' + user.IdUtente + '" onclick="deleteUser(' + user.IdUtente + ')">  <i class="zmdi zmdi-delete"></i>    </button>';    // tasto DELETE                                    
-    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="More" id="more' + user.IdUtente + '" onclick="moreUser(' + user.IdUtente + ')">    <i class="zmdi zmdi-more"></i>  </button>';       // tasto MORE       
+    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Send" id="send' + user.IdUtente + '" onclick="requestActionUser(\'send\', ' + user.IdUtente + ')">    <i class="zmdi zmdi-mail-send"></i> </button>';        // tasto SEND
+    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Edit" id="edit' + user.IdUtente + '" onclick="requestActionUser(\'edit\', ' + user.IdUtente + ')">    <i class="zmdi zmdi-edit"></i>  </button>';            // tasto EDIT
+    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Delete" id="delete' + user.IdUtente + '" onclick="requestActionUser(\'delete\', ' + user.IdUtente + ')">  <i class="zmdi zmdi-delete"></i>    </button>';    // tasto DELETE                                    
+    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="More" id="more' + user.IdUtente + '" onclick="requestActionUser(\'more\', ' + user.IdUtente + ')">    <i class="zmdi zmdi-more"></i>  </button>';       // tasto MORE       
     record += '</div>   </td>   </tr>';
 
     // inserisco il record di spaziatura
@@ -89,6 +89,83 @@ function createRecordUser(user) {   //User è un oggetto contenente le informazi
 
     // restituisco la stringa
     return record;
+}
+
+// funzione che crea un box per la conferma prima di eseguire effettivamente "send", "edit", "delete" o "more"
+function requestActionUser(type, ID) {      // passo il tipo di richiesta che viene chiesta 
+    switch (type) {
+        case "send":
+            
+            break;
+    
+        case "edit":
+            
+            break;
+
+        case "delete":
+            // creo il form per la conferma
+            form_html = createRequestAction(type, ID);
+
+            div_management_users.innerHTML = form_html;
+
+            break;
+        case "more":
+    
+            break;
+
+        default:
+            break;
+    }
+}
+
+// crea il codice HTML per la richiesta da aggiungere sopra il bottone cliccato
+function createRequestAction(type, ID) {
+    
+    let question = "Sei sicuro ";
+
+    // 
+    switch (type) {
+        case "send":
+            question += "di voler inviare i dati?";
+            break;
+        
+        case "edit":
+            question += "di voler modificare i dati?";
+            break;
+        
+        case "delete":
+            question += "di voler eliminare i dati?";
+            break;
+        
+        case "more":
+            question += "di voler inviare i dati?";
+            break;
+
+        default:
+            break;
+    }
+
+    // variabile da restituire
+    let request = "";
+
+    // inserisco il form dimanico
+    request +=                              // !!!!!!!!!!!!!!!!!!!!! sistemare perché non funzionante
+    '<div class="card" style="width: 20vw;">' + 
+        '<div class="card-header">' + 
+            '<strong>' + question + '</strong>' +
+        '</div>' + 
+        '<div class="card-footer">' +
+            '<button type="button" class="btn btn-primary btn-sm" onclick="' + type + 'User(' + ID + ')">' +   // aggiungo l'onclick per effettuare correttamente l'azione
+                '<i class="far fa-check-circle"></i> Conferma' +
+            '</button>' + 
+            '<button type="button" class="btn btn-danger btn-sm" style="margin-left: 1vw;">' + 
+                '<!--<i class="fas fa-minus-circle"></i>--> Annulla' + 
+            '</button>' +
+        '</div>' +
+    '</div>';
+
+    // restituisco il form creato
+    return request;
 }
 
 // richiama gli utenti dal database tramite chiamata AJAX e successivamente crea la tabella
