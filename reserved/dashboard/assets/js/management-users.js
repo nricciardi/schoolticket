@@ -8,6 +8,9 @@ var body_table_users = document.getElementById("body_table_users");
 // checkbox generale della tabella
 var general_checkbox = document.getElementById("general_checkbox");
 
+// button per l'aggiunta del form per l'aggiunta del nuovo utente
+var form_add_user = document.getElementById("formAddUser");
+ 
 /*
 <tr class="tr-shadow">
     <td>
@@ -266,6 +269,11 @@ function deleteUser(ID) {   // può anche essere passato un array
 
 }
 
+// aggiungo il nuovo utente attraverso le informazioni inserite nel form
+function addUser() {
+    console.debug("Funzione da implementare");
+}
+
 // imposta tutti i checkbox dei record della tabella utenti con la modalità passata
 function setCheckboxRecordUser(mode) {
     
@@ -286,38 +294,44 @@ function createFormNewUser() {
     // inserisco la parte del CHECKBOX del record (tr)
     record += '<tr class="tr-shadow">'; // inserisco il tag di apertura
 
-    record += '<td>';       // creo il primo campo
+/*    record += '<td>';       // creo il primo campo
     record += '<label class="au-checkbox">';
     record += '<input type="checkbox" name="checkRecord[]" value="' + user.IdUtente + '" id="checkbox' + user.IdUtent + '">';    // inserisco il checkbox con valore l'ID dell'utente
     record += '<span class="au-checkmark"></span>';
     record += '</label>'; 
-    record += '</td>';
+    record += '</td>';*/
 
     // inserisco l'ID
     // Predisposizione IdUtente: record += '<td>' + user.IdUtente + '</td>';
     
     // inserisco il COGNOME
-    record += '<td>' + user.Cognome + '</td>';
+    record += '<td>' + 
+    '<input type="text" placeholder="Cognome" class="form-control" id="newSurname">' + 
+    '</td>';
     
     // inserisco il NOME
-    record += '<td>' + user.Nome + '</td>';
+    record += '<td>' + 
+    '<input type="text" placeholder="Nome" class="form-control" id="newName">' + 
+    '</td>';
     
     // inserisco l'EMAIL
-    record += '<td><span class="block-email">' + user.Email + '</span></td>';
-    
+    record += '<td>' + 
+    '<input type="text" placeholder="Email" class="form-control" id="newEmail">' + 
+    '</td>';
+    /*
     // inserisco la CATEGORIA
-    record += '<td>' + user.IdCategoria + '</td>';
+    record += '<td>' + user.IdCategoria + '</td>';      // !!!!!!!!! implementare pull-down
 
     // inserisco i PERMESSI
-    record += '<td>' + user.IdPermessi + '</td>';
-
+    record += '<td>' + user.IdPermessi + '</td>';       // !!!!!!!!! implementare pull-down
+*/
     // inserisco i bottoni per le diverse azioni
-    record += '<td> <div class="table-data-feature">';
-    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Send" id="send' + user.IdUtente + '" onclick="requestActionUser(\'send\', ' + user.IdUtente + ')">    <i class="zmdi zmdi-mail-send"></i> </button>';        // tasto SEND
-    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Edit" id="edit' + user.IdUtente + '" onclick="requestActionUser(\'edit\', ' + user.IdUtente + ')">    <i class="zmdi zmdi-edit"></i>  </button>';            // tasto EDIT
-    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Delete" id="delete' + user.IdUtente + '" onclick="requestActionUser(\'delete\', ' + user.IdUtente + ')">  <i class="zmdi zmdi-delete"></i>    </button>';    // tasto DELETE                                    
-    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="More" id="more' + user.IdUtente + '" onclick="requestActionUser(\'more\', ' + user.IdUtente + ')">    <i class="zmdi zmdi-more"></i>  </button>';       // tasto MORE       
-    record += '</div>   </td>   </tr>';
+    record += '<button type="button" class="btn btn-primary btn-sm" onclick="addUser()" style="margin-left: 0.5vw; border-radius: 15%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
+        '<i class="far fa-check-circle"></i> Conferma' +
+    '</button>' + 
+    '<button type="button" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 15%">' + 
+        '<!--<i class="fas fa-minus-circle"></i>--> Annulla' + 
+    '</button>';
 
     // inserisco il record di spaziatura
     record += '<tr class="spacer"></tr>'
@@ -338,4 +352,15 @@ general_checkbox.addEventListener("change", () => {
     // controllo lo stato del bottone e richiamo la funzione con il valore del checkbox giusta
     setCheckboxRecordUser(general_checkbox.checked);
     
+});
+
+// aggiungo il form per l'aggiunta di un nuovo utente
+form_add_user.addEventListener("click", () => {
+
+    console.log("Aggiunto il form");
+
+    // aggiungo il form all'inzio del codice già esistente
+    let actual_body = body_table_users.innerHTML
+    body_table_users.innerHTML = createFormNewUser() + actual_body; 
+
 });
