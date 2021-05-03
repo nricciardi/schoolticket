@@ -149,20 +149,14 @@ function createRequestAction(type, ID) {
     let request = "";
 
     // inserisco il form dimanico
-    request +=                              // !!!!!!!!!!!!!!!!!!!!! sistemare perché non funzionante
-    '<div class="card" style="width: 20vw;">' + 
-        '<div class="card-header">' + 
-            '<strong>' + question + '</strong>' +
-        '</div>' + 
-        '<div class="card-footer">' +
-            '<button type="button" class="btn btn-primary btn-sm" onclick="' + type + 'User(' + ID + ')">' +   // aggiungo l'onclick per effettuare correttamente l'azione
-                '<i class="far fa-check-circle"></i> Conferma' +
-            '</button>' + 
-            '<button type="button" class="btn btn-danger btn-sm" style="margin-left: 1vw;">' + 
-                '<!--<i class="fas fa-minus-circle"></i>--> Annulla' + 
-            '</button>' +
-        '</div>' +
-    '</div>';
+    request +=
+        '<strong>' + question + '</strong>' +
+        '<button type="button" class="btn btn-primary btn-sm" onclick="' + type + 'User(' + ID + ')" style="margin-left: 0.5vw; border-radius: 25%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
+            '<i class="far fa-check-circle"></i> Sì' +
+        '</button>' + 
+        '<button type="button" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 25%">' + 
+            '<!--<i class="fas fa-minus-circle"></i>--> Annulla' + 
+        '</button>';
 
     // restituisco il form creato
     return request;

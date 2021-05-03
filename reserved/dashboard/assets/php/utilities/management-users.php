@@ -108,7 +108,7 @@
                             <span class="status--process">Processed</span>
                         </td>
                         <td>$999.00</td>
-                        <td>
+                        <td id="p">
                             <div class="table-data-feature">
                                 <button class="item" data-toggle="tooltip" data-placement="top" title="Send">
                                     <i class="zmdi zmdi-mail-send"></i>
