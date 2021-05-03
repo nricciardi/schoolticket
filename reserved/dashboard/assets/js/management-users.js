@@ -5,6 +5,9 @@
 // tbody della tabella utenti
 var body_table_users = document.getElementById("body_table_users");
 
+// checkbox generale della tabella
+var general_checkbox = document.getElementById("general_checkbox");
+
 /*
 <tr class="tr-shadow">
     <td>
@@ -57,7 +60,7 @@ function createRecordUser(user) {   //User è un oggetto contenente le informazi
 
     record += '<td>';       // creo il primo campo
     record += '<label class="au-checkbox">';
-    record += '<input type="checkbox" name="checkRecord[]" value="' + user.IdUtente + '">';    // inserisco il checkbox con valore l'ID dell'utente
+    record += '<input type="checkbox" name="checkRecord[]" value="' + user.IdUtente + '" id="checkbox' + user.IdUtent + '">';    // inserisco il checkbox con valore l'ID dell'utente
     record += '<span class="au-checkmark"></span>';
     record += '</label>    </td>';
 
@@ -155,10 +158,10 @@ function createRequestAction(type, ID) {
     // inserisco il form dimanico
     request +=
         '<strong>' + question + '</strong>' +
-        '<button type="button" class="btn btn-primary btn-sm" onclick="' + type + 'User(' + ID + ')" style="margin-left: 0.5vw; border-radius: 25%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
+        '<button type="button" class="btn btn-primary btn-sm" onclick="' + type + 'User(' + ID + ')" style="margin-left: 0.5vw; border-radius: 15%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
             '<i class="far fa-check-circle"></i> Sì' +
         '</button>' + 
-        '<button type="button" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 25%">' + 
+        '<button type="button" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 15%">' + 
             '<!--<i class="fas fa-minus-circle"></i>--> Annulla' + 
         '</button>';
 
@@ -263,7 +266,76 @@ function deleteUser(ID) {   // può anche essere passato un array
 
 }
 
+// imposta tutti i checkbox dei record della tabella utenti con la modalità passata
+function setCheckboxRecordUser(mode) {
+    
+    // per ogni id checkboxN, imposto su true il checked
+    for (let index = 0; index < body_table_users.childElementCount; index += 2) {
+        
+        // tramite il body della tabella, richiamo i suoi elementi figli e recupero l'input checkbox impostandolo con mode
+        body_table_users.children.item(index).getElementsByTagName("input")[0].checked = mode;
+    }       
+}
+
+// crea il codice HTML del form da inserire in formato record per creare un nuovo utente
+function createFormNewUser() {
+    
+    // record che sarà restituito
+    let record = "";
+
+    // inserisco la parte del CHECKBOX del record (tr)
+    record += '<tr class="tr-shadow">'; // inserisco il tag di apertura
+
+    record += '<td>';       // creo il primo campo
+    record += '<label class="au-checkbox">';
+    record += '<input type="checkbox" name="checkRecord[]" value="' + user.IdUtente + '" id="checkbox' + user.IdUtent + '">';    // inserisco il checkbox con valore l'ID dell'utente
+    record += '<span class="au-checkmark"></span>';
+    record += '</label>'; 
+    record += '</td>';
+
+    // inserisco l'ID
+    // Predisposizione IdUtente: record += '<td>' + user.IdUtente + '</td>';
+    
+    // inserisco il COGNOME
+    record += '<td>' + user.Cognome + '</td>';
+    
+    // inserisco il NOME
+    record += '<td>' + user.Nome + '</td>';
+    
+    // inserisco l'EMAIL
+    record += '<td><span class="block-email">' + user.Email + '</span></td>';
+    
+    // inserisco la CATEGORIA
+    record += '<td>' + user.IdCategoria + '</td>';
+
+    // inserisco i PERMESSI
+    record += '<td>' + user.IdPermessi + '</td>';
+
+    // inserisco i bottoni per le diverse azioni
+    record += '<td> <div class="table-data-feature">';
+    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Send" id="send' + user.IdUtente + '" onclick="requestActionUser(\'send\', ' + user.IdUtente + ')">    <i class="zmdi zmdi-mail-send"></i> </button>';        // tasto SEND
+    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Edit" id="edit' + user.IdUtente + '" onclick="requestActionUser(\'edit\', ' + user.IdUtente + ')">    <i class="zmdi zmdi-edit"></i>  </button>';            // tasto EDIT
+    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Delete" id="delete' + user.IdUtente + '" onclick="requestActionUser(\'delete\', ' + user.IdUtente + ')">  <i class="zmdi zmdi-delete"></i>    </button>';    // tasto DELETE                                    
+    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="More" id="more' + user.IdUtente + '" onclick="requestActionUser(\'more\', ' + user.IdUtente + ')">    <i class="zmdi zmdi-more"></i>  </button>';       // tasto MORE       
+    record += '</div>   </td>   </tr>';
+
+    // inserisco il record di spaziatura
+    record += '<tr class="spacer"></tr>'
+
+
+    // restituisco la stringa
+    return record;
+
+}
 
 // ----------------------------------------------------------------
 // ----------------------- EVENTI --------------------------------- 
 // ----------------------------------------------------------------
+
+// al click del checkbox generale, verifico il suo stato e modifico tutti quelli presenti di conseguenza
+general_checkbox.addEventListener("change", () => {
+    
+    // controllo lo stato del bottone e richiamo la funzione con il valore del checkbox giusta
+    setCheckboxRecordUser(general_checkbox.checked);
+    
+});

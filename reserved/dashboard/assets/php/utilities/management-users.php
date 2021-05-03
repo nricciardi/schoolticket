@@ -42,7 +42,7 @@
                     <tr>
                         <th>
                             <label class="au-checkbox">
-                                <input type="checkbox">
+                                <input type="checkbox" id="general_checkbox">
                                 <span class="au-checkmark"></span>
                             </label>
                         </th>

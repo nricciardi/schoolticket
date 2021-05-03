@@ -10,7 +10,7 @@
                             <i class="fas fa-ticket-alt"></i>
                         </div>
                         <input type="text" id="name" name="Name" placeholder="Nome Ticket" class="form-control">
-                        <input type="text" name="conta" value="0" id="conta_name" readonly>       
+                        <input type="text" name="conta" value="0" id="conta_name" style="display: none;" readonly>       
                     </div>
                 </div>
                 <div class="form-group">
@@ -19,7 +19,7 @@
                             <i class="fas fa-edit"></i>
                         </div>
                         <textarea id="description" name="Description" rows="4" cols="50" class="form-control" placeholder="Descrizione" ></textarea>
-                        <input type="text" name="conta" value="0" id="conta_description" readonly>
+                        <input type="text" name="conta" value="0" id="conta_description" style="display: none;" readonly>
                     </div>
                 </div>
                 <div class="form-group">

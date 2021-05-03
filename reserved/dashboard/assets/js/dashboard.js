@@ -67,6 +67,7 @@ function init() {
     // recupero le classi attraverso una chiamata ajax
 	get_classrooms();
 	
+
     // recupero le classi attraverso una chiamata ajax
     get_macroaree();
 
@@ -193,6 +194,11 @@ function setNewTicketNumber()
 
 // al click del add ticket viene mostrato il form
 btn_add_ticket.addEventListener("click", () => {
+
+    // aggiungo le categorie e le macroaree al form
+    addMacroaree();
+    addCategorie();
+
     // nascondo tutti i form 
     hideAllDynamicPage(); 
     // mostro il form selezionato

@@ -132,7 +132,7 @@ function addMacroaree() {
 
     // per ogni macroarea creo un option e la aggiungo alla select-box
     if(MACROAREE !== null) {
-        MACROAREE.forEach(element => {
+        MACROAREE.result.forEach(element => {
             //console.log(element);
             // creo l'elemento option
             let option = document.createElement("option");
