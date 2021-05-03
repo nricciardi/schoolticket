@@ -2,6 +2,12 @@
 // ----------------------- VARIABILI ------------------------------
 // ----------------------------------------------------------------
 
+// variabile contenente le classi
+var CLASSROOMS = null;
+
+// variabile contenente le macroaree
+var MACROAREE = null;
+
 // - Dato errato
 var error_data = "#ff5757";
 var error_background = "#ffeded";
@@ -93,6 +99,40 @@ function hideAllDynamicPage() {
 	// DEBUG:
 	div_management_users.style.display = "";
 
+}
+
+// restituisco le classi come oggetto
+function get_classrooms(data) {
+    $.ajax({
+      url: HOSTNAME + '/reserved/dashboard/assets/php/Dashboard.php',
+      method: 'POST',
+      data: data,
+      dataType: "text",
+      success: function( data, textStatus, jQxhr ){
+        //console.log(data);
+        //console.log(JSON.parse(data));
+        CLASSROOMS = JSON.parse(data).result;
+  
+      }
+      });
+  
+}
+
+
+// funzione per inviare i dati tramite ajax 
+function get_macroaree(data) {
+    $.ajax({
+      url: HOSTNAME + '/reserved/dashboard/assets/php/Dashboard.php',
+      method: 'POST',
+      data: data,
+      dataType: "text",
+      success: function( data, textStatus, jQxhr ){
+        //console.log(data);
+        //console.log(JSON.parse(data));
+        MACROAREE = JSON.parse(data).result;
+  
+      }
+      });					
 }
 
 // restituisce il numero di ticket non visualizzati

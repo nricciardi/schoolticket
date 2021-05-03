@@ -37,11 +37,6 @@ var input_macroaree_ticket = document.getElementById("macroaree");
 // paragrafo per il feedback utente
 var submit_result = document.getElementById("submit_result");
 
-// variabile contenente le classi
-var CLASSROOMS = null;
-
-// variabile contenente le macroaree
-var MACROAREE = null;
 
 
 // -------------------------------------------------------------------------------
@@ -127,39 +122,6 @@ function send_data_add_ticket(data) {
   
 }
 
-// restituisco le classi come oggetto
-function get_classrooms(data) {
-    $.ajax({
-      url: HOSTNAME + '/reserved/dashboard/assets/php/Dashboard.php',
-      method: 'POST',
-      data: data,
-      dataType: "text",
-      success: function( data, textStatus, jQxhr ){
-        //console.log(data);
-        //console.log(JSON.parse(data));
-        CLASSROOMS = JSON.parse(data);
-  
-      }
-      });
-  
-}
-
-
-// funzione per inviare i dati tramite ajax 
-function get_macroaree(data) {
-    $.ajax({
-      url: HOSTNAME + '/reserved/dashboard/assets/php/Dashboard.php',
-      method: 'POST',
-      data: data,
-      dataType: "text",
-      success: function( data, textStatus, jQxhr ){
-        //console.log(data);
-        //console.log(JSON.parse(data));
-        MACROAREE = JSON.parse(data);
-  
-      }
-      });					
-}
 
 // ----------------------------------------------------------------
 // ----------------------- EVENTI --------------------------------- 
@@ -223,7 +185,7 @@ $(document).ready(() => {
     // recupero le classi attraverso una chiamata ajax
     // creo la variabile data da passare per ricevere le classi
     let data = {
-        "Submit": "GetClassrooms"
+        "Submit": "getClassrooms"
     }
     get_classrooms(data);
 
@@ -231,7 +193,7 @@ $(document).ready(() => {
 
     // creo la variabile data da passare per ricevere le macroaree
     data = {
-        "Submit": "GetMacroaree"
+        "Submit": "getMacroaree"
     }
 
     // recupero le classi attraverso una chiamata ajax

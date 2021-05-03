@@ -28,7 +28,7 @@ class Dashboard
         }
     }
 
-    public function GetClassrooms()         // funzione per recuperare le aule dal db
+    public function getClassrooms()         // funzione per recuperare le aule dal db
     {
         $tabName = "aula";
         $query = "SELECT * FROM schoolticket.".$tabName;
@@ -50,7 +50,7 @@ class Dashboard
         return $r;
     }
 
-    public function GetMacroaree()         // funzione per recuperare le aule dal db
+    public function getMacroaree()         // funzione per recuperare le aule dal db
     {
         $tabName = "macroarea";
         $query = "SELECT * FROM schoolticket.".$tabName;
@@ -74,14 +74,14 @@ class Dashboard
 }
 
 $dashboard = new Dashboard("localhost","schoolticket","root","");
-if(isset($_POST["Submit"]) && $_POST["Submit"] == "GetClassrooms")
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "getClassrooms")
 {
-    echo $dashboard->GetClassrooms();
+    echo $dashboard->getClassrooms();
 }
 
-if(isset($_POST["Submit"]) && $_POST["Submit"] == "GetMacroaree")
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "getMacroaree")
 {
-    echo $dashboard->GetMacroaree();
+    echo $dashboard->getMacroaree();
 }
 
 
