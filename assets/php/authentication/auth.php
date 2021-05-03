@@ -78,13 +78,13 @@
 			else
 				return true;
 
-			$q = "SELECT * FROM user WHERE Email = :emailPl";
+			$q = "SELECT * FROM schoolticket.utente WHERE Email = :emailPl";
 			$st = $this->PDOconn->prepare($q);
 			$verify = $st->execute(['emailPl' => $email]);
 
 			if($verify != 1)
 			{
-				$q = "INSERT INTO user (Id, Nome, Cognome, Email, Psw) VALUES (:IdPl, :nomePl, :cognomePl, :emailPl, :pswPl)";
+				$q = "INSERT INTO schoolticket.utente (Id, Nome, Cognome, Email, Psw) VALUES (:IdPl, :nomePl, :cognomePl, :emailPl, :pswPl)";
 				$st = $this->PDOconn->prepare($q);
 				$st->execute([/*'IdPl' => $id,*/ 'nomePl' => $nome, 'cognomePl' => $cognome, 'emailPl' => $email, 'pswPl' => $psw]);
 				if($st->execute([/*'IdPl' => $id,*/ 'nomePl' => $nome, 'cognomePl' => $cognome, 'emailPl' => $email, 'pswPl' => $psw]))
@@ -97,27 +97,27 @@
 		}
 
 		public function delete($id){
-			$q = "DELETE FROM user WHERE ID = :idPl";
+			$q = "DELETE FROM schoolticket.utente WHERE IdUtente = :idPl";
 			$st = $this->PDOconn->prepare($q);
 			$st->execute(['idPl' => $id]);
 		}
 
 		public function show($id){
 			if($id == '*')
-				$q = "SELECT * FROM user";
+				$q = "SELECT * FROM schoolticket.utente";
 			else
-				$q = "SELECT * FROM user WHERE Id = :idPl";
+				$q = "SELECT * FROM schoolticket.utente WHERE IdUtente = :idPl";
 			$st = $this->PDOconn->prepare($q);
 			$st->execute(['idPl' => $id]);
 			while($record = $st->fetch())
 			{
-				echo "Id: " . $record['Id'] . "Nome: " .$record['Nome']. " Cognome: " .$record['Cognome']. "Email: " .$record['Email'] . "Psw: " .$record['Psw'] . "<br>";
+				echo "Id: " . $record['Id'] . "Nome: " .$record['Nome']. " Cognome: " .$record['Cognome']. "Email: " .$record['Email'] . "Password: " .$record['Psw'] . "<br>";
 			}
 		}
 
 		public function login($email, $psw){
 			$verify = false;
-			$q = "SELECT * FROM user WHERE Email = :emailPl AND Psw = :pswPl";
+			$q = "SELECT * FROM schoolticket.utente WHERE Email = :emailPl AND Password = :pswPl";
 			$st = $this->PDOconn->prepare($q);
 			$st->execute(['emailPl' => $email, 'psswPl' => $psw]);
 			while($record = $st->fetch())
@@ -242,7 +242,7 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "registration"){
 }
 
 //DELETE:
-if(isset($_POST["Submit"]) && $_POST["Submit"] == "delete"){
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "delete"){		// !!!!!!!!!!!!! NON FUNZIONA
 	// verifico che sia stato passato anche l'id da eliminare
 	if(isset($_POST["Data"]))
  		$auth -> delete($_POST["Data"]);
@@ -251,8 +251,13 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "delete"){
 }
 
 //SHOW:
-if(isset($_POST["Submit"]) && $_POST["Submit"] == "show"){
- 	$auth -> show($id);//L'id va peso dalla sessione!!
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "show"){			// !!!!!!!!!!!!! NON FUNZIONA
+	$id = 1;		//L'id va peso dalla sessione!!
+	//$auth -> show($id);
+	
+	// DEBUG:
+	//echo '{"result":false, "description": "Errore"}';	
+	echo '{"result":[{"IdUtente": "1", "Cognome": "Rossi", "Nome": "Mario", "Email": "r@m.com", "Password": "asdfjòio324osfj3", "IdCategoria": "2", "IdPermessi": "4"}, {"IdUtente": "2", "Cognome": "Verdi", "Nome": "Franco", "Email": "v@f.com", "Password": "ytydf345435345", "IdCategoria": "6", "IdPermessi": "3"}, {"IdUtente": "3", "Cognome": "Neri", "Nome": "Gianni", "Email": "n@g.com", "Password": "5445sadf903os", "IdCategoria": "5", "IdPermessi": "9"}], "description": "Utenti restituiti con successo"}';
 }
 
 //LOGIN:

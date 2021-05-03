@@ -46,7 +46,7 @@
                                 <span class="au-checkmark"></span>
                             </label>
                         </th>
-                        <th>Id utente</th>
+                        <!-- Predisposizione IdUtente: <th>Id utente</th> --> 
                         <th>Cognome</th>
                         <th>Nome</th>
                         <th>Email</th>
@@ -55,8 +55,8 @@
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr class="tr-shadow">
+                <tbody id="body_table_users">
+                    <!--<tr class="tr-shadow">
                         <td>
                             <label class="au-checkbox">
                                 <input type="checkbox">
@@ -108,7 +108,7 @@
                             <span class="status--process">Processed</span>
                         </td>
                         <td>$999.00</td>
-                        <td id="p">
+                        <td>
                             <div class="table-data-feature">
                                 <button class="item" data-toggle="tooltip" data-placement="top" title="Send">
                                     <i class="zmdi zmdi-mail-send"></i>
@@ -194,7 +194,7 @@
                                 </button>
                             </div>
                         </td>
-                    </tr>
+                    </tr>-->
                 </tbody>
             </table>
         </div>

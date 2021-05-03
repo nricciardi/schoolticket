@@ -1,6 +1,10 @@
 // ----------------------------------------------------------------
 // ----------------------- VARIABILI ------------------------------
 // ----------------------------------------------------------------
+
+// tbody della tabella utenti
+var body_table_users = document.getElementById("body_table_users");
+
 /*
 <tr class="tr-shadow">
     <td>
@@ -58,7 +62,7 @@ function createRecordUser(user) {   //User è un oggetto contenente le informazi
     record += '</label>    </td>';
 
     // inserisco l'ID
-    record += '<td>' + user.IdUtente + '</td>';
+    // Predisposizione IdUtente: record += '<td>' + user.IdUtente + '</td>';
     
     // inserisco il COGNOME
     record += '<td>' + user.Cognome + '</td>';
@@ -184,9 +188,21 @@ function createTableUser() {
                 div_management_users.innerText = res.description;
                 div_management_users.style.color = error_data;
 
-            } else {
+            } else {    // in caso positivo creo la tabella per gli utenti
 
-                // in caso positivo creo la tabella per gli utenti
+                // recupero gli utenti passati da "result"
+                let users = res.result;
+
+                console.log(res.description);
+
+                // per ogni utente in users creo il codice HTML per il record
+                users.forEach((element) => {
+
+                    // aggiungo il record alla tabella
+                    body_table_users.innerHTML += createRecordUser(element);
+
+                });
+                
                 
             }
 
