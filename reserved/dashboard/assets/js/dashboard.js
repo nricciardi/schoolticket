@@ -64,6 +64,12 @@ function init() {
 	// nascondo tutte le pagine dimaniche presenti
 	hideAllDynamicPage();
 
+    // recupero le classi attraverso una chiamata ajax
+	get_classrooms();
+	
+    // recupero le classi attraverso una chiamata ajax
+    get_macroaree();
+
 }
 
 // in base ai permessi ottenuti creo il menù della dashboard
@@ -102,7 +108,13 @@ function hideAllDynamicPage() {
 }
 
 // restituisco le classi come oggetto
-function get_classrooms(data) {
+function get_classrooms() {
+
+	// creo la variabile data da passare per ricevere le classi
+	let data = {
+		"Submit": "getClassrooms"
+	}
+
     $.ajax({
       url: HOSTNAME + '/reserved/dashboard/assets/php/Dashboard.php',
       method: 'POST',
@@ -111,7 +123,7 @@ function get_classrooms(data) {
       success: function( data, textStatus, jQxhr ){
         //console.log(data);
         //console.log(JSON.parse(data));
-        CLASSROOMS = JSON.parse(data).result;
+        CLASSROOMS = JSON.parse(data);
   
       }
       });
@@ -120,7 +132,13 @@ function get_classrooms(data) {
 
 
 // funzione per inviare i dati tramite ajax 
-function get_macroaree(data) {
+function get_macroaree() {
+
+	// creo la variabile data da passare per ricevere le macroaree
+    data = {
+        "Submit": "getMacroaree"
+    }
+
     $.ajax({
       url: HOSTNAME + '/reserved/dashboard/assets/php/Dashboard.php',
       method: 'POST',
@@ -129,7 +147,7 @@ function get_macroaree(data) {
       success: function( data, textStatus, jQxhr ){
         //console.log(data);
         //console.log(JSON.parse(data));
-        MACROAREE = JSON.parse(data).result;
+        MACROAREE = JSON.parse(data);
   
       }
       });					
