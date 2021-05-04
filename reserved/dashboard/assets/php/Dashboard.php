@@ -73,7 +73,7 @@ class Dashboard
     }
 }
 
-$dashboard = new Dashboard("localhost","schoolticket","root","");
+$dashboard = new Dashboard(DATABASE_HOST, DATABASE_NAME, DATABASE_USERNAME, DATABASE_PASSWORD);
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "getClassrooms")
 {
     echo $dashboard->getClassrooms();
