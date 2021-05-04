@@ -5,12 +5,19 @@
 // tbody della tabella utenti
 var body_table_users = document.getElementById("body_table_users");
 
+// tfoot della tabella utenti
+var foot_table_users = document.getElementById("foot_table_users");
+
 // checkbox generale della tabella
 var general_checkbox = document.getElementById("general_checkbox");
 
 // button per l'aggiunta del form per l'aggiunta del nuovo utente
 var form_add_user = document.getElementById("formAddUser");
- 
+
+// bottone per il refresh della schermata
+var btn_refresh_management_user = document.getElementById("btn_refresh_management_user");
+
+
 /*
 <tr class="tr-shadow">
     <td>
@@ -80,10 +87,10 @@ function createRecordUser(user) {   //User è un oggetto contenente le informazi
     record += '<td><span class="block-email">' + user.Email + '</span></td>';
     
     // inserisco la CATEGORIA
-    record += '<td>' + user.IdCategoria + '</td>';
+    record += '<td>' + user.Categoria.Nome + '</td>';
 
     // inserisco i PERMESSI
-    record += '<td>' + user.IdPermessi + '</td>';
+    record += '<td>' + user.Permessi.Descrizione + '</td>';
 
     // inserisco i bottoni per le diverse azioni
     record += '<td> <div class="table-data-feature">';
@@ -161,10 +168,10 @@ function createRequestAction(type, ID) {
     // inserisco il form dimanico
     request +=
         '<strong>' + question + '</strong>' +
-        '<button type="button" class="btn btn-primary btn-sm" onclick="' + type + 'User(' + ID + ')" style="margin-left: 0.5vw; border-radius: 15%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
+        '<button type="button" class="btn btn-primary btn-sm" onclick="' + type + 'User(' + ID + ')" style="margin-left: 0.5vw; border-radius: 5%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
             '<i class="far fa-check-circle"></i> Sì' +
         '</button>' + 
-        '<button type="button" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 15%">' + 
+        '<button type="button" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%">' + 
             '<!--<i class="fas fa-minus-circle"></i>--> Annulla' + 
         '</button>';
 
@@ -178,6 +185,9 @@ function createTableUser() {
     // creo l'oggetto data da mandare in post
     let data = {"Submit": "show"};
 
+    // elimino gli elementi esistenti
+    body_table_users.innerHTML = "";
+
     // effettuo la chiamata
     $.ajax({
         url: HOSTNAME + "/assets/php/authentication/Authentication.php",
@@ -185,7 +195,6 @@ function createTableUser() {
         data: data,
         dataType: "json",
         success: (res) => {
-
             console.log(res);
             // verifico che la siano stati restituiti correttamente i dati
             if(res.result === false) {
@@ -214,6 +223,8 @@ function createTableUser() {
 
         },
         error: (res) => {
+
+            console.error("Errore durante la chiamata per la creazione della tabella, il server non risponde o il risultato non è in formato JSON");
 
             // in caso di errore stampo un messaggio nel box al posto della tabella
             div_management_users.innerText = "Errore durante la connessione con il server, riprovare più tardi o contattare l'assistenza.";
@@ -294,12 +305,13 @@ function createFormNewUser() {
     // inserisco la parte del CHECKBOX del record (tr)
     record += '<tr class="tr-shadow">'; // inserisco il tag di apertura
 
-/*    record += '<td>';       // creo il primo campo
-    record += '<label class="au-checkbox">';
-    record += '<input type="checkbox" name="checkRecord[]" value="' + user.IdUtente + '" id="checkbox' + user.IdUtent + '">';    // inserisco il checkbox con valore l'ID dell'utente
-    record += '<span class="au-checkmark"></span>';
-    record += '</label>'; 
-    record += '</td>';*/
+    record += '<td>';       // creo il primo campo
+    //record += '<label class="au-checkbox">';
+    //record += '<input type="checkbox" name="checkRecord[]" value="checkboxAddUser" id="checkboxAddUser" disabled>';    // inserisco il checkbox con valore l'ID dell'utente
+    //record += '<span class="au-checkmark"></span>';
+    //record += '</label>'; 
+    //record += '<i class="fas fa-user-plus"></i>';
+    record += '</td>';
 
     // inserisco l'ID
     // Predisposizione IdUtente: record += '<td>' + user.IdUtente + '</td>';
@@ -318,20 +330,25 @@ function createFormNewUser() {
     record += '<td>' + 
     '<input type="text" placeholder="Email" class="form-control" id="newEmail">' + 
     '</td>';
-    /*
+
+    
     // inserisco la CATEGORIA
-    record += '<td>' + user.IdCategoria + '</td>';      // !!!!!!!!! implementare pull-down
+    record += '<td>';
+    record += '<select name="select" class="form-control" id="categoria_add_user"></select>';
+    record += '</td>';
 
     // inserisco i PERMESSI
-    record += '<td>' + user.IdPermessi + '</td>';       // !!!!!!!!! implementare pull-down
-*/
+    record += '<td>';
+    record += '<select name="select" class="form-control" id="permessi_add_user"></select>';
+    record += '</td>';
+
     // inserisco i bottoni per le diverse azioni
-    record += '<button type="button" class="btn btn-primary btn-sm" onclick="addUser()" style="margin-left: 0.5vw; border-radius: 15%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
+    record += '<td><button type="button" class="btn btn-primary btn-sm" onclick="addUser()" style="margin-left: 0.5vw; border-radius: 5%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
         '<i class="far fa-check-circle"></i> Conferma' +
     '</button>' + 
-    '<button type="button" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 15%">' + 
+    '<button type="button" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%">' + 
         '<!--<i class="fas fa-minus-circle"></i>--> Annulla' + 
-    '</button>';
+    '</button></td>';
 
     // inserisco il record di spaziatura
     record += '<tr class="spacer"></tr>'
@@ -363,5 +380,34 @@ form_add_user.addEventListener("click", () => {
     let actual_body = body_table_users.innerHTML
     body_table_users.innerHTML = createFormNewUser() + actual_body; 
 
+    // richiamo le funzioni per aggiungere categorie e permessi
+    addCategorie(document.getElementById("categoria_add_user"), foot_table_users, 10);
+    addPermessi(document.getElementById("permessi_add_user"), foot_table_users, 10);
 });
 
+// ricarico la tabella riaggiungendola al click del bottone di refresh
+btn_refresh_management_user.addEventListener("click", () => {
+
+    
+
+    // disabilito il bottone per 3 secondi
+    
+    // creo la tabella
+    createTableUser();
+
+    // disabilito il bottone
+    btn_refresh_management_user.disabled = true;
+
+    // cambio il colore per dare un feedback
+    btn_refresh_management_user.color = "#ededed";
+
+    setTimeout(() => {
+        
+        // abilito il bottone
+        btn_refresh_management_user.disabled = false;
+
+        // cambio il colore per dare un feedback
+        btn_refresh_management_user.color = "#6C757D";
+
+    }, 3000);
+});

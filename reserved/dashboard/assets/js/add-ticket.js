@@ -22,8 +22,6 @@ var input_name_ticket = document.getElementById("name");
 // input descrizione ticket
 var input_description_ticket = document.getElementById("description");
 
-// input aula ticket
-var input_classroom_ticket = document.getElementById("classroom");
 
 // bottone per il submit quanto viene aggiunto un ticket
 var btn_submit_ticket = document.getElementById("submit");
@@ -31,8 +29,6 @@ var btn_submit_ticket = document.getElementById("submit");
 // variabile in cui sono contenuti i vari check per gli input
 var checkArray = Array(false, false)       // 0: Nome, 1: Descrizione
 
-// - input per la presa delle macroaree
-var input_macroaree_ticket = document.getElementById("macroaree");
 
 // paragrafo per il feedback utente
 var submit_result = document.getElementById("submit_result");
@@ -122,71 +118,7 @@ function send_data_add_ticket(data) {
   
 }
 
-// aggiungo le macroaree al form
-function addMacroaree() {
-    input_macroaree_ticket.innerHTML = "";
 
-    // recupero le classi attraverso una chiamata ajax
-    //console.log("macroaree: ");
-    //console.log(MACROAREE);
-
-    // per ogni macroarea creo un option e la aggiungo alla select-box
-    if(MACROAREE !== null) {
-        MACROAREE.result.forEach(element => {
-            //console.log(element);
-            // creo l'elemento option
-            let option = document.createElement("option");
-            // inserisco il value nell'option
-            option.value = element.IdMacroarea;
-            // inserisco il testo nell'option
-            let text = element.Nome;
-            if (element.Descrizione !== null)       // se è presente una descrizione la inserisco
-                text += " - " + element.Descrizione;
-            option.text = text;
-            // inserisco l'oggetto option
-            input_macroaree_ticket.appendChild(option);
-    
-        });
-    } else {
-        // errore
-        submit_result.style.color = error_data;
-        submit_result.innerHTML = "Errore nella richiesta delle macroaree, riprovare più tardi o contattare l'assistenza."
-
-    }
-}
-
-// aggiungo le categorie al form
-function addCategorie() {
-    input_classroom_ticket.innerHTML = "";
-
-    //classrooms = classrooms.responseText;
-    //console.log("classrooms: ");
-    //console.log(CLASSROOMS);
-
-    // per ogni classe creo un option e la aggiungo alla select-box
-    if(CLASSROOMS !== null) {
-        CLASSROOMS.result.forEach(element => {
-            //console.log(element);
-            // creo l'elemento option
-            let option = document.createElement("option");
-            // inserisco il value nell'option
-            option.value = element.IdAula;
-            // inserisco il testo nell'option
-            let text = element.Nome;
-            if (element.Descrizione !== null)       // se è presente una descrizione la inserisco
-                text += " - " + element.Descrizione;
-            option.text = text;
-            // inserisco l'oggetto option
-            input_classroom_ticket.appendChild(option);
-    
-        });
-    } else {
-        // errore
-        submit_result.style.color = error_data;
-        submit_result.innerHTML = "Errore nella richiesta delle aule, riprovare più tardi o contattare l'assistenza."
-
-    }
-}
 
 // ----------------------------------------------------------------
 // ----------------------- EVENTI --------------------------------- 

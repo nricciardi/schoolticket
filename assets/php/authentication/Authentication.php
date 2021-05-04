@@ -1,6 +1,6 @@
 <?php
 	require_once("../../../config.php");
-	require_once("../send_mail.php");
+	require_once(PATH_ROOT . DS . "assets" . DS . "php" . DS . "send_mail.php");
 
 	Class Auth{
 		private $PDOconn;
@@ -20,7 +20,7 @@
 				}
 		}
 		
-private function getAllUsers($id){
+		private function getAllUsers($id){
 			if(is_numeric($id))  // Vedere se l'utente è loggato.
 			{
 				$controlloId = $this->PDOconn->prepare("SELECT IdPermessi FROM utente WHERE IdUtente = $id");
@@ -87,14 +87,13 @@ private function getAllUsers($id){
 			}
 		}
 
-public function getUser($id){
+		public function getUser($id){
 			if(is_numeric($id))  // Vedere se l'utente è loggato.
 			{
 				$controlloId = $this->PDOconn->prepare("SELECT schoolticket.Utente.IdUtente FROM schoolticket.Utente");
 				$resultId = $controlloId->execute();
 				$risultatoControlloId = $controlloId->fetchAll(PDO::FETCH_ASSOC);
 				
-				echo '<br>';
 				
 				$IdCorretto = 0; 	//Dopo il for contiene 1 se l'ID passato alla funzione esiste nel Database degli utenti
 				
@@ -156,26 +155,26 @@ public function getUser($id){
 					
 					//var_dump($rows);
 					
-			//STRINGA JASON:
-					 $r = '{"result":';
-					 $r .= ' [{"IdUtente": "';
-					 $r .= $rows[0]["IdUtente"]; 
-					 $r .= '" ,"Cognome": "';
-					 $r .= $rows[0]["Cognome"];
-					 $r .= '" ,"Nome": "';
-					 $r .= $rows[0]["Nome"];
-					 $r .= '" ,"Email": "';
-					 $r .= $rows[0]["Email"];
-					 $r .= '" ,"Password": "';
-					 $r .= $rows[0]["Password"];
-					 $r .= '" ,"Categoria": ';
-					 $r .= $temp;
-					 $r .= ' ,"Permessi": ';
-					 $r .= $temp2;
-					 
-                     $r .= ' , "description":"Dati utente"}';
-					 return $r;
-						
+				//STRINGA JSON da restituire:
+					$r = '{"result":';
+					$r .= ' [{"IdUtente": "';
+					$r .= $rows[0]["IdUtente"]; 
+					$r .= '", "Cognome": "';
+					$r .= $rows[0]["Cognome"];
+					$r .= '", "Nome": "';
+					$r .= $rows[0]["Nome"];
+					$r .= '", "Email": "';
+					$r .= $rows[0]["Email"];
+					$r .= '", "Password": "';
+					$r .= $rows[0]["Password"];
+					$r .= '", "Categoria": ';
+					$r .= $temp;
+					$r .= ', "Permessi": ';
+					$r .= $temp2;
+					
+					$r .= '}] , "description":"Dati utente"}';
+					return $r;
+					
 				}
 				else
 				{
@@ -330,13 +329,37 @@ public function getUser($id){
 	public function show($id){
 			if(is_numeric($id))  // Vedere se l'utente è loggato.
 			{
-				$controlloId = $this->PDOconn->prepare("SELECT IdPermessi FROM utente WHERE IdUtente = $id");
-				$controlloId->execute();
-				while($record = $controlloId->fetch())
-					$IdPerm = $record['IdPermessi'];
 				
-				$controlloPerm = $this->PDOconn->prepare("SELECT schoolticket.permessi.ModificaVisualizzaTuttiUtenti FROM schoolticket.permessi WHERE schoolticket.permessi.IdPermessi = $IdPerm");
-				$controlloPerm->execute();
+				$controlloId = $this->PDOconn->prepare("SELECT IdPermessi FROM utente WHERE IdUtente = ?");
+				$result = $controlloId->execute([$id]);
+
+				// verifico che la query sia stata eseguita con successo
+				if($result == false)
+					return '{"result":false, "description":"Problemi durante l\'elaborazione del server, riprovare più tardi o contattare l\'assistenza"}';
+			
+				while($record = $controlloId->fetch()) {	// recupero le informazioni dei permessi dell'utente
+					$IdPerm = null;		// istanzio la variabile
+
+					// DEBUG:
+					//var_dump($record['IdPermessi'] == null);
+
+					// verifico che siano presenti dei permessi
+					if(isset($record['IdPermessi']) && $record['IdPermessi'] != null && $record['IdPermessi'] != "NULL")
+						$IdPerm = $record['IdPermessi'];
+					else
+						return '{"result":false, "description":"Problemi durante l\'elaborazione del server, riprovare più tardi o contattare l\'assistenza"}';
+				}
+				// DEBUG:
+				//var_dump($IdPerm);
+
+				// recupero i permessi dell'utente selezionato
+				$controlloPerm = $this->PDOconn->prepare("SELECT schoolticket.permessi.ModificaVisualizzaTuttiUtenti FROM schoolticket.permessi WHERE schoolticket.permessi.IdPermessi = ?");
+				$result = $controlloPerm->execute([$IdPerm]);
+
+				// verifico che la query sia stata eseguita con successo
+				if($result == false)
+					return '{"result":false, "description":"Problemi durante l\'elaborazione del server, riprovare più tardi o contattare l\'assistenza"}';
+
 				while($record = $controlloPerm->fetch())
 					$PermUtenti = $record['ModificaVisualizzaTuttiUtenti'];
 				
@@ -350,7 +373,12 @@ public function getUser($id){
 					return $this->getUser($id);
 			
 				}
-					
+				
+				// in caso non sia stato restituito nulla:
+				return '{"result":false, "description":"Problemi durante l\'elaborazione del server, riprovare più tardi o contattare l\'assistenza"}';
+			
+			} else {
+				return '{"result":false, "description":"Problemi durante l\'elaborazione del server, riprovare più tardi o contattare l\'assistenza"}';
 			}
 		}
 
@@ -474,10 +502,15 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "registration"){
     	$email = $_POST["email"];
 
   	if(isset($_POST["pssw"]))
-    	$pssw = $_POST["pssw"];
+    	$password = $_POST["pssw"];
 
+	if(isset($_POST["IdCategoria"]))
+    	$IdCategoria = $_POST["IdCategoria"];
 
-	$auth->registration(/*$id,*/ $nome, $cognome, $email, $pssw);	// Deprecato, l'id dell'utente è autoincrementale
+	if(isset($_POST["IdPermessi"]))
+    	$IdPermessi = $_POST["IdPermessi"];
+
+	$auth->registration(/*$id,*/ $nome, $cognome, $email, $password, $IdCategoria, $IdPermessi);	// Deprecato, l'id dell'utente è autoincrementale
 }
 
 //DELETE:
@@ -487,7 +520,8 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "delete"){
 
 //SHOW:
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "show"){
- 	$auth -> show($id);//L'id va peso dalla sessione!!
+	$id = 1;	// $_SESSION["logged"];
+	echo $auth -> show($id);//L'id va peso dalla sessione!!
 }
 
 //LOGIN:
@@ -511,5 +545,4 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "SendCode"){
 	$id_to_send_code = 1; // $_SESSION["logged"];
  	echo $auth -> SendCode($id_to_send_code);
 }
-echo $auth -> show(4);
 ?>

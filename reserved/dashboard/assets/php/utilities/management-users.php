@@ -22,6 +22,8 @@
                 </div>
                 <button class="au-btn-filter">
                     <i class="zmdi zmdi-filter-list"></i>filters</button>
+                <button type="button" class="btn btn-link" style="color: #6C757D" id="btn_refresh_management_user">
+                    <i class="fa fa-refresh"></i>&nbsp; Ricarica</button>
             </div>
             <div class="table-data__tool-right">
                 <button class="au-btn au-btn-icon au-btn--green au-btn--small" id="formAddUser">
@@ -52,7 +54,7 @@
                         <th>Email</th>
                         <th>Categoria</th>
                         <th>Permessi</th>
-                        <th></th>
+                        <th>Azioni</th>
                     </tr>
                 </thead>
                 <tbody id="body_table_users">
@@ -196,6 +198,9 @@
                         </td>
                     </tr>-->
                 </tbody>
+                <tfoot id="foot_table_users">
+                
+                </tfoot>
             </table>
         </div>
         <!-- END DATA TABLE -->

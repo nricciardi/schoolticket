@@ -2,11 +2,20 @@
 // ----------------------- VARIABILI ------------------------------
 // ----------------------------------------------------------------
 
+// caratteri massimo da stampare
+const N_CHAR_TO_PRINT = Infinity;
+
 // variabile contenente le classi
 var CLASSROOMS = null;
 
 // variabile contenente le macroaree
 var MACROAREE = null;
+
+// variabile contenente i permessi
+var PERMESSI = null;
+
+// variabile contenente le categorie
+var CATEGORIE = null;
 
 // - Dato errato
 var error_data = "#ff5757";
@@ -18,6 +27,12 @@ var correct_background = "#edffee";
 
 // - Dato incerto
 var warning_data = "#f2d857";
+
+// input aula ticket
+var input_classroom_ticket = document.getElementById("classroom");
+
+// - input per la presa delle macroaree
+var input_macroaree_ticket = document.getElementById("macroaree");
 
 // button per aggiungere un nuovo ticket
 var btn_add_ticket = document.getElementById("btn_add_ticket");
@@ -72,14 +87,164 @@ function init() {
 	// nascondo tutte le pagine dimaniche presenti
 	hideAllDynamicPage();
 
-    // recupero le classi attraverso una chiamata ajax
-	get_classrooms();
+    // imposto le classi attraverso una chiamata ajax
+	set_classrooms();
 	
+    // imposto le macroaree attraverso una chiamata ajax
+    set_macroaree();
 
-    // recupero le classi attraverso una chiamata ajax
-    get_macroaree();
+    // imposto i permessi attraverso una chiamata ajax
+    set_permessi();
+
+    // imposto le categorie attraverso una chiamata ajax
+    set_categorie();
 
 }
+
+// aggiungo le macroaree al form
+function addMacroaree(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
+    input.innerHTML = "";
+
+    // recupero le classi attraverso una chiamata ajax
+    //console.log("macroaree: ");
+    //console.log(MACROAREE);
+
+    // per ogni macroarea creo un option e la aggiungo alla select-box
+    if(MACROAREE !== null) {
+        MACROAREE.result.forEach(element => {
+            //console.log(element);
+            // creo l'elemento option
+            let option = document.createElement("option");
+            // inserisco il value nell'option
+            option.value = element.IdMacroarea;
+            // inserisco il testo nell'option
+            let text = cutString(element.Nome, n_char_max_to_print);
+            if (element.Descrizione !== null)       // se è presente una descrizione la inserisco
+                text += " - " + cutString(element.Descrizione, n_char_max_to_print);
+            option.text = text;
+            // inserisco l'oggetto option
+            input.appendChild(option);
+    
+        });
+    } else {
+        // errore
+        result.style.color = error_data;
+        result.innerHTML = "Errore nella richiesta delle macroaree, riprovare più tardi o contattare l'assistenza."
+
+    }
+}
+
+// aggiungo i permessi al form
+function addPermessi(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
+    input.innerHTML = "";
+
+    // recupero le classi attraverso una chiamata ajax
+    //console.log("macroaree: ");
+    //console.log(MACROAREE);
+
+    // per ogni macroarea creo un option e la aggiungo alla select-box
+    if(PERMESSI !== null) {
+        PERMESSI.result.forEach(element => {
+            //console.log(element);
+            // creo l'elemento option
+            let option = document.createElement("option");
+            // inserisco il value nell'option
+            option.value = element.IdPermessi;
+            // inserisco il testo nell'option
+            let text = element.IdPermessi;
+            if (element.Descrizione !== null)       // se è presente una descrizione la inserisco
+                text += " - " + cutString(element.Descrizione, n_char_max_to_print);
+            option.text = text;
+            // inserisco l'oggetto option
+            input.appendChild(option);
+    
+        });
+    } else {
+        // errore
+        result.style.color = error_data;
+        result.innerHTML = "Errore nella richiesta delle macroaree, riprovare più tardi o contattare l'assistenza."
+
+    }
+}
+
+// aggiungo le categorie al form
+function addCategorie(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
+    input.innerHTML = "";
+
+    // recupero le classi attraverso una chiamata ajax
+    //console.log("macroaree: ");
+    //console.log(MACROAREE);
+
+    // per ogni macroarea creo un option e la aggiungo alla select-box
+    if(CATEGORIE !== null) {
+        CATEGORIE.result.forEach(element => {
+            //console.log(element);
+            // creo l'elemento option
+            let option = document.createElement("option");
+            // inserisco il value nell'option
+            option.value = element.IdCategoria;
+            // inserisco il testo nell'option
+            let text = cutString(element.Nome, n_char_max_to_print);
+            if (element.Descrizione !== null)       // se è presente una descrizione la inserisco
+                text += " - " + cutString(element.Descrizione, n_char_max_to_print);
+            option.text = text;
+            // inserisco l'oggetto option
+            input.appendChild(option);
+    
+        });
+    } else {
+        // errore
+        result.style.color = error_data;
+        result.innerHTML = "Errore nella richiesta delle macroaree, riprovare più tardi o contattare l'assistenza."
+
+    }
+}
+
+// aggiungo le categorie al form
+function addCategorie(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
+    input.innerHTML = "";
+
+    //classrooms = classrooms.responseText;
+    //console.log("classrooms: ");
+    //console.log(CLASSROOMS);
+
+    // per ogni classe creo un option e la aggiungo alla select-box
+    if(CLASSROOMS !== null) {
+        CLASSROOMS.result.forEach(element => {
+            //console.log(element);
+            // creo l'elemento option
+            let option = document.createElement("option");
+            // inserisco il value nell'option
+            option.value = element.IdAula;
+            // inserisco il testo nell'option
+            let text = cutString(element.Nome, n_char_max_to_print);
+            if (element.Descrizione !== null)       // se è presente una descrizione la inserisco
+                text += " - " + cutString(element.Descrizione, n_char_max_to_print);
+            option.text = text;
+            // inserisco l'oggetto option
+            input.appendChild(option);
+    
+        });
+    } else {
+        // errore
+        result.style.color = error_data;
+        result.innerHTML = "Errore nella richiesta delle aule, riprovare più tardi o contattare l'assistenza."
+
+    }
+}
+
+// taglia la stringa in caso superi la lunghezza passata
+function cutString(stringa, n_char_max_to_print = N_CHAR_TO_PRINT) {
+    
+    // controllo la lunghezza della stringa se è maggiore del paramentro
+    if(stringa.length >= n_char_max_to_print) {
+        return stringa.substring(0, n_char_max_to_print).trim() + "...";
+    } else {
+        return stringa;
+    }
+
+}
+
 
 // in base ai permessi ottenuti creo il menù della dashboard
 function createMenu() {
@@ -117,7 +282,7 @@ function hideAllDynamicPage() {
 }
 
 // restituisco le classi come oggetto
-function get_classrooms() {
+function set_classrooms() {
 
 	// creo la variabile data da passare per ricevere le classi
 	let data = {
@@ -125,23 +290,23 @@ function get_classrooms() {
 	}
 
     $.ajax({
-      url: HOSTNAME + '/reserved/dashboard/assets/php/Dashboard.php',
-      method: 'POST',
-      data: data,
-      dataType: "text",
-      success: function( data, textStatus, jQxhr ){
-        //console.log(data);
-        //console.log(JSON.parse(data));
-        CLASSROOMS = JSON.parse(data);
-  
-      }
-      });
-  
+        url: HOSTNAME + '/reserved/dashboard/assets/php/Dashboard.php',
+        method: 'POST',
+        data: data,
+        dataType: "text",
+        success: function( data, textStatus, jQxhr ){
+            //console.log(data);
+            //console.log(JSON.parse(data));
+            CLASSROOMS = JSON.parse(data);
+    
+        }
+    });
+
 }
 
 
 // funzione per inviare i dati tramite ajax 
-function get_macroaree() {
+function set_macroaree() {
 
 	// creo la variabile data da passare per ricevere le macroaree
     data = {
@@ -149,17 +314,61 @@ function get_macroaree() {
     }
 
     $.ajax({
-      url: HOSTNAME + '/reserved/dashboard/assets/php/Dashboard.php',
-      method: 'POST',
-      data: data,
-      dataType: "text",
-      success: function( data, textStatus, jQxhr ){
-        //console.log(data);
-        //console.log(JSON.parse(data));
-        MACROAREE = JSON.parse(data);
-  
-      }
-      });					
+        url: HOSTNAME + '/reserved/dashboard/assets/php/Dashboard.php',
+        method: 'POST',
+        data: data,
+        dataType: "text",
+        success: function( data, textStatus, jQxhr ){
+            //console.log(data);
+            //console.log(JSON.parse(data));
+            MACROAREE = JSON.parse(data);
+    
+        }
+    });					
+}
+
+// funzione per inviare i dati tramite ajax 
+function set_permessi() {
+
+	// creo la variabile data da passare per ricevere le macroaree
+    data = {
+        "Submit": "getPermessi"
+    }
+
+    $.ajax({
+        url: HOSTNAME + '/reserved/dashboard/assets/php/Dashboard.php',
+        method: 'POST',
+        data: data,
+        dataType: "text",
+        success: function( data, textStatus, jQxhr ){
+            //console.log(data);
+            //console.log(JSON.parse(data));
+            PERMESSI = JSON.parse(data);
+    
+        }
+    });					
+}
+
+// funzione per inviare i dati tramite ajax 
+function set_categorie() {
+
+	// creo la variabile data da passare per ricevere le macroaree
+    data = {
+        "Submit": "getCategorie"
+    }
+
+    $.ajax({
+        url: HOSTNAME + '/reserved/dashboard/assets/php/Dashboard.php',
+        method: 'POST',
+        data: data,
+        dataType: "text",
+        success: function( data, textStatus, jQxhr ){
+            //console.log(data);
+            //console.log(JSON.parse(data));
+            CATEGORIE = JSON.parse(data);
+    
+        }
+    });					
 }
 
 // restituisce il numero di ticket non visualizzati
@@ -204,8 +413,8 @@ function setNewTicketNumber()
 btn_add_ticket.addEventListener("click", () => {
 
     // aggiungo le categorie e le macroaree al form
-    addMacroaree();
-    addCategorie();
+    addMacroaree(input_macroaree_ticket, submit_result);
+    addCategorie(input_classroom_ticket, submit_result);
 
     // nascondo tutti i form 
     hideAllDynamicPage(); 
