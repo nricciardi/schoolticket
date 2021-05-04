@@ -274,15 +274,15 @@ btn_inviaCodice.addEventListener("click", () => {
 		{
             console.log("Success");
             console.log(response);
-			if(response.result == false)
-			{
-				span.innerText = response.description;
-				span.style.color = error_data;
-			}
-			else
+			if(response.result === true)
 			{
 				span.innerHTML = response.description;
 				span.style.color = correct_data;
+			}
+			else
+			{
+				span.innerText = response.description;
+				span.style.color = error_data;
 			}	
         },
         error: (response) => {

@@ -187,11 +187,11 @@
                                 </a>
                                 <ul class="list-unstyled navbar__sub-list js-sub-list">
                                     <li>
-                                        <a href="login.html">
+                                        <a id="login" href="#">
                                             <i class="fas fa-sign-in-alt"></i>Login</a>
                                     </li>
                                     <li>
-                                        <a href="register.html">
+                                        <a id="signup" href="#">
                                             <i class="fas fa-user"></i>Register</a>
                                     </li>
                                     <li>

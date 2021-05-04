@@ -44,6 +44,10 @@ var newTicket = document.getElementById("ticketNumber");
 // box contenitore delle pagine visualizzate in modo dinamico
 var dynamic_page_box = document.getElementById("dynamic-page");
 
+// Variabile per il collegamento con login.php e signup.php
+var a_login = document.getElementById("login");
+var a_signup = document.getElementById("signup");
+
 
 // -------------------------------------------------------------------------------
 // ---------------------- FUNZIONI GENERICHE -------------------------------------
@@ -60,7 +64,11 @@ $(document).ready(() => {
 function init() {
 
 	console.log("Initialized...");
-
+	
+	// Inserisco i link per il login e la registrazione
+	a_login.href = HOSTNAME + '/page/login.php';
+	a_signup.href = HOSTNAME + '/page/signup.php';
+	
 	// nascondo tutte le pagine dimaniche presenti
 	hideAllDynamicPage();
 

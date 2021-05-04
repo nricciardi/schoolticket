@@ -1,4 +1,4 @@
-
+var btn_conferma = document.getElementById("bottone");
 <!-- MENU SIDEBAR-->
 <aside class="menu-sidebar2">
             <div class="logo">
@@ -86,11 +86,11 @@
                             </a>
                             <ul class="list-unstyled navbar__sub-list js-sub-list">
                                 <li>
-                                    <a href="login.html">
+                                    <a id = "login" href="#">
                                         <i class="fas fa-sign-in-alt"></i>Accedi</a>
                                 </li>
                                 <li>
-                                    <a href="register.html">
+                                    <a id="signup" href="#">
                                         <i class="fas fa-user"></i>Registrati</a>
                                 </li>
                                 <li>
@@ -158,3 +158,8 @@
             </div>
         </aside>
         <!-- END MENU SIDEBAR-->
+
+function init()
+{
+	
+}
