@@ -1,16 +1,17 @@
 
 
+                
                 <header id="header" class="alt">
-					<h1><a href="../index.php"> School ticket </h1>
+					<h1><a href="index.php"> School ticket </h1>
 					<nav id="nav">
 						<ul>
-							<li><a href="../index.php">Home</a></li>
+							<li><a href="index.php">Home</a></li>
 							<li>
 								<a href="#" class="icon solid fa-angle-down">Layouts</a>
 								<ul>
-									<li><a href="../generic.html">Generic</a></li>
-									<li><a href="../contact.php">Contact</a></li>
-									<li><a href="../elements.html">Elements</a></li>
+									<li><a href="generic.html">Generic</a></li>
+									<li><a href="contact.php">Contact</a></li>
+									<li><a href="elements.html">Elements</a></li>
 									<li>
 										<a href="#">Submenu</a>
 										<ul>
@@ -22,7 +23,8 @@
 									</li>
 								</ul>
 							</li>
-							<li><a href="signup.php" class="button">Registrati</a></li>
+							<li><a href="page/login.php" class="button">Accedi</a></li>
+							<li><a href="page/signup.php"> <u> Registrati</u> </a></li>
 						</ul>
 					</nav>
 				</header>
