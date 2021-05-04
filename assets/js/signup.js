@@ -137,7 +137,7 @@ email.addEventListener("input", () => {
         document.getElementById("label_email").style.color = error_data;
 
         email.style.borderColor = error_data;
-        email.style.color = error_data;
+        //email.style.color = error_data;
         email.style.boxShadow = "0 0 0 2px" + error_data;
 
         email_validate = false;
