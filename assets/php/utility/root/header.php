@@ -22,7 +22,7 @@
 								</ul>
 							</li>
 							<li><a href="page/login.php" class="button">Accedi</a></li>
-							<li><a href="page/signup.php" class="button">Registrati</a></li>
+							<li><a href="page/signup.php"><u>Registrati</u></a></li>
 						</ul>
 					</nav>
 				</header>
