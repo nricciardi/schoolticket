@@ -35,4 +35,10 @@
 			header('Location: '.PATH_ROOT.DS.'index.php');
 		}
 	}
+	
+	define("DATABASE_HOST", localhost);
+	define("DATABASE_NAME", schoolticket);
+	define("DATABASE_USERNAME", root);
+	define("DATABASE_PASSWORD", " ");
+	
 ?>
