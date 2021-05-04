@@ -318,3 +318,57 @@ re_password.addEventListener("blur", () => {
 
 });
 
+
+
+
+
+// verifico se il campo del nome non è vuoto
+re_password.addEventListener("input", () => {
+
+    // se il nome non è vuoto imposto i diversi colori
+    if(nome.value) {
+
+        // messaggio utente:
+        document.getElementById("label_nome").innerHTML = "Inserisci il tipo di utente";
+        document.getElementById("label_nome").style.color = correct_data;
+
+        nome.style.borderColor = correct_data;
+        //nome.style.color = correct_data;
+        nome.style.boxShadow = "0 0 0 2px" + correct_data;
+
+        nome_validate = true;
+
+    } else {
+
+        // messaggio utente:
+        document.getElementById("label_nome").innerHTML = "La password non combacia";
+        document.getElementById("label_re_password").style.color = error_data;
+
+        re_password.style.borderColor = error_data;
+        //re_password.style.color = error_data;
+        re_password.style.boxShadow = "0 0 0 2px" + error_data;
+
+        re_password_validate = false;
+    }
+
+    console.log("--------------");
+
+});
+
+
+// tolto il focus imposto il colore
+nome.addEventListener("blur", () => {
+
+    nome.style.borderColor = "";
+    nome.style.boxShadow = "";
+    nome.style.color = "";
+
+    if(nome_validate) {
+        nome.style.borderColor = correct_data;
+    } else {
+        nome.style.borderColor = error_data;
+    }
+
+});
+
+
