@@ -120,7 +120,7 @@
 								</div>-->
 								<div class="col-12">
 									<ul class="actions special">
-										<li><input type="button" id="submit" value="Registrati" /></li>
+										<li><input type="button" id="submit" disabled value="Registrati" /></li>
 									</ul>
 								</div>
 							</div>
