@@ -16,10 +16,176 @@
 					$this->PDOconn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 				}catch(PDOExpetion $e){
 					echo '{"result":false, "description": "Connessione errato' . $e->getMessage().'}';
-
 				}
-
 		}
+		
+private function getAllUsers($id){
+			if(is_numeric($id))  // Vedere se l'utente è loggato.
+			{
+				$controlloId = $this->PDOconn->prepare("SELECT IdPermessi FROM utente WHERE IdUtente = $id");
+				$controlloId->execute();
+				while($record = $controlloId->fetch())
+					$IdPerm = $record['IdPermessi'];
+				
+				$controlloPerm = $this->PDOconn->prepare("SELECT schoolticket.permessi.ModificaVisualizzaTuttiUtenti FROM schoolticket.permessi WHERE schoolticket.permessi.IdPermessi = $IdPerm");
+				$controlloPerm->execute();
+				while($record = $controlloPerm->fetch())
+					$PermUtenti = $record['ModificaVisualizzaTuttiUtenti'];
+				
+					$q = "SELECT * FROM schoolticket.utente";
+					$st2 = $this->PDOconn->prepare($q);
+					$st2->execute();
+					$r = '{"result": [';
+					$cont = 0;
+					while($record = $st2->fetch())
+					{
+						$categoria = $record["IdCategoria"];
+						$st = $this->PDOconn->prepare("SELECT schoolticket.categoria.* FROM schoolticket.categoria WHERE schoolticket.categoria.IdCategoria = ?");		// Se è 1 visualizza tutti gli utenti
+						$result = $st->execute([$categoria]);	//Result contiene 1 o 0 in base al corretto funzionamento della query 
+						if($result == false){
+							$r = '{"result":false, "description":"Query non avvenuta con successo"}';
+							return $r;
+						}
+						$rows2 = $st->fetch(PDO::FETCH_ASSOC);
+						$temp = (json_encode($rows2));
+						//echo $temp;
+					
+						//CATEGORIA
+						$permessi = $record["IdPermessi"];
+							$st = $this->PDOconn->prepare("SELECT schoolticket.permessi.* FROM schoolticket.permessi WHERE schoolticket.permessi.IdPermessi = ?");		// Se è 1 visualizza tutti gli utenti
+							$result = $st->execute([$permessi]);	//Result contiene 1 o 0 in base al corretto funzionamento della query 
+							if($result == false){
+								$r = '{"result":false, "description":"Query non avvenuta con successo"}';
+								return $r;
+							}
+						$rows3 = $st->fetch(PDO::FETCH_ASSOC);
+						//var_dump($rows3);
+						$temp2 = (json_encode($rows3));
+						
+						if($cont == 0)
+							$r .= ' {"IdUtente": "';
+						else
+							$r .= ', {"IdUtente": "';
+						$r .= $record["IdUtente"]; 
+						$r .= '" ,"Cognome": "';
+						$r .= $record["Cognome"];
+						$r .= '" ,"Nome": "';
+						$r .= $record["Nome"];
+						$r .= '" ,"Email": "';
+						$r .= $record["Email"];
+						$r .= '" ,"Password": "';
+						$r .= $record["Password"];
+						$r .= '" ,"Categoria": ';
+						$r .= $temp;
+						$r .= ' ,"Permessi": ';
+						$r .= $temp2;
+						$cont++;
+					}
+					$r .= '], "description":"Dati utente"}';
+					return $r;
+			}
+		}
+
+public function getUser($id){
+			if(is_numeric($id))  // Vedere se l'utente è loggato.
+			{
+				$controlloId = $this->PDOconn->prepare("SELECT schoolticket.Utente.IdUtente FROM schoolticket.Utente");
+				$resultId = $controlloId->execute();
+				$risultatoControlloId = $controlloId->fetchAll(PDO::FETCH_ASSOC);
+				
+				echo '<br>';
+				
+				$IdCorretto = 0; 	//Dopo il for contiene 1 se l'ID passato alla funzione esiste nel Database degli utenti
+				
+				for($i = 0; $i < COUNT($risultatoControlloId); $i++)	//Ciclo for per controllare che l'Id sia presente nel Database
+				{
+					if($risultatoControlloId[$i]["IdUtente"] == $id)
+					{
+						$IdCorretto = 1;
+						break;
+					}
+				}
+				
+				if($IdCorretto == 1)	//Se l'Id è presente allora possiamo andare a stampare le sue informazioni
+				{
+										
+						$st = $this->PDOconn->prepare("SELECT schoolticket.Utente.* FROM schoolticket.Utente WHERE schoolticket.Utente.IdUtente = ?");		// Se è 1 visualizza tutti gli utenti
+						$result = $st->execute([$id]);	//Result contiene 1 o 0 in base al corretto funzionamento della query 
+						
+						if($result == 0)	//Verifica la corretta connessione al Database 
+						{
+							$r = '{"result":false, "description":"Query non avvenuta con successo"}';
+							return $r;		//In caso di errore di connessione la funzione ritorna -1
+						}
+				}
+			
+			
+			//QUERY:
+				$rows = $st->fetchAll(PDO::FETCH_ASSOC);//Qui abbiamo tutti gli utenti
+				
+				if($result != false)
+				{
+					//CATEGORIA:
+					$categoria = $rows[0]["IdCategoria"];
+						$st = $this->PDOconn->prepare("SELECT schoolticket.categoria.* FROM schoolticket.categoria WHERE schoolticket.categoria.IdCategoria = ?");		// Se è 1 visualizza tutti gli utenti
+						$result = $st->execute([$categoria]);	//Result contiene 1 o 0 in base al corretto funzionamento della query 
+						if($result == false){
+							$r = '{"result":false, "description":"Query non avvenuta con successo"}';
+							return $r;
+						}
+					$rows2 = $st->fetch(PDO::FETCH_ASSOC);
+					$temp = (json_encode($rows2));
+					//echo $temp;
+					
+					//CATEGORIA
+					$permessi = $rows[0]["IdPermessi"];
+						$st = $this->PDOconn->prepare("SELECT schoolticket.permessi.* FROM schoolticket.permessi WHERE schoolticket.permessi.IdPermessi = ?");		// Se è 1 visualizza tutti gli utenti
+						$result = $st->execute([$permessi]);	//Result contiene 1 o 0 in base al corretto funzionamento della query 
+						if($result == false){
+							$r = '{"result":false, "description":"Query non avvenuta con successo"}';
+							return $r;
+						}
+					$rows3 = $st->fetch(PDO::FETCH_ASSOC);
+					//var_dump($rows3);
+					$temp2 = (json_encode($rows3));
+					//echo '</br>' .$temp2;
+					
+					//$rows[0]["IdCategoria"] = $temp;
+					//$rows[0]["IdPermessi"] = $temp2;
+					
+					//var_dump($rows);
+					
+			//STRINGA JASON:
+					 $r = '{"result":';
+					 $r .= ' [{"IdUtente": "';
+					 $r .= $rows[0]["IdUtente"]; 
+					 $r .= '" ,"Cognome": "';
+					 $r .= $rows[0]["Cognome"];
+					 $r .= '" ,"Nome": "';
+					 $r .= $rows[0]["Nome"];
+					 $r .= '" ,"Email": "';
+					 $r .= $rows[0]["Email"];
+					 $r .= '" ,"Password": "';
+					 $r .= $rows[0]["Password"];
+					 $r .= '" ,"Categoria": ';
+					 $r .= $temp;
+					 $r .= ' ,"Permessi": ';
+					 $r .= $temp2;
+					 
+                     $r .= ' , "description":"Dati utente"}';
+					 return $r;
+						
+				}
+				else
+				{
+					$r = '{"result":false, "description":"Stampa non avvenuta con successo"}';
+					return $r;
+				}
+					
+				
+		}
+		}
+		
 
 		public function verifyPsw($psw)
 		{
@@ -53,9 +219,9 @@
 				return false;
 			else
 				return true;
-
 		}
-		public function registration(/*$id,*/ $nome, $cognome, $email, $psw){
+		
+		public function registration($nome, $cognome, $email, $psw, $IdCategoria, $IdPermessi){
 			
 			$msg = '{"result":false, "description":"'; //stringa del msg errore 
 			$check = true; //variabile di controllo 
@@ -80,70 +246,116 @@
 				$msg .= 'Password errata; ';
 				$check = false;
 			}
-			if($check = false)
-				return $msg.'"}';
-
-			$msg = '{"result":false, "description":"'; //stringa del msg errore 
-			$check = true;
-
 			
+
+			//controllo i permessi
+			$q = "SELECT * FROM schoolticket.permessi WHERE IdPermessi = :permessiP1";
+			$st = $this->PDOconn->prepare($q);
+			$verifyPermessi = $st->execute(['permessiP1' => $IdPermessi]); //CONTROLlO se il permesso esiste
 			
-			$result = 0;
-			$st -> fetchAll(PDO::FETCH_ASSOC);
-			if($verify != 1){
-				return '{"result":false, "description":" Esiste un utente con questa email"}';
+			if($verifyPermessi == false and $check = false){
+				$msg .='Problemi con il collegamento con il server';
+				$check = false;
 			}
 			else{
-					$q = "SELECT * FROM schoolticket.utente WHERE Email = :emailPl";
-					$st = $this->PDOconn->prepare($q);
-					$verify = $st->execute(['emailPl' => $email]); //CONTROLlO se email esiste
-					$rows = $st -> fetchAll(PDO::FETCH_ASSOC);
+				$rows = $st -> fetchAll(PDO::FETCH_ASSOC);
 					
-					echo VAR_DUMP($rows);
+				//echo VAR_DUMP($rows);
 					
-					/*if(){
-						return '{"result":false, "description":"Email già usata."}';
-					}
-					else{
-					
-					}*/			
+				if(empty($rows)){
+					$msg .= 'Non esiste questo permesso';
+					$check = false;
+				}
 			}
-				
-			
-			$q = "INSERT INTO schoolticket.utente (Id, Nome, Cognome, Email, Psw) VALUES (:IdPl, :nomePl, :cognomePl, :emailPl, :pswPl)";
+			//controllo la categoria
+			$q = "SELECT * FROM schoolticket.categoria WHERE IdCategoria = :categoriaP1";
 			$st = $this->PDOconn->prepare($q);
-			$st->execute([/*'IdPl' => $id,*/ 'nomePl' => $nome, 'cognomePl' => $cognome, 'emailPl' => $email, 'pswPl' => $psw]);
-			if($st->execute([/*'IdPl' => $id,*/ 'nomePl' => $nome, 'cognomePl' => $cognome, 'emailPl' => $email, 'pswPl' => $psw]))
-					echo '{"result":true, "description":"Registrazione effettuata con successo."}';
-				else
-					echo '{"result":false, "description":"Registrazione non andata a buon fine."}';
+			$verifyCategoria = $st->execute(['categoriaP1' => $IdCategoria]); //CONTROLlO se categoria esiste
+			
+			if($verifyCategoria == false and $check = false){
+				$msg .= 'Problemi con il collegamento con il server';
+				$check = false;
+			}
+			else{
+				$rows = $st -> fetchAll(PDO::FETCH_ASSOC);
+					
+				//echo VAR_DUMP($rows);
+					
+				if(empty($rows)){
+					$msg .= 'Non esiste questa categoria.';
+					$check = false;
+				}
+			}
+						
+			//controllo la mail
+			$q = "SELECT * FROM schoolticket.utente WHERE Email = :emailPl";
+			$st = $this->PDOconn->prepare($q);
+			$verifyEmail = $st->execute(['emailPl' => $email]); //CONTROLlO se email esiste
+			
+			if($verifyEmail == false and $check = false){
+				$msg .= 'Non esiste questa categoria.';
+				$check = false;
+			}
+			else{
+				$rows = $st -> fetchAll(PDO::FETCH_ASSOC);
+					
+				//echo VAR_DUMP($rows);
+					
+				if(!empty($rows)){
+					$msg .= 'Non esiste questa categoria.';
+					$check = false;
+				}
+				else{
+					$q = "INSERT INTO schoolticket.utente (Nome, Cognome, Email, Password, IdCategoria, IdPermessi) VALUES (:nomePl, :cognomePl, :emailPl, :pswPl, :categoriaP1, :permessiP1)";
+					$st = $this->PDOconn->prepare($q);
+					$check = $st->execute(['nomePl' => $nome, 'cognomePl' => $cognome, 'emailPl' => $email, 'pswPl' => $psw, 'categoriaP1' => $IdCategoria, 'permessiP1' => $IdPermessi]);
+						//return '{"result":false, "description":"Registrazione non andata a buon fine."}';
+				}		
+			}
+			
+			if($check = false)  //controllo che non ci siano errori
+				return $msg.'"}';
+			else
+				return '{"result":true, "description":"Registrazione effettuata con successo."}';
 			
 		}
-		
-		
 
 		public function delete($id){
-			$q = "DELETE FROM schoolticket.utente WHERE IdUtente = :idPl";
+			$q = "DELETE FROM user WHERE ID = :idPl";
 			$st = $this->PDOconn->prepare($q);
 			$st->execute(['idPl' => $id]);
 		}
 
-		public function show($id){
-			if($id == '*')
-				$q = "SELECT * FROM schoolticket.utente";
-			else
-				$q = "SELECT * FROM schoolticket.utente WHERE IdUtente = :idPl";
-			$st = $this->PDOconn->prepare($q);
-			$st->execute(['idPl' => $id]);
-			while($record = $st->fetch())
+	public function show($id){
+			if(is_numeric($id))  // Vedere se l'utente è loggato.
 			{
-				echo "Id: " . $record['Id'] . "Nome: " .$record['Nome']. " Cognome: " .$record['Cognome']. "Email: " .$record['Email'] . "Password: " .$record['Psw'] . "<br>";
+				$controlloId = $this->PDOconn->prepare("SELECT IdPermessi FROM utente WHERE IdUtente = $id");
+				$controlloId->execute();
+				while($record = $controlloId->fetch())
+					$IdPerm = $record['IdPermessi'];
+				
+				$controlloPerm = $this->PDOconn->prepare("SELECT schoolticket.permessi.ModificaVisualizzaTuttiUtenti FROM schoolticket.permessi WHERE schoolticket.permessi.IdPermessi = $IdPerm");
+				$controlloPerm->execute();
+				while($record = $controlloPerm->fetch())
+					$PermUtenti = $record['ModificaVisualizzaTuttiUtenti'];
+				
+				if($PermUtenti == 1)
+				{
+					return $this->getAllUsers($id);
+					
+				}
+				else
+				{
+					return $this->getUser($id);
+			
+				}
+					
 			}
 		}
 
 		public function login($email, $psw){
 			$verify = false;
-			$q = "SELECT * FROM schoolticket.utente WHERE Email = :emailPl AND Password = :pswPl";
+			$q = "SELECT * FROM user WHERE Email = :emailPl AND Psw = :pswPl";
 			$st = $this->PDOconn->prepare($q);
 			$st->execute(['emailPl' => $email, 'psswPl' => $psw]);
 			while($record = $st->fetch())
@@ -235,13 +447,13 @@
 
 		// restituisco il risultato JSON
 		return $msg;
-	}
+		}
 
 //FINE CLASSE
 	}
 
 	$auth = new Auth(DATABASE_HOST, DATABASE_NAME, DATABASE_USERNAME, DATABASE_PASSWORD);
-
+	
 //REGISTRAZIONE:
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "registration"){
 	
@@ -268,22 +480,13 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "registration"){
 }
 
 //DELETE:
-if(isset($_POST["Submit"]) && $_POST["Submit"] == "delete"){		// !!!!!!!!!!!!! NON FUNZIONA
-	// verifico che sia stato passato anche l'id da eliminare
-	if(isset($_POST["Data"]))
- 		$auth -> delete($_POST["Data"]);
-	else	// in caso negativo stampo l'errore
-		echo '{"result":false,"description":"Problema durante l\'invio dei dati al server, riprovare più tardi o contattare l\'assistenza"}';
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "delete"){
+ 	$auth -> delete($id);//L'id va peso dalla sessione!!
 }
 
 //SHOW:
-if(isset($_POST["Submit"]) && $_POST["Submit"] == "show"){			// !!!!!!!!!!!!! NON FUNZIONA
-	$id = 1;		//L'id va peso dalla sessione!!
-	//$auth -> show($id);
-	
-	// DEBUG:
-	//echo '{"result":false, "description": "Errore"}';	
-	echo '{"result":[{"IdUtente": "1", "Cognome": "Rossi", "Nome": "Mario", "Email": "r@m.com", "Password": "asdfjòio324osfj3", "IdCategoria": "2", "IdPermessi": "4"}, {"IdUtente": "2", "Cognome": "Verdi", "Nome": "Franco", "Email": "v@f.com", "Password": "ytydf345435345", "IdCategoria": "6", "IdPermessi": "3"}, {"IdUtente": "3", "Cognome": "Neri", "Nome": "Gianni", "Email": "n@g.com", "Password": "5445sadf903os", "IdCategoria": "5", "IdPermessi": "9"}], "description": "Utenti restituiti con successo"}';
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "show"){
+ 	$auth -> show($id);//L'id va peso dalla sessione!!
 }
 
 //LOGIN:
@@ -307,5 +510,5 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "SendCode"){
 	$id_to_send_code = 1; // $_SESSION["logged"];
  	echo $auth -> SendCode($id_to_send_code);
 }
-
+echo $auth -> show(4);
 ?>
