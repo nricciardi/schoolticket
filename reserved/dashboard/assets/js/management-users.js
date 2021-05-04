@@ -364,3 +364,4 @@ form_add_user.addEventListener("click", () => {
     body_table_users.innerHTML = createFormNewUser() + actual_body; 
 
 });
+

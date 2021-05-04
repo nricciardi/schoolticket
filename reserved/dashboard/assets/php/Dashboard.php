@@ -34,11 +34,13 @@ class Dashboard
         $query = "SELECT * FROM schoolticket.".$tabName;
         $st = $this->PDOconn->prepare($query);
         $result = $st->execute();
-        // stampo in formato JSON le classi
-        $rows = $st->fetchAll(PDO::FETCH_ASSOC);
-        $temp = (json_encode($rows));
+
+        // verifico che la query sia andata a buon fine
         if($result != false)
         {
+            // stampo in formato JSON le classi
+            $rows = $st->fetchAll(PDO::FETCH_ASSOC);
+            $temp = (json_encode($rows));
             $r = '{"result":';
             $r .= $temp;
             $r .= ', "description":"Sono state prelevate le classi"}';
@@ -56,11 +58,13 @@ class Dashboard
         $query = "SELECT * FROM schoolticket.".$tabName;
         $st = $this->PDOconn->prepare($query);
         $result = $st->execute();
-        // stampo in formato JSON le classi
-        $rows = $st->fetchAll(PDO::FETCH_ASSOC);
-        $temp = (json_encode($rows));
+        
+        // verifico che la query sia andata a buon fine
         if($result != false)
         {
+            // stampo in formato JSON le classi
+            $rows = $st->fetchAll(PDO::FETCH_ASSOC);
+            $temp = (json_encode($rows));
             $r = '{"result":';
             $r .= $temp;
             $r .= ', "description":"Sono state prelevate le macroaree"}';
@@ -71,19 +75,81 @@ class Dashboard
         }
         return $r;
     }
+
+    public function getPermessi()         // funzione per recuperare i permessi dal db
+    {
+        $tabName = "permessi";
+        $query = "SELECT * FROM schoolticket.".$tabName;
+        $st = $this->PDOconn->prepare($query);
+        $result = $st->execute();
+
+        // stampo in formato JSON le classi
+        if($result != false)
+        {
+            // stampo in formato JSON le classi
+            $rows = $st->fetchAll(PDO::FETCH_ASSOC);
+            $temp = (json_encode($rows));
+            $r = '{"result":';
+            $r .= $temp;
+            $r .= ', "description":"Sono stati prelevati i permessi"}';
+        }
+        else
+        {
+            $r = '{"result":false, "description":"Riscontrato un problema nel recupero dei permessi"}';
+        }
+        return $r;
+    }
+
+    public function getCategorie()         // funzione per recuperare i permessi dal db
+    {
+        $tabName = "categoria";
+        $query = "SELECT * FROM schoolticket.".$tabName;
+        $st = $this->PDOconn->prepare($query);
+        $result = $st->execute();
+
+        // stampo in formato JSON le classi
+        if($result != false)
+        {
+            // stampo in formato JSON le classi
+            $rows = $st->fetchAll(PDO::FETCH_ASSOC);
+            $temp = (json_encode($rows));
+            $r = '{"result":';
+            $r .= $temp;
+            $r .= ', "description":"Sono state prelevate le categorie"}';
+        }
+        else
+        {
+            $r = '{"result":false, "description":"Riscontrato un problema nel recupero delle categorie"}';
+        }
+        return $r;
+    }
 }
 
+// istanza della classe Dashboard 
 $dashboard = new Dashboard("localhost","schoolticket","root","");
+
+// if per il submit delle getClassrooms
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "getClassrooms")
 {
     echo $dashboard->getClassrooms();
 }
 
+// if per il submit delle getMacroaree
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "getMacroaree")
 {
     echo $dashboard->getMacroaree();
 }
 
+// if per il submit delle getPermessi
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "getPermessi")
+{
+    echo $dashboard->getPermessi();
+}
 
+// if per il submit delle getPermessi
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "getCategorie")
+{
+    echo $dashboard->getCategorie();
+}
 
 ?>
