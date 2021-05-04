@@ -321,54 +321,76 @@ re_password.addEventListener("blur", () => {
 
 
 
+document.getElementById("nome").addEventListener("input", () => {
 
-// verifico se il campo del nome non è vuoto
-re_password.addEventListener("input", () => {
+    console.log("nome: " + document.getElementById("nome").value);
+    // se il nome è valido imposto i diversi colori
+    if((document.getElementById("nome").value)) {
 
-    // se il nome non è vuoto imposto i diversi colori
-    if(nome.value) {
-
+        console.log("nome valido");
         // messaggio utente:
-        document.getElementById("label_nome").innerHTML = "Inserisci il tipo di utente";
+        document.getElementById("label_nome").innerHTML = "Nome valido, confermalo!";
         document.getElementById("label_nome").style.color = correct_data;
 
-        nome.style.borderColor = correct_data;
-        //nome.style.color = correct_data;
-        nome.style.boxShadow = "0 0 0 2px" + correct_data;
+        document.getElementById("nome").style.borderColor = correct_data;
+        //email.style.color = correct_data;
+        document.getElementById("nome").style.boxShadow = "0 0 0 2px" + correct_data;
 
-        nome_validate = true;
+        document.getElementById("nome").removeAttribute("disabled");
+
+        name_validate = true;
+
 
     } else {
-
+        console.log("nome NON valido");
         // messaggio utente:
-        document.getElementById("label_nome").innerHTML = "La password non combacia";
-        document.getElementById("label_re_password").style.color = error_data;
+        document.getElementById("label_nome").innerHTML = "Nome non valido!";
+        document.getElementById("label_nome").style.color = error_data;
 
-        re_password.style.borderColor = error_data;
-        //re_password.style.color = error_data;
-        re_password.style.boxShadow = "0 0 0 2px" + error_data;
+        document.getElementById("nome").style.borderColor = error_data;
+        //email.style.color = error_data;
+        document.getElementById("nome").style.boxShadow = "0 0 0 2px" + error_data;
 
-        re_password_validate = false;
+        name_validate = false;
     }
 
     console.log("--------------");
 
 });
 
+document.getElementById("cognome").addEventListener("input", () => {
 
-// tolto il focus imposto il colore
-nome.addEventListener("blur", () => {
+    console.log("cognome: " + document.getElementById("cognome").value);
+    // se il nome è valido imposto i diversi colori
+    if((document.getElementById("cognome").value)) {
 
-    nome.style.borderColor = "";
-    nome.style.boxShadow = "";
-    nome.style.color = "";
+        console.log("nome valido");
+        // messaggio utente:
+        document.getElementById("label_cognome").innerHTML = "Cognome valido, confermalo!";
+        document.getElementById("label_cognome").style.color = correct_data;
 
-    if(nome_validate) {
-        nome.style.borderColor = correct_data;
+        document.getElementById("cognome").style.borderColor = correct_data;
+        //email.style.color = correct_data;
+        document.getElementById("cognome").style.boxShadow = "0 0 0 2px" + correct_data;
+
+        document.getElementById("cognome").removeAttribute("disabled");
+
+        surname_validate = true;
+
+
     } else {
-        nome.style.borderColor = error_data;
+        console.log("cognome NON valido");
+        // messaggio utente:
+        document.getElementById("label_cognome").innerHTML = "Cognome non valido!";
+        document.getElementById("label_cognome").style.color = error_data;
+
+        document.getElementById("cognome").style.borderColor = error_data;
+        //email.style.color = error_data;
+        document.getElementById("cognome").style.boxShadow = "0 0 0 2px" + error_data;
+
+        surname_validate = false;
     }
 
+    console.log("--------------");
+
 });
-
-
