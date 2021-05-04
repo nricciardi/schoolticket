@@ -53,9 +53,11 @@
 							<div class="row gtr-50 gtr-uniform">
 								<div class="col-6 col-12-mobilep">
 									<input type="text" name="name" id="nome" value="" placeholder="Nome" />
+									<label for="nome" id="label_nome"></label>
 								</div>
                                 <div class="col-6 col-12-mobilep">
 									<input type="text" name="surname" id="cognome" value="" placeholder="Cognome" />
+									<label for="cognome" id="label_cognome"></label>
 								</div>
 								<div class="col-6 col-12-mobilep" >
 									<input type="email" name="email" id="email" value="" placeholder="Email" />

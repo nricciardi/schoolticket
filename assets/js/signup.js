@@ -137,7 +137,7 @@ email.addEventListener("input", () => {
         document.getElementById("label_email").style.color = error_data;
 
         email.style.borderColor = error_data;
-        email.style.color = error_data;
+        //email.style.color = error_data;
         email.style.boxShadow = "0 0 0 2px" + error_data;
 
         email_validate = false;
@@ -318,3 +318,79 @@ re_password.addEventListener("blur", () => {
 
 });
 
+
+
+
+document.getElementById("nome").addEventListener("input", () => {
+
+    console.log("nome: " + document.getElementById("nome").value);
+    // se il nome è valido imposto i diversi colori
+    if((document.getElementById("nome").value)) {
+
+        console.log("nome valido");
+        // messaggio utente:
+        document.getElementById("label_nome").innerHTML = "Nome valido, confermalo!";
+        document.getElementById("label_nome").style.color = correct_data;
+
+        document.getElementById("nome").style.borderColor = correct_data;
+        //email.style.color = correct_data;
+        document.getElementById("nome").style.boxShadow = "0 0 0 2px" + correct_data;
+
+        document.getElementById("nome").removeAttribute("disabled");
+
+        name_validate = true;
+
+
+    } else {
+        console.log("nome NON valido");
+        // messaggio utente:
+        document.getElementById("label_nome").innerHTML = "Nome non valido!";
+        document.getElementById("label_nome").style.color = error_data;
+
+        document.getElementById("nome").style.borderColor = error_data;
+        //email.style.color = error_data;
+        document.getElementById("nome").style.boxShadow = "0 0 0 2px" + error_data;
+
+        name_validate = false;
+    }
+
+    console.log("--------------");
+
+});
+
+document.getElementById("cognome").addEventListener("input", () => {
+
+    console.log("cognome: " + document.getElementById("cognome").value);
+    // se il nome è valido imposto i diversi colori
+    if((document.getElementById("cognome").value)) {
+
+        console.log("nome valido");
+        // messaggio utente:
+        document.getElementById("label_cognome").innerHTML = "Cognome valido, confermalo!";
+        document.getElementById("label_cognome").style.color = correct_data;
+
+        document.getElementById("cognome").style.borderColor = correct_data;
+        //email.style.color = correct_data;
+        document.getElementById("cognome").style.boxShadow = "0 0 0 2px" + correct_data;
+
+        document.getElementById("cognome").removeAttribute("disabled");
+
+        surname_validate = true;
+
+
+    } else {
+        console.log("cognome NON valido");
+        // messaggio utente:
+        document.getElementById("label_cognome").innerHTML = "Cognome non valido!";
+        document.getElementById("label_cognome").style.color = error_data;
+
+        document.getElementById("cognome").style.borderColor = error_data;
+        //email.style.color = error_data;
+        document.getElementById("cognome").style.boxShadow = "0 0 0 2px" + error_data;
+
+        surname_validate = false;
+    }
+
+    console.log("--------------");
+
+});

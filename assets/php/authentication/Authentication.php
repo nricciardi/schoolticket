@@ -56,45 +56,71 @@
 
 		}
 		public function registration(/*$id,*/ $nome, $cognome, $email, $psw){
-
+			
+			$msg = '{"result":false, "description":"'; //stringa del msg errore 
+			$check = true; //variabile di controllo 
+			
 			if (!filter_var($nome, FILTER_SANITIZE_STRING)) {
-				echo '{"result":false, "description":"Nome errato"}';
-				return false;
+				$msg .= 'Nome errato; ';
+				$check = false;
 			}
 
 			if (!filter_var($cognome, FILTER_SANITIZE_STRING)) {
-				echo '{"result":false, "description":"Cognome errato"}';
-				return false;
+				$msg .= 'Cognome errato; ';
+				$check = false;
 			}
 
 			if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-				echo '{"result":false, "description":"Email errata"}';
-				return false;
+				$msg .= 'Email errata; ';
+				$check = false;
 			}
 
 			$verPsw = $this->verifyPsw($psw);
-			if($verPsw == false)
-				return false;
-			else
-				return true;
+			if($verPsw == false){
+				$msg .= 'Password errata; ';
+				$check = false;
+			}
+			if($check = false)
+				return $msg.'"}';
 
-			$q = "SELECT * FROM schoolticket.utente WHERE Email = :emailPl";
+			$msg = '{"result":false, "description":"'; //stringa del msg errore 
+			$check = true;
+
+			
+			
+			$result = 0;
+			$st -> fetchAll(PDO::FETCH_ASSOC);
+			if($verify != 1){
+				return '{"result":false, "description":" Esiste un utente con questa email"}';
+			}
+			else{
+					$q = "SELECT * FROM schoolticket.utente WHERE Email = :emailPl";
+					$st = $this->PDOconn->prepare($q);
+					$verify = $st->execute(['emailPl' => $email]); //CONTROLlO se email esiste
+					$rows = $st -> fetchAll(PDO::FETCH_ASSOC);
+					
+					echo VAR_DUMP($rows);
+					
+					/*if(){
+						return '{"result":false, "description":"Email già usata."}';
+					}
+					else{
+					
+					}*/			
+			}
+				
+			
+			$q = "INSERT INTO schoolticket.utente (Id, Nome, Cognome, Email, Psw) VALUES (:IdPl, :nomePl, :cognomePl, :emailPl, :pswPl)";
 			$st = $this->PDOconn->prepare($q);
-			$verify = $st->execute(['emailPl' => $email]);
-
-			if($verify != 1)
-			{
-				$q = "INSERT INTO schoolticket.utente (Id, Nome, Cognome, Email, Psw) VALUES (:IdPl, :nomePl, :cognomePl, :emailPl, :pswPl)";
-				$st = $this->PDOconn->prepare($q);
-				$st->execute([/*'IdPl' => $id,*/ 'nomePl' => $nome, 'cognomePl' => $cognome, 'emailPl' => $email, 'pswPl' => $psw]);
-				if($st->execute([/*'IdPl' => $id,*/ 'nomePl' => $nome, 'cognomePl' => $cognome, 'emailPl' => $email, 'pswPl' => $psw]))
+			$st->execute([/*'IdPl' => $id,*/ 'nomePl' => $nome, 'cognomePl' => $cognome, 'emailPl' => $email, 'pswPl' => $psw]);
+			if($st->execute([/*'IdPl' => $id,*/ 'nomePl' => $nome, 'cognomePl' => $cognome, 'emailPl' => $email, 'pswPl' => $psw]))
 					echo '{"result":true, "description":"Registrazione effettuata con successo."}';
 				else
 					echo '{"result":false, "description":"Registrazione non andata a buon fine."}';
-			}
-			else
-				echo '{"result":false, "description":"Email già usata."}';
+			
 		}
+		
+		
 
 		public function delete($id){
 			$q = "DELETE FROM schoolticket.utente WHERE IdUtente = :idPl";
@@ -214,7 +240,7 @@
 //FINE CLASSE
 	}
 
-	$auth = new Auth("localhost","schoolticket","root","");
+	$auth = new Auth(DATABASE_HOST, DATABASE_NAME, DATABASE_USERNAME, DATABASE_PASSWORD);
 
 //REGISTRAZIONE:
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "registration"){
