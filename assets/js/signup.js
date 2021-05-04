@@ -126,7 +126,6 @@ email.addEventListener("input", () => {
         email.style.boxShadow = "0 0 0 2px" + correct_data;
 
         re_email.removeAttribute("disabled");
-
         email_validate = true;
 
 
@@ -143,6 +142,7 @@ email.addEventListener("input", () => {
         email_validate = false;
 
         re_email.setAttribute("disabled", "disabled");
+		
     }
 
     console.log("--------------");
@@ -268,7 +268,7 @@ re_password.addEventListener("input", () => {
         re_password.style.borderColor = correct_data;
         //re_password.style.color = correct_data;
         re_password.style.boxShadow = "0 0 0 2px" + correct_data;
-
+		document.getElementById("submit").disabled = false;
         re_password_validate = true;
 
     } else {
@@ -280,7 +280,6 @@ re_password.addEventListener("input", () => {
         re_password.style.borderColor = error_data;
         //re_password.style.color = error_data;
         re_password.style.boxShadow = "0 0 0 2px" + error_data;
-
         re_password_validate = false;
     }
 
