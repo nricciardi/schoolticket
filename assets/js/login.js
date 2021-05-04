@@ -23,10 +23,10 @@ $(document).ready(function() {
       var password = $('input[id=password]').val(); // Utente inserisce password
 	  var data = {"Submit": "login", "mail": email, "passw": password};
 	  console.log(data);
-	  console.log(HOSTNAME + '/assets/php/authentication/auth.php');
+	  console.log(HOSTNAME + '/assets/php/authentication/Authentication.php');
                             $.ajax({
                             type: "POST",
-                            url: HOSTNAME + '/assets/php/authentication/auth.php',
+                            url: HOSTNAME + '/assets/php/authentication/Authentication.php',
                             data : data,
                             dataType: "text",
                             success: function (data) 

@@ -180,7 +180,7 @@ function createTableUser() {
 
     // effettuo la chiamata
     $.ajax({
-        url: HOSTNAME + "/assets/php/authentication/auth.php",
+        url: HOSTNAME + "/assets/php/authentication/Authentication.php",
         type: "post",
         data: data,
         dataType: "json",
@@ -236,7 +236,7 @@ function deleteUser(ID) {   // può anche essere passato un array
     // effettuo la chiamata ajax
     $.ajax({
 
-        url: HOSTNAME + "/assets/php/authentication/auth.php",
+        url: HOSTNAME + "/assets/php/authentication/Authentication.php",
         type: "post",
         data: data,
         dataType: "json",

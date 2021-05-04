@@ -235,7 +235,7 @@ btn_conferma.addEventListener("click", () => {
 
     $.ajax({
         type: "POST",
-        url: HOSTNAME + "/assets/php/authentication/auth.php",
+        url: HOSTNAME + "/assets/php/authentication/Authentication.php",
         data: data,
         dataType: "json",
         success: function (response)
@@ -267,7 +267,7 @@ btn_inviaCodice.addEventListener("click", () => {
 
     $.ajax({
         type: "POST",
-        url: HOSTNAME + "/assets/php/authentication/auth.php",
+        url: HOSTNAME + "/assets/php/authentication/Authentication.php",
         data: data,
         dataType: "json",
         success: function (response)
