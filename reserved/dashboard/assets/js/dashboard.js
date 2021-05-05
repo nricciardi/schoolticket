@@ -17,6 +17,9 @@ var PERMESSI = null;
 // variabile contenente le categorie
 var CATEGORIE = null;
 
+// variabile contenente l'utente loggato
+var CATEGORIE = null;
+
 // - Dato errato
 var error_data = "#ff5757";
 var error_background = "#ffeded";
@@ -98,6 +101,9 @@ function init() {
 
     // imposto le categorie attraverso una chiamata ajax
     set_categorie();
+
+    // imposto l'utente attraverso una chiamata ajax
+    set_user();
 
 }
 
@@ -261,9 +267,13 @@ function createMenu() {
 function _get_menu_features() {
 
     // return dei permessi dell'utente con una chiamata ajax
+    let user = USER.result[0];
+    let permessi_utente = user.Permessi;
+    
+
+
 }
 
-// 
 
 // nascondo tutte le interfacce (form) creati
 function hideAllDynamicPage() {
@@ -281,7 +291,7 @@ function hideAllDynamicPage() {
 
 }
 
-// restituisco le classi come oggetto
+// imposto le classi come oggetto
 function set_classrooms() {
 
 	// creo la variabile data da passare per ricevere le classi
@@ -298,6 +308,29 @@ function set_classrooms() {
             //console.log(data);
             //console.log(JSON.parse(data));
             CLASSROOMS = JSON.parse(data);
+    
+        }
+    });
+
+}
+
+// imposto l'utente loggato come oggetto
+function set_user() {
+
+	// creo la variabile data da passare per ricevere le classi
+	let data = {
+		"Submit": "getUser"
+	}
+
+    $.ajax({
+        url: HOSTNAME + '/assets/php/authentication/Authentication.php',
+        method: 'POST',
+        data: data,
+        dataType: "text",
+        success: function( data, textStatus, jQxhr ){
+            //console.log(data);
+            //console.log(JSON.parse(data));
+            USER = JSON.parse(data);
     
         }
     });

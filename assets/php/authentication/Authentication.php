@@ -82,7 +82,7 @@
 						$r .= $temp2;
 						$cont++;
 					}
-					$r .= '], "description":"Dati utente"}';
+					$r .= '], "description":"Dati utente correttamente restituiti"}';
 					return $r;
 			}
 		}
@@ -114,7 +114,7 @@
 						
 						if($result == 0)	//Verifica la corretta connessione al Database 
 						{
-							$r = '{"result":false, "description":"Query non avvenuta con successo"}';
+							$r = '{"result":false, "description":"Problemi durante l\'elaborazione dei dati del server"}';
 							return $r;		//In caso di errore di connessione la funzione ritorna -1
 						}
 				}
@@ -130,7 +130,7 @@
 						$st = $this->PDOconn->prepare("SELECT schoolticket.categoria.* FROM schoolticket.categoria WHERE schoolticket.categoria.IdCategoria = ?");		// Se è 1 visualizza tutti gli utenti
 						$result = $st->execute([$categoria]);	//Result contiene 1 o 0 in base al corretto funzionamento della query 
 						if($result == false){
-							$r = '{"result":false, "description":"Query non avvenuta con successo"}';
+							$r = '{"result":false, "description":"Problemi durante l\'elaborazione dei dati del server"}';
 							return $r;
 						}
 					$rows2 = $st->fetch(PDO::FETCH_ASSOC);
@@ -142,7 +142,7 @@
 						$st = $this->PDOconn->prepare("SELECT schoolticket.permessi.* FROM schoolticket.permessi WHERE schoolticket.permessi.IdPermessi = ?");		// Se è 1 visualizza tutti gli utenti
 						$result = $st->execute([$permessi]);	//Result contiene 1 o 0 in base al corretto funzionamento della query 
 						if($result == false){
-							$r = '{"result":false, "description":"Query non avvenuta con successo"}';
+							$r = '{"result":false, "description":"Problemi durante l\'elaborazione dei dati del server"}';
 							return $r;
 						}
 					$rows3 = $st->fetch(PDO::FETCH_ASSOC);
@@ -172,7 +172,7 @@
 					$r .= ', "Permessi": ';
 					$r .= $temp2;
 					
-					$r .= '}] , "description":"Dati utente"}';
+					$r .= '}] , "description":"Dati utente correttamente restituiti"}';
 					return $r;
 					
 				}
@@ -481,7 +481,11 @@
 //FINE CLASSE
 	}
 
-	$auth = new Auth(DATABASE_HOST, DATABASE_NAME, DATABASE_USERNAME, DATABASE_PASSWORD);
+// ===========================================================================
+// ================================== API ====================================
+// ===========================================================================
+
+$auth = new Auth(DATABASE_HOST, DATABASE_NAME, DATABASE_USERNAME, DATABASE_PASSWORD);
 	
 //REGISTRAZIONE:
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "registration"){
@@ -544,5 +548,11 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "ChangePssw"){
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "SendCode"){
 	$id_to_send_code = 1; // $_SESSION["logged"];
  	echo $auth -> SendCode($id_to_send_code);
+}
+
+// getUser:
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "getUser"){
+	$id_user = 1; // $_SESSION["logged"];
+ 	echo $auth->getUser($id_user);
 }
 ?>
