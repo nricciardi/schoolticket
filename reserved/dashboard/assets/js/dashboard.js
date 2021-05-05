@@ -18,7 +18,7 @@ var PERMESSI = null;
 var CATEGORIE = null;
 
 // variabile contenente l'utente loggato
-var CATEGORIE = null;
+var USER = null;
 
 // - Dato errato
 var error_data = "#ff5757";
@@ -54,7 +54,31 @@ var div_form_change_password = document.getElementById("div_form_change_password
 var div_management_users = document.getElementById("div_management_users");
 
 // menù con le funzionalità della pagina
-var menu_features = document.getElementById("menu_funzionalita");
+var menu_gestione = document.getElementById("menu_gestione");
+
+// bottone del sotto menù gestione: btn_show_ticket
+var btn_show_ticket = document.getElementById("btn_show_ticket");
+
+// bottone del sotto menù gestione: btn_show_user
+var btn_show_user = document.getElementById("btn_show_user");
+
+// bottone del sotto menù gestione: btn_show_permessi
+var btn_show_permessi = document.getElementById("btn_show_permessi");
+
+// bottone del sotto menù gestione: btn_show_macroaree
+var btn_show_macroaree = document.getElementById("btn_show_macroaree");
+
+// bottone del sotto menù gestione: btn_show_categorie
+var btn_show_categorie = document.getElementById("btn_show_categorie");
+
+// bottone del sotto menù gestione: btn_show_aule
+var btn_show_aule = document.getElementById("btn_show_aule");
+
+// bottone del sotto menù gestione: btn_show_competenze
+var btn_show_competenze = document.getElementById("btn_show_competenze");
+
+// bottone del sotto menù gestione: btn_show_note
+var btn_show_note = document.getElementById("btn_show_note");
 
 // Variabile per scrivere il numero di ticket
 var newTicket = document.getElementById("ticketNumber");
@@ -79,7 +103,7 @@ $(document).ready(() => {
 });
 
 // funzione che viene richiamata all'inizio
-function init() {
+async function init() {
 
 	console.log("Initialized...");
 	
@@ -91,19 +115,22 @@ function init() {
 	hideAllDynamicPage();
 
     // imposto le classi attraverso una chiamata ajax
-	set_classrooms();
+	await set_classrooms();
 	
     // imposto le macroaree attraverso una chiamata ajax
-    set_macroaree();
+    await set_macroaree();
 
     // imposto i permessi attraverso una chiamata ajax
-    set_permessi();
+    await set_permessi();
 
     // imposto le categorie attraverso una chiamata ajax
-    set_categorie();
+    await set_categorie();
 
-    // imposto l'utente attraverso una chiamata ajax
-    set_user();
+    // imposto l'utente loggato attraverso una chiamata ajax
+    await set_user();
+
+    // creo il menù in modo dinamico
+    createMenu();
 
 }
 
@@ -117,7 +144,7 @@ function addMacroaree(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
 
     // per ogni macroarea creo un option e la aggiungo alla select-box
     if(MACROAREE !== null) {
-        MACROAREE.result.forEach(element => {
+        MACROAREE.forEach(element => {
             //console.log(element);
             // creo l'elemento option
             let option = document.createElement("option");
@@ -150,7 +177,7 @@ function addPermessi(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
 
     // per ogni macroarea creo un option e la aggiungo alla select-box
     if(PERMESSI !== null) {
-        PERMESSI.result.forEach(element => {
+        PERMESSI.forEach(element => {
             //console.log(element);
             // creo l'elemento option
             let option = document.createElement("option");
@@ -183,7 +210,7 @@ function addCategorie(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
 
     // per ogni macroarea creo un option e la aggiungo alla select-box
     if(CATEGORIE !== null) {
-        CATEGORIE.result.forEach(element => {
+        CATEGORIE.forEach(element => {
             //console.log(element);
             // creo l'elemento option
             let option = document.createElement("option");
@@ -216,7 +243,7 @@ function addCategorie(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
 
     // per ogni classe creo un option e la aggiungo alla select-box
     if(CLASSROOMS !== null) {
-        CLASSROOMS.result.forEach(element => {
+        CLASSROOMS.forEach(element => {
             //console.log(element);
             // creo l'elemento option
             let option = document.createElement("option");
@@ -257,20 +284,138 @@ function createMenu() {
 
     console.debug("Create menù");
 
-    // prendo il codice HTML del menu per le features
-    let html_menu_features = _get_menu_features();
+    // imposto e verifico se devo abilitare il MENU GESTIONE
+    if(settingMenuGestione() == true) {
+        menu_gestione.style.display = "";
+    } else {
+        menu_gestione.style.display = "none";
+    } 
 
 
 }
 
 // restituisce il codice HTML del menù funzionalità
-function _get_menu_features() {
+function settingMenuGestione() {
 
-    // return dei permessi dell'utente con una chiamata ajax
-    let user = USER.result[0];
-    let permessi_utente = user.Permessi;
-    
+    //console.log("settingMenuGestione");
+    //console.log(USER);
+    if(USER !== null) {
 
+        // recupero i permessi dell'utente
+        let permessi_utente = USER.Permessi;
+
+        // variabile da restituire true nel caso ci sia almeno un menu da visualizzare
+        let show = false;
+        
+        // per ogni permesso impostato su "1" elimino il display none al bottone
+        //                                                                  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! inserire sezione incarichi
+        if(permessi_utente.VisualizzaTuttiTicket === "1" || permessi_utente.ModificaTuttiTicket === "1" || permessi_utente.ModificaStatoAvanzamentoTicket === "1" || permessi_utente.UnireTicket === "1" || permessi_utente.CreaIncarico === "1" || permessi_utente.ModificaStatoAvanzamentoIncarico === "1") {
+
+            // restituirò true
+            show = true;
+
+            // tolgo il display none dal bottone associato
+            btn_show_ticket.style.display = "";
+
+            console.log("if1");
+            
+        } else {
+            // continuo a tener nascosto il bottone
+            btn_show_ticket.style.display = "none";
+        }
+
+        if(permessi_utente.CreaModificaEliminaMacroarea === "1") {
+
+            // restituirò true
+            show = true;
+
+            // tolgo il display none dal bottone associato
+            btn_show_macroaree.style.display = "";
+
+            console.log("if2");
+            
+        } else {
+            // continuo a tener nascosto il bottone
+            btn_show_macroaree.style.display = "none";
+        }
+
+        if(permessi_utente.CreaModificaEliminaCompetenza === "1") {
+
+            // restituirò true
+            show = true;
+
+            // tolgo il display none dal bottone associato
+            btn_show_competenze.style.display = "";
+
+            console.log("if3");
+            
+        } else {
+            // continuo a tener nascosto il bottone
+            btn_show_competenze.style.display = "none";
+        }
+
+        if(permessi_utente.CreaModificaEliminaCategoria === "1") {
+
+            // restituirò true
+            show = true;
+
+            // tolgo il display none dal bottone associato
+            btn_show_categorie.style.display = "";
+
+            console.log("if4");
+            
+        } else {
+            // continuo a tener nascosto il bottone
+            btn_show_categorie.style.display = "none";
+        }
+
+        if(permessi_utente.CreaModificaEliminaAula == "1") {
+
+            // restituirò true
+            show = true;
+
+            // tolgo il display none dal bottone associato
+            btn_show_aule.style.display = "";
+
+            console.log("if5");
+            
+        } else {
+            // continuo a tener nascosto il bottone
+            btn_show_aule.style.display = "none";
+        }
+
+        if(permessi_utente.ModificaVisualizzaTuttiUtenti === "1") {
+
+            // restituirò true
+            show = true;
+
+            // tolgo il display none dal bottone associato
+            btn_show_user.style.display = "";
+
+            console.log("if6");
+            
+        } else {
+            // continuo a tener nascosto il bottone
+            btn_show_user.style.display = "none";
+        }
+
+        /*if(permessi_utente.CreaIncarico === "1" || permessi_utente.ModificaStatoAvanzamentoIncarico === "1") {
+
+            // restituirò true
+            show = true;
+
+            // tolgo il display none dal bottone associato
+            btn_show_aule.display = "";
+            
+        } else {
+            // continuo a tener nascosto il bottone
+            btn_show_aule.display = "none";
+        }*/
+
+
+        // restituisco true se ho almeno un permesso valido
+        return show;
+    }
 
 }
 
@@ -292,14 +437,16 @@ function hideAllDynamicPage() {
 }
 
 // imposto le classi come oggetto
-function set_classrooms() {
+async function set_classrooms() {
+
+    CLASSROOMS = null;
 
 	// creo la variabile data da passare per ricevere le classi
 	let data = {
 		"Submit": "getClassrooms"
 	}
 
-    $.ajax({
+    await $.ajax({
         url: HOSTNAME + '/reserved/dashboard/assets/php/Dashboard.php',
         method: 'POST',
         data: data,
@@ -307,7 +454,8 @@ function set_classrooms() {
         success: function( data, textStatus, jQxhr ){
             //console.log(data);
             //console.log(JSON.parse(data));
-            CLASSROOMS = JSON.parse(data);
+            console.debug("set CLASSROOM");
+            CLASSROOMS = JSON.parse(data).result;
     
         }
     });
@@ -315,46 +463,56 @@ function set_classrooms() {
 }
 
 // imposto l'utente loggato come oggetto
-function set_user() {
+async function set_user() {
+
+    USER = null;
 
 	// creo la variabile data da passare per ricevere le classi
 	let data = {
 		"Submit": "getUser"
 	}
 
-    $.ajax({
+    await $.ajax({
         url: HOSTNAME + '/assets/php/authentication/Authentication.php',
         method: 'POST',
         data: data,
         dataType: "text",
         success: function( data, textStatus, jQxhr ){
+            console.debug("set USER");
+            //console.log("user setted");
             //console.log(data);
             //console.log(JSON.parse(data));
-            USER = JSON.parse(data);
+            USER = JSON.parse(data).result[0]; 
+                
     
         }
     });
+
+    //console.debug("end set user");
 
 }
 
 
 // funzione per inviare i dati tramite ajax 
-function set_macroaree() {
+async function set_macroaree() {
+
+    MACROAREE = null;
 
 	// creo la variabile data da passare per ricevere le macroaree
     data = {
         "Submit": "getMacroaree"
     }
 
-    $.ajax({
+    await $.ajax({
         url: HOSTNAME + '/reserved/dashboard/assets/php/Dashboard.php',
         method: 'POST',
         data: data,
         dataType: "text",
         success: function( data, textStatus, jQxhr ){
+            console.debug("set MACROAREE");
             //console.log(data);
             //console.log(JSON.parse(data));
-            MACROAREE = JSON.parse(data);
+            MACROAREE = JSON.parse(data).result;
     
         }
     });					
@@ -362,6 +520,8 @@ function set_macroaree() {
 
 // funzione per inviare i dati tramite ajax 
 function set_permessi() {
+
+    PERMESSI = null;
 
 	// creo la variabile data da passare per ricevere le macroaree
     data = {
@@ -374,31 +534,35 @@ function set_permessi() {
         data: data,
         dataType: "text",
         success: function( data, textStatus, jQxhr ){
+            console.debug("set PERMESSI");
             //console.log(data);
             //console.log(JSON.parse(data));
-            PERMESSI = JSON.parse(data);
+            PERMESSI = JSON.parse(data).result;
     
         }
     });					
 }
 
 // funzione per inviare i dati tramite ajax 
-function set_categorie() {
+async function set_categorie() {
+
+    CATEGORIE = null;
 
 	// creo la variabile data da passare per ricevere le macroaree
     data = {
         "Submit": "getCategorie"
     }
 
-    $.ajax({
+    await $.ajax({
         url: HOSTNAME + '/reserved/dashboard/assets/php/Dashboard.php',
         method: 'POST',
         data: data,
         dataType: "text",
         success: function( data, textStatus, jQxhr ){
+            console.debug("set CATEGORIE");
             //console.log(data);
             //console.log(JSON.parse(data));
-            CATEGORIE = JSON.parse(data);
+            CATEGORIE = JSON.parse(data).result;
     
         }
     });					

@@ -51,29 +51,45 @@ var btn_conferma = document.getElementById("bottone");
                             <a href="#">
                                 <i class="fas fa-shopping-basket"></i>eCommerce</a>
                         </li>
-                        <li class="has-sub">
+                        <li class="has-sub" id="menu_gestione" style="display: none;">
                             <a class="js-arrow" href="#">
-                                <i class="fas fa-trophy"></i>Features
+                                <i class="fas fa-tasks"></i>Gestione
                                 <span class="arrow">
                                     <i class="fas fa-angle-down"></i>
                                 </span>
                             </a>
-                            <ul class="list-unstyled navbar__sub-list js-sub-list" id="menu_funzionalita">
+                            <ul class="list-unstyled navbar__sub-list js-sub-list" id="menu_gestione">
                                 <li>
-                                    <a href="table.html">
-                                        <i class="fas fa-table"></i>Tables</a>
+                                    <button id="btn_show_ticket" style="display: none;">
+                                        <i class="fas fa-ticket-alt"></i>Ticket</button>
                                 </li>
                                 <li>
-                                    <a href="form.html">
-                                        <i class="far fa-check-square"></i>Forms</a>
+                                    <button id="btn_show_user" style="display: none;">
+                                        <i class="fas fa-users"></i>Utenti</button>
                                 </li>
                                 <li>
-                                    <a href="calendar.html">
-                                        <i class="fas fa-calendar-alt"></i>Calendar</a>
+                                    <button id="btn_show_permessi" style="display: none;">
+                                        <i class="fas fa-shield-alt"></i>Permessi</button>
                                 </li>
                                 <li>
-                                    <a href="map.html">
-                                        <i class="fas fa-map-marker-alt"></i>Maps</a>
+                                    <button id="btn_show_macroaree" style="display: none;">
+                                        <i class="fas fa-th-large"></i>Macroaree</button>
+                                </li>
+                                <li>
+                                    <button id="btn_show_categorie" style="display: none;">
+                                        <i class="fas fa-list-alt"></i>Categorie</button>
+                                </li>
+                                <li>
+                                    <button id="btn_show_aule" style="display: none;">
+                                        <i class="fas fa-graduation-cap"></i>Aule</button>
+                                </li>
+                                <li>
+                                    <button id="btn_show_competenze" style="display: none;">
+                                        <i class="fas fa-briefcase"></i>Competenze</button>
+                                </li>
+                                <li>
+                                    <button id="btn_show_note" style="display: none;">
+                                        <i class="fas fa-clipboard"></i>Annotazioni</button>
                                 </li>
                             </ul>
                         </li>

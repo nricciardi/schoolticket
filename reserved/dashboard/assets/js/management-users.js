@@ -280,11 +280,6 @@ function deleteUser(ID) {   // può anche essere passato un array
 
 }
 
-// aggiungo il nuovo utente attraverso le informazioni inserite nel form
-function addUser() {
-    console.debug("Funzione da implementare");
-}
-
 // imposta tutti i checkbox dei record della tabella utenti con la modalità passata
 function setCheckboxRecordUser(mode) {
     

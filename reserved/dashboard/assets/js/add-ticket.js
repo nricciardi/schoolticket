@@ -175,19 +175,6 @@ input_description_ticket.addEventListener("input", () => {
     
 })
 
-// EVENTI
-
-// al caricamento del select per le macroaree inserisco gli option in modo dinamico
-btn_add_ticket.addEventListener("click", () => {
-
-    // richiamo la funzione per aggiungere le macroaree
-    addMacroaree();
-
-    // richiamo la funzione per aggiungere le categorie
-    addCategorie();
-
-});
-
 
 // quando viene tolto il focus dal nome del ticket avviene il controllo che non sia vuoto
 input_name_ticket.addEventListener("input", () => {
