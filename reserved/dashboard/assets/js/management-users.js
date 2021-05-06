@@ -17,6 +17,9 @@ var form_add_user = document.getElementById("formAddUser");
 // bottone per il refresh della schermata
 var btn_refresh_management_user = document.getElementById("btn_refresh_management_user");
 
+// span di risposta per la tabella management user
+var feedback_table_management_user = document.getElementById("feedback_table_management_user");
+
 
 /*
 <tr class="tr-shadow">
@@ -181,6 +184,9 @@ function createRequestAction(type, ID) {
 
 // richiama gli utenti dal database tramite chiamata AJAX e successivamente crea la tabella
 function createTableUser() {
+
+    feedback_table_management_user.innerText = "Sto caricando la tabella...";
+    feedback_table_management_user.style.color = "#ededed";
     
     // creo l'oggetto data da mandare in post
     let data = {"Submit": "show"};
@@ -200,8 +206,8 @@ function createTableUser() {
             if(res.result === false) {
 
                 // in caso di errore stampo un messaggio nel box al posto della tabella
-                div_management_users.innerText = res.description;
-                div_management_users.style.color = error_data;
+                feedback_table_management_user.innerText = res.description;
+                feedback_table_management_user.style.color = error_data;
 
             } else {    // in caso positivo creo la tabella per gli utenti
 
@@ -227,8 +233,8 @@ function createTableUser() {
             console.error("Errore durante la chiamata per la creazione della tabella, il server non risponde o il risultato non è in formato JSON");
 
             // in caso di errore stampo un messaggio nel box al posto della tabella
-            div_management_users.innerText = "Errore durante la connessione con il server, riprovare più tardi o contattare l'assistenza.";
-            div_management_users.style.color = error_data;
+            feedback_table_management_user.innerText = "Errore durante la connessione con il server, riprovare più tardi o contattare l'assistenza.";
+            feedback_table_management_user.style.color = error_data;
 
         }
     });

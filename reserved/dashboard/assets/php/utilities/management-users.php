@@ -38,6 +38,7 @@
                 </div>-->
             </div>
         </div>
+        <span id="feedback_table_management_user">N / D</span>
         <div class="table-responsive table-responsive-data2">
             <table class="table table-data2">
                 <thead>
