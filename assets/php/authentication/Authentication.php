@@ -487,8 +487,8 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "registration"){
   	if(isset($_POST["email"]))
     	$email = $_POST["email"];
 
-  	if(isset($_POST["pssw"]))
-    	$password = $_POST["pssw"];
+  	if(isset($_POST["password"]))
+    	$password = $_POST["password"];
 
 	if(isset($_POST["IdCategoria"]))
     	$IdCategoria = $_POST["IdCategoria"];

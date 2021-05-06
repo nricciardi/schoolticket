@@ -53,6 +53,7 @@
                         <th>Cognome</th>
                         <th>Nome</th>
                         <th>Email</th>
+                        <th>Password</th>
                         <th>Categoria</th>
                         <th>Permessi</th>
                         <th>Azioni</th>
