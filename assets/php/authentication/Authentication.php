@@ -325,61 +325,43 @@
 			$st = $this->PDOconn->prepare($q);
 			$st->execute(['idPl' => $id]);
 		}
-
-	public function show($id){
+		
+public function show($id){
 			if(is_numeric($id))  // Vedere se l'utente è loggato.
 			{
-				
-				$controlloId = $this->PDOconn->prepare("SELECT IdPermessi FROM utente WHERE IdUtente = ?");
+
+				$controlloId = $this->PDOconn->prepare("SELECT schoolticket.permessi.VisualizzaTuttiTicket FROM schoolticket.utente JOIN schoolticket.permessi ON schoolticket.utente.IdPermessi = schoolticket.permessi.IdPermessi   WHERE schoolticket.utente.IdUtente = ?");
 				$result = $controlloId->execute([$id]);
 
 				// verifico che la query sia stata eseguita con successo
 				if($result == false)
 					return '{"result":false, "description":"Problemi durante l\'elaborazione del server, riprovare più tardi o contattare l\'assistenza"}';
-			
-				while($record = $controlloId->fetch()) {	// recupero le informazioni dei permessi dell'utente
-					$IdPerm = null;		// istanzio la variabile
 
-					// DEBUG:
-					//var_dump($record['IdPermessi'] == null);
-
-					// verifico che siano presenti dei permessi
-					if(isset($record['IdPermessi']) && $record['IdPermessi'] != null && $record['IdPermessi'] != "NULL")
-						$IdPerm = $record['IdPermessi'];
-					else
-						return '{"result":false, "description":"Problemi durante l\'elaborazione del server, riprovare più tardi o contattare l\'assistenza"}';
+				$permesso = $controlloId->fetch();
+				$IdP = $permesso[0];
+				//echo $IdP;
+					if(!is_numeric($IdP)){
+						return	'{"result":false, "description":"Problemi durante l\'elaborazione del server, riprovare più tardi o contattare l\'assistenza"}';
+					}
 				}
-				// DEBUG:
-				//var_dump($IdPerm);
 
-				// recupero i permessi dell'utente selezionato
-				$controlloPerm = $this->PDOconn->prepare("SELECT schoolticket.permessi.ModificaVisualizzaTuttiUtenti FROM schoolticket.permessi WHERE schoolticket.permessi.IdPermessi = ?");
-				$result = $controlloPerm->execute([$IdPerm]);
 
-				// verifico che la query sia stata eseguita con successo
-				if($result == false)
-					return '{"result":false, "description":"Problemi durante l\'elaborazione del server, riprovare più tardi o contattare l\'assistenza"}';
-
-				while($record = $controlloPerm->fetch())
-					$PermUtenti = $record['ModificaVisualizzaTuttiUtenti'];
-				
-				if($PermUtenti == 1)
+				if($IdP == 1)//Se è admin vede tutti:
 				{
 					return $this->getAllUsers($id);
-					
+
 				}
-				else
+				else if($IdP == 0)
 				{
 					return $this->getUser($id);
-			
+
+				}else{
+					// in caso non sia stato restituito nulla:
+					return '{"result":false, "description":"Problemi durante l\'elaborazione del server, riprovare più tardi o contattare l\'assistenza"}';
+
 				}
-				
-				// in caso non sia stato restituito nulla:
-				return '{"result":false, "description":"Problemi durante l\'elaborazione del server, riprovare più tardi o contattare l\'assistenza"}';
-			
-			} else {
-				return '{"result":false, "description":"Problemi durante l\'elaborazione del server, riprovare più tardi o contattare l\'assistenza"}';
-			}
+
+
 		}
 
 		public function login($email, $psw){

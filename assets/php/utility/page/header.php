@@ -5,7 +5,7 @@
 					<h1><a href="index.php"> School ticket </h1>
 					<nav id="nav">
 						<ul>
-							<li><a href="index.php">Home</a></li>
+							<li><a href="../index.php">Home</a></li>
 							<li>
 								<a href="#" class="icon solid fa-angle-down">Layouts</a>
 								<ul>
@@ -23,8 +23,8 @@
 									</li>
 								</ul>
 							</li>
-							<li><a href="page/login.php" class="button">Accedi</a></li>
-							<li><a href="page/signup.php"> <u> Registrati</u> </a></li>
+							<li><a href="login.php" class="button">Accedi</a></li>
+							<li><a href="#"> <u> Registrati</u> </a></li>
 						</ul>
 					</nav>
 				</header>
