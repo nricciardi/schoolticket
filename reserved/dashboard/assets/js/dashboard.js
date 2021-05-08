@@ -242,8 +242,8 @@ function addCategorie(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
     //console.log(CLASSROOMS);
 
     // per ogni classe creo un option e la aggiungo alla select-box
-    if(CLASSROOMS !== null) {
-        CLASSROOMS.forEach(element => {
+    if(CATEGORIE !== null) {
+        CATEGORIE.forEach(element => {
             //console.log(element);
             // creo l'elemento option
             let option = document.createElement("option");
@@ -261,7 +261,7 @@ function addCategorie(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
     } else {
         // errore
         result.style.color = error_data;
-        result.innerHTML = "Errore nella richiesta delle aule, riprovare più tardi o contattare l'assistenza."
+        result.innerHTML = "Errore nella richiesta delle categorie, riprovare più tardi o contattare l'assistenza."
 
     }
 }
