@@ -21,7 +21,10 @@ var btn_refresh_management_user = document.getElementById("btn_refresh_managemen
 var feedback_table_management_user = document.getElementById("feedback_table_management_user");
 
 // variabile di controllo per il form new user
-var check_form_new_user = false;
+var check_new_surname = false;
+var check_new_name = false;
+var check_new_email = false;
+var check_new_password = false;
 
 // -------------------------------------------------------------------------------
 // ---------------------- FUNZIONI GENERICHE -------------------------------------
@@ -338,22 +341,22 @@ function createFormNewUser() {
     
     // inserisco il COGNOME
     record += '<td>' + 
-    '<input type="text" placeholder="Cognome" oninput="checkInput(\'newSurname\')" class="form-control" id="newSurname">' + 
+    '<input type="text" placeholder="Cognome" oninput="checkNewSurname()" class="form-control" id="newSurname">' + 
     '</td>';
     
     // inserisco il NOME
     record += '<td>' + 
-    '<input type="text" placeholder="Nome" oninput="checkInput(\'newName\')" class="form-control" id="newName">' + 
+    '<input type="text" placeholder="Nome" oninput="checkNewName()" class="form-control" id="newName">' + 
     '</td>';
     
     // inserisco l'EMAIL
     record += '<td>' + 
-    '<input type="email" placeholder="Email" oninput="checkInput(\'newEmail\')" class="form-control" id="newEmail">' + 
+    '<input type="email" placeholder="Email" oninput="checkNewEmail()" class="form-control" id="newEmail">' + 
     '</td>';
 
     // inserisco la PASSWORD
     record += '<td>' + 
-    '<input type="password" placeholder="Password" oninput="checkInput(\'newPassword\')" class="form-control" id="newPassword">' + 
+    '<input type="password" placeholder="Password" oninput="checkNewPassword()" class="form-control" id="newPassword">' + 
     '</td>';
 
     
@@ -385,19 +388,83 @@ function createFormNewUser() {
 }
 
 // imposto le funzioni per gli eventi del form 
-function checkInput(id_input) {
+function checkNewSurname() {
     
     // controllo che sia aggiunto almeno un valore per il cognome
 
-    if(document.getElementById(id_input).value.trim() == "") {
+    if(document.getElementById("newSurname").value.trim() == "") {
 
-        document.getElementById(id_input).style.borderColor = error_data;
-        check_form_new_user = false;
+        document.getElementById("newSurname").style.borderColor = error_data;
+        check_new_surname = false;
 
     } else {
 
-        check_form_new_user = true;
-        document.getElementById(id_input).style.borderColor = correct_data;
+        check_new_surname = true;
+        document.getElementById("newSurname").style.borderColor = correct_data;
+
+    }
+
+    // controllo se posso abilitare il bottone di conferma
+    checkFormNewUser();
+
+}
+
+function checkNewName() {
+    
+    // controllo che sia aggiunto almeno un valore per il nome
+
+    if(document.getElementById("newName").value.trim() == "") {
+
+        document.getElementById("newName").style.borderColor = error_data;
+        check_new_name = false;
+
+    } else {
+
+        check_new_name = true;
+        document.getElementById("newName").style.borderColor = correct_data;
+
+    }
+
+    // controllo se posso abilitare il bottone di conferma
+    checkFormNewUser();
+
+}
+
+// imposto le funzioni per gli eventi del form 
+function checkNewEmail() {
+    
+    // controllo che sia aggiunto almeno un valore per il email
+
+    if(document.getElementById("newEmail").value.trim() == "") {
+
+        document.getElementById("newEmail").style.borderColor = error_data;
+        check_new_email = false;
+
+    } else {
+
+        check_new_email = true;
+        document.getElementById("newEmail").style.borderColor = correct_data;
+
+    }
+
+    // controllo se posso abilitare il bottone di conferma
+    checkFormNewUser();
+
+}
+
+function checkNewPassword() {
+    
+    // controllo che sia aggiunto almeno un valore per il email
+
+    if(document.getElementById("newPassword").value.trim() == "") {
+
+        document.getElementById("newPassword").style.borderColor = error_data;
+        check_new_password = false;
+
+    } else {
+
+        check_new_password = true;
+        document.getElementById("newPassword").style.borderColor = correct_data;
 
     }
 
@@ -410,7 +477,7 @@ function checkInput(id_input) {
 // controllo se posso abilitare il bottone per la conferma del nuovo utente
 function checkFormNewUser() {
     
-    if(check_form_new_user)
+    if(check_new_surname)
         document.getElementById("btn_confirm_new_user").removeAttribute("disabled");
     else
         document.getElementById("btn_confirm_new_user").setAttribute("disabled", "disabled");
