@@ -76,7 +76,7 @@ $("#submit").click(function () {
     var nome = $('input[id=nome]').val(); // Utente inserisce nome
     var cognome = $('input[id=cognome]').val(); // Utente inserisce cognome
     var password = $('input[id=password]').val(); // Utente inserisce password
-    var data = {"Submit": "registration", "nome": nome, "cognome": cognome, "email": email, "pssw": password};
+    var data = {"Submit": "registration", "nome": nome, "cognome": cognome, "email": email, "password": password, "IdCategoria": IdCategoria, "IdPermessi": 0};
     console.log(data);
     console.log(HOSTNAME + '../assets/php/authentication/Authentication.php');
     $.ajax({
