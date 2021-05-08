@@ -32,3 +32,4 @@
     <script src="assets/js/add-ticket.js"></script>
     <script src="assets/js/change-password.js"></script>
     <script src="assets/js/management-users.js"></script>
+    <script src="assets/js/management-ticket.js"></script>
