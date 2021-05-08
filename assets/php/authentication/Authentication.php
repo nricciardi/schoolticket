@@ -79,10 +79,10 @@
 						$r .= '" ,"Categoria": ';
 						$r .= $temp;
 						$r .= ' ,"Permessi": ';
-						$r .= $temp2;
+						$r .= $temp2 . '}';
 						$cont++;
 					}
-					$r .= '}], "description":"Dati utente correttamente restituiti"}';
+					$r .= '], "description":"Dati utente correttamente restituiti"}';
 					return $r;
 			}
 		}
@@ -170,9 +170,9 @@
 					$r .= '", "Categoria": ';
 					$r .= $temp;
 					$r .= ', "Permessi": ';
-					$r .= $temp2;
+					$r .= $temp2 . '}';
 					
-					$r .= '}] , "description":"Dati utente correttamente restituiti"}';
+					$r .= '] , "description":"Dati utente correttamente restituiti"}';
 					return $r;
 					
 				}

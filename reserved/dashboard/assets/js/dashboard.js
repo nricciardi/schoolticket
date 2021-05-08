@@ -655,3 +655,18 @@ btn_show_user.addEventListener("click", () => {
     $("#header-desktop-menu2").removeClass("show-sidebar");
 
 });
+
+btn_show_ticket.addEventListener("click", () => {
+
+    hideAllDynamicPage();
+
+    // creo la tabella degli utenti
+    createTableTicket();
+
+    div_management_ticket.style.display = "";
+
+    // chiudo il menù
+    $("#header-desktop-menu").removeClass("show-sidebar");
+    $("#header-desktop-menu2").removeClass("show-sidebar");
+
+});
