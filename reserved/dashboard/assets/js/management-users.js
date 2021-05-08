@@ -121,7 +121,7 @@ function requestActionUser(type, ID) {      // passo il tipo di richiesta che vi
 
         case "delete":
             // creo il form per la conferma
-            form_html = createRequestAction(type, ID);
+            form_html = createRequestActionUser(type, ID);
 
             div_management_users.innerHTML = form_html;
 
@@ -136,7 +136,7 @@ function requestActionUser(type, ID) {      // passo il tipo di richiesta che vi
 }
 
 // crea il codice HTML per la richiesta da aggiungere sopra il bottone cliccato
-function createRequestAction(type, ID) {
+function createRequestActionUser(type, ID) {
     
     let question = "Sei sicuro ";
 

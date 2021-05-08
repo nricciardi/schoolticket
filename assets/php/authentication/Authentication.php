@@ -524,7 +524,7 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "delete"){
 
 //SHOW:
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "show"){
-	$id = 1;	// $_SESSION["logged"];
+	$id = 2;	// $_SESSION["logged"];
 	echo $auth -> show($id);//L'id va peso dalla sessione!!
 }
 
