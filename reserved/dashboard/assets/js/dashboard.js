@@ -432,7 +432,7 @@ function hideAllDynamicPage() {
 	}
 
 	// DEBUG:
-	div_management_users.style.display = "";
+	//div_management_users.style.display = "";
 
 }
 
@@ -640,14 +640,18 @@ btn_change_password2.addEventListener("click", () => {
     $("#header-desktop-menu2").removeClass("show-sidebar");
 });
 
+btn_show_user.addEventListener("click", () => {
 
-/*
-<li>
-<a href="table.html">
-<i class="fas fa-ticket-alt"></i>Ticket</a>
-</li>
-<li>
-<a href="table.html">
-<i class="fas fa-user"></i>Utenti</a>
- </li>
-*/
+    hideAllDynamicPage();
+
+    console.debug("show management user");
+
+    // creo la tabella degli utenti
+    createTableUser();
+
+    div_management_users.style.display = "";
+    // chiudo il menù
+    $("#header-desktop-menu").removeClass("show-sidebar");
+    $("#header-desktop-menu2").removeClass("show-sidebar");
+
+});
