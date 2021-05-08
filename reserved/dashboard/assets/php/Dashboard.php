@@ -143,7 +143,7 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "getPermessi")
     echo $dashboard->getPermessi();
 }
 
-// if per il submit delle getPermessi
+// if per il submit delle getCategorie
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "getCategorie")
 {
     echo $dashboard->getCategorie();
