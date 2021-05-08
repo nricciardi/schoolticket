@@ -17,44 +17,12 @@ var form_add_user = document.getElementById("formAddUser");
 // bottone per il refresh della schermata
 var btn_refresh_management_user = document.getElementById("btn_refresh_management_user");
 
+// span di risposta per la tabella management user
+var feedback_table_management_user = document.getElementById("feedback_table_management_user");
 
-/*
-<tr class="tr-shadow">
-    <td>
-        <label class="au-checkbox">
-            <input type="checkbox">
-            <span class="au-checkmark"></span>
-        </label>
-    </td>
-    <td>Lori Lynch</td>
-    <td>
-        <span class="block-email">lori@example.com</span>
-    </td>
-    <td class="desc">Samsung S8 Black</td>
-    <td>2018-09-27 02:12</td>
-    <td>
-        <span class="status--process">Processed</span>
-    </td>
-    <td>$679.00</td>
-    <td>
-        <div class="table-data-feature">
-            <button class="item" data-toggle="tooltip" data-placement="top" title="Send">
-                <i class="zmdi zmdi-mail-send"></i>
-            </button>
-            <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
-                <i class="zmdi zmdi-edit"></i>
-            </button>
-            <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
-                <i class="zmdi zmdi-delete"></i>
-            </button>
-            <button class="item" data-toggle="tooltip" data-placement="top" title="More">
-                <i class="zmdi zmdi-more"></i>
-            </button>
-        </div>
-    </td>
-</tr>
-<tr class="spacer"></tr>
-*/
+// variabile di controllo per il form new user
+var check_form_new_user = false;
+
 // -------------------------------------------------------------------------------
 // ---------------------- FUNZIONI GENERICHE -------------------------------------
 // -------------------------------------------------------------------------------
@@ -85,6 +53,9 @@ function createRecordUser(user) {   //User è un oggetto contenente le informazi
     
     // inserisco l'EMAIL
     record += '<td><span class="block-email">' + user.Email + '</span></td>';
+
+    // inserisco la PASSWORD
+    record += '<td><span class="block-email">' + cutString(user.Password, 10) + '</span></td>';
     
     // inserisco la CATEGORIA
     record += '<td>' + user.Categoria.Nome + '</td>';
@@ -181,6 +152,9 @@ function createRequestActionUser(type, ID) {
 
 // richiama gli utenti dal database tramite chiamata AJAX e successivamente crea la tabella
 function createTableUser() {
+
+    feedback_table_management_user.innerText = "Sto caricando la tabella...";
+    feedback_table_management_user.style.color = "#ededed";
     
     // creo l'oggetto data da mandare in post
     let data = {"Submit": "show"};
@@ -200,8 +174,8 @@ function createTableUser() {
             if(res.result === false) {
 
                 // in caso di errore stampo un messaggio nel box al posto della tabella
-                div_management_users.innerText = res.description;
-                div_management_users.style.color = error_data;
+                feedback_table_management_user.innerText = res.description;
+                feedback_table_management_user.style.color = error_data;
 
             } else {    // in caso positivo creo la tabella per gli utenti
 
@@ -227,12 +201,61 @@ function createTableUser() {
             console.error("Errore durante la chiamata per la creazione della tabella, il server non risponde o il risultato non è in formato JSON");
 
             // in caso di errore stampo un messaggio nel box al posto della tabella
-            div_management_users.innerText = "Errore durante la connessione con il server, riprovare più tardi o contattare l'assistenza.";
-            div_management_users.style.color = error_data;
+            feedback_table_management_user.innerText = "Errore durante la connessione con il server, riprovare più tardi o contattare l'assistenza.";
+            feedback_table_management_user.style.color = error_data;
 
         }
     });
     
+
+}
+
+// in base all'id passato cerco di creare un nuovo utente
+function addUser() {
+    console.log("Aggiungo un utente");
+
+    // controllo che tutti i controlli siano andati a buon fine
+    if(!check_form_new_user)
+        return false;
+
+    // creo l'oggetto data da mandare in post
+    let data = {"Submit": "registration", "nome": document.getElementById("newName").value, "email": document.getElementById("newEmail").value, "cognome": document.getElementById("newSurname").value, "password": document.getElementById("newPassword").value, "IdCategoria": document.getElementById("categoria_add_user").value, "IdPermessi": document.getElementById("permessi_add_user").value};
+
+    // effettuo la chiamata ajax
+    $.ajax({
+
+        url: HOSTNAME + "/assets/php/authentication/Authentication.php",
+        type: "post",
+        data: data,
+        dataType: "json",
+        success: (res) => {
+
+            console.log(res);
+            // verifico che la siano stati restituiti correttamente i dati
+            if(res.result === false) {
+
+                // in caso di errore stampo un messaggio nel box al posto della tabella
+                feedback_table_management_user.innerText = res.description;
+                feedback_table_management_user.style.color = error_data;
+
+            } else {
+
+                // in caso positivo creo la tabella per gli utenti
+                createTableUser();
+                
+            }
+
+        },
+        error: (res) => {
+
+            // in caso di errore stampo un messaggio nel box al posto della tabella
+            //div_management_users.innerText = "Errore durante la connessione con il server, riprovare più tardi o contattare l'assistenza.";
+            //div_management_users.style.color = error_data;
+            feedback_table_management_user.innerText = "Errore durante la connessione con il server, riprovare più tardi o contattare l'assistenza.";
+            feedback_table_management_user.style.color = error_data;
+        }
+
+    });
 
 }
 
@@ -258,13 +281,14 @@ function deleteUser(ID) {   // può anche essere passato un array
             if(res.result === false) {
 
                 // in caso di errore stampo un messaggio nel box al posto della tabella
-                div_management_users.innerText = res.description;
-                div_management_users.style.color = error_data;
+                feedback_table_management_user.innerText = res.description;
+                feedback_table_management_user.style.color = error_data;
 
             } else {
 
                 // in caso positivo creo la tabella per gli utenti
-                
+                createTableUser();
+
             }
 
         },
@@ -273,7 +297,8 @@ function deleteUser(ID) {   // può anche essere passato un array
             // in caso di errore stampo un messaggio nel box al posto della tabella
             //div_management_users.innerText = "Errore durante la connessione con il server, riprovare più tardi o contattare l'assistenza.";
             //div_management_users.style.color = error_data;
-            alert("Errore durante la connessione con il server, riprovare più tardi o contattare l'assistenza.");   // !!!!!!!!!!! cambiare con lo span in fondo
+            feedback_table_management_user.innerText = "Errore durante la connessione con il server, riprovare più tardi o contattare l'assistenza.";
+            feedback_table_management_user.style.color = error_data;
         }
 
     });
@@ -313,17 +338,22 @@ function createFormNewUser() {
     
     // inserisco il COGNOME
     record += '<td>' + 
-    '<input type="text" placeholder="Cognome" class="form-control" id="newSurname">' + 
+    '<input type="text" placeholder="Cognome" oninput="checkInput(\'newSurname\')" class="form-control" id="newSurname">' + 
     '</td>';
     
     // inserisco il NOME
     record += '<td>' + 
-    '<input type="text" placeholder="Nome" class="form-control" id="newName">' + 
+    '<input type="text" placeholder="Nome" oninput="checkInput(\'newName\')" class="form-control" id="newName">' + 
     '</td>';
     
     // inserisco l'EMAIL
     record += '<td>' + 
-    '<input type="text" placeholder="Email" class="form-control" id="newEmail">' + 
+    '<input type="email" placeholder="Email" oninput="checkInput(\'newEmail\')" class="form-control" id="newEmail">' + 
+    '</td>';
+
+    // inserisco la PASSWORD
+    record += '<td>' + 
+    '<input type="password" placeholder="Password" oninput="checkInput(\'newPassword\')" class="form-control" id="newPassword">' + 
     '</td>';
 
     
@@ -338,10 +368,10 @@ function createFormNewUser() {
     record += '</td>';
 
     // inserisco i bottoni per le diverse azioni
-    record += '<td><button type="button" class="btn btn-primary btn-sm" onclick="addUser()" style="margin-left: 0.5vw; border-radius: 5%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
+    record += '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_user" onclick="addUser()" style="margin-left: 0.5vw; border-radius: 5%" disabled>' +   // aggiungo l'onclick per effettuare correttamente l'azione
         '<i class="far fa-check-circle"></i> Conferma' +
     '</button>' + 
-    '<button type="button" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%">' + 
+    '<button type="button" onclick="createTableUser()" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%">' + 
         '<!--<i class="fas fa-minus-circle"></i>--> Annulla' + 
     '</button></td>';
 
@@ -352,6 +382,39 @@ function createFormNewUser() {
     // restituisco la stringa
     return record;
 
+}
+
+// imposto le funzioni per gli eventi del form 
+function checkInput(id_input) {
+    
+    // controllo che sia aggiunto almeno un valore per il cognome
+
+    if(document.getElementById(id_input).value.trim() == "") {
+
+        document.getElementById(id_input).style.borderColor = error_data;
+        check_form_new_user = false;
+
+    } else {
+
+        check_form_new_user = true;
+        document.getElementById(id_input).style.borderColor = correct_data;
+
+    }
+
+    // controllo se posso abilitare il bottone di conferma
+    checkFormNewUser();
+
+}
+
+
+// controllo se posso abilitare il bottone per la conferma del nuovo utente
+function checkFormNewUser() {
+    
+    if(check_form_new_user)
+        document.getElementById("btn_confirm_new_user").removeAttribute("disabled");
+    else
+        document.getElementById("btn_confirm_new_user").setAttribute("disabled", "disabled");
+        
 }
 
 // ----------------------------------------------------------------
@@ -372,6 +435,7 @@ form_add_user.addEventListener("click", () => {
     console.log("Aggiunto il form");
 
     // aggiungo il form all'inzio del codice già esistente
+    createTableUser();
     let actual_body = body_table_users.innerHTML
     body_table_users.innerHTML = createFormNewUser() + actual_body; 
 

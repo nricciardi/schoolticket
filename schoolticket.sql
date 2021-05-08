@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Apr 20, 2021 alle 11:49
+-- Creato il: Mag 06, 2021 alle 09:22
 -- Versione del server: 10.4.13-MariaDB
 -- Versione PHP: 7.4.8
 
@@ -80,6 +80,62 @@ CREATE TABLE `competenza` (
   `IdCategoria` int(11) NOT NULL,
   `IdMacroarea` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dump dei dati per la tabella `competenza`
+--
+
+INSERT INTO `competenza` (`IdCompetenza`, `IdCategoria`, `IdMacroarea`) VALUES
+(1, 1, 1),
+(2, 1, 2),
+(3, 1, 3),
+(4, 1, 4),
+(5, 1, 5),
+(6, 1, 6),
+(7, 1, 7),
+(8, 1, 8),
+(9, 1, 9),
+(10, 1, 10),
+(11, 1, 11),
+(12, 1, 12),
+(13, 2, 1),
+(14, 2, 2),
+(15, 2, 3),
+(16, 2, 4),
+(17, 2, 5),
+(18, 2, 6),
+(19, 2, 7),
+(20, 2, 8),
+(21, 2, 9),
+(22, 2, 10),
+(23, 2, 11),
+(24, 2, 12),
+(25, 3, 4),
+(26, 3, 6),
+(27, 3, 10),
+(28, 3, 11),
+(29, 3, 12),
+(30, 4, 1),
+(31, 4, 2),
+(32, 4, 3),
+(33, 4, 4),
+(34, 4, 5),
+(35, 4, 6),
+(36, 4, 7),
+(37, 4, 8),
+(38, 4, 9),
+(39, 4, 10),
+(40, 4, 11),
+(41, 4, 12),
+(42, 5, 2),
+(43, 5, 4),
+(44, 5, 5),
+(45, 5, 6),
+(46, 5, 9),
+(47, 5, 10),
+(48, 5, 12),
+(49, 6, 4),
+(50, 6, 12);
 
 -- --------------------------------------------------------
 
@@ -290,7 +346,7 @@ ALTER TABLE `categoria`
 -- AUTO_INCREMENT per la tabella `competenza`
 --
 ALTER TABLE `competenza`
-  MODIFY `IdCompetenza` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `IdCompetenza` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT per la tabella `incarico`
