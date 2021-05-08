@@ -477,7 +477,7 @@ function checkNewPassword() {
 // controllo se posso abilitare il bottone per la conferma del nuovo utente
 function checkFormNewUser() {
     
-    if(check_new_surname)
+    if(check_new_surname && check_new_name && check_new_password && check_new_email)
         document.getElementById("btn_confirm_new_user").removeAttribute("disabled");
     else
         document.getElementById("btn_confirm_new_user").setAttribute("disabled", "disabled");
