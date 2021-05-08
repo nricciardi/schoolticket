@@ -82,7 +82,7 @@
 						$r .= $temp2;
 						$cont++;
 					}
-					$r .= '], "description":"Dati utente correttamente restituiti"}';
+					$r .= '}], "description":"Dati utente correttamente restituiti"}';
 					return $r;
 			}
 		}
