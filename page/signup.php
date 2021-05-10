@@ -76,7 +76,7 @@
 									<label for="email" id="label_re_password"></label>
 								</div>
                                 <div class="col-12 col-12-mobilep">
-                                    <select name="type" id="type">
+                                    <select name="type" id="IdCategoria" placeholder="IdCategoria">
                                             <option value="Unknown">-- Utente -- </option>
                                             <option value="1">Studente</option>
                                             <option value="2">Insegnante</option>

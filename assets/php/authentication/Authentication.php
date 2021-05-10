@@ -211,14 +211,14 @@
 
 			if(!$control[0] or !$control[1] or !$control[2] or !$control[3] or !$control[4])
 			{
-				echo '{"result":false, "description":""La password deve contenere: 8 caratteri, almeno una lettera maiuscola, minuscola, un carattere speciale e un numero."}';
-				$verify = 0;
+				//echo '{"result":false, "description":""La password deve contenere: 8 caratteri, almeno una lettera maiuscola, minuscola, un carattere speciale e un numero."}';
+				$verify = false;
 			}
 
 			if($verify == false)
 				return '{"result":false, "description":""La password deve contenere: 8 caratteri, almeno una lettera maiuscola, minuscola, un carattere speciale e un numero."}';
 			else
-				return '{"result":true, "description":""La password è stata modificata con successo."}';;
+				return '{"result":true, "description":""La password è stata modificata con successo."}';
 		}
 		
 		public function registration($nome, $cognome, $email, $psw, $IdCategoria, $IdPermessi){
@@ -326,7 +326,7 @@
 			$st->execute(['idPl' => $id]);
 		}
 		
-public function show($id){
+		public function show($id){
 			if(is_numeric($id))  // Vedere se l'utente è loggato.
 			{
 
@@ -368,7 +368,13 @@ public function show($id){
 			$verify = false;
 			$q = "SELECT * FROM user WHERE Email = :emailPl AND Psw = :pswPl";
 			$st = $this->PDOconn->prepare($q);
-			$st->execute(['emailPl' => $email, 'psswPl' => $psw]);
+			$result = $st->execute(['emailPl' => $email, 'psswPl' => $psw]);
+
+			// controllo sulla query
+			if($result == false) {
+				return '{"result":false, "description":"Errore durante la connessione con il server."}';
+			}
+
 			while($record = $st->fetch())
 			{
 				if($email == $record['Email'] AND $psw == $record['Psw'])
@@ -378,9 +384,9 @@ public function show($id){
 				}
 			}
 			if($verify == 1)
-				echo '{"result":true, "description":"Credenziali inserite correttamente."}';
+				return '{"result":true, "description":"Credenziali inserite correttamente."}';
 			else
-				echo '{"result":false, "description":"Credenziali errate."}';
+				return '{"result":false, "description":"Credenziali errate."}';
 		}
 
 		public function logout(){
@@ -435,13 +441,13 @@ public function show($id){
 			$Pssw = "password";
 
 		//CONTROLLI DELLA PASSWORD:
-		$verPsw = $this->verifyPsw($Pssw);
+		$verPsw = json_decode($this->verifyPsw($Pssw));	// traduco il json in array associativo
 
 		// variabile contentente il messaggio di errore
 		$msg = "";
 
-		if(!$verPsw){
-			$msg = '{"result":false,"description":"Codice errato"}';
+		if($verPsw->result == false){
+			$msg = '{"result":false,"description":' . $verPsw->description . '}';
 			
 		}else{
 //QUERY PER CAMBIARE LA PASSWORD:
@@ -518,7 +524,7 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "login"){
 	if(isset($_POST["passw"]))
 	   $pssw = $_POST["passw"];
 
- 	$auth -> login($mail, $passw);
+ 	echo $auth->login($mail, $passw);
 }
 
 //ChangePssw:
@@ -538,5 +544,4 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "getUser"){
  	echo $auth->getUser($id_user);
 }
 
-$auth -> verifyPsw("Statuti2002");
 ?>
