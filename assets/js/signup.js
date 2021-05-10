@@ -76,7 +76,8 @@ $("#submit").click(function () {
     var nome = $('input[id=nome]').val(); // Utente inserisce nome
     var cognome = $('input[id=cognome]').val(); // Utente inserisce cognome
     var password = $('input[id=password]').val(); // Utente inserisce password
-    var data = {"Submit": "registration", "nome": nome, "cognome": cognome, "email": email, "password": password, "IdCategoria": IdCategoria, "IdPermessi": 0};
+	var IdCategoria = $('input[id=IdCategoria]').val(); // Utente sceglie la categoria
+    var data = {"Submit": "registration", "nome": nome, "cognome": cognome, "email": email, "password": password, "IdCategoria": IdCategoria};
     console.log(data);
     console.log(HOSTNAME + '../assets/php/authentication/Authentication.php');
     $.ajax({
@@ -324,21 +325,25 @@ document.getElementById("nome").addEventListener("input", () => {
 
     console.log("nome: " + document.getElementById("nome").value);
     // se il nome è valido imposto i diversi colori
-    if((document.getElementById("nome").value)) {
+	
+	if((document.getElementById("nome").value) && (document.getElementById("nome").value == document.getElementById("nome").value.trim()))
+	{
+			if((document.getElementById("nome").value) != "")
+			{
+			
+				console.log("nome valido");
+				// messaggio utente:
+				document.getElementById("label_nome").innerHTML = "Nome valido, confermalo!";
+				document.getElementById("label_nome").style.color = correct_data;
 
-        console.log("nome valido");
-        // messaggio utente:
-        document.getElementById("label_nome").innerHTML = "Nome valido, confermalo!";
-        document.getElementById("label_nome").style.color = correct_data;
+				document.getElementById("nome").style.borderColor = correct_data;
+				//email.style.color = correct_data;
+				document.getElementById("nome").style.boxShadow = "0 0 0 2px" + correct_data;
 
-        document.getElementById("nome").style.borderColor = correct_data;
-        //email.style.color = correct_data;
-        document.getElementById("nome").style.boxShadow = "0 0 0 2px" + correct_data;
+				document.getElementById("nome").removeAttribute("disabled");
 
-        document.getElementById("nome").removeAttribute("disabled");
-
-        name_validate = true;
-
+				name_validate = true;
+			}
 
     } else {
         console.log("nome NON valido");
@@ -361,21 +366,24 @@ document.getElementById("cognome").addEventListener("input", () => {
 
     console.log("cognome: " + document.getElementById("cognome").value);
     // se il nome è valido imposto i diversi colori
-    if((document.getElementById("cognome").value)) {
+	if((document.getElementById("cognome").value) && (document.getElementById("cognome").value == document.getElementById("cognome").value.trim()))
+	{
+			if((document.getElementById("cognome").value) != "")
+			{
 
-        console.log("nome valido");
-        // messaggio utente:
-        document.getElementById("label_cognome").innerHTML = "Cognome valido, confermalo!";
-        document.getElementById("label_cognome").style.color = correct_data;
+			console.log("cognome valido");
+			// messaggio utente:
+			document.getElementById("label_cognome").innerHTML = "Cognome valido, confermalo!";
+			document.getElementById("label_cognome").style.color = correct_data;
 
-        document.getElementById("cognome").style.borderColor = correct_data;
-        //email.style.color = correct_data;
-        document.getElementById("cognome").style.boxShadow = "0 0 0 2px" + correct_data;
+			document.getElementById("cognome").style.borderColor = correct_data;
+			//email.style.color = correct_data;
+			document.getElementById("cognome").style.boxShadow = "0 0 0 2px" + correct_data;
 
-        document.getElementById("cognome").removeAttribute("disabled");
+			document.getElementById("cognome").removeAttribute("disabled");
 
-        surname_validate = true;
-
+			surname_validate = true;
+		}
 
     } else {
         console.log("cognome NON valido");
