@@ -216,9 +216,9 @@
 			}
 
 			if($verify == false)
-				return false;
+				return '{"result":false, "description":""La password deve contenere: 8 caratteri, almeno una lettera maiuscola, minuscola, un carattere speciale e un numero."}';
 			else
-				return true;
+				return '{"result":true, "description":""La password è stata modificata con successo."}';;
 		}
 		
 		public function registration($nome, $cognome, $email, $psw, $IdCategoria, $IdPermessi){
@@ -537,4 +537,6 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "getUser"){
 	$id_user = 2; // $_SESSION["logged"];
  	echo $auth->getUser($id_user);
 }
+
+$auth -> verifyPsw("Statuti2002");
 ?>
