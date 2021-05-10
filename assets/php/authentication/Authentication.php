@@ -534,7 +534,7 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "SendCode"){
 
 // getUser:
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "getUser"){
-	$id_user = 2; // $_SESSION["logged"];
+	$id_user = 1; // $_SESSION["logged"];
  	echo $auth->getUser($id_user);
 }
 
