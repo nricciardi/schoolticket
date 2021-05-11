@@ -91,7 +91,13 @@
 			if(is_numeric($id))  // Vedere se l'utente è loggato.
 			{
 				$controlloId = $this->PDOconn->prepare("SELECT schoolticket.Utente.IdUtente FROM schoolticket.Utente");
-				$resultId = $controlloId->execute();
+				$result = $controlloId->execute();
+
+				if($result == false) {
+					$r = '{"result":false, "description":"Problemi durante l\'elaborazione dei dati del server"}';
+					return $r;
+				}
+
 				$risultatoControlloId = $controlloId->fetchAll(PDO::FETCH_ASSOC);
 				
 				
@@ -112,11 +118,13 @@
 						$st = $this->PDOconn->prepare("SELECT schoolticket.Utente.* FROM schoolticket.Utente WHERE schoolticket.Utente.IdUtente = ?");		// Se è 1 visualizza tutti gli utenti
 						$result = $st->execute([$id]);	//Result contiene 1 o 0 in base al corretto funzionamento della query 
 						
-						if($result == 0)	//Verifica la corretta connessione al Database 
+						if($result == false)	//Verifica la corretta connessione al Database 
 						{
 							$r = '{"result":false, "description":"Problemi durante l\'elaborazione dei dati del server"}';
 							return $r;		//In caso di errore di connessione la funzione ritorna -1
 						}
+				} else {
+					return '{"result":false, "description":"Problemi durante l\'elaborazione dei dati del server"}';
 				}
 			
 			

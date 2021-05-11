@@ -25,6 +25,14 @@
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">
+                            <i class="fas fa-photo"></i>
+                        </div>
+                        <input type="file" name="Immagine" id="immagine">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">
                             <i class="fas fa-map-marker-alt"></i>
                         </div>
                         <select name="Classroom" id="classroom" class="form-control">

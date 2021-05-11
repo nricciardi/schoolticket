@@ -22,6 +22,9 @@ var input_name_ticket = document.getElementById("name");
 // input descrizione ticket
 var input_description_ticket = document.getElementById("description");
 
+// input con all'interno la foto
+var input_image_ticket = document.getElementById("immagine");
+
 
 // bottone per il submit quanto viene aggiunto un ticket
 var btn_submit_ticket = document.getElementById("submit");
@@ -113,9 +116,9 @@ function send_data_add_ticket(data) {
             label.innerHTML = /*"<h1>" + */request.responseText + '<i class="far fa-exclamation-triangle"></i>';
             console.error("ERRORE: " + request.responseText + "\nStatus: " + status + "\nError: " + error);
         }
-      
-      });					
-  
+    
+    });					
+
 }
 
 
@@ -130,11 +133,14 @@ btn_submit_ticket.addEventListener("click", () => {
     // se posso avviare il submit
     if(checkSubmit()) {
 
+        let form_data = new FormData();
+        form_data.
+
         let data =  {   
                         "Submit": "Insert", 
                         "Name": input_name_ticket.value.replace(/(<([^>]+)>)/gi, ""), 
                         "Description": input_description_ticket.value.replace(/(<([^>]+)>)/gi, ""), 
-                        "Photo": null,
+                        "Photo": input_image_ticket.value,
                         "Classroom": input_classroom_ticket.value.replace(/(<([^>]+)>)/gi, ""),
                         "IdMacroarea": input_macroaree_ticket.value.replace(/(<([^>]+)>)/gi, "")
                     };

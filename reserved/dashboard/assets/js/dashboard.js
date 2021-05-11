@@ -269,6 +269,41 @@ function addCategorie(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
     }
 }
 
+// aggiungo le aule al form
+function addClassroom(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
+    input.innerHTML = "";
+
+    // recupero le classi attraverso una chiamata ajax
+    //console.log("macroaree: ");
+    //console.log(MACROAREE);
+
+    // per ogni macroarea creo un option e la aggiungo alla select-box
+    if(CLASSROOMS !== null) {
+        CLASSROOMS.forEach(element => {
+            //console.log(element);
+            // creo l'elemento option
+            let option = document.createElement("option");
+            // inserisco il value nell'option
+            option.value = element.IdAula;
+            // inserisco il testo nell'option
+            let text = cutString(element.Nome, n_char_max_to_print);
+            if (element.Descrizione !== null)       // se è presente una descrizione la inserisco
+                text += " - " + cutString(element.Descrizione, n_char_max_to_print);
+            option.text = text;
+            // inserisco l'oggetto option
+            input.appendChild(option);
+    
+        });
+    } else {
+        // errore
+        result.style.color = error_data;
+        result.innerHTML = "Errore nella richiesta delle aule, riprovare più tardi o contattare l'assistenza."
+
+    }
+}
+
+
+/*
 // aggiungo le categorie al form
 function addCategorie(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
     input.innerHTML = "";
@@ -301,6 +336,7 @@ function addCategorie(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
 
     }
 }
+*/
 
 // taglia la stringa in caso superi la lunghezza passata
 function cutString(stringa, n_char_max_to_print = N_CHAR_TO_PRINT) {
@@ -491,7 +527,14 @@ async function set_classrooms() {
             //console.log(data);
             //console.log(JSON.parse(data));
             console.debug("set CLASSROOM");
-            CLASSROOMS = JSON.parse(data).result;
+
+            // controllo che non abbia restituito un errore
+            if(JSON.parse(data).result == false) {
+                CLASSROOMS = null;
+            } else {
+                CLASSROOMS = JSON.parse(data).result;
+            }
+            
     
         }
     });
@@ -518,7 +561,15 @@ async function set_user() {
             //console.log("user setted");
             //console.log(data);
             //console.log(JSON.parse(data));
-            USER = JSON.parse(data).result[0]; 
+            
+            // controllo che nono abbia restituito errore
+            if(JSON.parse(data).result == false) {
+                USER = null;
+            } else {
+                USER = JSON.parse(data).result[0]; 
+            }
+            
+            
                 
     
         }
@@ -548,7 +599,14 @@ async function set_macroaree() {
             console.debug("set MACROAREE");
             //console.log(data);
             //console.log(JSON.parse(data));
-            MACROAREE = JSON.parse(data).result;
+
+            // controllo che non abbia restituito errori
+            if(JSON.parse(data).result == false) {
+                MACROAREE = null;
+            } else {
+                MACROAREE = JSON.parse(data).result;
+            }
+            
     
         }
     });					
@@ -573,8 +631,14 @@ function set_permessi() {
             console.debug("set PERMESSI");
             //console.log(data);
             //console.log(JSON.parse(data));
-            PERMESSI = JSON.parse(data).result;
-    
+            
+            // controllo che non abbia restituito errori
+            if(JSON.parse(data).result) {
+                PERMESSI = null;
+            } else {
+                PERMESSI = JSON.parse(data).result;
+            }
+            
         }
     });					
 }
@@ -598,7 +662,14 @@ async function set_categorie() {
             console.debug("set CATEGORIE");
             //console.log(data);
             //console.log(JSON.parse(data));
-            CATEGORIE = JSON.parse(data).result;
+            
+            // controllo che non sia stato restituito false
+            if(JSON.parse(data).result == false) {
+                CATEGORIE = null;
+            } else {
+                CATEGORIE = JSON.parse(data).result;
+            }
+            
     
         }
     });					
@@ -647,7 +718,7 @@ btn_add_ticket.addEventListener("click", () => {
 
     // aggiungo le categorie e le macroaree al form
     addMacroaree(input_macroaree_ticket, submit_result);
-    addCategorie(input_classroom_ticket, submit_result);
+    addClassroom(input_classroom_ticket, submit_result);
 
     // nascondo tutti i form 
     hideAllDynamicPage(); 

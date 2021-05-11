@@ -22,8 +22,6 @@ $(document).ready(function() {
       var email = $('input[id=email]').val(); // Utente inserisce email
       var password = $('input[id=password]').val(); // Utente inserisce password
 	  var data = {"Submit": "login", "mail": email, "passw": password};
-	  console.log(data);
-	  console.log(HOSTNAME + '/assets/php/authentication/Authentication.php');
                             $.ajax({
                             type: "POST",
                             url: HOSTNAME + '/assets/php/authentication/Authentication.php',

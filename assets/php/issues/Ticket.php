@@ -21,60 +21,58 @@ class Ticket{
       $this->PDOconn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }catch(PDOExpetion $e){
       echo $e->getMessage();
-      echo '{"result":false,"description":"Errore nella connessione al DB"}';
+      echo '{"result":false,"description":"Errore nella connessione al Database"}';
     }
 
 
   }
 
-public function Insert(){
-//SETTO I VALORI DA INSERIRE NELLA TB TICKET:
-    $Nome = $_POST["Name"];
-    $Descrizione = $_POST["Description"];
-    $Url = $_POST["Photo"];
-    $Stato = "Nuovo";//settato di default;
-    $Priorit = 1;//settata di default;
-    $Aula = $_POST["Classroom"];
-    $Data = date('d/m/Y');
-    $Ora = date('H:i:s');
-    $IdMacro = $_POST["IdMacroarea"];
-    $IdUtn = $_POST["IdUtente"];
+public function insert($Nome, $Descrizione, $Immagine, $Stato, $Priorita, $IdAula, $Data, $Ora, $IdMacroarea, $IdUtente){    
 
-//CONTROLLO I VALORI:
-$st = "";
-    if(!filter_var($Nome, FILTER_SANITIZE_STRING)){
-      $st =  '{"result":false,"description":"Nome errato"}';
-      return $st;
-    }
+  //CONTROLLO I VALORI:
+  $st = "";
+      if(!filter_var($Nome, FILTER_SANITIZE_STRING)){
+        $st =  '{"result":false,"description":"Il nome inserito è errato"}';
+        return $st;
+      }
 
-    if(!filter_var($Descrizione, FILTER_SANITIZE_STRING)){
-      $st = '{"result":false,"description":"Descrizione errata"}';
-      return $st;
-    }
+      if(!filter_var($Descrizione, FILTER_SANITIZE_STRING)){
+        $st = '{"result":false,"description":"La descrizione inserita è errata"}';
+        return $st;
+      }
 
-    if(!filter_var($Url, FILTER_SANITIZE_STRING)){
-      $st = '{"result":false,"description":"UrlFoto errato"}';
-      return $st;
-    }
+      if(!isset($Immagine) || $Immagine != "" || $Immagine == null){
+        $st = '{"result":false,"description":"Immagine non inserita correttamente"}';
+        return $st;
+      }
 
-    if(!filter_var($Stato, FILTER_SANITIZE_STRING)){
-      $st = '{"result":false,"description":"Stato errato"}';
-      return $st;
-    }
+      if(!filter_var($Stato, FILTER_SANITIZE_STRING)){
+        $st = '{"result":false,"description":"Lo stato inserito non è valido"}';
+        return $st;
+      }
 
-    if(!filter_var($Aula, FILTER_SANITIZE_STRING)){
-      $st = '{"result":false,"description":"Aula errata"}';
-      return $st;
-    }
+      if(!filter_var($Aula, FILTER_SANITIZE_STRING)){
+        $st = '{"result":false,"description":"L\'aula inserita è errata"}';
+        return $st;
+      }
 
 
-//ESEGUO LA QUERY:
-$q = "INSERT INTO schoolticket.ticket(Nome,Descrizione,UrlFoto,StatoDiAvanzamento,Priorita,Aula,Data,Ora,IdMacroarea,IdUtente) VALUES (?,?,?,?,?,?,?,?,?,?)";
-$st = $this->PDOconn->prepare($q);
-$st->execute([$Nome,$Descrizione,$Url,$Stato,$Priorit,$Aula,$Data,$Ora,$IdMacro,$IdUtn]);
+      // preparo il contenuto dell'immagine
+      $dati_immagine = file_get_contents($Immagine['tmp_name']);
+      $dati_immagine = addslashes($dati_immagine);
 
-  $st = '{"result":true,"description":"Ticket inserito correttamente"}';
-  return $st;
+
+      //ESEGUO LA QUERY:
+      $q = "INSERT INTO schoolticket.ticket(Nome,Descrizione,UrlFoto,StatoDiAvanzamento,Priorita,Aula,Data,Ora,IdMacroarea,IdUtente) VALUES (?,?,?,?,?,?,?,?,?,?)";
+      $st = $this->PDOconn->prepare($q);
+      $result = $st->execute([$Nome,$Descrizione,$dati_immagine,$Stato,$Priorita,$IdAula,$Data,$Ora,$IdMacroarea,$IdUtente]);
+      
+      if($result == false)
+        $st = '{"result":false,"description":"Errore durante l\'inserimento del ticket nel database"}';
+      else
+        $st = '{"result":true,"description":"Ticket inserito correttamente"}';
+        
+        return $st;
 
 }
 
@@ -182,102 +180,94 @@ public function Show($id) {
 
 }
 
-public function Delete($IdTicket, $id){//Elimino il/i ticket in base all'IdTicket e controllo attraverso $id che l'utente sia loggato e abbia i permessi;
+  public function Delete($IdTicket, $id){//Elimino il/i ticket in base all'IdTicket e controllo attraverso $id che l'utente sia loggato e abbia i permessi;
 
-if(is_numeric($id))  // Vedere se l'utente è loggato.
-  {
-    $controlloId = $this->PDOconn->prepare("SELECT schoolticket.Utente.IdUtente FROM schoolticket.Utente");
-    $resultId = $controlloId->execute();
-    $risultatoControlloId = $controlloId->fetchAll(PDO::FETCH_ASSOC);
-    
-    echo '<br>';
-    
-    $IdCorretto = 0; 	//Dopo il for contiene 1 se l'ID passato alla funzione esiste nel Database degli utenti
-    
-    for($i = 0; $i < COUNT($risultatoControlloId); $i++)	//Ciclo for per controllare che l'Id sia presente nel Database
+    if(is_numeric($id))  // Vedere se l'utente è loggato.
     {
-      if($risultatoControlloId[$i]["IdUtente"] == $id)
+      $controlloId = $this->PDOconn->prepare("SELECT schoolticket.Utente.IdUtente FROM schoolticket.Utente");
+      $resultId = $controlloId->execute();
+      $risultatoControlloId = $controlloId->fetchAll(PDO::FETCH_ASSOC);
+    
+    
+      $IdCorretto = 0; 	//Dopo il for contiene 1 se l'ID passato alla funzione esiste nel Database degli utenti
+    
+      for($i = 0; $i < COUNT($risultatoControlloId); $i++)	//Ciclo for per controllare che l'Id sia presente nel Database
       {
-        $IdCorretto = 1;
-        break;
+        if($risultatoControlloId[$i]["IdUtente"] == $id)
+        {
+          $IdCorretto = 1;
+          break;
+        }
       }
-    }
     
-    if($IdCorretto == 1)	//Se l'Id è presente allora possiamo andare a eliminare un ticket
-    {
+      if($IdCorretto == 1)	//Se l'Id è presente allora possiamo andare a eliminare un ticket
+      {
       
-    $st = $this->PDOconn->prepare("SELECT schoolticket.Permessi.ModificaTuttiTicket FROM schoolticket.Utente JOIN schoolticket.Permessi ON schoolticket.Permessi.IdPermessi = schoolticket.Utente.IdPermessi WHERE schoolticket.Utente.IdUtente = ?");
-    $result = $st->execute([$id]);
+        $st = $this->PDOconn->prepare("SELECT schoolticket.Permessi.ModificaTuttiTicket FROM schoolticket.Utente JOIN schoolticket.Permessi ON schoolticket.Permessi.IdPermessi = schoolticket.Utente.IdPermessi WHERE schoolticket.Utente.IdUtente = ?");
+        $result = $st->execute([$id]);
           
-    if($result == false) // Se la query è sbagliata 
-    {
-      $r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
-      return $r;
-    }
-    else
-    {
-      $risultatoquery = $st->fetchAll(PDO::FETCH_ASSOC);	//Contiene il risultato della query 
-                          
-      if($risultatoquery[0]["ModificaTuttiTicket"] == 1)	//Verifichiamo se ha permesso 1 o 0 nel modificare i ticket
+      if($result == false) // Se la query è sbagliata 
       {
-        //ESEGUO LA QUERY:
-		if(is_array($IdTicket)){
-		//Controllo se è un array o una variabile;
-		for($i = 0; $i < count($IdTicket); $i++){
-			
-			$q = "DELETE FROM schoolticket.ticket WHERE IdTicket = $IdTicket[$i]";
-			$st = $this->PDOconn->prepare($q);
-			$st->execute();
-			
-			  if($result == false){
-				$st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
-				return $st;
-				}
-			
-		}
-
-		$st = '{"result":true,"description":"Ticket eliminati correttamente"}';
-		return $st;
-		
-		}else{//se non è un array elimino solo un ticket
-			$q = "DELETE FROM schoolticket.ticket WHERE IdTicket = $IdTicket";
-			$st = $this->PDOconn->prepare($q);
-			$st->execute();
-			if($result == false){
-				$st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
-				return $st;
-			}else{
-				$st = '{"result":true,"description":"Ticket eliminato correttamente"}';
-				return $st;
-				}
-			}
-
+        $r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
+        return $r;
       }
-      else
-      {
-		$st = '{"result":false,"description":"Non puoi eliminare un ticket"}';
-		return $st;
-      }
+        else {
+          $risultatoquery = $st->fetchAll(PDO::FETCH_ASSOC);	//Contiene il risultato della query 
+                            
+          if($risultatoquery[0]["ModificaTuttiTicket"] == 1)	//Verifichiamo se ha permesso 1 o 0 nel modificare i ticket
+          {
+            //ESEGUO LA QUERY:
+            if(is_array($IdTicket)){
+            //Controllo se è un array o una variabile;
+              for($i = 0; $i < count($IdTicket); $i++){
+        
+                $q = "DELETE FROM schoolticket.ticket WHERE IdTicket = $IdTicket[$i]";
+                $st = $this->PDOconn->prepare($q);
+                $st->execute();
+        
+                if($result == false){
+                  $st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
+                  return $st;
+                }
+        
+              }
+
+              $st = '{"result":true,"description":"Ticket eliminati correttamente"}';
+              return $st;
+      
+            }else{//se non è un array elimino solo un ticket
+              $q = "DELETE FROM schoolticket.ticket WHERE IdTicket = $IdTicket";
+              $st = $this->PDOconn->prepare($q);
+              $st->execute();
+              if($result == false){
+                $st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
+                return $st;
+              }else{
+                $st = '{"result":true,"description":"Ticket eliminato correttamente"}';
+                return $st;
+              }
+            }
+          }
+          else
+          {
+            $st = '{"result":false,"description":"Non puoi eliminare un ticket"}';
+            return $st;
+          }  
+        }
+        }else{
+          //se l id non è presente
+          $st = '{"result":false,"description":"Utente non esistente"}';
+          return $st;
+        }
     }
-  
-
-    
-  }else{
-	//se l id non è presente
-	$st = '{"result":false,"description":"Utente non esistente"}';
-		return $st;
   }
-  
-
-
-}
 
   // Nel caso in cui l'array è vuoto significa che non ha trovato nessun utente,
   // perciò restituisce false, se invece trova l'utente restituisce true.
-private function controlId($IdTicket){
+  private function controlId($IdTicket){
 		$q = "SELECT * FROM schoolticket.ticket WHERE IdTicket = :idPl";
 		$st = $this->PDOconn->prepare($q);
-		$st->execute(['idPl' => $IdTicket]);
+		$result = $st->execute(['idPl' => $IdTicket]);
 		if($result == false){
 				return false;
 				}
@@ -290,7 +280,7 @@ private function controlId($IdTicket){
 			//if($IdTicket = $record['Id'])
 	}
 
-private function controlDate($newDate){
+  private function controlDate($newDate){
 		$now = date("Y-m-d");
 		$date1=date_create($now);
 		$date2=date_create($newDate);
@@ -309,7 +299,7 @@ public function changeHour($IdTicket, $newHour){
 
 		$q = "SELECT Data FROM schoolticket.ticket WHERE IdTicket = $IdTicket";
 		$st = $this->PDOconn->prepare($q);
-		$st->execute();
+		$result = $st->execute();
 		if($result == false){
 				$st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
 				return $st;
@@ -356,7 +346,7 @@ public function changeHour($IdTicket, $newHour){
 				{
 					$q = "UPDATE schoolticket.ticket SET Data = '$newDate' WHERE IdTicket = $IdTicket";
 					$st = $this->PDOconn->prepare($q);
-					$st->execute();
+					$result = $st->execute();
 					if($result == false){
 					$st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
 					return $st;
@@ -374,7 +364,7 @@ public function changeHour($IdTicket, $newHour){
 		}
 		$q = "UPDATE schoolticket.ticket SET Nome = '$newName' WHERE IdTicket = $IdTicket";
 		$st = $this->PDOconn->prepare($q);
-		$st->execute();
+		$result = $st->execute();
 		if($result == false){
 				$st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
 				return $st;
@@ -391,7 +381,7 @@ public function changeHour($IdTicket, $newHour){
 		}
 		$q = "UPDATE schoolticket.ticket SET Descrizione = '$newDescr' WHERE IdTicket = $IdTicket";
 		$st = $this->PDOconn->prepare($q);
-		$st->execute();
+		$result = $st->execute();
 		if($result == false){
 				$st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
 				return $st;
@@ -445,11 +435,11 @@ public function Union($IdTicket1, $IdTicket2){
 //ESEGUO LA QUERY (inserisce il nuovo ticket):
             $q = "INSERT INTO schoolticket.ticket(Nome,Descrizione,Immagine,StatoDiAvanzamento,Priorita,IdAula,Data,Ora,IdMacroarea,IdUtente) VALUES (?,?,?,?,?,?,?,?,?,?)";
             $st = $this->PDOconn->prepare($q);
-            $st->execute([$Nome,$Descrizione,$Url,$Stato,$Priorit,$Aula,$Data,$Ora,$IdMacro,$IdUtn]);
-			if($result == false){
-				$st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
-				return $st;
-			}
+            $result = $st->execute([$Nome,$Descrizione,$Url,$Stato,$Priorit,$Aula,$Data,$Ora,$IdMacro,$IdUtn]);
+            if($result == false){
+              $st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
+              return $st;
+            }
 
 
 
@@ -582,8 +572,9 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "DeviationTicketNumber"){
 }
 
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "Delete"){
-  $ID = $_POST["ID"];
-  echo $ticket -> Delete($ID);
+  $ID_ticket = 1;//$_POST[""];                      // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! controlli sul POST, l'id di ID_user da prendere da sessione
+  $ID_user = 1;//$_POST["ID"]; 
+  echo $ticket -> Delete($ID_ticket, $ID_user);
 }
 
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "NewTicketNumber"){
@@ -602,8 +593,8 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "Insert"){
   else
     $Nome = "Descrizione nuovo ticket";
 
-  if(isset($_POST["Photo"]))
-    $Url = $_POST["Photo"];
+  if(isset($_FILES["Photo"]))
+    $Url = $_FILES["Photo"];
   else
     $Url = null;
 
@@ -642,9 +633,9 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "Insert"){
   else
     $IdUtn = 1; // inserire $_SESSION[] con l'id dell'utente loggato    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+  var_dump($_FILES["Photo"]);
 
-
-  echo $ticket->Insert($Nome, $Descrizione, $Url, $Stato, $Priorit, $IdAula, $Data, $Ora, $IdMacro, $IdUtn);
+  echo $ticket->insert($Nome, $Descrizione, $Url, $Stato, $Priorit, $IdAula, $Data, $Ora, $IdMacro, $IdUtn);
 }
 
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "Show"){
