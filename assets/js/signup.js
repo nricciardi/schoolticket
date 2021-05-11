@@ -38,6 +38,9 @@ var password_validate = false;
 var re_password = document.getElementById("repassword");
 var re_password_validate = false;
 
+// IdCategoria
+var IdCategoria = document.getElementById("IdCategoria");
+
 // HOSTNAME per il percorso
 const HOSTNAME = window.location.protocol + "//" + window.location.hostname + "/" + window.location.pathname.split("/")[1];
 
@@ -76,8 +79,9 @@ $("#submit").click(function () {
     var nome = $('input[id=nome]').val(); // Utente inserisce nome
     var cognome = $('input[id=cognome]').val(); // Utente inserisce cognome
     var password = $('input[id=password]').val(); // Utente inserisce password
-	var IdCategoria = $('input[id=IdCategoria]').val(); // Utente sceglie la categoria
-    var data = {"Submit": "registration", "nome": nome, "cognome": cognome, "email": email, "password": password, "IdCategoria": IdCategoria};
+	var IdCategoria = $('#IdCategoria').find(":selected").text();
+	var IdPermessi = 2; // PERMESSI :(
+    var data = {"Submit": "registration", "nome": nome, "cognome": cognome, "email": email, "password": password, "IdCategoria": IdCategoria, "IdPermessi": IdPermessi};
     console.log(data);
     console.log(HOSTNAME + '../assets/php/authentication/Authentication.php');
     $.ajax({
@@ -87,7 +91,7 @@ $("#submit").click(function () {
         dataType: "text",
         success: function (data) 
         {
-            console.log(data);
+            
             var success = data['success'];
             if(success == false)
             {
