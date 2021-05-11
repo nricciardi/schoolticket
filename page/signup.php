@@ -52,7 +52,7 @@
 						<form method="post" action="#">
 							<div class="row gtr-50 gtr-uniform">
 								<div class="col-6 col-12-mobilep">
-									<input type="text" name="name" id="nome" value="" placeholder="Nome" />
+									<input type="text" name="name" id="nome" value="" placeholder="Nome"/>
 									<label for="nome" id="label_nome"></label>
 								</div>
                                 <div class="col-6 col-12-mobilep">
@@ -76,14 +76,15 @@
 									<label for="email" id="label_re_password"></label>
 								</div>
                                 <div class="col-12 col-12-mobilep">
-                                    <select name="type" id="IdCategoria" placeholder="IdCategoria">
-                                            <option value="Unknown">-- Utente -- </option>
-                                            <option value="1">Studente</option>
-                                            <option value="2">Insegnante</option>
-                                            <option value="3">Personale ATA</option>
+                                    <select type="IdCategoria" name="" id="IdCategoria" placeholder="IdCategoria">
+                                            <option name = "1" value="Unknown">-- Utente -- </option>
+                                            <option name = "2" value="1">Studente</option>
+                                            <option name = "3" value="2">Insegnante</option>
+                                            <option name = "4" value="3">Personale ATA</option>
                                             <!--<option value="4">Altro</option>-->
                                     </select>
 								</div>
+			
 								<!-- Deprecati -->
 								<!--<div class="col-3 col-6-mobilep">
 									<input type="text" name="section" id="section" value="" placeholder="Corso: es. A" /> -->
