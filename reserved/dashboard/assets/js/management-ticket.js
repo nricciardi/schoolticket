@@ -2,16 +2,16 @@
 // ----------------------- VARIABILI ------------------------------
 // ----------------------------------------------------------------
 
-// tbody della tabella utenti
+// tbody della tabella ticket
 var body_table_ticket = document.getElementById("body_table_ticket");
 
-// tfoot della tabella utenti
+// tfoot della tabella ticket
 var foot_table_ticket = document.getElementById("foot_table_ticket");
 
 // checkbox generale della tabella
 var general_checkbox = document.getElementById("general_checkbox");
 
-// button per l'aggiunta del form per l'aggiunta del nuovo utente
+// button per l'aggiunta del form per l'aggiunta del nuovo ticket
 var form_add_ticket = document.getElementById("formAddTicket");
 
 // bottone per il refresh della schermata
@@ -28,7 +28,7 @@ var check_form_new_ticket = false;
 // -------------------------------------------------------------------------------
 
 // restituisce il codice html in formato stringa da inserire nella tabella dato un oggetto ordinato in base all'intestazione della tabella
-function createRecordticket(ticket) {   //ticket è un oggetto contenente le informazioni del record IdUtente, Cognome, Nome, Email, Password, IdCategoria, IdPermessi
+function createRecordticket(ticket) {   //ticket è un oggetto contenente le informazioni del record IdTicket ...
 
     // record che sarà restituito
     let record = "";
@@ -38,37 +38,55 @@ function createRecordticket(ticket) {   //ticket è un oggetto contenente le inf
 
     record += '<td>';       // creo il primo campo
     record += '<label class="au-checkbox">';
-    record += '<input type="checkbox" name="checkRecord[]" value="' + ticket.IdUtente + '" id="checkbox' + ticket.IdUtent + '">';    // inserisco il checkbox con valore l'ID dell'utente
+    record += '<input type="checkbox" name="checkRecord[]" value="' + ticket.IdTicket + '" id="checkbox' + ticket.IdTicket + '">';    // inserisco il checkbox con valore l'ID del ticket
     record += '<span class="au-checkmark"></span>';
-    record += '</label>    </td>';
+    record += '</label></td>';
 
     // inserisco l'ID
-    // Predisposizione IdUtente: record += '<td>' + ticket.IdUtente + '</td>';
-
-    // inserisco il COGNOME
-    record += '<td>' + ticket.Cognome + '</td>';
+    // Predisposizione IdTicket: record += '<td>' + ticket.IdTicket + '</td>';
 
     // inserisco il NOME
     record += '<td>' + ticket.Nome + '</td>';
 
-    // inserisco l'EMAIL
-    record += '<td><span class="block-email">' + ticket.Email + '</span></td>';
+    // inserisco la DESCRIZIONE
+    record += '<td>' + ticket.Descrizione + '</td>';
 
-    // inserisco la PASSWORD
-    record += '<td><span class="block-email">' + cutString(ticket.Password, 10) + '</span></td>';
+    // inserisco l'IMMAGINE
+    record += '<td><span class="block-email">' + ticket.Immagine + '</span></td>';
 
-    // inserisco la CATEGORIA
-    record += '<td>' + ticket.Categoria.Nome + '</td>';
+    // inserisco la STATO DI AVANZAMENTO
+    record += '<td><span class="block-email">' + ticket.StatoDiAvanzamento + '</span></td>';
 
-    // inserisco i PERMESSI
-    record += '<td>' + ticket.Permessi.Descrizione + '</td>';
+    // inserisco la PRIORITA'
+    record += '<td>' + ticket.Priorita + '</td>';
+
+    // inserisco la DATA
+    record += '<td>' + ticket.Data + '</td>';
+	
+	// inserisco ORA
+    record += '<td>' + ticket.Ora + '</td>';
+	
+	// inserisco IDMACROAREA
+    record += '<td>' + cutString(ticket.macroarea.Nome, 10) + ' - ' + cutString(ticket.macroarea.Descrizione, 10) + '</td>';
+	
+	// inserisco IDUTENTE
+    record += '<td>' + ticket.utente.Email + '</td>';
+	
+	// inserisco IDAULA
+    record += '<td>' + ticket.aula.Nome + ' - ' + cutString(ticket.aula.Descrizione, 10) + '</td>';
+	
+	// inserisco IDUNIONE
+    record += '<td>' + ticket.IdUnione + '</td>';
+	
+	// inserisco VISUALIZZATO
+    record += '<td>' + ticket.Visualizzato + '</td>';
 
     // inserisco i bottoni per le diverse azioni
     record += '<td> <div class="table-data-feature">';
-    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Send" id="send' + ticket.IdUtente + '" onclick="requestActionticket(\'send\', ' + ticket.IdUtente + ')">    <i class="zmdi zmdi-mail-send"></i> </button>';        // tasto SEND
-    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Edit" id="edit' + ticket.IdUtente + '" onclick="requestActionticket(\'edit\', ' + ticket.IdUtente + ')">    <i class="zmdi zmdi-edit"></i>  </button>';            // tasto EDIT
-    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Delete" id="delete' + ticket.IdUtente + '" onclick="requestActionticket(\'delete\', ' + ticket.IdUtente + ')">  <i class="zmdi zmdi-delete"></i>    </button>';    // tasto DELETE
-    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="More" id="more' + ticket.IdUtente + '" onclick="requestActionticket(\'more\', ' + ticket.IdUtente + ')">    <i class="zmdi zmdi-more"></i>  </button>';       // tasto MORE
+    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Send" id="send' + ticket.IdTicket + '" onclick="requestActionticket(\'send\', ' + ticket.IdTicket + ')">    <i class="zmdi zmdi-mail-send"></i> </button>';        // tasto SEND
+    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Edit" id="edit' + ticket.IdTicket + '" onclick="requestActionticket(\'edit\', ' + ticket.IdTicket + ')">    <i class="zmdi zmdi-edit"></i>  </button>';            // tasto EDIT
+    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Delete" id="delete' + ticket.IdTicket + '" onclick="requestActionticket(\'delete\', ' + ticket.IdTicket + ')">  <i class="zmdi zmdi-delete"></i>    </button>';    // tasto DELETE
+    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="More" id="more' + ticket.IdTicket + '" onclick="requestActionticket(\'more\', ' + ticket.IdTicket + ')">    <i class="zmdi zmdi-more"></i>  </button>';       // tasto MORE
     record += '</div>   </td>   </tr>';
 
     // inserisco il record di spaziatura
@@ -150,7 +168,7 @@ function createRequestActionticket(type, ID) {
     return request;
 }
 
-// richiama gli utenti dal database tramite chiamata AJAX e successivamente crea la tabella
+// richiama i ticket dal database tramite chiamata AJAX e successivamente crea la tabella
 function createTableTicket() {
 
     feedback_table_management_ticket.innerText = "Sto caricando la tabella...";
@@ -219,7 +237,7 @@ function addticket() {
         return false;
 
     // creo l'oggetto data da mandare in post
-    let data = {"Submit": "registration", "nome": document.getElementById("newName").value, "email": document.getElementById("newEmail").value, "cognome": document.getElementById("newSurname").value, "password": document.getElementById("newPassword").value, "IdCategoria": document.getElementById("categoria_add_ticket").value, "IdPermessi": document.getElementById("permessi_add_ticket").value};
+    let data = {"Submit": "registration", "nome": document.getElementById("newName").value, "descrizione":document.getElementById("description").value, "immagine": document.getElementById("image").value, "StatoDiAvanzamento": document.getElementById("StatoDiAvanzamento").value, "priorita": document.getElementById("priorita").value, "data": document.getElementById("data").value, "ora": document.getElementById("ora").value, "idmacroarea": document.getElementById("idmacroarea").value, "IdUtente": document.getElementById("IdUtente").value, "idaula": document.getElementById("idaula").value, "idunione": document.getElementById("idunione").value, "visualizzato": document.getElementById("visualizzato").value};
 
     // effettuo la chiamata ajax
     $.ajax({
@@ -259,7 +277,7 @@ function addticket() {
 
 }
 
-// in base all'id passato elimino l'utente
+// in base all'id passato elimino il ticket
 function deleteticket(ID) {   // può anche essere passato un array
 
     console.log("Elimino: " + ID);
@@ -316,7 +334,7 @@ function setCheckboxRecordticket(mode) {
     }
 }
 
-// crea il codice HTML del form da inserire in formato record per creare un nuovo utente
+// crea il codice HTML del form da inserire in formato record per creare un nuovo ticket
 function createFormNewticket() {
 
     // record che sarà restituito
@@ -334,37 +352,66 @@ function createFormNewticket() {
     record += '</td>';
 
     // inserisco l'ID
-    // Predisposizione IdUtente: record += '<td>' + ticket.IdUtente + '</td>';
-
-    // inserisco il COGNOME
-    record += '<td>' +
-    '<input type="text" placeholder="Cognome" oninput="checkInput(\'newSurname\')" class="form-control" id="newSurname">' +
-    '</td>';
+    // Predisposizione IdTicket: record += '<td>' + ticket.IdTicket + '</td>';
 
     // inserisco il NOME
     record += '<td>' +
     '<input type="text" placeholder="Nome" oninput="checkInput(\'newName\')" class="form-control" id="newName">' +
     '</td>';
 
-    // inserisco l'EMAIL
+    // inserisco la DESCRIZIONE
     record += '<td>' +
-    '<input type="email" placeholder="Email" oninput="checkInput(\'newEmail\')" class="form-control" id="newEmail">' +
+    '<input type="text" placeholder="descrizione" oninput="checkInput(\'description\')" class="form-control" id="description">' +
     '</td>';
 
-    // inserisco la PASSWORD
+    // inserisco IMMAGINE
     record += '<td>' +
-    '<input type="password" placeholder="Password" oninput="checkInput(\'newPassword\')" class="form-control" id="newPassword">' +
+    '<input type="" placeholder="immagine" oninput="checkInput(\'image\')" class="form-control" id="image">' +
     '</td>';
 
+    // inserisco STATODIAVANZAMENTO
+    record += '<td>' +
+    '<input type="text" placeholder="StatoDiAvanzamento" oninput="checkInput(\'StatoDiAvanzamento\')" class="form-control" id="StatoDiAvanzamento">' +
+    '</td>';
 
-    // inserisco la CATEGORIA
+    // inserisco la PRIORITA
     record += '<td>';
-    record += '<select name="select" class="form-control" id="categoria_add_ticket"></select>';
+    record += '<input type="number" name="priorita" class="form-control" id="priorita"></input>';
     record += '</td>';
 
-    // inserisco i PERMESSI
+    // inserisco la DATA
     record += '<td>';
-    record += '<select name="select" class="form-control" id="permessi_add_ticket"></select>';
+    record += '<input type="date" name="data" class="form-control" id="data"></input>';
+    record += '</td>';
+	
+	// inserisco l'ORA
+    record += '<td>';
+    record += '<input type="time" name="ora" class="form-control" id="ora"></input>';
+    record += '</td>';
+	
+	// inserisco l'IDMACROAREA
+    record += '<td>';
+    record += '<select name="idmacroarea" class="form-control" id="idmacroarea"></select>';
+    record += '</td>';
+	
+	// inserisco l'IDUTENTE
+    record += '<td>';
+    record += 'USER.IdUtente';
+    record += '</td>';
+	
+	// inserisco l'IDAULA
+    record += '<td>';
+    record += '<select name="idaula" class="form-control" id="idaula"></select>';
+    record += '</td>';
+	
+	// inserisco l'IDUNIONE
+    record += '<td>';
+    record += '<select name="idunione" class="form-control" id="idunione"></select>';
+    record += '</td>';
+	
+	// inserisco VISUALIZZATO
+    record += '<td>';
+    record += '<input type="number" name="visualizzato" class="form-control" id="visualizzato"></input>';
     record += '</td>';
 
     // inserisco i bottoni per le diverse azioni
@@ -385,19 +432,19 @@ function createFormNewticket() {
 }
 
 // imposto le funzioni per gli eventi del form
-function checkInput(id_input) {
+function checkInput() {
 
-    // controllo che sia aggiunto almeno un valore per il cognome
+    // controllo che sia aggiunto almeno un valore per il nome
 
-    if(document.getElementById(id_input).value.trim() == "") {
+    if(document.getElementById(newName).value.trim() == "") {
 
-        document.getElementById(id_input).style.borderColor = error_data;
+        document.getElementById(newName).style.borderColor = error_data;
         check_form_new_ticket = false;
 
     } else {
 
         check_form_new_ticket = true;
-        document.getElementById(id_input).style.borderColor = correct_data;
+        document.getElementById(newName).style.borderColor = correct_data;
 
     }
 
@@ -439,9 +486,9 @@ form_add_ticket.addEventListener("click", () => {
     let actual_body = body_table_ticket.innerHTML
     body_table_ticket.innerHTML = createFormNewticket() + actual_body;
 
-    // richiamo le funzioni per aggiungere categorie e permessi
-    addCategorie(document.getElementById("categoria_add_ticket"), foot_table_ticket, 10);
-    addPermessi(document.getElementById("permessi_add_ticket"), foot_table_ticket, 10);
+    // richiamo le funzioni per aggiungere macroaree
+    addMacroaree(document.getElementById("idmacroarea"), foot_table_ticket, 10);
+	addAula(document.getElementById("idaula"), foot_table_ticket, 10);
 });
 
 // ricarico la tabella riaggiungendola al click del bottone di refresh

@@ -141,7 +141,7 @@ function checkCodice() {
 }
 
 // controllo che tutti gli input abbiano dato esito positivo sui controlli, nel caso abilito il bottone di conferma
-function checkInput() {
+function checkFormChangePassword() {
     // se tutti i controlli danno esito positivo (true) abilito il btn di conferma
     if(codice_validate && re_password_validate && password_validate) {
 
@@ -164,7 +164,7 @@ nuovaPassword.addEventListener("input", () => {
 
 	checkPassword();    	// controllo l'input per la password
 
-    checkInput();   		// controllo tutti gli input in modo da valutare se abilitare il bottone per la conferma
+    checkFormChangePassword();   		// controllo tutti gli input in modo da valutare se abilitare il bottone per la conferma
 
 });
 
@@ -174,7 +174,7 @@ re_password.addEventListener("input", () => {
 
 	checkRePassword();  	// controllo l'input per il conferma della password
 
-    checkInput();   		// controllo tutti gli input in modo da valutare se abilitare il bottone per la conferma
+    checkFormChangePassword();   		// controllo tutti gli input in modo da valutare se abilitare il bottone per la conferma
 
 });
 
@@ -213,7 +213,7 @@ codice.addEventListener("input", () => {
 
 	checkCodice();      // verifico il codice con l'apposita funziona
 
-    checkInput();   // controllo tutti gli input in modo da valutare se abilitare il bottone per la conferma
+    checkFormChangePassword();   // controllo tutti gli input in modo da valutare se abilitare il bottone per la conferma
 
 
 });

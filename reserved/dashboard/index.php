@@ -91,6 +91,12 @@
                                    require_once("assets".DS."php".DS."utilities".DS."management-users.php");      // includo il form per il new ticket
                                 ?>
                             </div>
+							<!-- !!!!!!!!!!!!!!! PAGE MANAGEMENT TICKET !!!!!!!!!!!!!!! -->
+                            <div class="col-md-12" style="display: none;" id="div_management_ticket"> <!-- Di default è invisibile, viene visualizzato solo dopo il click di btn_add_ticket -->
+                                <?php
+                                   require_once("assets".DS."php".DS."utilities".DS."management-ticket.php");      // includo il form per il new ticket
+                                ?>
+                            </div>
                             
 
                             <!-- !!!!!!!!!!!!!!!RECENT REPORT!!!!!!!!!!!!!!! -->

@@ -17,6 +17,9 @@ var PERMESSI = null;
 // variabile contenente le categorie
 var CATEGORIE = null;
 
+// variabile contenente le aule
+var AULE = null;
+
 // variabile contenente l'utente loggato
 var USER = null;
 
@@ -150,6 +153,39 @@ function addMacroaree(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
             let option = document.createElement("option");
             // inserisco il value nell'option
             option.value = element.IdMacroarea;
+            // inserisco il testo nell'option
+            let text = cutString(element.Nome, n_char_max_to_print);
+            if (element.Descrizione !== null)       // se è presente una descrizione la inserisco
+                text += " - " + cutString(element.Descrizione, n_char_max_to_print);
+            option.text = text;
+            // inserisco l'oggetto option
+            input.appendChild(option);
+    
+        });
+    } else {
+        // errore
+        result.style.color = error_data;
+        result.innerHTML = "Errore nella richiesta delle macroaree, riprovare più tardi o contattare l'assistenza."
+
+    }
+}
+
+// aggiungo le macroaree al form
+function addAula(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
+    input.innerHTML = "";
+
+    // recupero le classi attraverso una chiamata ajax
+    //console.log("Aule: ");
+    //console.log(AULE);
+
+    // per ogni macroarea creo un option e la aggiungo alla select-box
+    if(AULE !== null) {
+        AULE.forEach(element => {
+            //console.log(element);
+            // creo l'elemento option
+            let option = document.createElement("option");
+            // inserisco il value nell'option
+            option.value = element.IdAula;
             // inserisco il testo nell'option
             let text = cutString(element.Nome, n_char_max_to_print);
             if (element.Descrizione !== null)       // se è presente una descrizione la inserisco

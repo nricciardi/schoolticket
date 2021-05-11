@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 06, 2021 alle 09:22
+-- Creato il: Mag 11, 2021 alle 10:09
 -- Versione del server: 10.4.13-MariaDB
 -- Versione PHP: 7.4.8
 
@@ -29,6 +29,7 @@ USE `schoolticket`;
 -- Struttura della tabella `aula`
 --
 
+DROP TABLE IF EXISTS `aula`;
 CREATE TABLE `aula` (
   `IdAula` int(11) NOT NULL,
   `Nome` varchar(100) NOT NULL,
@@ -43,7 +44,8 @@ CREATE TABLE `aula` (
 INSERT INTO `aula` (`IdAula`, `Nome`, `Descrizione`, `Laboratorio`) VALUES
 (1, 'Nessuna Aula', 'Il ticket non si riferisce a un\'aula specifica.', 0),
 (2, 'Aula1', NULL, 0),
-(3, 'Aula2', NULL, 0);
+(3, 'Aula2', NULL, 0),
+(4, 'Aula35', 'Prova', 0);
 
 -- --------------------------------------------------------
 
@@ -51,6 +53,7 @@ INSERT INTO `aula` (`IdAula`, `Nome`, `Descrizione`, `Laboratorio`) VALUES
 -- Struttura della tabella `categoria`
 --
 
+DROP TABLE IF EXISTS `categoria`;
 CREATE TABLE `categoria` (
   `IdCategoria` int(11) NOT NULL,
   `Nome` varchar(100) NOT NULL,
@@ -75,6 +78,7 @@ INSERT INTO `categoria` (`IdCategoria`, `Nome`, `Descrizione`) VALUES
 -- Struttura della tabella `competenza`
 --
 
+DROP TABLE IF EXISTS `competenza`;
 CREATE TABLE `competenza` (
   `IdCompetenza` int(11) NOT NULL,
   `IdCategoria` int(11) NOT NULL,
@@ -143,6 +147,7 @@ INSERT INTO `competenza` (`IdCompetenza`, `IdCategoria`, `IdMacroarea`) VALUES
 -- Struttura della tabella `incarico`
 --
 
+DROP TABLE IF EXISTS `incarico`;
 CREATE TABLE `incarico` (
   `IdIncarico` int(11) NOT NULL,
   `StatodiAvanzamento` varchar(100) NOT NULL,
@@ -156,6 +161,7 @@ CREATE TABLE `incarico` (
 -- Struttura della tabella `macroarea`
 --
 
+DROP TABLE IF EXISTS `macroarea`;
 CREATE TABLE `macroarea` (
   `IdMacroarea` int(11) NOT NULL,
   `Nome` varchar(100) NOT NULL,
@@ -178,7 +184,8 @@ INSERT INTO `macroarea` (`IdMacroarea`, `Nome`, `Descrizione`) VALUES
 (9, 'Installazione/configurazione/aggiornamenti', NULL),
 (10, 'Connessione e rete (Wireless-LAN)', NULL),
 (11, 'Account', NULL),
-(12, 'Altro', NULL);
+(12, 'Altro', NULL),
+(13, 'Lotto3', 'Prova');
 
 -- --------------------------------------------------------
 
@@ -186,6 +193,7 @@ INSERT INTO `macroarea` (`IdMacroarea`, `Nome`, `Descrizione`) VALUES
 -- Struttura della tabella `note`
 --
 
+DROP TABLE IF EXISTS `note`;
 CREATE TABLE `note` (
   `IdNote` int(11) NOT NULL,
   `Descrizione` varchar(1000) DEFAULT NULL,
@@ -199,6 +207,7 @@ CREATE TABLE `note` (
 -- Struttura della tabella `permessi`
 --
 
+DROP TABLE IF EXISTS `permessi`;
 CREATE TABLE `permessi` (
   `IdPermessi` int(11) NOT NULL,
   `Descrizione` varchar(1000) NOT NULL,
@@ -217,12 +226,20 @@ CREATE TABLE `permessi` (
   `CreaModificaEliminaCategoria` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dump dei dati per la tabella `permessi`
+--
+
+INSERT INTO `permessi` (`IdPermessi`, `Descrizione`, `ModificaVisualizzaTuttiUtenti`, `CreareTicket`, `ModificaTuttiTicket`, `UnireTicket`, `VisualizzaTuttiTicket`, `ModificaStatoAvanzamentoTicket`, `ModificaStatoAvanzamentoIncarico`, `CreaIncarico`, `CreaModificaEliminaAula`, `CreaModificaEliminaNote`, `CreaModificaEliminaMacroarea`, `CreaModificaEliminaCompetenza`, `CreaModificaEliminaCategoria`) VALUES
+(1, 'Prova', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+
 -- --------------------------------------------------------
 
 --
 -- Struttura della tabella `ticket`
 --
 
+DROP TABLE IF EXISTS `ticket`;
 CREATE TABLE `ticket` (
   `IdTicket` int(11) NOT NULL,
   `Nome` varchar(100) NOT NULL,
@@ -239,12 +256,20 @@ CREATE TABLE `ticket` (
   `Visualizzato` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dump dei dati per la tabella `ticket`
+--
+
+INSERT INTO `ticket` (`IdTicket`, `Nome`, `Descrizione`, `Immagine`, `StatoDiAvanzamento`, `Priorita`, `Data`, `Ora`, `IdMacroarea`, `IdUtente`, `IdAula`, `IdUnione`, `Visualizzato`) VALUES
+(3, 'Prova', 'provvaaaaaaa', NULL, 'Iniziato', 1, '2021-05-11', '10:07:20', 5, 2, 4, NULL, 0);
+
 -- --------------------------------------------------------
 
 --
 -- Struttura della tabella `utente`
 --
 
+DROP TABLE IF EXISTS `utente`;
 CREATE TABLE `utente` (
   `IdUtente` int(11) NOT NULL,
   `Cognome` varchar(100) NOT NULL,
@@ -254,6 +279,13 @@ CREATE TABLE `utente` (
   `IdCategoria` int(11) NOT NULL,
   `IdPermessi` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dump dei dati per la tabella `utente`
+--
+
+INSERT INTO `utente` (`IdUtente`, `Cognome`, `Nome`, `Email`, `Password`, `IdCategoria`, `IdPermessi`) VALUES
+(2, 'Berselli', 'Nicholas', 'n@b.com', 'Nicholas', 3, 1);
 
 --
 -- Indici per le tabelle scaricate
@@ -334,7 +366,7 @@ ALTER TABLE `utente`
 -- AUTO_INCREMENT per la tabella `aula`
 --
 ALTER TABLE `aula`
-  MODIFY `IdAula` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `IdAula` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT per la tabella `categoria`
@@ -358,7 +390,7 @@ ALTER TABLE `incarico`
 -- AUTO_INCREMENT per la tabella `macroarea`
 --
 ALTER TABLE `macroarea`
-  MODIFY `IdMacroarea` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `IdMacroarea` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT per la tabella `note`
@@ -370,19 +402,19 @@ ALTER TABLE `note`
 -- AUTO_INCREMENT per la tabella `permessi`
 --
 ALTER TABLE `permessi`
-  MODIFY `IdPermessi` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `IdPermessi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT per la tabella `ticket`
 --
 ALTER TABLE `ticket`
-  MODIFY `IdTicket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `IdTicket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT per la tabella `utente`
 --
 ALTER TABLE `utente`
-  MODIFY `IdUtente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `IdUtente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Limiti per le tabelle scaricate
