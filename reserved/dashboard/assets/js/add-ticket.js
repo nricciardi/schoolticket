@@ -133,14 +133,14 @@ btn_submit_ticket.addEventListener("click", () => {
     // se posso avviare il submit
     if(checkSubmit()) {
 
-        let form_data = new FormData();
-        form_data.
+        //let form_data = new FormData();
+        //form_data.
 
         let data =  {   
                         "Submit": "Insert", 
                         "Name": input_name_ticket.value.replace(/(<([^>]+)>)/gi, ""), 
                         "Description": input_description_ticket.value.replace(/(<([^>]+)>)/gi, ""), 
-                        "Photo": input_image_ticket.value,
+                        "Photo": input_image_ticket.files[0],//.value,
                         "Classroom": input_classroom_ticket.value.replace(/(<([^>]+)>)/gi, ""),
                         "IdMacroarea": input_macroaree_ticket.value.replace(/(<([^>]+)>)/gi, "")
                     };
