@@ -82,8 +82,6 @@ $("#submit").click(function () {
 	var IdCategoria = $('#IdCategoria').find(":selected").val();
 	var IdPermessi = 1; // PERMESSI :(
     var data = {"Submit": "registration", "nome": nome, "cognome": cognome, "email": email, "password": password, "IdCategoria": IdCategoria, "IdPermessi": IdPermessi};
-    console.log(data);
-    console.log(HOSTNAME + '../assets/php/authentication/Authentication.php');
     $.ajax({
         type: "POST",
         url: HOSTNAME + '/assets/php/authentication/Authentication.php',
