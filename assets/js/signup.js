@@ -79,8 +79,8 @@ $("#submit").click(function () {
     var nome = $('input[id=nome]').val(); // Utente inserisce nome
     var cognome = $('input[id=cognome]').val(); // Utente inserisce cognome
     var password = $('input[id=password]').val(); // Utente inserisce password
-	var IdCategoria = $('#IdCategoria').find(":selected").text();
-	var IdPermessi = 2; // PERMESSI :(
+	var IdCategoria = $('#IdCategoria').find(":selected").val();
+	var IdPermessi = 1; // PERMESSI :(
     var data = {"Submit": "registration", "nome": nome, "cognome": cognome, "email": email, "password": password, "IdCategoria": IdCategoria, "IdPermessi": IdPermessi};
     console.log(data);
     console.log(HOSTNAME + '../assets/php/authentication/Authentication.php');
