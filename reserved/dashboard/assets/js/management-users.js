@@ -67,7 +67,7 @@ function createRecordUser(user) {   //User è un oggetto contenente le informazi
     record += '<td>' + user.Permessi.Descrizione + '</td>';
 
     // inserisco i bottoni per le diverse azioni
-    record += '<td> <div class="table-data-feature">';
+    record += '<td id="td_action_userId_' + user.IdUtente + '"> <div class="table-data-feature">';
     record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Send" id="send' + user.IdUtente + '" onclick="requestActionUser(\'send\', ' + user.IdUtente + ')">    <i class="zmdi zmdi-mail-send"></i> </button>';        // tasto SEND
     record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Edit" id="edit' + user.IdUtente + '" onclick="requestActionUser(\'edit\', ' + user.IdUtente + ')">    <i class="zmdi zmdi-edit"></i>  </button>';            // tasto EDIT
     record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Delete" id="delete' + user.IdUtente + '" onclick="requestActionUser(\'delete\', ' + user.IdUtente + ')">  <i class="zmdi zmdi-delete"></i>    </button>';    // tasto DELETE                                    
@@ -97,7 +97,8 @@ function requestActionUser(type, ID) {      // passo il tipo di richiesta che vi
             // creo il form per la conferma
             form_html = createRequestActionUser(type, ID);
 
-            div_management_users.innerHTML = form_html;
+            // ricavo il td dell'utente passato per inserire la richiesta
+            document.getElementById("td_action_userId_" + ID).innerHTML = form_html;
 
             break;
         case "more":
@@ -144,8 +145,8 @@ function createRequestActionUser(type, ID) {
         '<strong>' + question + '</strong>' +
         '<button type="button" class="btn btn-primary btn-sm" onclick="' + type + 'User(' + ID + ')" style="margin-left: 0.5vw; border-radius: 5%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
             '<i class="far fa-check-circle"></i> Sì' +
-        '</button>' + 
-        '<button type="button" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%">' + 
+        '</button>' + // nel caso di click su annulla viene ricreata la tabella
+        '<button type="button" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%" onclick="createTableUser()">' + 
             '<!--<i class="fas fa-minus-circle"></i>--> Annulla' + 
         '</button>';
 
