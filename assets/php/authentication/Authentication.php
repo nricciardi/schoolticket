@@ -329,7 +329,7 @@
 		}
 
 		public function delete($id){
-			$q = "DELETE FROM user WHERE ID = :idPl";
+			$q = "DELETE FROM schoolticket.utente WHERE ID = :idPl";
 			$st = $this->PDOconn->prepare($q);
 			$st->execute(['idPl' => $id]);
 		}
@@ -515,7 +515,13 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "registration"){
 
 //DELETE:
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "delete"){
- 	$auth -> delete($id);//L'id va peso dalla sessione!!
+
+	// controllo che sia stato passato un id
+	if(isset($_POST["Data"]) && $_POST["Data"] != "")
+		$auth -> delete($id);//L'id va peso dalla sessione!!
+	else	// altrimenti stampo un errore
+		echo '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}';
+
 }
 
 //SHOW:
