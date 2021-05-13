@@ -402,7 +402,7 @@
 		}
 
 //MANDA IL CODICE DI VERIFICA:
-		public function SendCode($ID){	// $ID andrà preso nella sessione
+		public function sendCode($ID){	// $ID andrà preso nella sessione
 			//CONTROLLO CON IL CODICE:
 			$q = "SELECT Email FROM schoolticket.utente WHERE IdUtente = ? ";
 			$st = $this->PDOconn->prepare($q);
@@ -442,36 +442,36 @@
 		}
 
 //CAMBIO DELLA PASSWORD:
-		public function ChangePssw(){
+		public function changePassword(){
 			$ID = 1;//andrà preso nella sessione
 			//INSERIMENTO PASSWORD:
 			//$Pssw = $_POST["password"];
 			$Pssw = "password";
 
-		//CONTROLLI DELLA PASSWORD:
-		$verPsw = json_decode($this->verifyPsw($Pssw));	// traduco il json in array associativo
+			//CONTROLLI DELLA PASSWORD:
+			$verPsw = json_decode($this->verifyPsw($Pssw));	// traduco il json in array associativo
 
-		// variabile contentente il messaggio di errore
-		$msg = "";
+			// variabile contentente il messaggio di errore
+			$msg = "";
 
-		if($verPsw->result == false){
-			$msg = '{"result":false,"description":' . $verPsw->description . '}';
-			
-		}else{
-//QUERY PER CAMBIARE LA PASSWORD:
-				$codice = $_POST["code"];
-				if($this->code == $codice){
-					$q = "UPDATE schoolticket.utente SET Password = ? WHERE ?";
-					$st = $this->PDOconn->prepare($q);
-					$st->execute([$Pssw,$ID]);
-					$msg = '{"result":true,"description":"Password cambiata correttamente"}';
-				}else{
-					$msg = '{"result":false,"description":"Codice errato"}';
-				}
-		}
+			if($verPsw->result == false){
+				$msg = '{"result":false,"description":' . $verPsw->description . '}';
+				
+			}else{
+			//QUERY PER CAMBIARE LA PASSWORD:
+					$codice = $_POST["code"];
+					if($this->code == $codice){
+						$q = "UPDATE schoolticket.utente SET Password = ? WHERE ?";
+						$st = $this->PDOconn->prepare($q);
+						$st->execute([$Pssw,$ID]);
+						$msg = '{"result":true,"description":"Password cambiata correttamente"}';
+					}else{
+						$msg = '{"result":false,"description":"Codice errato"}';
+					}
+			}
 
-		// restituisco il risultato JSON
-		return $msg;
+			// restituisco il risultato JSON
+			return $msg;
 		}
 
 //FINE CLASSE
@@ -542,14 +542,14 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "login"){
 }
 
 //ChangePssw:
-if(isset($_POST["Submit"]) && $_POST["Submit"] == "ChangePssw"){
- 	echo $auth -> ChangePssw();
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "changePssw"){
+ 	echo $auth -> changePassword();
 }
 
 //SendCode:
-if(isset($_POST["Submit"]) && $_POST["Submit"] == "SendCode"){
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "sendCode"){
 	$id_to_send_code = 1; // $_SESSION["logged"];
- 	echo $auth -> SendCode($id_to_send_code);
+ 	echo $auth -> sendCode($id_to_send_code);
 }
 
 // getUser:
