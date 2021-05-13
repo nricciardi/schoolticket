@@ -231,7 +231,7 @@ function addPermessi(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
     } else {
         // errore
         result.style.color = error_data;
-        result.innerHTML = "Errore nella richiesta delle macroaree, riprovare più tardi o contattare l'assistenza."
+        result.innerHTML = "Errore nella richiesta dei permessi, riprovare più tardi o contattare l'assistenza."
 
     }
 }
@@ -264,7 +264,7 @@ function addCategorie(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
     } else {
         // errore
         result.style.color = error_data;
-        result.innerHTML = "Errore nella richiesta delle macroaree, riprovare più tardi o contattare l'assistenza."
+        result.innerHTML = "Errore nella richiesta delle categorie, riprovare più tardi o contattare l'assistenza."
 
     }
 }
@@ -633,7 +633,7 @@ function set_permessi() {
             //console.log(JSON.parse(data));
             
             // controllo che non abbia restituito errori
-            if(JSON.parse(data).result) {
+            if(JSON.parse(data).result == false) {
                 PERMESSI = null;
             } else {
                 PERMESSI = JSON.parse(data).result;

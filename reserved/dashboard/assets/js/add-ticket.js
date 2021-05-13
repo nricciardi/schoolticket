@@ -74,9 +74,12 @@ function checkSubmit() {
 function send_data_add_ticket(data) {
     $.ajax({
         url: HOSTNAME + '/assets/php/issues/Ticket.php',
-        method: 'POST',
+        type: 'POST',
         data: data,
         dataType: "text",
+        contentType: false,
+        processData: false,
+
         success: function( data, textStatus, jQxhr ){
             try {
                 //console.log(data);
@@ -134,19 +137,24 @@ btn_submit_ticket.addEventListener("click", () => {
     if(checkSubmit()) {
 
         let form_data = new FormData();
-        form_data.
+        form_data.append("Submit", "Insert");
+        form_data.append("Name", input_name_ticket.value.replace(/(<([^>]+)>)/gi, ""));
+        form_data.append("Description", input_description_ticket.value.replace(/(<([^>]+)>)/gi, ""));
+        form_data.append("Photo", input_image_ticket.files[0]);
+        form_data.append("Classroom", input_classroom_ticket.value.replace(/(<([^>]+)>)/gi, ""));
+        form_data.append("IdMacroarea", input_macroaree_ticket.value.replace(/(<([^>]+)>)/gi, ""));
 
-        let data =  {   
+        /*let data =  {   
                         "Submit": "Insert", 
                         "Name": input_name_ticket.value.replace(/(<([^>]+)>)/gi, ""), 
                         "Description": input_description_ticket.value.replace(/(<([^>]+)>)/gi, ""), 
-                        "Photo": input_image_ticket.value,
+                        "Photo": input_image_ticket.files[0],//.value,
                         "Classroom": input_classroom_ticket.value.replace(/(<([^>]+)>)/gi, ""),
                         "IdMacroarea": input_macroaree_ticket.value.replace(/(<([^>]+)>)/gi, "")
-                    };
+                    };*/
 
         // richiamo la funzione per l'invio 
-        send_data_add_ticket(data);
+        send_data_add_ticket(form_data);
 
     }
 

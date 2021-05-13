@@ -29,6 +29,8 @@ class Ticket{
 
 public function insert($Nome, $Descrizione, $Immagine, $Stato, $Priorita, $IdAula, $Data, $Ora, $IdMacroarea, $IdUtente){    
 
+  var_dump($Immagine);
+
   //CONTROLLO I VALORI:
   $st = "";
       if(!filter_var($Nome, FILTER_SANITIZE_STRING)){
@@ -41,7 +43,20 @@ public function insert($Nome, $Descrizione, $Immagine, $Stato, $Priorita, $IdAul
         return $st;
       }
 
-      if(!isset($Immagine) || $Immagine != "" || $Immagine == null){
+      // valid file extensions
+	    $extensions_arr = array("image/jpg","image/jpeg","image/png","image/gif");
+      // controllo che il file passato sia valido e che sia un immagine
+
+      /*  DEBUG:
+      var_dump(!isset($Immagine));
+      var_dump($Immagine == "");
+      var_dump($Immagine == null);
+      var_dump(!in_array($Immagine["type"], $extensions_arr));
+      var_dump(!isset($Immagine["type"]));
+      var_dump(!isset($Immagine["tmp_name"]));
+      var_dump($Immagine["tmp_name"] == "");*/
+
+      if(!isset($Immagine) || $Immagine == "" || $Immagine == null || !in_array($Immagine["type"], $extensions_arr) || !isset($Immagine["type"]) || !isset($Immagine["tmp_name"]) || $Immagine["tmp_name"] == ""){
         $st = '{"result":false,"description":"Immagine non inserita correttamente"}';
         return $st;
       }
@@ -51,19 +66,18 @@ public function insert($Nome, $Descrizione, $Immagine, $Stato, $Priorita, $IdAul
         return $st;
       }
 
-      if(!filter_var($Aula, FILTER_SANITIZE_STRING)){
+      if(!filter_var($IdAula, FILTER_SANITIZE_STRING)){
         $st = '{"result":false,"description":"L\'aula inserita è errata"}';
         return $st;
       }
 
 
-      // preparo il contenuto dell'immagine
-      $dati_immagine = file_get_contents($Immagine['tmp_name']);
-      $dati_immagine = addslashes($dati_immagine);
+      // preparo il contenuto dell'immagine e la traduco in base64
+      $dati_immagine = base64_encode(file_get_contents($Immagine["tmp_name"]));
 
 
       //ESEGUO LA QUERY:
-      $q = "INSERT INTO schoolticket.ticket(Nome,Descrizione,UrlFoto,StatoDiAvanzamento,Priorita,Aula,Data,Ora,IdMacroarea,IdUtente) VALUES (?,?,?,?,?,?,?,?,?,?)";
+      $q = "INSERT INTO schoolticket.ticket(Nome,Descrizione,Immagine,StatoDiAvanzamento,Priorita,IdAula,Data,Ora,IdMacroarea,IdUtente) VALUES (?,?,?,?,?,?,?,?,?,?)";
       $st = $this->PDOconn->prepare($q);
       $result = $st->execute([$Nome,$Descrizione,$dati_immagine,$Stato,$Priorita,$IdAula,$Data,$Ora,$IdMacroarea,$IdUtente]);
       
@@ -638,7 +652,8 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "Insert"){
   else
     $IdUtn = 1; // inserire $_SESSION[] con l'id dell'utente loggato    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-  var_dump($_FILES["Photo"]);
+  //var_dump($_FILES);
+  //var_dump($_POST);
 
   echo $ticket->insert($Nome, $Descrizione, $Url, $Stato, $Priorit, $IdAula, $Data, $Ora, $IdMacro, $IdUtn);
 }

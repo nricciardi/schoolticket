@@ -27,7 +27,11 @@
                         <div class="input-group-addon">
                             <i class="fas fa-photo"></i>
                         </div>
-                        <input type="file" name="Immagine" id="immagine">
+                        <!-- al click di questo bottone richiamo una funzione per il click del bottone input:file nascosto -->
+                        <button type="button" class="btn btn-outline-secondary" style="margin-left: 4%;" onclick="clickInput('immagine')">
+                                            <i class="fa fa-upload"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Carica una foto qui</font></font></button>
+
+                        <input type="file" name="Immagine" id="immagine" style="display: none;">
                     </div>
                 </div>
                 <div class="form-group">
@@ -67,3 +71,13 @@
 </div>
 
 
+<script>
+// script per il click dell'input:file
+    function clickInput(ID) {
+        // recupero la referenza dell'id passato
+        let input = document.getElementById(ID);
+
+        input.click();
+    }
+
+</script>
