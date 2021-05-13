@@ -67,13 +67,13 @@ function createRecordticket(ticket) {   //ticket è un oggetto contenente le inf
     record += '<td>' + ticket.Ora + '</td>';
 	
 	// inserisco IDMACROAREA
-    record += '<td>' + cutString(ticket.macroarea.Nome, 10) + ' - ' + cutString(ticket.macroarea.Descrizione, 10) + '</td>';
+    record += '<td>' + cutString(ticket.Macroarea.Nome, 10) + ' - ' + cutString(ticket.Macroarea.Descrizione, 10) + '</td>';
 	
 	// inserisco IDUTENTE
-    record += '<td>' + ticket.utente.Email + '</td>';
+    record += '<td>' + ticket.Utente.Email + '</td>';
 	
 	// inserisco IDAULA
-    record += '<td>' + ticket.aula.Nome + ' - ' + cutString(ticket.aula.Descrizione, 10) + '</td>';
+    record += '<td>' + ticket.Aula.Nome + ' - ' + cutString(ticket.Aula.Descrizione, 10) + '</td>';
 	
 	// inserisco IDUNIONE
     record += '<td>' + ticket.IdUnione + '</td>';

@@ -224,10 +224,10 @@ public function Show($id) {
 		$r .= $temp2;
 		$r .= ', "Aula": ';
 		$r .= $temp3;
-		$r .= '", "IdUnione": "';
+		$r .= ', "IdUnione": "';
 		$r .= $rows[0]["IdUnione"];
 		$r .= '", "Visualizzato": "';
-		$r .= $rows[0]["Visualizzato"] . '}';
+		$r .= $rows[0]["Visualizzato"] . '"}';
 		
 		$r .= '] , "description":"Dati utente correttamente restituiti"}';
 		return $r;
