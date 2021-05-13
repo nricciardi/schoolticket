@@ -343,14 +343,18 @@ function addCategorie(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
 
 // taglia la stringa in caso superi la lunghezza passata
 function cutString(stringa, n_char_max_to_print = N_CHAR_TO_PRINT) {
+    try{
+		// controllo la lunghezza della stringa se è maggiore del parametro
+		if(stringa.length >= n_char_max_to_print) {
+			return stringa.substring(0, n_char_max_to_print).trim() + "...";
+		} else {
+			return stringa;
+		}
+	}
+	catch(error){
+		return "N/D";
+	}
     
-    // controllo la lunghezza della stringa se è maggiore del paramentro
-    if(stringa.length >= n_char_max_to_print) {
-        return stringa.substring(0, n_char_max_to_print).trim() + "...";
-    } else {
-        return stringa;
-    }
-
 }
 
 
