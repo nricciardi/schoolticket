@@ -224,7 +224,7 @@ public function Show($id) {
 		$r .= $temp2;
 		$r .= ', "Aula": ';
 		$r .= $temp3;
-		$r .= '", "Unione": "';
+		$r .= '", "IdUnione": "';
 		$r .= $rows[0]["IdUnione"];
 		$r .= '", "Visualizzato": "';
 		$r .= $rows[0]["Visualizzato"] . '}';
