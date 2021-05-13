@@ -201,7 +201,14 @@
                     </tr>-->
                 </tbody>
                 <tfoot id="foot_table_users">
-                
+                    <tr class="spacer"></tr>
+                    <tr class="tr-shadow">
+                        <td>
+                            <button type="button" class="btn btn-danger" id="btn_delete_checked_user" disabled>
+                                <i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella 0 utenti selezionati</font></font>
+                            </button>
+                        </td>
+                    </tr>
                 </tfoot>
             </table>
         </div>

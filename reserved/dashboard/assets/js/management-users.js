@@ -26,6 +26,9 @@ var check_new_name = false;
 var check_new_email = false;
 var check_new_password = false;
 
+// btn per eliminare gli utenti selezionati
+var btn_delete_checked_user = document.getElementById("btn_delete_checked_user");
+
 // -------------------------------------------------------------------------------
 // ---------------------- FUNZIONI GENERICHE -------------------------------------
 // -------------------------------------------------------------------------------
@@ -41,7 +44,7 @@ function createRecordUser(user) {   //User è un oggetto contenente le informazi
 
     record += '<td>';       // creo il primo campo
     record += '<label class="au-checkbox">';
-    record += '<input type="checkbox" name="checkRecord[]" value="' + user.IdUtente + '" id="checkbox' + user.IdUtente + '">';    // inserisco il checkbox con valore l'ID dell'utente
+    record += '<input type="checkbox" onclick="checkCheckbox()" name="checkRecord[]" value="' + user.IdUtente + '" id="checkbox' + user.IdUtente + '">';    // inserisco il checkbox con valore l'ID dell'utente
     record += '<span class="au-checkmark"></span>';
     record += '</label>    </td>';
 
@@ -618,6 +621,54 @@ function changeRecordUserToForm(ID) {
 
 
 } 
+
+// funzione che elimina tutti gli id selezionati 
+function getArrayUsersChecked() {
+
+    let array = Array();
+    
+    // per ogni record della tabella cerco l'input checkbox
+    for (let index = 0; index < body_table_users.childElementCount; index++) {
+        
+        // verifico che non sia un record spacer verificando che esista un figlio
+        let tr = body_table_users.children[index];
+        if(tr.firstElementChild != null) {
+            let checkbox = tr.firstElementChild.firstElementChild.firstElementChild;
+            let checkbox_checked = checkbox.checked;
+
+            if(checkbox_checked)    // se il checkbox è spuntato allora lo aggiungo all'array da eliminare
+                array.push(checkbox.value);
+
+        }
+        
+    }
+
+
+    return array;
+
+}
+
+// controllo se abilitare il bottone
+function checkCheckbox() {
+    
+    let array = getArrayUsersChecked();
+
+    console.log(array);
+
+    if(array.length > 0) {
+
+        btn_delete_checked_user.removeAttribute("disabled");
+        btn_delete_checked_user.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella ' + array.length + ' utenti selezionati</font></font>';
+
+    } else {
+
+        btn_delete_checked_user.setAttribute("disabled", "disabled");
+        btn_delete_checked_user.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella 0 utenti selezionati</font></font>';
+
+    }
+
+}
+
 // ----------------------------------------------------------------
 // ----------------------- EVENTI --------------------------------- 
 // ----------------------------------------------------------------
@@ -627,6 +678,7 @@ general_checkbox.addEventListener("change", () => {
     
     // controllo lo stato del bottone e richiamo la funzione con il valore del checkbox giusta
     setCheckboxRecordUser(general_checkbox.checked);
+    checkCheckbox();
     
 });
 
@@ -670,6 +722,14 @@ btn_refresh_management_user.addEventListener("click", () => {
         btn_refresh_management_user.color = "#6C757D";
 
     }, 3000);
+});
+
+// al click elimino tutti gli utenti selezionati
+btn_delete_checked_user.addEventListener("click", () => {
+
+    // richiamo al funzione per elimiare
+    deleteUser(getArrayUsersChecked());
+
 });
 
 // -------------------------------------------------------------------------------

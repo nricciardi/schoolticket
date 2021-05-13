@@ -56,6 +56,9 @@ var div_form_change_password = document.getElementById("div_form_change_password
 // div contenente la tabella per il controllo degli utenti
 var div_management_users = document.getElementById("div_management_users");
 
+// div contenente la tabella per il controllo delle categorie
+div_management_categorie = document.getElementById("div_management_categoria");
+
 // menù con le funzionalità della pagina
 var menu_gestione = document.getElementById("menu_gestione");
 
@@ -771,6 +774,21 @@ btn_show_ticket.addEventListener("click", () => {
     createTableTicket();
 
     div_management_ticket.style.display = "";
+
+    // chiudo il menù
+    $("#header-desktop-menu").removeClass("show-sidebar");
+    $("#header-desktop-menu2").removeClass("show-sidebar");
+
+});
+
+btn_show_categorie.addEventListener("click", () => {
+
+    hideAllDynamicPage();
+
+    // creo la tabella degli utenti
+    //createTableCategoria();
+
+    div_management_categoria.style.display = "";
 
     // chiudo il menù
     $("#header-desktop-menu").removeClass("show-sidebar");
