@@ -155,19 +155,81 @@ public function Show($id) {
 			}
 		}
   
-		// stampo in formato JSON le classi
-		$rows = $st->fetchAll(PDO::FETCH_ASSOC);
-		$temp = (json_encode($rows));
-		if($result != false)
-		{
-		  $r = '{"result":';
-		  $r .= $temp;
-		  $r .= ', "description":"Stampa del ticket avvenuta con successo"}';
-		}
-		else
-		{
-		  $r = '{"result":false, "description":"1Stampa non avvenuta con successo"}';
-		}
+	// stampo in formato JSON le classi
+	//QUERY:
+	$rows = $st->fetchAll(PDO::FETCH_ASSOC);	// Qui abbiamo tutti i ticket
+				
+	if($result != false)
+	{
+		//MACROAREA:
+		$macroarea = $rows[0]["IdMacroarea"];
+			$st = $this->PDOconn->prepare("SELECT schoolticket.macroarea.* FROM schoolticket.macroarea WHERE schoolticket.macroarea.IdMacroarea = ?");		// Se è 1 visualizza tutti gli utenti
+			$result = $st->execute([$macroarea]);	//Result contiene 1 o 0 in base al corretto funzionamento della query 
+			if($result == false){
+				$r = '{"result":false, "description":"Problemi durante l\'elaborazione dei dati del server"}';
+				return $r;
+			}
+		$rows2 = $st->fetch(PDO::FETCH_ASSOC);
+		$temp = (json_encode($rows2));
+		//echo $temp;
+		
+		//UTENTE
+		$utente = $rows[0]["IdUtente"];
+			$st = $this->PDOconn->prepare("SELECT schoolticket.utente.* FROM schoolticket.utente WHERE schoolticket.utente.IdUtente = ?");		// Se è 1 visualizza tutti gli utenti
+			$result = $st->execute([$utente]);	//Result contiene 1 o 0 in base al corretto funzionamento della query 
+			if($result == false){
+				$r = '{"result":false, "description":"Problemi durante l\'elaborazione dei dati del server"}';
+				return $r;
+			}
+		$rows3 = $st->fetch(PDO::FETCH_ASSOC);
+		//var_dump($rows3);
+		$temp2 = (json_encode($rows3));
+		//echo '</br>' .$temp2;
+		
+		//var_dump($rows);
+		
+		//AULA
+		$aula = $rows[0]["IdAula"];
+			$st = $this->PDOconn->prepare("SELECT schoolticket.aula.* FROM schoolticket.aula WHERE schoolticket.aula.IdAula = ?");		// Se è 1 visualizza tutti gli utenti
+			$result = $st->execute([$aula]);	//Result contiene 1 o 0 in base al corretto funzionamento della query 
+			if($result == false){
+				$r = '{"result":false, "description":"Problemi durante l\'elaborazione dei dati del server"}';
+				return $r;
+			}
+		$rows4 = $st->fetch(PDO::FETCH_ASSOC);
+		//var_dump($rows3);
+		$temp3 = (json_encode($rows4));
+		
+	//STRINGA JSON da restituire:
+		$r = '{"result":';
+		$r .= ' [{"IdTicket": "';
+		$r .= $rows[0]["IdTicket"]; 
+		$r .= '", "Nome": "';
+		$r .= $rows[0]["Nome"];
+		$r .= '", "Descrizione": "';
+		$r .= $rows[0]["Descrizione"];
+		$r .= '", "Immagine": "';
+		$r .= $rows[0]["Immagine"];
+		$r .= '", "StatoDiAvanzamento": "';
+		$r .= $rows[0]["StatoDiAvanzamento"];
+		$r .= '", "Priorita": "';
+		$r .= $rows[0]["Priorita"];
+		$r .= '", "Data": "';
+		$r .= $rows[0]["Data"];
+		$r .= '", "Ora": "';
+		$r .= $rows[0]["Ora"];
+		$r .= '", "Macroarea": ';
+		$r .= $temp;
+		$r .= ', "Utente": ';
+		$r .= $temp2;
+		$r .= ', "Aula": ';
+		$r .= $temp3;
+		$r .= '", "Unione": "';
+		$r .= $rows[0]["IdUnione"];
+		$r .= '", "Visualizzato": "';
+		$r .= $rows[0]["Visualizzato"] . '}';
+		
+		$r .= '] , "description":"Dati utente correttamente restituiti"}';
 		return $r;
     }
     else
@@ -197,6 +259,7 @@ public function Show($id) {
 
   }
 
+}
 }
 
   public function Delete($IdTicket, $id){//Elimino il/i ticket in base all'IdTicket e controllo attraverso $id che l'utente sia loggato e abbia i permessi;

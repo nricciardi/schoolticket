@@ -145,7 +145,7 @@
 					$temp = (json_encode($rows2));
 					//echo $temp;
 					
-					//CATEGORIA
+					//PERMESSI
 					$permessi = $rows[0]["IdPermessi"];
 						$st = $this->PDOconn->prepare("SELECT schoolticket.permessi.* FROM schoolticket.permessi WHERE schoolticket.permessi.IdPermessi = ?");		// Se è 1 visualizza tutti gli utenti
 						$result = $st->execute([$permessi]);	//Result contiene 1 o 0 in base al corretto funzionamento della query 
