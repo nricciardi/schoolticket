@@ -50,7 +50,6 @@
                             </label>
                         </th>
                         <!-- Predisposizione IdUtente: <th>Id utente</th> -->
-                        <th>IdTicket</th>
                         <th>Nome</th>
                         <th>Descrizione</th>
                         <th>Immagine</th>

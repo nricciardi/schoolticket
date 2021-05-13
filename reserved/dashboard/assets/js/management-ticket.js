@@ -175,7 +175,7 @@ function createTableTicket() {
     feedback_table_management_ticket.style.color = "#ededed";
 
     // creo l'oggetto data da mandare in post
-    let data = {"Submit": "show"};
+    let data = {"Submit": "Show"};
 
     // elimino gli elementi esistenti
     body_table_ticket.innerHTML = "";
@@ -259,7 +259,7 @@ function addticket() {
             } else {
 
                 // in caso positivo creo la tabella per gli utenti
-                createTableticket();
+                createTableTicket();
 
             }
 
@@ -418,7 +418,7 @@ function createFormNewticket() {
     record += '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_ticket" onclick="addticket()" style="margin-left: 0.5vw; border-radius: 5%" disabled>' +   // aggiungo l'onclick per effettuare correttamente l'azione
         '<i class="far fa-check-circle"></i> Conferma' +
     '</button>' +
-    '<button type="button" onclick="createTableticket()" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%">' +
+    '<button type="button" onclick="createTableTicket()" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%">' +
         '<!--<i class="fas fa-minus-circle"></i>--> Annulla' +
     '</button></td>';
 
@@ -436,7 +436,7 @@ function checkInput() {
 
     // controllo che sia aggiunto almeno un valore per il nome
 
-    if(document.getElementById(newName).value.trim() == "") {
+    if(document.getElementById("newName").value.trim() == "") {
 
         document.getElementById(newName).style.borderColor = error_data;
         check_form_new_ticket = false;
@@ -482,7 +482,7 @@ form_add_ticket.addEventListener("click", () => {
     console.log("Aggiunto il form");
 
     // aggiungo il form all'inzio del codice già esistente
-    createTableticket();
+    createTableTicket();
     let actual_body = body_table_ticket.innerHTML
     body_table_ticket.innerHTML = createFormNewticket() + actual_body;
 
@@ -499,7 +499,7 @@ btn_refresh_management_ticket.addEventListener("click", () => {
     // disabilito il bottone per 3 secondi
 
     // creo la tabella
-    createTableticket();
+    createTableTicket();
 
     // disabilito il bottone
     btn_refresh_management_ticket.disabled = true;
