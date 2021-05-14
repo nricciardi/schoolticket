@@ -29,7 +29,7 @@ var check_form_new_ticket = false;
 
 // restituisce il codice html in formato stringa da inserire nella tabella dato un oggetto ordinato in base all'intestazione della tabella
 function createRecordticket(ticket) {   //ticket è un oggetto contenente le informazioni del record IdTicket ...
-
+	console.log(ticket);
     // record che sarà restituito
     let record = "";
 
