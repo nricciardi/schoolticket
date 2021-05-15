@@ -21,10 +21,10 @@ var btn_refresh_management_user = document.getElementById("btn_refresh_managemen
 var feedback_table_management_user = document.getElementById("feedback_table_management_user");
 
 // variabile di controllo per il form new user
-var check_new_surname = false;
-var check_new_name = false;
-var check_new_email = false;
-var check_new_password = false;
+var check_new_surname_user = false;
+var check_new_name_user = false;
+var check_new_email_user = false;
+var check_new_password_user = false;
 
 // btn per eliminare gli utenti selezionati
 var btn_delete_checked_user = document.getElementById("btn_delete_checked_user");
@@ -446,11 +446,11 @@ function checkNewSurnameUser(ID = "newSurnameUser") {
     if(document.getElementById(ID).value.trim() == "") {
 
         document.getElementById(ID).style.borderColor = error_data;
-        check_new_surname = false;
+        check_new_surname_user = false;
 
     } else {
 
-        check_new_surname = true;
+        check_new_surname_user = true;
         document.getElementById(ID).style.borderColor = correct_data;
 
     }
@@ -460,19 +460,19 @@ function checkNewSurnameUser(ID = "newSurnameUser") {
 
 }
 
-function checkNewNameUser() {
+function checkNewNameUser(ID = "newNameUser") {
     
     // controllo che sia aggiunto almeno un valore per il nome
 
-    if(document.getElementById("newNameUser").value.trim() == "") {
+    if(document.getElementById(ID).value.trim() == "") {
 
-        document.getElementById("newNameUser").style.borderColor = error_data;
-        check_new_name = false;
+        document.getElementById(ID).style.borderColor = error_data;
+        check_new_name_user = false;
 
     } else {
 
-        check_new_name = true;
-        document.getElementById("newNameUser").style.borderColor = correct_data;
+        check_new_name_user = true;
+        document.getElementById(ID).style.borderColor = correct_data;
 
     }
 
@@ -482,19 +482,19 @@ function checkNewNameUser() {
 }
 
 // imposto le funzioni per gli eventi del form 
-function checkNewEmailUser() {
+function checkNewEmailUser(ID = "newEmailUser") {
     
     // controllo che sia aggiunto almeno un valore per il email
 
-    if(document.getElementById("newEmailUser").value.trim() == "") {
+    if(document.getElementById(ID).value.trim() == "") {
 
-        document.getElementById("newEmailUser").style.borderColor = error_data;
-        check_new_email = false;
+        document.getElementById(ID).style.borderColor = error_data;
+        check_new_email_user = false;
 
     } else {
 
-        check_new_email = true;
-        document.getElementById("newEmailUser").style.borderColor = correct_data;
+        check_new_email_user = true;
+        document.getElementById(ID).style.borderColor = correct_data;
 
     }
 
@@ -503,19 +503,19 @@ function checkNewEmailUser() {
 
 }
 
-function checkNewPasswordUser() {
+function checkNewPasswordUser(ID = "newPasswordUser") {
     
     // controllo che sia aggiunto almeno un valore per il email
 
-    if(document.getElementById("newPasswordUser").value.trim() == "") {
+    if(document.getElementById(ID).value.trim() == "") {
 
-        document.getElementById("newPasswordUser").style.borderColor = error_data;
-        check_new_password = false;
+        document.getElementById(ID).style.borderColor = error_data;
+        check_new_password_user = false;
 
     } else {
 
-        check_new_password = true;
-        document.getElementById("newPasswordUser").style.borderColor = correct_data;
+        check_new_password_user = true;
+        document.getElementById(ID).style.borderColor = correct_data;
 
     }
 
@@ -526,9 +526,9 @@ function checkNewPasswordUser() {
 
 
 // controllo se posso abilitare il bottone per la conferma del nuovo utente
-function checkFormNewUser() {
+function checkFormNewUser(ID = "btn_confirm_new_user") {
     
-    let btn_confirm_new_user = document.getElementById("btn_confirm_new_user");
+    let btn_confirm_new_user = document.getElementById(ID);
 
     if(btn_confirm_new_user == null) {
 
@@ -536,7 +536,7 @@ function checkFormNewUser() {
         return false;
     } 
 
-    if(check_new_surname && check_new_name && check_new_password && check_new_email)
+    if(check_new_surname_user && check_new_name_user && check_new_password_user && check_new_email_user)
         btn_confirm_new_user.removeAttribute("disabled");
     else
         btn_confirm_new_user.setAttribute("disabled", "disabled");
