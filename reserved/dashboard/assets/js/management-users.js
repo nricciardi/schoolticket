@@ -44,7 +44,7 @@ function createRecordUser(user) {   //User è un oggetto contenente le informazi
 
     record += '<td>';       // creo il primo campo
     record += '<label class="au-checkbox">';
-    record += '<input type="checkbox" onclick="checkCheckbox()" name="checkRecord[]" value="' + user.IdUtente + '" id="checkbox' + user.IdUtente + '">';    // inserisco il checkbox con valore l'ID dell'utente
+    record += '<input type="checkbox" onclick="checkCheckboxUser()" name="checkRecord[]" value="' + user.IdUtente + '" id="checkbox' + user.IdUtente + '">';    // inserisco il checkbox con valore l'ID dell'utente
     record += '<span class="au-checkmark"></span>';
     record += '</label>    </td>';
 
@@ -71,10 +71,10 @@ function createRecordUser(user) {   //User è un oggetto contenente le informazi
 
     // inserisco i bottoni per le diverse azioni
     record += '<td id="td_action_userId_' + user.IdUtente + '"> <div class="table-data-feature">';
-    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Send" id="send' + user.IdUtente + '" onclick="requestActionUser(\'send\', ' + user.IdUtente + ')">    <i class="zmdi zmdi-mail-send"></i> </button>';        // tasto SEND
-    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Edit" id="edit' + user.IdUtente + '" onclick="requestActionUser(\'edit\', ' + user.IdUtente + ')">    <i class="zmdi zmdi-edit"></i>  </button>';            // tasto EDIT
-    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Delete" id="delete' + user.IdUtente + '" onclick="requestActionUser(\'delete\', ' + user.IdUtente + ')">  <i class="zmdi zmdi-delete"></i>    </button>';    // tasto DELETE                                    
-    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="More" id="more' + user.IdUtente + '" onclick="requestActionUser(\'more\', ' + user.IdUtente + ')">    <i class="zmdi zmdi-more"></i>  </button>';       // tasto MORE       
+    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Send" id="sendUser' + user.IdUtente + '" onclick="requestActionUser(\'send\', ' + user.IdUtente + ')">    <i class="zmdi zmdi-mail-send"></i> </button>';        // tasto SEND
+    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Edit" id="editUser' + user.IdUtente + '" onclick="requestActionUser(\'edit\', ' + user.IdUtente + ')">    <i class="zmdi zmdi-edit"></i>  </button>';            // tasto EDIT
+    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Delete" id="deleteUser' + user.IdUtente + '" onclick="requestActionUser(\'delete\', ' + user.IdUtente + ')">  <i class="zmdi zmdi-delete"></i>    </button>';    // tasto DELETE                                    
+    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="More" id="moreUser' + user.IdUtente + '" onclick="requestActionUser(\'more\', ' + user.IdUtente + ')">    <i class="zmdi zmdi-more"></i>  </button>';       // tasto MORE       
     record += '</div>   </td>   </tr>';
 
     // inserisco il record di spaziatura
@@ -227,7 +227,7 @@ function addUser() {
         return false;
 
     // creo l'oggetto data da mandare in post
-    let data = {"Submit": "registration", "nome": document.getElementById("newName").value, "email": document.getElementById("newEmail").value, "cognome": document.getElementById("newSurname").value, "password": document.getElementById("newPassword").value, "IdCategoria": document.getElementById("categoria_add_user").value, "IdPermessi": document.getElementById("permessi_add_user").value};
+    let data = {"Submit": "registration", "nome": document.getElementById("newNameUser").value, "email": document.getElementById("newEmailUser").value, "cognome": document.getElementById("newSurnameUser").value, "password": document.getElementById("newPasswordUser").value, "IdCategoria": document.getElementById("categoria_add_user").value, "IdPermessi": document.getElementById("permessi_add_user").value};
 
     // effettuo la chiamata ajax
     $.ajax({
@@ -273,7 +273,7 @@ function editUser(ID) {   // può anche essere passato un array
     console.log("Modifico: " + ID);
 
     // creo l'oggetto data da mandare in post
-    let data = {"Submit": "Update", "IdCategoria": document.getElementById("editCategoria").value, "IdPermessi": document.getElementById("editCategoria").value};
+    let data = {"Submit": "Update", "IdCategoria": document.getElementById("editCategoriaUser").value, "IdPermessi": document.getElementById("editCategoriaUser").value};
 
     // effettuo la chiamata ajax
     $.ajax({
@@ -392,22 +392,22 @@ function createFormNewUser() {
     
     // inserisco il COGNOME
     record += '<td>' + 
-    '<input type="text" placeholder="Cognome" oninput="checkNewSurname()" class="form-control" id="newSurname">' + 
+    '<input type="text" placeholder="Cognome" oninput="checkNewSurnameUser()" class="form-control" id="newSurnameUser">' + 
     '</td>';
     
     // inserisco il NOME
     record += '<td>' + 
-    '<input type="text" placeholder="Nome" oninput="checkNewName()" class="form-control" id="newName">' + 
+    '<input type="text" placeholder="Nome" oninput="checkNewNameUser()" class="form-control" id="newNameUser">' + 
     '</td>';
     
     // inserisco l'EMAIL
     record += '<td>' + 
-    '<input type="email" placeholder="Email" oninput="checkNewEmail()" class="form-control" id="newEmail">' + 
+    '<input type="email" placeholder="Email" oninput="checkNewEmailUser()" class="form-control" id="newEmailUser">' + 
     '</td>';
 
     // inserisco la PASSWORD
     record += '<td>' + 
-    '<input type="password" placeholder="Password" oninput="checkNewPassword()" class="form-control" id="newPassword">' + 
+    '<input type="password" placeholder="Password" oninput="checkNewPasswordUser()" class="form-control" id="newPasswordUser">' + 
     '</td>';
 
     
@@ -439,7 +439,7 @@ function createFormNewUser() {
 }
 
 // imposto le funzioni per gli eventi del form 
-function checkNewSurname(ID = "newSurname") {
+function checkNewSurnameUser(ID = "newSurnameUser") {
     
     // controllo che sia aggiunto almeno un valore per il cognome
 
@@ -460,19 +460,19 @@ function checkNewSurname(ID = "newSurname") {
 
 }
 
-function checkNewName() {
+function checkNewNameUser() {
     
     // controllo che sia aggiunto almeno un valore per il nome
 
-    if(document.getElementById("newName").value.trim() == "") {
+    if(document.getElementById("newNameUser").value.trim() == "") {
 
-        document.getElementById("newName").style.borderColor = error_data;
+        document.getElementById("newNameUser").style.borderColor = error_data;
         check_new_name = false;
 
     } else {
 
         check_new_name = true;
-        document.getElementById("newName").style.borderColor = correct_data;
+        document.getElementById("newNameUser").style.borderColor = correct_data;
 
     }
 
@@ -482,19 +482,19 @@ function checkNewName() {
 }
 
 // imposto le funzioni per gli eventi del form 
-function checkNewEmail() {
+function checkNewEmailUser() {
     
     // controllo che sia aggiunto almeno un valore per il email
 
-    if(document.getElementById("newEmail").value.trim() == "") {
+    if(document.getElementById("newEmailUser").value.trim() == "") {
 
-        document.getElementById("newEmail").style.borderColor = error_data;
+        document.getElementById("newEmailUser").style.borderColor = error_data;
         check_new_email = false;
 
     } else {
 
         check_new_email = true;
-        document.getElementById("newEmail").style.borderColor = correct_data;
+        document.getElementById("newEmailUser").style.borderColor = correct_data;
 
     }
 
@@ -503,19 +503,19 @@ function checkNewEmail() {
 
 }
 
-function checkNewPassword() {
+function checkNewPasswordUser() {
     
     // controllo che sia aggiunto almeno un valore per il email
 
-    if(document.getElementById("newPassword").value.trim() == "") {
+    if(document.getElementById("newPasswordUser").value.trim() == "") {
 
-        document.getElementById("newPassword").style.borderColor = error_data;
+        document.getElementById("newPasswordUser").style.borderColor = error_data;
         check_new_password = false;
 
     } else {
 
         check_new_password = true;
-        document.getElementById("newPassword").style.borderColor = correct_data;
+        document.getElementById("newPasswordUser").style.borderColor = correct_data;
 
     }
 
@@ -543,20 +543,6 @@ function checkFormNewUser() {
         
 }
 
-// funzione per eliminare il record per l'inserimento di un nuovo utente
-function removeForm(ID = "form_new_user") {
-    
-    // recupero il form per l'inserimento
-    let form = document.getElementById(ID);
-
-    if(form != null) {
-        form.innerHTML = "";
-    } else {
-        console.warn("Il form non esiste");
-    }
-
-}
-
 // funzione che modifica il record della tabella con id passato, predisponendolo come form
 function changeRecordUserToForm(ID) {
     
@@ -571,7 +557,7 @@ function changeRecordUserToForm(ID) {
     surname = td_surname.innerText;     // recupero il valore del cognome
 
     // modifico la label in un input:text
-    td_surname.innerHTML = '<input type="text" placeholder="Cognome" value="' + surname + '" oninput="checkNewSurname(\'editSurname\')" class="form-control" id="editSurname">'
+    td_surname.innerHTML = '<input type="text" placeholder="Cognome" value="' + surname + '" oninput="checkNewSurnameUser(\'editSurname\')" class="form-control" id="editSurname">'
 
     // NOME
     // recupero la referenza del cognome del record della tabella tramite ID
@@ -579,7 +565,7 @@ function changeRecordUserToForm(ID) {
     name = td_name.innerText;     // recupero il valore del cognome
 
     // modifico la label in un input:text
-    td_name.innerHTML = '<input type="text" placeholder="Nome" value="' + name + '" oninput="checkNewName(\'editName\')" class="form-control" id="editName">'
+    td_name.innerHTML = '<input type="text" placeholder="Nome" value="' + name + '" oninput="checkNewNameUser(\'editName\')" class="form-control" id="editName">'
 
     // EMAIL
     // recupero la referenza del cognome del record della tabella tramite ID
@@ -587,7 +573,7 @@ function changeRecordUserToForm(ID) {
     email = td_email.innerText;     // recupero il valore del cognome
 
     // modifico la label in un input:text
-    td_email.innerHTML = '<input type="email" placeholder="Email" value="' + email + '" oninput="checkNewEmail(\'editEmail\')" class="form-control" id="editEmail">'
+    td_email.innerHTML = '<input type="email" placeholder="Email" value="' + email + '" oninput="checkNewEmailUser(\'editEmail\')" class="form-control" id="editEmail">'
     */
 
     // CATEGORIA
@@ -595,18 +581,18 @@ function changeRecordUserToForm(ID) {
     let td_categoria = document.getElementById("categoriaUser" + ID);
     categoria = td_categoria.dataset.categoria;     // recupero il valore del cognome
 
-    td_categoria.innerHTML = '<select id="editCategoria" class="form-control"></select>';   // creo il select contenitore
-    addCategorie(document.getElementById("editCategoria"), foot_table_users, 10);      // aggiungo le categorie
-    document.getElementById("editCategoria").value = categoria;     // imposto il valore corrente
+    td_categoria.innerHTML = '<select id="editCategoriaUser" class="form-control"></select>';   // creo il select contenitore
+    addCategorie(document.getElementById("editCategoriaUser"), foot_table_users, 10);      // aggiungo le categorie
+    document.getElementById("editCategoriaUser").value = categoria;     // imposto il valore corrente
 
     // PERMESSI
     // recupero la referenza della categoria del record della tabella tramite ID
     let td_permessi = document.getElementById("permessiUser" + ID);
     permessi = td_permessi.dataset.permessi;     // recupero il valore del cognome
 
-    td_permessi.innerHTML = '<select id="editPermessi" class="form-control"></select>';   // creo il select contenitore
-    addPermessi(document.getElementById("editPermessi"), foot_table_users, 10);      // aggiungo le categorie
-    document.getElementById("editPermessi").value = permessi;       // imposto il valore corrente
+    td_permessi.innerHTML = '<select id="editPermessiUser" class="form-control"></select>';   // creo il select contenitore
+    addPermessi(document.getElementById("editPermessiUser"), foot_table_users, 10);      // aggiungo le categorie
+    document.getElementById("editPermessiUser").value = permessi;       // imposto il valore corrente
 
 
 
@@ -649,7 +635,7 @@ function getArrayUsersChecked() {
 }
 
 // controllo se abilitare il bottone
-function checkCheckbox() {
+function checkCheckboxUser() {
     
     let array = getArrayUsersChecked();
 
@@ -678,7 +664,7 @@ general_checkbox.addEventListener("change", () => {
     
     // controllo lo stato del bottone e richiamo la funzione con il valore del checkbox giusta
     setCheckboxRecordUser(general_checkbox.checked);
-    checkCheckbox();
+    checkCheckboxUser();
     
 });
 

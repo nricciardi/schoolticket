@@ -716,6 +716,21 @@ function setNewTicketNumber()
 	});
 }
 
+
+// funzione per eliminare il record per l'inserimento di un nuovo utente
+function removeForm(ID) {
+    
+    // recupero il form per l'inserimento
+    let form = document.getElementById(ID);
+
+    if(form != null) {
+        form.innerHTML = "";
+    } else {
+        console.warn("Il form non esiste");
+    }
+
+}
+
 // ----------------------------------------------------------------
 // ----------------------- EVENTI --------------------------------- 
 // ----------------------------------------------------------------
