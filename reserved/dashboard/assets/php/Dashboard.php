@@ -123,6 +123,54 @@ class Dashboard
         }
         return $r;
     }
+
+    // creo una nuova cateegoria passando un array associativo contente le categorie
+    public function setCategoria($newCategoria) {
+
+        $msg = '{"result":false, "description":"';//Riscontrato un problema nel invio delle categorie da parte del server;
+        $error = false;
+
+        // CONTROLLI SUI CAMPI PASSATI
+        if(!isset($newCategoria["Nome"]) || $newCategoria["Nome"] == "") {
+            $error = true;
+            $msg .= "Errore nel nome della categoria; ";
+
+        } else {
+            $nome = $newCategoria["Nome"];
+        }
+
+        if(!isset($newCategoria["Descrizione"]) || $newCategoria["Descrizione"] == "") {
+            $error = true;
+            $msg .= "Errore nella descrizione della categoria; ";
+        } else {
+            $descrizione = $newCategoria["Descrizione"];
+        }
+
+        if($error)      // se ci sono stati errori, completo la stringa e la restituisco
+            return $msg . '"}';
+
+
+        $query = "INSERT INTO `categoria`(`Nome`, `Descrizione`) VALUES (?, ?)";      // query per l'inserimento
+        $st = $this->PDOconn->prepare($query);
+        $result = $st->execute([$nome, $descrizione]);
+
+        // restituisco il risultato
+        if($result == false) {
+
+            return '{"result":false, "description":"Si è verificato un problema durante l\'invio dei dati al database"}';
+
+        } else {
+
+            return '{"result":true, "description":"Categoria correttamente inserita"}';
+
+        }
+
+    }
+
+    public function setPermessi($newPermessi) {
+        
+    }
+
 }
 
 $dashboard = new Dashboard(DATABASE_HOST, DATABASE_NAME, DATABASE_USERNAME, DATABASE_PASSWORD);
@@ -147,6 +195,50 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "getPermessi")
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "getCategorie")
 {
     echo $dashboard->getCategorie();
+}
+
+// if per il submit delle setCategoria
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "setCategoria")
+{
+    if(isset($_POST["Data"]))
+        $newCategoria = $_POST["Data"];
+    else
+        echo '{"result":false, "description":"Riscontrato un problema nel invio delle categorie da parte del server"}';
+
+    echo $dashboard->setCategoria($newCategoria);
+}
+
+// if per il submit delle setPermessi
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "setPermessi")
+{
+    if(isset($_POST["Data"]))
+        $newPermessi = $_POST["Data"];
+    else
+        echo '{"result":false, "description":"Riscontrato un problema nel invio dei permessi da parte del server"}';
+
+    echo $dashboard->setPermessi($newPermessi);
+}
+
+// if per il submit delle setAule
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "setAule")
+{
+    if(isset($_POST["Data"]))
+        $newAule = $_POST["Data"];
+    else
+        echo '{"result":false, "description":"Riscontrato un problema nel invio delle categorie da parte del server"}';
+
+    echo $dashboard->setAule($newAule);
+}
+
+// if per il submit delle setAule
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "setMacroaree")
+{
+    if(isset($_POST["Data"]))
+        $newMacroaree = $_POST["Data"];
+    else
+        echo '{"result":false, "description":"Riscontrato un problema nel invio delle categorie da parte del server"}';
+
+    echo $dashboard->setMacroaree($newMacroaree);
 }
 
 ?>
