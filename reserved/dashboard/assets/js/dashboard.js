@@ -790,7 +790,7 @@ btn_show_categorie.addEventListener("click", () => {
     hideAllDynamicPage();
 
     // creo la tabella degli utenti
-    //createTableCategoria();
+    createTableCategoria();
 
     div_management_categoria.style.display = "";
 
