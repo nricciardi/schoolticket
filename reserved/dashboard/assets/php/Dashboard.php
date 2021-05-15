@@ -167,6 +167,10 @@ class Dashboard
 
     }
 
+    public function setPermessi($newPermessi) {
+        
+    }
+
 }
 
 $dashboard = new Dashboard(DATABASE_HOST, DATABASE_NAME, DATABASE_USERNAME, DATABASE_PASSWORD);
@@ -202,6 +206,39 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "setCategoria")
         echo '{"result":false, "description":"Riscontrato un problema nel invio delle categorie da parte del server"}';
 
     echo $dashboard->setCategoria($newCategoria);
+}
+
+// if per il submit delle setPermessi
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "setPermessi")
+{
+    if(isset($_POST["Data"]))
+        $newPermessi = $_POST["Data"];
+    else
+        echo '{"result":false, "description":"Riscontrato un problema nel invio dei permessi da parte del server"}';
+
+    echo $dashboard->setPermessi($newPermessi);
+}
+
+// if per il submit delle setAule
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "setAule")
+{
+    if(isset($_POST["Data"]))
+        $newAule = $_POST["Data"];
+    else
+        echo '{"result":false, "description":"Riscontrato un problema nel invio delle categorie da parte del server"}';
+
+    echo $dashboard->setAule($newAule);
+}
+
+// if per il submit delle setAule
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "setMacroaree")
+{
+    if(isset($_POST["Data"]))
+        $newMacroaree = $_POST["Data"];
+    else
+        echo '{"result":false, "description":"Riscontrato un problema nel invio delle categorie da parte del server"}';
+
+    echo $dashboard->setMacroaree($newMacroaree);
 }
 
 ?>
