@@ -411,6 +411,4 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "setMacroaree")
     echo $dashboard->setMacroaree($newMacroaree);
 }
 
-$newPermessi = array("Descrizione"=>"ciao");
-echo $dashboard->setPermessi($newPermessi);
 ?>

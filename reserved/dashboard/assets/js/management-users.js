@@ -582,7 +582,7 @@ function changeRecordUserToForm(ID) {
     categoria = td_categoria.dataset.categoria;     // recupero il valore del cognome
 
     td_categoria.innerHTML = '<select id="editCategoriaUser" class="form-control"></select>';   // creo il select contenitore
-    addCategorie(document.getElementById("editCategoriaUser"), foot_table_users, 10);      // aggiungo le categorie
+    addCategorie(document.getElementById("editCategoriaUser"), feedback_table_management_user, 10);      // aggiungo le categorie
     document.getElementById("editCategoriaUser").value = categoria;     // imposto il valore corrente
 
     // PERMESSI
@@ -591,7 +591,7 @@ function changeRecordUserToForm(ID) {
     permessi = td_permessi.dataset.permessi;     // recupero il valore del cognome
 
     td_permessi.innerHTML = '<select id="editPermessiUser" class="form-control"></select>';   // creo il select contenitore
-    addPermessi(document.getElementById("editPermessiUser"), foot_table_users, 10);      // aggiungo le categorie
+    addPermessi(document.getElementById("editPermessiUser"), feedback_table_management_user, 10);      // aggiungo le categorie
     document.getElementById("editPermessiUser").value = permessi;       // imposto il valore corrente
 
 
@@ -679,8 +679,8 @@ form_add_user.addEventListener("click", () => {
     body_table_users.innerHTML = createFormNewUser() + actual_body; 
 
     // richiamo le funzioni per aggiungere categorie e permessi
-    addCategorie(document.getElementById("categoria_add_user"), foot_table_users, 10);
-    addPermessi(document.getElementById("permessi_add_user"), foot_table_users, 10);
+    addCategorie(document.getElementById("categoria_add_user"), feedback_table_management_user, 10);
+    addPermessi(document.getElementById("permessi_add_user"), feedback_table_management_user, 10);
 });
 
 // ricarico la tabella riaggiungendola al click del bottone di refresh

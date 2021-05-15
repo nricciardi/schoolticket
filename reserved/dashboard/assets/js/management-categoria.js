@@ -14,6 +14,14 @@ var form_add_categoria = document.getElementById("formAddCategoria");
 // bottone per il refresh della schermata
 var btn_refresh_management_categoria = document.getElementById("btn_refresh_management_categoria");
 
+// variabile di controllo per il form new user
+var check_new_name_categoria = false;
+var check_new_descrizione_categoria = false;
+
+// span di risposta per la tabella management categoria
+var feedback_table_management_categoria = document.getElementById("feedback_table_management_categoria");
+
+
 // -------------------------------------------------------------------------------
 // ---------------------- FUNZIONI GENERICHE -------------------------------------
 // -------------------------------------------------------------------------------
@@ -165,6 +173,67 @@ function createFormNewCategoria() {
     // restituisco la stringa
     return record;
 
+}
+
+// imposto le funzioni per gli eventi del form 
+function checkNewNameCategoria(ID = "newNameCategoria") {
+    
+    // controllo che sia aggiunto almeno un valore per il nome
+
+    if(document.getElementById(ID).value.trim() == "") {
+
+        document.getElementById(ID).style.borderColor = error_data;
+        check_new_name_categoria = false;
+
+    } else {
+
+        check_new_name_categoria = true;
+        document.getElementById(ID).style.borderColor = correct_data;
+
+    }
+
+    // controllo se posso abilitare il bottone di conferma
+    checkFormNewCategoria();
+
+}
+
+function checkNewDescriptionCategoria(ID = "newDescriptionCategoria") {
+    
+    // controllo che sia aggiunto almeno un valore per la descrizione
+
+    if(document.getElementById(ID).value.trim() == "") {
+
+        document.getElementById(ID).style.borderColor = error_data;
+        check_new_descrizione_categoria = false;
+
+    } else {
+
+        check_new_descrizione_categoria = true;
+        document.getElementById(ID).style.borderColor = correct_data;
+
+    }
+
+    // controllo se posso abilitare il bottone di conferma
+    checkFormNewCategoria();
+
+}
+
+// controllo se posso abilitare il bottone per la conferma della nuova categoria
+function checkFormNewCategoria(ID = "btn_confirm_new_categoria") {
+    
+    let btn_confirm_new_categoria = document.getElementById(ID);
+
+    if(btn_confirm_new_categoria == null) {
+
+        console.error("Il button per la conferma non esiste");
+        return false;
+    } 
+
+    if(check_new_name_categoria && check_new_descrizione_categoria)
+        btn_confirm_new_categoria.removeAttribute("disabled");
+    else
+        btn_confirm_new_categoria.setAttribute("disabled", "disabled");
+        
 }
 
 
