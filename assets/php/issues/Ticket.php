@@ -204,7 +204,13 @@ public function Show($id) {
 			$temp3 = (json_encode($rows4));
 
 		//STRINGA JSON da restituire:
-			$r .= ' {"IdTicket": "';
+    if($cont == 0){
+      $r .= ' {"IdTicket": "';
+    }
+    else{
+      $r .= ', {"IdTicket": "';
+      }
+
 			$r .= $record["IdTicket"];
 			$r .= '", "Nome": "';
 			$r .= $record["Nome"];
@@ -230,6 +236,8 @@ public function Show($id) {
 			$r .= $record["IdUnione"];
 			$r .= '", "Visualizzato": "';
 			$r .= $record["Visualizzato"] . '"}';
+
+      $cont++;
 		}
 
 		$r .= '], "description":"Dati dei ticket correttamente restituiti"}';
@@ -724,10 +732,10 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "Insert"){
   echo $ticket->insert($Nome, $Descrizione, $Url, $Stato, $Priorit, $IdAula, $Data, $Ora, $IdMacro, $IdUtn);
 }
 
-if(isset($_POST["Submit"]) && $_POST["Submit"] == "Show"){
+//if(isset($_POST["Submit"]) && $_POST["Submit"] == "Show"){
   $ID = 2; // $_SESSION["logged"]
   echo $ticket -> Show($ID);
-}
+//}
 
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "Union"){
   $Ticket1 = $POST['ID1'];
@@ -755,4 +763,5 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "Update"){
   }
 }*/
 ?>
+
 

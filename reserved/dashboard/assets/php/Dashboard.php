@@ -150,7 +150,7 @@ class Dashboard
             return $msg . '"}';
 
 
-        $query = "INSERT INTO `categoria`(`Nome`, `Descrizione`) VALUES (?, ?)";      // query per l'inserimento
+        $query = "INSERT INTO schoolticket.categoria(`Nome`, `Descrizione`) VALUES (?, ?)";      // query per l'inserimento
         $st = $this->PDOconn->prepare($query);
         $result = $st->execute([$nome, $descrizione]);
 
@@ -184,98 +184,98 @@ class Dashboard
             $error = true;
             $msg .= "Errore in ModificaVisualizzaTuttiUtenti del permesso; ";
         } else {
-            $modificavisualizzatuttiutenti = $newPermessi["ModificaVisualizzaTuttiUtenti"];
+            $modificavisualizzatuttiutenti = (int)$newPermessi["ModificaVisualizzaTuttiUtenti"];
         }
 
         if(!isset($newPermessi["CreareTicket"]) || $newPermessi["CreareTicket"] == "") {
             $error = true;
             $msg .= "Errore in CreareTicket del permesso; ";
         } else {
-            $creareticket = $newPermessi["CreareTicket"];
+            $creareticket = (int)$newPermessi["CreareTicket"];
         }
 
         if(!isset($newPermessi["ModificaTuttiTicket"]) || $newPermessi["ModificaTuttiTicket"] == "") {
             $error = true;
             $msg .= "Errore in ModificaTuttiTicket del permesso; ";
         } else {
-            $modificatuttiticket = $newPermessi["ModificaTuttiTicket"];
+            $modificatuttiticket = (int)$newPermessi["ModificaTuttiTicket"];
         }
 
         if(!isset($newPermessi["UnireTicket"]) || $newPermessi["UnireTicket"] == "") {
             $error = true;
             $msg .= "Errore in UnireTicket del permesso; ";
         } else {
-            $unireticket = $newPermessi["UnireTicket"];
+            $unireticket = (int)$newPermessi["UnireTicket"];
         }
 
         if(!isset($newPermessi["VisualizzaTuttiTicket"]) || $newPermessi["VisualizzaTuttiTicket"] == "") {
             $error = true;
             $msg .= "Errore in VisualizzaTuttiTicket del permesso; ";
         } else {
-            $visualizzatuttiticket = $newPermessi["VisualizzaTuttiTicket"];
+            $visualizzatuttiticket = (int)$newPermessi["VisualizzaTuttiTicket"];
         }
 
         if(!isset($newPermessi["ModificaStatoAvanzamentoTicket"]) || $newPermessi["ModificaStatoAvanzamentoTicket"] == "") {
             $error = true;
             $msg .= "Errore in ModificaStatoAvanzamentoTicket del permesso; ";
         } else {
-            $modificastatoavanzamentoticket = $newPermessi["ModificaStatoAvanzamentoTicket"];
+            $modificastatoavanzamentoticket = (int)$newPermessi["ModificaStatoAvanzamentoTicket"];
         }
 
         if(!isset($newPermessi["ModificaStatoAvanzamentoIncarico"]) || $newPermessi["ModificaStatoAvanzamentoIncarico"] == "") {
             $error = true;
             $msg .= "Errore in ModificaStatoAvanzamentoIncarico del permesso; ";
         } else {
-            $modificastatoavanzamentoincarico = $newPermessi["ModificaStatoAvanzamentoIncarico"];
+            $modificastatoavanzamentoincarico = (int)$newPermessi["ModificaStatoAvanzamentoIncarico"];
         }
 
         if(!isset($newPermessi["CreaIncarico"]) || $newPermessi["CreaIncarico"] == "") {
             $error = true;
             $msg .= "Errore in CreaIncarico del permesso; ";
         } else {
-            $creaincarico = $newPermessi["CreaIncarico"];
+            $creaincarico = (int)$newPermessi["CreaIncarico"];
         }
 
         if(!isset($newPermessi["CreaModificaEliminaAula"]) || $newPermessi["CreaModificaEliminaAula"] == "") {
             $error = true;
             $msg .= "Errore in CreaModificaEliminaAula del permesso; ";
         } else {
-            $creamodificaeliminaaula = $newPermessi["CreaModificaEliminaAula"];
+            $creamodificaeliminaaula = (int)$newPermessi["CreaModificaEliminaAula"];
         }
 
         if(!isset($newPermessi["CreaModificaEliminaNote"]) || $newPermessi["CreaModificaEliminaNote"] == "") {
             $error = true;
             $msg .= "Errore in CreaModificaEliminaNote del permesso; ";
         } else {
-            $creamodificaeliminanote = $newPermessi["CreaModificaEliminaNote"];
+            $creamodificaeliminanote = (int)$newPermessi["CreaModificaEliminaNote"];
         }
 
         if(!isset($newPermessi["CreaModificaEliminaMacroarea"]) || $newPermessi["CreaModificaEliminaMacroarea"] == "") {
             $error = true;
             $msg .= "Errore in CreaModificaEliminaMacroarea del permesso; ";
         } else {
-            $creamodificaeliminamacroarea = $newPermessi["CreaModificaEliminaMacroarea"];
+            $creamodificaeliminamacroarea = (int)$newPermessi["CreaModificaEliminaMacroarea"];
         }
 
         if(!isset($newPermessi["CreaModificaEliminaCompetenza"]) || $newPermessi["CreaModificaEliminaCompetenza"] == "") {
             $error = true;
             $msg .= "Errore in CreaModificaEliminaCompetenza del permesso; ";
         } else {
-            $creamodificaeliminacompetenza = $newPermessi["CreaModificaEliminaCompetenza"];
+            $creamodificaeliminacompetenza = (int)$newPermessi["CreaModificaEliminaCompetenza"];
         }
 
         if(!isset($newPermessi["CreaModificaEliminaCategoria"]) || $newPermessi["CreaModificaEliminaCategoria"] == "") {
             $error = true;
             $msg .= "Errore in CreaModificaEliminaCategoria del permesso; ";
         } else {
-            $creamodificaeliminacategoria = $newPermessi["CreaModificaEliminaCategoria"];
+            $creamodificaeliminacategoria = (int)$newPermessi["CreaModificaEliminaCategoria"];
         }
 
         if($error)      // se ci sono stati errori, completo la stringa e la restituisco
             return $msg . '"}';
 
 
-        $query = "INSERT INTO `permessi`(`Descrizione`, `ModificaVisualizzaTuttiUtenti`, `CreareTicket`, `ModificaTuttiTicket`, `UnireTicket`, `VisualizzaTuttiTicket`, `ModificaStatoAvanzamentoTicket`, `ModificaStatoAvanzamentoIncarico`, `CreaIncarico`, `CreaModificaEliminaAula`, `CreaModificaEliminaNote`, `CreaModificaEliminaMacroarea`, `CreaModificaEliminaCompetenza`, `CreaModificaEliminaCategoria`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";      // query per l'inserimento
+        $query = "INSERT INTO schoolticket.permessi(`Descrizione`, `ModificaVisualizzaTuttiUtenti`, `CreareTicket`, `ModificaTuttiTicket`, `UnireTicket`, `VisualizzaTuttiTicket`, `ModificaStatoAvanzamentoTicket`, `ModificaStatoAvanzamentoIncarico`, `CreaIncarico`, `CreaModificaEliminaAula`, `CreaModificaEliminaNote`, `CreaModificaEliminaMacroarea`, `CreaModificaEliminaCompetenza`, `CreaModificaEliminaCategoria`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";      // query per l'inserimento
         $st = $this->PDOconn->prepare($query);
         $result = $st->execute([$descrizione, $modificavisualizzatuttiutenti, $creareticket, $modificatuttiticket, $unireticket, $visualizzatuttiticket, $modificastatoavanzamentoticket, $modificastatoavanzamentoincarico, $creaincarico, $creamodificaeliminaaula, $creamodificaeliminanote, $creamodificaeliminamacroarea, $creamodificaeliminacompetenza, $creamodificaeliminacategoria]);
 
@@ -300,7 +300,7 @@ class Dashboard
         // CONTROLLI SUI CAMPI PASSATI
         if(!isset($newAula["Nome"]) || $newAula["Nome"] == "") {
             $error = true;
-            $msg .= "Errore nel nome della categoria; ";
+            $msg .= "Errore nel nome dell'aula; ";
 
         } else {
             $nome = $newAula["Nome"];
@@ -308,7 +308,7 @@ class Dashboard
 
         if(!isset($newAula["Descrizione"]) || $newAula["Descrizione"] == "") {
             $error = true;
-            $msg .= "Errore nella descrizione della categoria; ";
+            $msg .= "Errore nella descrizione dell'aula; ";
         } else {
             $descrizione = $newAula["Descrizione"];
         }
@@ -317,14 +317,56 @@ class Dashboard
             $error = true;
             $msg .= "Errore nel laboratorio dell'aula; ";
         } else {
-            $laboratorio = $newAula["Laboratorio"];
+            $laboratorio = (int)$newAula["Laboratorio"];
         }
 
         if($error)      // se ci sono stati errori, completo la stringa e la restituisco
             return $msg . '"}';
 
 
-        $query = "INSERT INTO `categoria`(`Nome`, `Descrizione`) VALUES (?, ?)";      // query per l'inserimento
+        $query = "INSERT INTO schoolticket.aula(`Nome`, `Descrizione`, `Laboratorio`) VALUES (?, ?, ?)";      // query per l'inserimento
+        $st = $this->PDOconn->prepare($query);
+        $result = $st->execute([$nome, $descrizione, $laboratorio]);
+
+        // restituisco il risultato
+        if($result == false) {
+
+            return '{"result":false, "description":"Si è verificato un problema durante l\'invio dei dati al database"}';
+
+        } else {
+
+            return '{"result":true, "description":"Aula correttamente inserita"}';
+
+        }
+    }
+
+    // setMacroaree()
+    public function setMacroaree($newMacroarea) {
+
+        $msg = '{"result":false, "description":"';//Riscontrato un problema nel invio delle aule da parte del server;
+        $error = false;
+
+        // CONTROLLI SUI CAMPI PASSATI
+        if(!isset($newMacroarea["Nome"]) || $newMacroarea["Nome"] == "") {
+            $error = true;
+            $msg .= "Errore nel nome della macroarea; ";
+
+        } else {
+            $nome = $newMacroarea["Nome"];
+        }
+
+        if(!isset($newMacroarea["Descrizione"]) || $newMacroarea["Descrizione"] == "") {
+            $error = true;
+            $msg .= "Errore nella descrizione della macroarea; ";
+        } else {
+            $descrizione = $newMacroarea["Descrizione"];
+        }
+
+        if($error)      // se ci sono stati errori, completo la stringa e la restituisco
+            return $msg . '"}';
+
+
+        $query = "INSERT INTO schoolticket.macroarea(`Nome`, `Descrizione`) VALUES (?, ?)";      // query per l'inserimento
         $st = $this->PDOconn->prepare($query);
         $result = $st->execute([$nome, $descrizione]);
 
@@ -335,10 +377,9 @@ class Dashboard
 
         } else {
 
-            return '{"result":true, "description":"Categoria correttamente inserita"}';
+            return '{"result":true, "description":"Macroarea correttamente inserita"}';
 
         }
-
     }
 
 }
@@ -393,22 +434,22 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "setPermessi")
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "setAule")
 {
     if(isset($_POST["Data"]))
-        $newAule = $_POST["Data"];
+        $newAula = $_POST["Data"];
     else
         echo '{"result":false, "description":"Riscontrato un problema nel invio delle categorie da parte del server"}';
 
-    echo $dashboard->setAule($newAule);
+    echo $dashboard->setAule($newAula);
 }
 
 // if per il submit delle setAule
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "setMacroaree")
 {
     if(isset($_POST["Data"]))
-        $newMacroaree = $_POST["Data"];
+        $newMacroarea = $_POST["Data"];
     else
         echo '{"result":false, "description":"Riscontrato un problema nel invio delle categorie da parte del server"}';
 
-    echo $dashboard->setMacroaree($newMacroaree);
+    echo $dashboard->setMacroaree($newMacroarea);
 }
 
 ?>
