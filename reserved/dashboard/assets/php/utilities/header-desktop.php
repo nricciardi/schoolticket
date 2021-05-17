@@ -10,7 +10,7 @@
                                 </a>
                             </div>
                             <div class="header-button2">
-                                <div class="header-button-item js-item-menu">
+                                <!--<div class="header-button-item js-item-menu">
                                     <i class="zmdi zmdi-search"></i>
                                     <div class="search-dropdown js-dropdown">
                                         <form action="">
@@ -20,7 +20,7 @@
                                             </span>
                                         </form>
                                     </div>
-                                </div>
+                                </div>-->
                                 <div class="header-button-item has-noti js-item-menu">
                                     <i class="zmdi zmdi-notifications"></i>
                                     <div class="notifi-dropdown js-dropdown">
@@ -63,7 +63,7 @@
                                     <i class="zmdi zmdi-menu"></i>
                                 </div>
                                 <div class="setting-menu js-right-sidebar d-none d-lg-block" id="header-desktop-menu">
-                                    <div class="account-dropdown__body">
+                                    <!--<div class="account-dropdown__body">
                                         <div class="account-dropdown__item">
                                             <a href="#">
                                                 <i class="zmdi zmdi-account"></i>Account</a>
@@ -76,8 +76,8 @@
                                             <a href="#">
                                                 <i class="zmdi zmdi-money-box"></i>Billing</a>
                                         </div>
-                                    </div>
-                                    <div class="account-dropdown__body">
+                                    </div>-->
+                                    <!--<div class="account-dropdown__body">
                                         <div class="account-dropdown__item">
                                             <a href="#">
                                                 <i class="zmdi zmdi-globe"></i>Language</a>
@@ -94,7 +94,7 @@
                                             <a href="#">
                                                 <i class="zmdi zmdi-notifications"></i>Notifications</a>
                                         </div>
-                                    </div>
+                                    </div>-->
                                 </div>
                             </div>
                         </div>
