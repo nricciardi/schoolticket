@@ -57,9 +57,9 @@
                         <th>Priorita</th>
                         <th>Data</th>
                         <th>Ora</th>
-                        <th>IdMacroarea</th>
-                        <th>IdUtente</th>
-                        <th>IdAula</th>
+                        <th>Macroarea</th>
+                        <th>Utente</th>
+                        <th>Aula</th>
                         <th>IdUnione</th>
                         <th>Visualizzato</th>
                     </tr>

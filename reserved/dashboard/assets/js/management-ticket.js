@@ -487,8 +487,8 @@ form_add_ticket.addEventListener("click", () => {
     body_table_ticket.innerHTML = createFormNewticket() + actual_body;
 
     // richiamo le funzioni per aggiungere macroaree
-    addMacroaree(document.getElementById("idmacroarea"), foot_table_ticket, 10);
-	addAula(document.getElementById("idaula"), foot_table_ticket, 10);
+    addMacroaree(document.getElementById("idmacroarea"), feedback_table_management_ticket, 10);
+	addAula(document.getElementById("idaula"), feedback_table_management_ticket, 10);
 });
 
 // ricarico la tabella riaggiungendola al click del bottone di refresh
