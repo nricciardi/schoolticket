@@ -214,8 +214,6 @@ function createTableUser() {
 
         }
     });
-    
-
 }
 
 // in base all'id passato cerco di creare un nuovo utente

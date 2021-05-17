@@ -316,7 +316,7 @@
 				else{
 					$q = "INSERT INTO schoolticket.utente (Nome, Cognome, Email, Password, IdCategoria, IdPermessi) VALUES (:nomePl, :cognomePl, :emailPl, :pswPl, :categoriaP1, :permessiP1)";
 					$st = $this->PDOconn->prepare($q);
-					$check = $st->execute(['nomePl' => $nome, 'cognomePl' => $cognome, 'emailPl' => $email, 'pswPl' => $psw, 'categoriaP1' => $IdCategoria, 'permessiP1' => $IdPermessi]);
+					$check = $st->execute(['nomePl' => $nome, 'cognomePl' => $cognome, 'emailPl' => $email, 'pswPl' => hash('sha512', $psw), 'categoriaP1' => $IdCategoria, 'permessiP1' => $IdPermessi]);
 						//return '{"result":false, "description":"Registrazione non andata a buon fine."}';
 				}		
 			}
@@ -385,7 +385,7 @@
 
 			while($record = $st->fetch())
 			{
-				if($email == $record['Email'] AND $psw == $record['Psw'])
+				if($email == $record['Email'] AND $psw == hash("sha512", $record['Psw']))
 				{
 					$verify = true;
 					break;
@@ -463,7 +463,7 @@
 					if($this->code == $codice){
 						$q = "UPDATE schoolticket.utente SET Password = ? WHERE ?";
 						$st = $this->PDOconn->prepare($q);
-						$st->execute([$Pssw,$ID]);
+						$st->execute([hash("sha512", $Pssw),$ID]);
 						$msg = '{"result":true,"description":"Password cambiata correttamente"}';
 					}else{
 						$msg = '{"result":false,"description":"Codice errato"}';
