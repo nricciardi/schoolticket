@@ -110,14 +110,14 @@
                 <div class="menu-sidebar2__content js-scrollbar2">
                     <div class="account2">
                         <div class="image img-cir img-120">
-                            <img src="assets/images/icon/avatar-big-01.jpg" alt="John Doe" />
+                            <img src="assets/images/users/base.png" alt="Immagine profilo" id="user_img_2" />
                         </div>
-                        <h4 class="name">john doe</h4>
+                        <h4 class="name" id="user_name_2">N / D</h4>
                         <a href="#">Sign out</a>
                     </div>
                     <nav class="navbar-sidebar2">
                         <ul class="list-unstyled navbar__list">
-                            <li class="active has-sub">
+                            <!--<li class="active has-sub">
                                 <a class="js-arrow" href="#">
                                     <i class="fas fa-tachometer-alt"></i>Dashboard
                                     <span class="arrow">
@@ -151,56 +151,72 @@
                             <li>
                                 <a href="#">
                                     <i class="fas fa-shopping-basket"></i>eCommerce</a>
-                            </li>
-                            <li class="has-sub">
-                                <a class="js-arrow" href="#">
-                                    <i class="fas fa-trophy"></i>Features
-                                    <span class="arrow">
-                                        <i class="fas fa-angle-down"></i>
-                                    </span>
-                                </a>
-                                <ul class="list-unstyled navbar__sub-list js-sub-list">
-                                    <li>
-                                        <a href="table.html">
-                                            <i class="fas fa-table"></i>Tables</a>
-                                    </li>
-                                    <li>
-                                        <a href="form.html">
-                                            <i class="far fa-check-square"></i>Forms</a>
-                                    </li>
-                                    <li>
-                                        <a href="calendar.html">
-                                            <i class="fas fa-calendar-alt"></i>Calendar</a>
-                                    </li>
-                                    <li>
-                                        <a href="map.html">
-                                            <i class="fas fa-map-marker-alt"></i>Maps</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="has-sub">
-                                <a class="js-arrow" href="#">
-                                    <i class="fas fa-copy"></i>Pages
-                                    <span class="arrow">
-                                        <i class="fas fa-angle-down"></i>
-                                    </span>
-                                </a>
-                                <ul class="list-unstyled navbar__sub-list js-sub-list">
-                                    <li>
-                                        <a id="login" href="#">
-                                            <i class="fas fa-sign-in-alt"></i>Login</a>
-                                    </li>
-                                    <li>
-                                        <a id="signup" href="#">
-                                            <i class="fas fa-user"></i>Register</a>
-                                    </li>
-                                    <li>
-                                        <!--<a href="forget-pass.html">-->
-                                            <button id="btn_change_password2"><i class="fas fa-unlock-alt"></i>Cambia Password</button><!--</a>-->
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="has-sub">
+                            </li>-->
+                            <li class="has-sub" id="menu_gestione_2" style="display: none;">
+                            <a class="js-arrow" href="#">
+                                <i class="fas fa-tasks"></i>Gestione
+                                <span class="arrow">
+                                    <i class="fas fa-angle-down"></i>
+                                </span>
+                            </a>
+                            <ul class="list-unstyled navbar__sub-list js-sub-list" id="menu_gestione_2">
+                                <li>
+                                    <button id="btn_show_ticket_2" style="display: none;">
+                                        <i class="fas fa-ticket-alt"></i>Ticket</button>
+                                </li>
+                                <li>
+                                    <button id="btn_show_user_2" style="display: none;">
+                                        <i class="fas fa-users"></i>Utenti</button>
+                                </li>
+                                <li>
+                                    <button id="btn_show_permessi_2" style="display: none;">
+                                        <i class="fas fa-shield-alt"></i>Permessi</button>
+                                </li>
+                                <li>
+                                    <button id="btn_show_macroaree_2" style="display: none;">
+                                        <i class="fas fa-th-large"></i>Macroaree</button>
+                                </li>
+                                <li>
+                                    <button id="btn_show_categorie_2" style="display: none;">
+                                        <i class="fas fa-list-alt"></i>Categorie</button>
+                                </li>
+                                <li>
+                                    <button id="btn_show_aule_2" style="display: none;">
+                                        <i class="fas fa-graduation-cap"></i>Aule</button>
+                                </li>
+                                <li>
+                                    <button id="btn_show_competenze_2" style="display: none;">
+                                        <i class="fas fa-briefcase"></i>Competenze</button>
+                                </li>
+                                <li>
+                                    <button id="btn_show_note_2" style="display: none;">
+                                        <i class="fas fa-clipboard"></i>Annotazioni</button>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="has-sub">
+                            <a class="js-arrow" href="#">
+                                <i class="fas fa-copy"></i>Impostazioni account
+                                <span class="arrow">
+                                    <i class="fas fa-angle-down"></i>
+                                </span>
+                            </a>
+                            <ul class="list-unstyled navbar__sub-list js-sub-list">
+                                <li>
+                                    <a id = "login" href="#">
+                                        <i class="fas fa-sign-in-alt"></i>Accedi</a>
+                                </li>
+                                <li>
+                                    <a id="signup" href="#">
+                                        <i class="fas fa-user"></i>Registrati</a>
+                                </li>
+                                <li>
+                                    <!--<a href="forget-pass.html">-->
+                                        <button id="btn_change_password_2"><i class="fas fa-unlock-alt"></i> Cambia password</button><!--</a>-->
+                                </li>
+                            </ul>
+                        </li>
+                        <!--<li class="has-sub">
                                 <a class="js-arrow" href="#">
                                     <i class="fas fa-desktop"></i>UI Elements
                                     <span class="arrow">
@@ -253,7 +269,7 @@
                                             <i class="fas fa-font"></i>Typography</a>
                                     </li>
                                 </ul>
-                            </li>
+                            </li>-->
                         </ul>
                     </nav>
                 </div>

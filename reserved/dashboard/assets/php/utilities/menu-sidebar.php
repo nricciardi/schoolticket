@@ -1,4 +1,3 @@
-var btn_conferma = document.getElementById("bottone");
 <!-- MENU SIDEBAR-->
 <aside class="menu-sidebar2">
             <div class="logo">
@@ -9,14 +8,14 @@ var btn_conferma = document.getElementById("bottone");
             <div class="menu-sidebar2__content js-scrollbar1">
                 <div class="account2">
                     <div class="image img-cir img-120">
-                        <img src="assets/images/icon/avatar-big-01.jpg" alt="John Doe" />
+                        <img src="assets/images/users/base.png" alt="Immagine profilo" id="user_img" />
                     </div>
-                    <h4 class="name">john doe</h4>
+                    <h4 class="name" id="user_name">N / D</h4>
                     <a href="assets/php/utilities/sign_out.php">Sign out</a>
                 </div>
                 <nav class="navbar-sidebar2">
                     <ul class="list-unstyled navbar__list">
-                        <li class="active has-sub">
+                        <!--<li class="active has-sub">
                             <a class="js-arrow" href="#">
                                 <i class="fas fa-tachometer-alt"></i>Dashboard
                                 <span class="arrow">
@@ -41,16 +40,16 @@ var btn_conferma = document.getElementById("bottone");
                                         <i class="fas fa-tachometer-alt"></i>Dashboard 4</a>
                                 </li>
                             </ul>
-                        </li>
-                        <li>
+                        </li>-->
+                        <!--<li>
                             <a href="inbox.html">
                                 <i class="fas fa-chart-bar"></i>Inbox</a>
                             <span class="inbox-num">3</span>
-                        </li>
-                        <li>
+                        </li>-->
+                        <!--<li>
                             <a href="#">
                                 <i class="fas fa-shopping-basket"></i>eCommerce</a>
-                        </li>
+                        </li>-->
                         <li class="has-sub" id="menu_gestione" style="display: none;">
                             <a class="js-arrow" href="#">
                                 <i class="fas fa-tasks"></i>Gestione
@@ -115,7 +114,7 @@ var btn_conferma = document.getElementById("bottone");
                                 </li>
                             </ul>
                         </li>
-                        <li class="has-sub">
+                        <!--<li class="has-sub">
                             <a class="js-arrow" href="#">
                                 <i class="fas fa-desktop"></i>UI Elements
                                 <span class="arrow">
@@ -168,14 +167,9 @@ var btn_conferma = document.getElementById("bottone");
                                         <i class="fas fa-font"></i>Typography</a>
                                 </li>
                             </ul>
-                        </li>
+                        </li>-->
                     </ul>
                 </nav>
             </div>
         </aside>
         <!-- END MENU SIDEBAR-->
-
-function init()
-{
-	
-}
