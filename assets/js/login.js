@@ -126,7 +126,7 @@ password.addEventListener("input", () => {
 });
 
 // funzione per il check del bottone di submit
-function checkSubmit() {
+/*function checkSubmit() {
 
   if(email_validate && password_validate)
   {
@@ -138,7 +138,7 @@ function checkSubmit() {
     document.getElementById("button").setAttribute("disabled", "disabled");
   }
 
-}
+}*/
 
 // funzione per la validazione di un email passata come parametro
 function validateEmail (email)
@@ -152,3 +152,10 @@ function validateEmail (email)
     return false; 
   }
 }
+document.getElementById("button").removeAttribute("disabled");
+
+
+button.onclick = function()
+{
+	location.href = 'reserved/dashboard/assets/php/Dashboard.php';
+};
