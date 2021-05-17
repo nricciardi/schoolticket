@@ -45,7 +45,7 @@ var btn_add_ticket = document.getElementById("btn_add_ticket");
 
 // button per cambiare password dell'account
 var btn_change_password = document.getElementById("btn_change_password");
-var btn_change_password2 = document.getElementById("btn_change_password2");
+var btn_change_password2 = document.getElementById("btn_change_password_2");
 
 // div contenente il form di per l'aggiunta dei ticket
 var div_form_add_ticket = document.getElementById("div_form_add_ticket");
@@ -61,30 +61,38 @@ div_management_categorie = document.getElementById("div_management_categoria");
 
 // menù con le funzionalità della pagina
 var menu_gestione = document.getElementById("menu_gestione");
+var menu_gestione2 = document.getElementById("menu_gestione_2");
 
 // bottone del sotto menù gestione: btn_show_ticket
 var btn_show_ticket = document.getElementById("btn_show_ticket");
+var btn_show_ticket2 = document.getElementById("btn_show_ticket_2");
 
 // bottone del sotto menù gestione: btn_show_user
-var btn_show_user = document.getElementById("btn_show_user");
+var btn_show_user2 = document.getElementById("btn_show_user_2");
 
 // bottone del sotto menù gestione: btn_show_permessi
 var btn_show_permessi = document.getElementById("btn_show_permessi");
+var btn_show_permessi2 = document.getElementById("btn_show_permessi_2");
+
 
 // bottone del sotto menù gestione: btn_show_macroaree
-var btn_show_macroaree = document.getElementById("btn_show_macroaree");
+var btn_show_macroaree2 = document.getElementById("btn_show_macroaree_2");
 
 // bottone del sotto menù gestione: btn_show_categorie
 var btn_show_categorie = document.getElementById("btn_show_categorie");
+var btn_show_categorie2 = document.getElementById("btn_show_categorie_2");
 
 // bottone del sotto menù gestione: btn_show_aule
 var btn_show_aule = document.getElementById("btn_show_aule");
+var btn_show_aule2 = document.getElementById("btn_show_aule_2");
 
 // bottone del sotto menù gestione: btn_show_competenze
 var btn_show_competenze = document.getElementById("btn_show_competenze");
+var btn_show_competenze2 = document.getElementById("btn_show_competenze_2");
 
 // bottone del sotto menù gestione: btn_show_note
 var btn_show_note = document.getElementById("btn_show_note");
+var btn_show_note2 = document.getElementById("btn_show_note_2");
 
 // Variabile per scrivere il numero di ticket
 var newTicket = document.getElementById("ticketNumber");
@@ -95,6 +103,14 @@ var dynamic_page_box = document.getElementById("dynamic-page");
 // Variabile per il collegamento con login.php e signup.php
 var a_login = document.getElementById("login");
 var a_signup = document.getElementById("signup");
+
+// contenitore nome utente
+var user_name = document.getElementById("user_name");
+var user_name2 = document.getElementById("user_name_2");
+
+// contenitore immagine utente
+var user_img = document.getElementById("user_img");
+var user_img2 = document.getElementById("user_img_2");
 
 
 // -------------------------------------------------------------------------------
@@ -137,6 +153,92 @@ async function init() {
 
     // creo il menù in modo dinamico
     createMenu();
+
+    // imposto il profilo in modo dinamico
+    setProfile();
+
+}
+
+// imposto il profilo in modo dinamico
+function setProfile() {
+    
+    // verifico che l'utente sia stato impostato    
+    if(USER != null) {
+
+        // imposto il nome nell'utente nella dashboard
+        user_name.innerText = USER.Nome + " " + USER.Cognome;
+        user_name2.innerText = USER.Nome + " " + USER.Cognome;
+
+        // imposto l'immagine in base al tipo di utente
+        if(USER.Categoria.IdCategoria == "1") {     // dirigenza
+            user_img.src = HOSTNAME + "/reserved/dashboard/assets/images/users/base.png";
+            user_img2.src = HOSTNAME + "/reserved/dashboard/assets/images/users/base.png";
+            
+            user_img.alt = USER.Nome + " " + USER.Cognome;
+            user_img2.alt = USER.Nome + " " + USER.Cognome;
+        } else {
+
+            if(USER.Categoria.IdCategoria == "2") {     // docenti
+                user_img.src = HOSTNAME + "/reserved/dashboard/assets/images/users/base.png";
+                user_img2.src = HOSTNAME + "/reserved/dashboard/assets/images/users/base.png";
+                
+                user_img.alt = USER.Nome + " " + USER.Cognome;
+                user_img2.alt = USER.Nome + " " + USER.Cognome;
+
+            } else {
+
+                if(USER.Categoria.IdCategoria == "3") {     // studenti
+
+                    user_img.src = HOSTNAME + "/reserved/dashboard/assets/images/users/base.png";
+                    user_img2.src = HOSTNAME + "/reserved/dashboard/assets/images/users/base.png";
+                    
+                    user_img.alt = USER.Nome + " " + USER.Cognome;
+                    user_img2.alt = USER.Nome + " " + USER.Cognome;
+
+                } else {
+    
+                    if(USER.Categoria.IdCategoria == "4") {     // tecnici
+
+                        user_img.src = HOSTNAME + "/reserved/dashboard/assets/images/users/base.png";
+                        user_img2.src = HOSTNAME + "/reserved/dashboard/assets/images/users/base.png";
+                        
+                        user_img.alt = USER.Nome + " " + USER.Cognome;
+                        user_img2.alt = USER.Nome + " " + USER.Cognome;
+    
+                    } else {
+        
+                        if(USER.Categoria.IdCategoria == "5") {     // amministrativi
+
+                            user_img.src = HOSTNAME + "/reserved/dashboard/assets/images/users/base.png";
+                            user_img2.src = HOSTNAME + "/reserved/dashboard/assets/images/users/base.png";
+                            
+                            user_img.alt = USER.Nome + " " + USER.Cognome;
+                            user_img2.alt = USER.Nome + " " + USER.Cognome;
+        
+                        } else {
+            
+                            if(USER.Categoria.IdCategoria == "6") {     // personale ata
+
+                                user_img.src = HOSTNAME + "/reserved/dashboard/assets/images/users/base.png";
+                                user_img2.src = HOSTNAME + "/reserved/dashboard/assets/images/users/base.png";
+                                
+                                user_img.alt = USER.Nome + " " + USER.Cognome;
+                                user_img2.alt = USER.Nome + " " + USER.Cognome;
+            
+                            } 
+            
+                        }
+        
+                    }
+    
+                }
+
+            }
+        }
+        
+
+    }
+
 
 }
 
@@ -366,8 +468,10 @@ function createMenu() {
     // imposto e verifico se devo abilitare il MENU GESTIONE
     if(settingMenuGestione() == true) {
         menu_gestione.style.display = "";
+        menu_gestione2.style.display = "";
     } else {
         menu_gestione.style.display = "none";
+        menu_gestione2.style.display = "none";
     } 
 
 
@@ -395,12 +499,15 @@ function settingMenuGestione() {
 
             // tolgo il display none dal bottone associato
             btn_show_ticket.style.display = "";
+            btn_show_ticket2.style.display = "";
 
             console.log("if1");
             
         } else {
             // continuo a tener nascosto il bottone
             btn_show_ticket.style.display = "none";
+            btn_show_ticket2.style.display = "none";
+
         }
 
         if(permessi_utente.CreaModificaEliminaMacroarea === "1") {
@@ -410,12 +517,15 @@ function settingMenuGestione() {
 
             // tolgo il display none dal bottone associato
             btn_show_macroaree.style.display = "";
+            btn_show_macroaree2.style.display = "";
 
             console.log("if2");
             
         } else {
             // continuo a tener nascosto il bottone
             btn_show_macroaree.style.display = "none";
+            btn_show_macroaree2.style.display = "none";
+
         }
 
         if(permessi_utente.CreaModificaEliminaCompetenza === "1") {
@@ -425,12 +535,16 @@ function settingMenuGestione() {
 
             // tolgo il display none dal bottone associato
             btn_show_competenze.style.display = "";
+            btn_show_competenze2.style.display = "";
+
 
             console.log("if3");
             
         } else {
             // continuo a tener nascosto il bottone
             btn_show_competenze.style.display = "none";
+            btn_show_competenze2.style.display = "none";
+
         }
 
         if(permessi_utente.CreaModificaEliminaCategoria === "1") {
@@ -440,12 +554,16 @@ function settingMenuGestione() {
 
             // tolgo il display none dal bottone associato
             btn_show_categorie.style.display = "";
+            btn_show_categorie2.style.display = "";
+
 
             console.log("if4");
             
         } else {
             // continuo a tener nascosto il bottone
             btn_show_categorie.style.display = "none";
+            btn_show_categorie2.style.display = "none";
+
         }
 
         if(permessi_utente.CreaModificaEliminaAula == "1") {
@@ -455,12 +573,16 @@ function settingMenuGestione() {
 
             // tolgo il display none dal bottone associato
             btn_show_aule.style.display = "";
+            btn_show_aule2.style.display = "";
+
 
             console.log("if5");
             
         } else {
             // continuo a tener nascosto il bottone
             btn_show_aule.style.display = "none";
+            btn_show_aule2.style.display = "none";
+
         }
 
         if(permessi_utente.ModificaVisualizzaTuttiUtenti === "1") {
@@ -470,12 +592,16 @@ function settingMenuGestione() {
 
             // tolgo il display none dal bottone associato
             btn_show_user.style.display = "";
+            btn_show_user2.style.display = "";
+
 
             console.log("if6");
             
         } else {
             // continuo a tener nascosto il bottone
             btn_show_user.style.display = "none";
+            btn_show_user2.style.display = "none";
+
         }
 
         /*if(permessi_utente.CreaIncarico === "1" || permessi_utente.ModificaStatoAvanzamentoIncarico === "1") {
@@ -785,7 +911,38 @@ btn_show_user.addEventListener("click", () => {
 
 });
 
+btn_show_user2.addEventListener("click", () => {
+
+    hideAllDynamicPage();
+
+    console.debug("show management user");
+
+    // creo la tabella degli utenti
+    createTableUser();
+
+    div_management_users.style.display = "";
+    // chiudo il menù
+    $("#header-desktop-menu").removeClass("show-sidebar");
+    $("#header-desktop-menu2").removeClass("show-sidebar");
+
+});
+
 btn_show_ticket.addEventListener("click", () => {
+
+    hideAllDynamicPage();
+
+    // creo la tabella degli utenti
+    createTableTicket();
+
+    div_management_ticket.style.display = "";
+
+    // chiudo il menù
+    $("#header-desktop-menu").removeClass("show-sidebar");
+    $("#header-desktop-menu2").removeClass("show-sidebar");
+
+});
+
+btn_show_ticket2.addEventListener("click", () => {
 
     hideAllDynamicPage();
 
@@ -805,7 +962,22 @@ btn_show_categorie.addEventListener("click", () => {
     hideAllDynamicPage();
 
     // creo la tabella degli utenti
-    //createTableCategoria();
+    createTableCategoria();
+
+    div_management_categoria.style.display = "";
+
+    // chiudo il menù
+    $("#header-desktop-menu").removeClass("show-sidebar");
+    $("#header-desktop-menu2").removeClass("show-sidebar");
+
+});
+
+btn_show_categorie2.addEventListener("click", () => {
+
+    hideAllDynamicPage();
+
+    // creo la tabella degli utenti
+    createTableCategoria();
 
     div_management_categoria.style.display = "";
 
