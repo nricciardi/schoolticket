@@ -14,41 +14,28 @@ var email_validate = false;
 var password = document.getElementById("password");
 var password_validate = false;
 
+// sezione per il feedback dell'utente
+var feedback = document.getElementById("feedback");
+
+// btn conferma login
+var button_login = document.getElementById("button_login");
+
+
 // HOSTNAME per il percorso
 const HOSTNAME = window.location.protocol + "//" + window.location.hostname + "/" + window.location.pathname.split("/")[1];
 
 $(document).ready(function() {
-      $("input[type=button]").click(function () {
-      var email = $('input[id=email]').val(); // Utente inserisce email
-      var password = $('input[id=password]').val(); // Utente inserisce password
-	  var data = {"Submit": "login", "mail": email, "passw": password};
-                            $.ajax({
-                            type: "POST",
-                            url: HOSTNAME + '/assets/php/authentication/Authentication.php',
-                            data : data,
-                            dataType: "text",
-                            success: function (data) 
-							{
-                            var success = data['success'];
-                            if(success == false)
-							{
-								var error = data['message'];
-								alert(error); // Nel caso non scriva niente :
+      $("input[type=button]").click(() => {
+
+        let email = $('input[id=email]').val(); // Utente inserisce email
+        let password = $('input[id=password]').val(); // Utente inserisce password
+
+        login(email, password);
+
+      });//end click function
 
 
-                            }
-
-                                if(success == true) {
-   $('#mask , .login-popup').fadeOut(300 , function() {
-   $('#mask').remove();  
-                                });// end fadeOut function()
-    setTimeout("location.href = 'home.php';",1000);                                 
-                                                }
-                                                    }
-
-                        });//end ajax             
-                 });//end click function
-         });//end ready function
+});//end ready function
 		 
 
 // effettuo il controllo sulla email quando viene scritto qualcosa
@@ -126,19 +113,16 @@ password.addEventListener("input", () => {
 });
 
 // funzione per il check del bottone di submit
-/*function checkSubmit() {
+function checkSubmit() {
 
-  if(email_validate && password_validate)
-  {
-    document.getElementById("button").removeAttribute("disabled");
+  if(email_validate && password_validate) {
+    button_login.removeAttribute("disabled");
     console.clear();
-  } 
-  else 
-  {
-    document.getElementById("button").setAttribute("disabled", "disabled");
+  } else {
+    button_login.setAttribute("disabled", "disabled");
   }
 
-}*/
+}
 
 // funzione per la validazione di un email passata come parametro
 function validateEmail (email)
@@ -147,15 +131,52 @@ function validateEmail (email)
   if (email.match(regexEmail)) {
     return true; 
   } 
-  else 
-  {
+  else {
     return false; 
   }
 }
-document.getElementById("button").removeAttribute("disabled");
 
 
-button.onclick = function()
-{
-	location.href = 'reserved/dashboard/assets/php/Dashboard.php';
-};
+// verifica credenziali e effettuo il reindirizzamento
+function login(email, password) {
+  
+
+  var data = {"Submit": "login", "mail": email, "password": password};
+
+  $.ajax({
+      type: "POST",
+      url: HOSTNAME + '/assets/php/authentication/Authentication.php',
+      data : data,
+      dataType: "json",
+      success: function (res) {
+          var success = res.result;
+          if(success == false) {
+
+            let error_description = res.description;
+            feedback.innerText = error_description;
+            feedback.style.color = error_data;
+
+
+          } else {
+
+            let success_description = res.description;
+            feedback.innerText = success_description;
+            feedback.style.color = correct_data;
+
+            $('#mask , .login-popup').fadeOut(300 , function() {
+              $('#mask').remove();  
+            });// end fadeOut function()
+            
+            // porto alla pagina principale della dashboard
+            location.href = HOSTNAME + '/reserved/dashboard/index.php';
+                                           
+          }
+      },
+      error: (res) => {
+
+        feedback.innerText = "Errore durante l'accesso al pannello di controllo";
+        feedback.style.color = error_data;
+
+      }
+  });//end ajax             
+}

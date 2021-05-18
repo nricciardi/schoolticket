@@ -171,16 +171,16 @@ function setProfile() {
 
         // imposto l'immagine in base al tipo di utente
         if(USER.Categoria.IdCategoria == "1") {     // dirigenza
-            user_img.src = HOSTNAME + "/reserved/dashboard/assets/images/users/base.png";
-            user_img2.src = HOSTNAME + "/reserved/dashboard/assets/images/users/base.png";
+            user_img.src = HOSTNAME + "/reserved/dashboard/assets/images/users/Dirigente.jpg";
+            user_img2.src = HOSTNAME + "/reserved/dashboard/assets/images/users/Dirigente.jpg";
             
             user_img.alt = USER.Nome + " " + USER.Cognome;
             user_img2.alt = USER.Nome + " " + USER.Cognome;
         } else {
 
             if(USER.Categoria.IdCategoria == "2") {     // docenti
-                user_img.src = HOSTNAME + "/reserved/dashboard/assets/images/users/base.png";
-                user_img2.src = HOSTNAME + "/reserved/dashboard/assets/images/users/base.png";
+                user_img.src = HOSTNAME + "/reserved/dashboard/assets/images/users/Docente.jpg";
+                user_img2.src = HOSTNAME + "/reserved/dashboard/assets/images/users/Docente.jpg";
                 
                 user_img.alt = USER.Nome + " " + USER.Cognome;
                 user_img2.alt = USER.Nome + " " + USER.Cognome;
@@ -189,8 +189,8 @@ function setProfile() {
 
                 if(USER.Categoria.IdCategoria == "3") {     // studenti
 
-                    user_img.src = HOSTNAME + "/reserved/dashboard/assets/images/users/base.png";
-                    user_img2.src = HOSTNAME + "/reserved/dashboard/assets/images/users/base.png";
+                    user_img.src = HOSTNAME + "/reserved/dashboard/assets/images/users/Studente.jpg";
+                    user_img2.src = HOSTNAME + "/reserved/dashboard/assets/images/users/Studente.jpg";
                     
                     user_img.alt = USER.Nome + " " + USER.Cognome;
                     user_img2.alt = USER.Nome + " " + USER.Cognome;
@@ -199,8 +199,8 @@ function setProfile() {
     
                     if(USER.Categoria.IdCategoria == "4") {     // tecnici
 
-                        user_img.src = HOSTNAME + "/reserved/dashboard/assets/images/users/base.png";
-                        user_img2.src = HOSTNAME + "/reserved/dashboard/assets/images/users/base.png";
+                        user_img.src = HOSTNAME + "/reserved/dashboard/assets/images/users/Tecnico.jpg";
+                        user_img2.src = HOSTNAME + "/reserved/dashboard/assets/images/users/Tecnico.jpg";
                         
                         user_img.alt = USER.Nome + " " + USER.Cognome;
                         user_img2.alt = USER.Nome + " " + USER.Cognome;
@@ -209,8 +209,8 @@ function setProfile() {
         
                         if(USER.Categoria.IdCategoria == "5") {     // amministrativi
 
-                            user_img.src = HOSTNAME + "/reserved/dashboard/assets/images/users/base.png";
-                            user_img2.src = HOSTNAME + "/reserved/dashboard/assets/images/users/base.png";
+                            user_img.src = HOSTNAME + "/reserved/dashboard/assets/images/users/Amministrativo.jpg";
+                            user_img2.src = HOSTNAME + "/reserved/dashboard/assets/images/users/Amministrativo.jpg";
                             
                             user_img.alt = USER.Nome + " " + USER.Cognome;
                             user_img2.alt = USER.Nome + " " + USER.Cognome;
@@ -219,13 +219,18 @@ function setProfile() {
             
                             if(USER.Categoria.IdCategoria == "6") {     // personale ata
 
-                                user_img.src = HOSTNAME + "/reserved/dashboard/assets/images/users/base.png";
-                                user_img2.src = HOSTNAME + "/reserved/dashboard/assets/images/users/base.png";
+                                user_img.src = HOSTNAME + "/reserved/dashboard/assets/images/users/CollaboratoreScolastico.jpg";
+                                user_img2.src = HOSTNAME + "/reserved/dashboard/assets/images/users/CollaboratoreScolastico.jpg";
                                 
                                 user_img.alt = USER.Nome + " " + USER.Cognome;
                                 user_img2.alt = USER.Nome + " " + USER.Cognome;
             
-                            } 
+                            } else {
+
+                                user_img.src = HOSTNAME + "/reserved/dashboard/assets/images/users/base.png";
+                                user_img2.src = HOSTNAME + "/reserved/dashboard/assets/images/users/base.png";
+
+                            }
             
                         }
         

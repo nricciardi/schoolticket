@@ -29,7 +29,7 @@ class Ticket{
 
 public function insert($Nome, $Descrizione, $Immagine, $Stato, $Priorita, $IdAula, $Data, $Ora, $IdMacroarea, $IdUtente){
 
-  var_dump($Immagine);
+  //var_dump($Immagine);
 
   //CONTROLLO I VALORI:
   $st = "";
@@ -733,10 +733,10 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "Insert"){
   else
     $IdMacro = 12;
 
-  if(isset($_POST["IdUtente"]))
-    $IdUtn = $_POST["IdUtente"];
+  if(isset($_SESSION["logged"]) && $_SESSION["logged"] != false && trim($_SESSION["logged"]) != "")
+    $IdUtn = $_SESSION["logged"];
   else
-    $IdUtn = 1; // inserire $_SESSION[] con l'id dell'utente loggato    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    $IdUtn = 2; // inserire $_SESSION[] con l'id dell'utente loggato    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
   //var_dump($_FILES);
   //var_dump($_POST);

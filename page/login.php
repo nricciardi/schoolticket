@@ -107,8 +107,9 @@
 								</div>-->
 								<div class="col-12">
 									<ul class="actions special">
-										<li><input type="button" id="button" value="Accedi" onclick="Click()" disabled></li>
+										<li><input type="button" id="button_login" value="Accedi" disabled></li>
 									</ul>
+									<span id="feedback"></span>
 								</div>
 							</div>
 						</form>
