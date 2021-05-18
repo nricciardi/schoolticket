@@ -373,28 +373,36 @@
 		}
 
 		public function login($email, $psw){
-			$verify = false;
-			$q = "SELECT * FROM user WHERE Email = :emailPl AND Psw = :pswPl";
+
+			$password = hash("sha512", $psw);
+
+			$q = "SELECT * FROM schoolticket.utente WHERE Email = :emailPl AND Password = :passwordPl";
 			$st = $this->PDOconn->prepare($q);
-			$result = $st->execute(['emailPl' => $email, 'psswPl' => $psw]);
+			$result = $st->execute(['emailPl' => $email, 'passwordPl' => $password]);
 
 			// controllo sulla query
 			if($result == false) {
-				return '{"result":false, "description":"Errore durante la connessione con il server."}';
+				return '{"result":false, "description":"Errore durante la connessione con il server"}';
 			}
 
-			while($record = $st->fetch())
-			{
-				if($email == $record['Email'] AND $psw == hash("sha512", $record['Psw']))
-				{
-					$verify = true;
-					break;
-				}
+			$user = $st->fetchAll(PDO::FETCH_ASSOC);
+
+			//var_dump($user);
+
+			if($user) {
+				
+				// imposto la variabile di sessione con l'id dell'utente registrato
+				$_SESSION["logged"] = $user[0]["IdUtente"];
+
+				return '{"result":true, "description":"Credenziali inserite correttamente"}';
+
+			} else {
+
+				// imposto la variabile di sessione con false
+				$_SESSION["logged"] = false;
+
+				return '{"result":false, "description":"Credenziali errate"}';
 			}
-			if($verify == 1)
-				return '{"result":true, "description":"Credenziali inserite correttamente."}';
-			else
-				return '{"result":false, "description":"Credenziali errate."}';
 		}
 
 		public function logout(){
@@ -532,13 +540,26 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "show"){
 
 //LOGIN:
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "login"){
-	if(isset($_POST["mail"]))
-    $mail = $_POST["mail"];
 
-	if(isset($_POST["passw"]))
-	   $pssw = $_POST["passw"];
+	$checked = true;
 
- 	echo $auth->login($mail, $passw);
+	if(isset($_POST["mail"])) {
+		$mail = $_POST["mail"];
+	} else {
+		$checked = false;
+	}
+
+
+	if(isset($_POST["password"])) {
+	   $password = $_POST["password"];
+	} else {
+		$checked = false;
+	}
+
+	if($checked)
+		 echo $auth->login($mail, $password);
+	else
+		echo '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}';
 }
 
 //ChangePssw:
@@ -554,8 +575,14 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "sendCode"){
 
 // getUser:
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "getUser"){
-	$id_user = 2; // $_SESSION["logged"];
- 	echo $auth->getUser($id_user);
+
+	if(isset($_SESSION["logged"]) && $_SESSION["logged"] != false) {
+		$id_user = $_SESSION["logged"];
+		echo $auth->getUser($id_user);
+	} else {
+		echo '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}';
+	}
+ 	
 }
 
 ?>
