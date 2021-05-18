@@ -29,7 +29,7 @@ class Ticket{
 
 public function insert($Nome, $Descrizione, $Immagine, $Stato, $Priorita, $IdAula, $Data, $Ora, $IdMacroarea, $IdUtente){
 
-  var_dump($Immagine);
+  //var_dump($Immagine);
 
   //CONTROLLO I VALORI:
   $st = "";
@@ -1055,9 +1055,21 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "DeviationTicketNumber"){
 }
 
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "Delete"){
-  $ID_ticket = 1;//$_POST[""];                      // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! controlli sul POST, l'id di ID_user da prendere da sessione
-  $ID_user = 1;//$_POST["ID"];
+  //$ID_ticket = 1;//$_POST[""];
+  $control = true;
+
+  if(isset($_POST["Data"]) && $_POST["Data"] != null && trim($_POST["Data"]) != ""){//controllo i dati passati
+    $Id_ticket = $_POST["Data"];
+  }else{
+
+    $control = false;
+  }
+
+  if(isset($_POST["Data"]) && $_POST["Data"] != null && trim($_POST["Data"]) != "")//
+  $ID_user = 2;//$_POST["ID"];
   echo $ticket -> Delete($ID_ticket, $ID_user);
+
+
 }
 
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "NewTicketNumber"){
@@ -1111,10 +1123,10 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "Insert"){
   else
     $IdMacro = 12;
 
-  if(isset($_POST["IdUtente"]))
-    $IdUtn = $_POST["IdUtente"];
+  if(isset($_SESSION["logged"]) && $_SESSION["logged"] != false && trim($_SESSION["logged"]) != "")
+    $IdUtn = $_SESSION["logged"];
   else
-    $IdUtn = 1; // inserire $_SESSION[] con l'id dell'utente loggato    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    $IdUtn = 2; // inserire $_SESSION[] con l'id dell'utente loggato    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
   //var_dump($_FILES);
   //var_dump($_POST);
@@ -1122,10 +1134,17 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "Insert"){
   echo $ticket->insert($Nome, $Descrizione, $Url, $Stato, $Priorit, $IdAula, $Data, $Ora, $IdMacro, $IdUtn);
 }
 
+<<<<<<< HEAD
 //if(isset($_POST["Submit"]) && $_POST["Submit"] == "Show"){
   /*$ID = 2; // $_SESSION["logged"]
   echo $ticket -> Show($ID);*/
 //}
+=======
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "Show"){
+  $ID = 2; // $_SESSION["logged"]
+  echo $ticket -> Show($ID);
+}
+>>>>>>> 69dcdfe4d90d90370676fcbe5d95a0177ad1224f
 
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "Union"){
   $Ticket1 = $POST['ID1'];
@@ -1145,5 +1164,3 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "Update"){
 
 echo $ticket -> Update(3, "Alle", "", "", "", "", "", "", "", "", "", "",);
 ?>
-
-

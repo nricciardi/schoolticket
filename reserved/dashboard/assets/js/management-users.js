@@ -9,7 +9,7 @@ var body_table_users = document.getElementById("body_table_users");
 var foot_table_users = document.getElementById("foot_table_users");
 
 // checkbox generale della tabella
-var general_checkbox = document.getElementById("general_checkbox");
+var general_checkbox_users = document.getElementById("general_checkbox_users");
 
 // button per l'aggiunta del form per l'aggiunta del nuovo utente
 var form_add_user = document.getElementById("formAddUser");
@@ -658,10 +658,10 @@ function checkCheckboxUser() {
 // ----------------------------------------------------------------
 
 // al click del checkbox generale, verifico il suo stato e modifico tutti quelli presenti di conseguenza
-general_checkbox.addEventListener("change", () => {
+general_checkbox_users.addEventListener("change", () => {
     
     // controllo lo stato del bottone e richiamo la funzione con il valore del checkbox giusta
-    setCheckboxRecordUser(general_checkbox.checked);
+    setCheckboxRecordUser(general_checkbox_users.checked);
     checkCheckboxUser();
     
 });
