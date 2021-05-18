@@ -357,7 +357,7 @@ public function Show($id) {
 
   // Nel caso in cui l'array è vuoto significa che non ha trovato nessun utente,
   // perciò restituisce false, se invece trova l'utente restituisce true.
-  private function controlId($IdTicket){
+	private function controlId($IdTicket){
 		$q = "SELECT * FROM schoolticket.ticket WHERE IdTicket = :idPl";
 		$st = $this->PDOconn->prepare($q);
 		$result = $st->execute(['idPl' => $IdTicket]);
@@ -451,13 +451,19 @@ public function changeHour($IdTicket, $newHour){
 
 	public function changeName($IdTicket, $newName){
 		$st = "";
+		$result = $this->controlId($IdTicket);
+		
+		if($result == false) {
+			$r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
+			return $r;
+		}
 		if(!filter_var($newName, FILTER_SANITIZE_STRING)){
 			$st =  '{"result":false,"description":"Nome errato"}';
 			return $st;
 		}
-		$q = "UPDATE schoolticket.ticket SET Nome = '$newName' WHERE IdTicket = $IdTicket";
+		$q = "UPDATE schoolticket.ticket SET Nome = ? WHERE IdTicket = ?";
 		$st = $this->PDOconn->prepare($q);
-		$result = $st->execute();
+		$result = $st->execute([$newName, $IdTicket]);
 		if($result == false){
 				$st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
 				return $st;
@@ -468,13 +474,20 @@ public function changeHour($IdTicket, $newHour){
 
 	public function changeDescr($IdTicket, $newDescr){
 		$st = "";
+		$result = $this->controlId($IdTicket);
+		
+		if($result == false) {
+			$r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
+			return $r;
+		}
+		
 		if(!filter_var($newDescr, FILTER_SANITIZE_STRING)){
 			$st = '{"result":false,"description":"Descrizione errata"}';
 			return $st;
 		}
-		$q = "UPDATE schoolticket.ticket SET Descrizione = '$newDescr' WHERE IdTicket = $IdTicket";
+		$q = "UPDATE schoolticket.ticket SET Descrizione = ? WHERE IdTicket = ?";
 		$st = $this->PDOconn->prepare($q);
-		$result = $st->execute();
+		$result = $st->execute([$newDescr, $IdTicket]);
 		if($result == false){
 				$st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
 				return $st;
@@ -483,6 +496,387 @@ public function changeHour($IdTicket, $newHour){
 		return $st;
 	}
 
+	public function changeStato($IdTicket, $newStato){
+		$st = "";
+
+		$result = $this->controlId($IdTicket);
+		
+		if($result == false) {
+			$r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
+			return $r;
+		}
+		
+		if(!filter_var($newStato, FILTER_SANITIZE_STRING)){
+			$st = '{"result":false,"description":"StatoDiAvanzamento errata"}';
+			return $st;
+		}
+		$q = "UPDATE schoolticket.ticket SET StatoDiAvanzamento = ? WHERE IdTicket = ?";
+		$st = $this->PDOconn->prepare($q);
+		$result = $st->execute([$newStato, $IdTicket]);
+		if($result == false){
+			$st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
+			return $st;
+		}
+		$st = '{"result":true,"description":"StatoDiAvanzamento Ticket aggiornata correttamente"}';
+		return $st;
+	}
+	
+	public function changePriorita($IdTicket, $newPriorita){
+		$st = "";
+		if(!is_numeric($newPriorita)){
+			$st = '{"result":false,"description":"Priorità errata"}';
+			return $st;
+		}
+		$result = $this->controlId($IdTicket);
+		
+		if($result == false) {
+			$r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
+			return $r;
+		}
+		
+		$q = "UPDATE schoolticket.ticket SET Priorita = ? WHERE IdTicket = ?";
+		$st = $this->PDOconn->prepare($q);
+		$result = $st->execute([$newPriorita, $IdTicket]);
+		if($result == false){
+				$st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
+				return $st;
+		}
+		$st = '{"result":true,"description":"Priorità Ticket aggiornata correttamente"}';
+		return $st;
+		
+	}
+	
+	public function changeMacroarea($IdTicket, $newMacro){
+		$st = "";
+		if(!is_numeric($newMacro)){
+			$st = '{"result":false,"description":"IdMacroArea errata"}';
+			return $st;
+		}
+		
+		if(!is_numeric($IdTicket)){
+			$st = '{"result":false,"description":"IdTicket errata"}';
+			return $st;
+		}
+		
+		$result = $this->controlId($IdTicket);
+		
+		if($result == false) {
+			$r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
+			return $r;
+		}
+		
+		$q = "SELECT * FROM schoolticket.macroarea WHERE IdMacroarea = ?";
+		$st = $this->PDOconn->prepare($q);
+		$result = $st->execute([$newMacro]);
+		$record = $st->fetchAll();
+		if(empty($record))
+			$result = false;
+		else
+			$result = true;
+		
+		if($result)
+		{
+			$q = "UPDATE schoolticket.ticket SET IdMacroarea = ? WHERE IdTicket = ?";
+			$st = $this->PDOconn->prepare($q);
+			$result = $st->execute([$newMacro, $IdTicket]);
+			if($result == false){
+				$st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
+				return $st;
+			}
+			$st = '{"result":true,"description":"IdMacroarea Ticket aggiornata correttamente"}';
+			return $st;
+		}
+		else
+		{
+			$st = '{"result":false,"description":"IdMacroarea Ticket non esistente."}';
+			return $st;
+		}
+	}
+	
+	public function changeUtente($IdTicket, $newUtente){
+		$st = "";
+		if(!is_numeric($newUtente)){
+			$st = '{"result":false,"description":"IdUtente errata"}';
+			return $st;
+		}
+		
+		if(!is_numeric($IdTicket)){
+			$st = '{"result":false,"description":"IdTicket errata"}';
+			return $st;
+		}
+		
+		$result = $this->controlId($IdTicket);
+		
+		if($result == false) {
+			$r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
+			return $r;
+		}
+		
+		$q = "SELECT * FROM schoolticket.utente WHERE IdUtente = ?";
+		$st = $this->PDOconn->prepare($q);
+		$result = $st->execute([$newUtente]);
+		$record = $st->fetchAll();
+		if(empty($record))
+			$result = false;
+		else
+			$result = true;
+		
+		if($result)
+		{
+			$q = "UPDATE schoolticket.ticket SET IdUtente = ? WHERE IdTicket = ?";
+			$st = $this->PDOconn->prepare($q);
+			$result = $st->execute([$newUtente, $IdTicket]);
+			if($result == false){
+				$st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
+				return $st;
+			}
+			$st = '{"result":true,"description":"IdUtente Ticket aggiornata correttamente"}';
+			return $st;
+		}
+		else
+		{
+			$st = '{"result":false,"description":"IdUtente Ticket non esistente."}';
+			return $st;
+		}
+	}
+	
+	public function changeAula($IdTicket, $newAula){
+		$st = "";
+		if(!is_numeric($newAula)){
+			$st = '{"result":false,"description":"IdAula errata"}';
+			return $st;
+		}
+		
+		if(!is_numeric($IdTicket)){
+			$st = '{"result":false,"description":"IdTicket errata"}';
+			return $st;
+		}
+		
+		$result = $this->controlId($IdTicket);
+		
+		if($result == false) {
+			$r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
+			return $r;
+		}
+		
+		$q = "SELECT * FROM schoolticket.aula WHERE IdAula = ?";
+		$st = $this->PDOconn->prepare($q);
+		$result = $st->execute([$newAula]);
+		$record = $st->fetchAll();
+		if(empty($record))
+			$result = false;
+		else
+			$result = true;
+		
+		if($result)
+		{
+			$q = "UPDATE schoolticket.ticket SET IdAula = ? WHERE IdTicket = ?";
+			$st = $this->PDOconn->prepare($q);
+			$result = $st->execute([$newAula, $IdTicket]);
+			if($result == false){
+				$st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
+				return $st;
+			}
+			$st = '{"result":true,"description":"IdAula Ticket aggiornata correttamente"}';
+			return $st;
+		}
+		else
+		{
+			$st = '{"result":false,"description":"IdAula Ticket non esistente."}';
+			return $st;
+		}
+	}
+	
+	public function changeUnione($IdTicket, $newUnione){
+		$st = "";
+		if(!is_numeric($newUnione)){
+			$st = '{"result":false,"description":"IdUnione errata"}';
+			return $st;
+		}
+		
+		if(!is_numeric($IdTicket)){
+			$st = '{"result":false,"description":"IdTicket errata"}';
+			return $st;
+		}
+		
+		$result = $this->controlId($IdTicket);
+		
+		if($result == false) {
+			$r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
+			return $r;
+		}
+		
+		$result = $this->controlId($newUnione);
+		
+		if($result == false) {
+			$r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
+			return $r;
+		}
+		
+		if($result)
+		{
+			$q = "UPDATE schoolticket.ticket SET IdUnione = ? WHERE IdTicket = ?";
+			$st = $this->PDOconn->prepare($q);
+			$result = $st->execute([$newUnione, $IdTicket]);
+			if($result == false){
+				$st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
+				return $st;
+			}
+			$st = '{"result":true,"description":"IdUnione Ticket aggiornata correttamente"}';
+			return $st;
+		}
+		else
+		{
+			$st = '{"result":false,"description":"IdUnione Ticket non esistente."}';
+			return $st;
+		}
+	}
+	
+	public function changeVisualizzato($IdTicket, $newVisualizzato){
+		$st = "";
+		if(!(is_numeric($newVisualizzato) or $newVisualizzato != 0 or $newVisualizzato != 1)){
+			$st = '{"result":false,"description":"Visualizzato errato"}';
+			return $st;
+		}
+		$result = $this->controlId($IdTicket);
+		
+		if($result == false) {
+			$r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
+			return $r;
+		}
+		
+		$q = "UPDATE schoolticket.ticket SET Visualizzato = ? WHERE IdTicket = ?";
+		$st = $this->PDOconn->prepare($q);
+		$result = $st->execute([$newVisualizzato, $IdTicket]);
+		if($result == false){
+			$st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
+			return $st;
+		}
+		$st = '{"result":true,"description":"Visualizzato Ticket aggiornata correttamente"}';
+		return $st;
+	}
+	
+	public function Update($IdTicket, $Nome = "", $Descrizione = "", $Stato = "", $Priorita = "", $Data = "", $Ora = "", $Macro = "", $Utente = "", $Aula = "", $Unione = "", $Visualizzato = ""){
+		
+		$st = "";
+		$totDescr = "";
+		$cont = 0;
+		
+		if($Nome != "")
+		{
+			$retName = json_decode($this->changeName($IdTicket, $Nome));
+			var_dump($retName);
+			if($cont == 0)
+				$totDescr .= $retName["description"];
+			else
+				$totDescr .= "; " . $retName["description"];
+			$cont++;
+		}
+		if($Descrizione != "")
+		{
+			$retDescr = json_decode($this->changeDescr($IdTicket, $Descrizione));
+			if($cont == 0)
+				$totDescr .= $retDescr["description"];
+			else
+				$totDescr .= "; " . $retDescr["description"];
+			$cont++;
+		}
+			
+		if($Stato != "")
+		{
+			$retStato = json_decode($this->changeStato($IdTicket, $Stato));
+			if($cont == 0)
+				$totDescr .= $retStato["description"];
+			else
+				$totDescr .= "; " . $retStato["description"];
+			$cont++;
+		}
+		if($Priorita != "")
+		{
+			$retPrio = json_decode($this->changePriorita($IdTicket, $Priorita));
+			if($cont == 0)
+				$totDescr .= $retPrio["description"];
+			else
+				$totDescr .= "; " . $retPrio["description"];
+			$cont++;
+		}
+		if($Data != "")
+		{
+			$retData = json_decode($this->changeDate($IdTicket, $Data));
+			if($cont == 0)
+				$totDescr .= $retData["description"];
+			else
+				$totDescr .= "; " . $retData["description"];
+			$cont++;
+		}
+		if($Ora != "")
+		{
+			$retOra = json_decode($this->changeHour($IdTicket, $Ora));
+			if($cont == 0)
+				$totDescr .= $retOra["description"];
+			else
+				$totDescr .= "; " . $retOra["description"];
+			$cont++;
+		}
+		if($Macro != "")
+		{
+			$retMacro = json_decode($this->changeMacroarea($IdTicket, $Macro));
+			if($cont == 0)
+				$totDescr .= $retMacro["description"];
+			else
+				$totDescr .= "; " . $retMacro["description"];
+			$cont++;
+		}
+		if($Utente != "")
+		{
+			$retUtente = json_decode($this->changeUtente($IdTicket, $Utente));
+			if($cont == 0)
+				$totDescr .= $retUtente["description"];
+			else
+				$totDescr .= "; " . $retUtente["description"];
+			$cont++;
+		}
+		if($Aula != "")
+		{
+			$retAula = json_decode($this->changeAula($IdTicket, $Aula));
+			if($cont == 0)
+				$totDescr .= $retAula["description"];
+			else
+				$totDescr .= "; " . $retAula["description"];
+			$cont++;
+		}
+			
+		if($Unione != "")
+		{
+			$retUnione = json_decode($this->changeUnione($IdTicket, $Unione));
+			if($cont == 0)
+				$totDescr .= $retUnione["description"];
+			else
+				$totDescr .= "; " . $retUnione["description"];
+			$cont++;
+		}
+		if($Visualizzato != "")
+		{
+			$retVis = json_decode($this->changeVisualizzato($IdTicket, $Visualizzato));
+			if($cont == 0)
+				$totDescr .= $retVis["description"];
+			else
+				$totDescr .= "; " . $retVis["description"];
+			$cont++;
+		}
+		
+		$control = false;
+		if(!($retName["result"] or $retDescr["result"] or $retStato["result"] or $retPrio["result"] or $retMacro["result"] or $retUnione["result"] or $retUtente["result"] or $retVis["result"] or $retAula["result"] or $retData["result"] or $retOra["result"]))		
+			$control = false;
+		else
+			$control = true;
+		
+		if($control)
+			return $st = '{"result":true,"description":"' .$totDescr .'"}';
+		else
+			return $st = '{"result":false,"description":"' .$totDescr .'"}';
+	}
+	
 public function Union($IdTicket1, $IdTicket2){
 
 //SETTO I VALORI DA INSERIRE NEL NUOVO TICKET:
@@ -648,13 +1042,9 @@ $temp = $Ticket30g * $Ticket2ngiorni;
   return $r;
 
 }
-  public function ChangePriority(){
 
-  }
 
-  public function Update(){
 
-  }
 
 }
 
@@ -733,8 +1123,8 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "Insert"){
 }
 
 //if(isset($_POST["Submit"]) && $_POST["Submit"] == "Show"){
-  $ID = 2; // $_SESSION["logged"]
-  echo $ticket -> Show($ID);
+  /*$ID = 2; // $_SESSION["logged"]
+  echo $ticket -> Show($ID);*/
 //}
 
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "Union"){
@@ -753,15 +1143,7 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "Update"){
 }
 
 
-//NON CANCELLARE(GOVI):
-/*if (isset($_POST['invia'])) {
-  if(!empty($_POST['testo']) ){
-    $prova = $_POST['testo'];
-    echo $prova;
-  }else{
-    echo "è vuota";
-  }
-}*/
+echo $ticket -> Update(3, "Alle", "", "", "", "", "", "", "", "", "", "",);
 ?>
 
 
