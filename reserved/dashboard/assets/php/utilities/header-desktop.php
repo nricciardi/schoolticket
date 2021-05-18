@@ -117,33 +117,33 @@
                     </div>
                     <nav class="navbar-sidebar2">
                         <ul class="list-unstyled navbar__list">
-                            <!--<li class="active has-sub">
+                            <li class="active has-sub">
                                 <a class="js-arrow" href="#">
-                                    <i class="fas fa-tachometer-alt"></i>Dashboard
+                                    <i class="fas fa-eye"></i>Visualizza
                                     <span class="arrow">
                                         <i class="fas fa-angle-down"></i>
                                     </span>
                                 </a>
                                 <ul class="list-unstyled navbar__sub-list js-sub-list">
                                     <li>
-                                        <a href="index.html">
-                                            <i class="fas fa-tachometer-alt"></i>Dashboard 1</a>
+                                        <button id="" style="/*display: none;*/">
+                                            <i class="fas fa-ticket-alt"></i>Ticket</button>
                                     </li>
                                     <li>
-                                        <a href="index2.html">
-                                            <i class="fas fa-tachometer-alt"></i>Dashboard 2</a>
+                                        <button id="" style="/*display: none;*/">
+                                            <i class="fas fa-user"></i>Account</button>
                                     </li>
-                                    <li>
+                                    <!--<li>
                                         <a href="index3.html">
                                             <i class="fas fa-tachometer-alt"></i>Dashboard 3</a>
-                                    </li>
-                                    <li>
+                                    </li>-->
+                                    <!--<li>
                                         <a href="index4.html">
                                             <i class="fas fa-tachometer-alt"></i>Dashboard 4</a>
-                                    </li>
+                                    </li>-->
                                 </ul>
                             </li>
-                            <li>
+                            <!--<li>
                                 <a href="inbox.html">
                                     <i class="fas fa-chart-bar"></i>Inbox</a>
                                 <span class="inbox-num">3</span>
