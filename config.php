@@ -41,4 +41,7 @@
 	define("DATABASE_USERNAME", "root");
 	define("DATABASE_PASSWORD", "");
 	
+	
+	define("PERMESSO_DEFAULT", 1);
+	
 ?>
