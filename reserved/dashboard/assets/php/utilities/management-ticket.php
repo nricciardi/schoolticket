@@ -45,7 +45,7 @@
                     <tr>
                         <th>
                             <label class="au-checkbox">
-                                <input type="checkbox" id="general_checkbox">
+                                <input type="checkbox" id="general_checkbox_ticket">
                                 <span class="au-checkmark"></span>
                             </label>
                         </th>
@@ -53,7 +53,7 @@
                         <th>Nome</th>
                         <th>Descrizione</th>
                         <th>Immagine</th>
-                        <th>StatoDiAvanzamento</th>
+                        <th>Stato Di Avanzamento</th>
                         <th>Priorita</th>
                         <th>Data</th>
                         <th>Ora</th>
@@ -64,10 +64,17 @@
                         <th>Visualizzato</th>
                     </tr>
                 </thead>
-                <tbody id="body_table_ticket">
+                <tbody id="body_table_tickets">
                 </tbody>
-                <tfoot id="foot_table_ticket">
-
+                <tfoot id="foot_table_tickets">
+                    <tr class="spacer"></tr>
+                    <tr class="tr-shadow">
+                        <td>
+                            <button type="button" class="btn btn-danger" id="btn_delete_checked_ticket" disabled>
+                                <i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella 0 ticket selezionati</font></font>
+                            </button>
+                        </td>
+                    </tr>
                 </tfoot>
             </table>
         </div>
