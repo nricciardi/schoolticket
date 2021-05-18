@@ -1134,17 +1134,10 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "Insert"){
   echo $ticket->insert($Nome, $Descrizione, $Url, $Stato, $Priorit, $IdAula, $Data, $Ora, $IdMacro, $IdUtn);
 }
 
-<<<<<<< HEAD
-//if(isset($_POST["Submit"]) && $_POST["Submit"] == "Show"){
-  /*$ID = 2; // $_SESSION["logged"]
-  echo $ticket -> Show($ID);*/
-//}
-=======
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "Show"){
   $ID = 2; // $_SESSION["logged"]
   echo $ticket -> Show($ID);
 }
->>>>>>> 69dcdfe4d90d90370676fcbe5d95a0177ad1224f
 
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "Union"){
   $Ticket1 = $POST['ID1'];
@@ -1162,5 +1155,5 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "Update"){
 }
 
 
-echo $ticket -> Update(3, "Alle", "", "", "", "", "", "", "", "", "", "",);
+//echo $ticket -> Update(3, "Alle", "", "", "", "", "", "", "", "", "", "",);
 ?>
