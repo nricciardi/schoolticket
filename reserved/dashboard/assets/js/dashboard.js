@@ -303,7 +303,7 @@ function addAula(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
     } else {
         // errore
         result.style.color = error_data;
-        result.innerHTML = "Errore nella richiesta delle macroaree, riprovare più tardi o contattare l'assistenza."
+        result.innerHTML = "Errore nella richiesta delle aule, riprovare più tardi o contattare l'assistenza."
 
     }
 }

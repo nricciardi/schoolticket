@@ -6,13 +6,13 @@
 // ----------------------------------------------------------------
 
 // tbody della tabella utenti
-var body_table_tickets = document.getElementById("body_table_ticket");
+var body_table_tickets = document.getElementById("body_table_tickets");
 
 // tfoot della tabella utenti
-var foot_table_tickets = document.getElementById("foot_table_ticket");
+var foot_table_tickets = document.getElementById("foot_table_tickets");
 
 // checkbox generale della tabella
-var general_checkbox = document.getElementById("general_checkbox");
+var general_checkbox_ticket = document.getElementById("general_checkbox_ticket");
 
 // button per l'aggiunta del form per l'aggiunta del nuovo utente
 var form_add_ticket = document.getElementById("formAddTicket");
@@ -29,6 +29,13 @@ var check_new_name_ticket = false;
 var check_new_email_ticket = false;
 var check_new_password_ticket = false;
 
+
+// btn per eliminare gli utenti selezionati
+var btn_delete_checked_ticket = document.getElementById("btn_delete_checked_ticket");
+
+
+
+
 // btn per eliminare gli utenti selezionati
 var btn_delete_checked_ticket = document.getElementById("btn_delete_checked_ticket");
 
@@ -43,7 +50,7 @@ function createRecordTicket(ticket) {   //ticket è un oggetto contenente le inf
 
     record += '<td>';       // creo il primo campo
     record += '<label class="au-checkbox">';
-    record += '<input type="checkbox" name="checkRecord[]" value="' + ticket.IdTicket + '" id="checkbox' + ticket.IdTicket + '">';    // inserisco il checkbox con valore l'ID del ticket
+    record += '<input type="checkbox" onclick="checkCheckboxTicket()" name="checkRecord[]" value="' + ticket.IdTicket + '" id="checkbox' + ticket.IdTicket + '">';    // inserisco il checkbox con valore l'ID del ticket
     record += '<span class="au-checkmark"></span>';
     record += '</label></td>';
 
@@ -78,7 +85,7 @@ function createRecordTicket(ticket) {   //ticket è un oggetto contenente le inf
     record += '<td>' + ticket.Utente.Email + '</td>';
 
 	// inserisco IDAULA
-    record += '<td>' + ticket.Aula.Nome + ' - ' + cutString(ticket.Aula.Descrizione, 10) + '</td>';
+    record += '<td>' + ticket.Aula.Nome /*+ ' - ' + cutString(ticket.Aula.Descrizione, 10) */+ '</td>';
 
 	// inserisco IDUNIONE
 		if(ticket.IdUnione == ""){
@@ -193,7 +200,7 @@ function createTableTicket() {
     feedback_table_management_ticket.style.color = "#ededed";
 
     // creo l'oggetto data da mandare in post
-    let data = {"Submit": "show"};
+    let data = {"Submit": "Show"};
 
     // elimino gli elementi esistenti
     body_table_tickets.innerHTML = "";
@@ -256,12 +263,12 @@ function addTicket() {
         return false;
 
     // creo l'oggetto data da mandare in post
-    let data = {"Submit": "registration", "nome": document.getElementById("newNameTicket").value, "email": document.getElementById("newEmailTicket").value, "cognome": document.getElementById("newSurnameTicket").value, "password": document.getElementById("newPasswordTicket").value, "IdCategoria": document.getElementById("categoria_add_ticket").value, "IdPermessi": document.getElementById("permessi_add_ticket").value};
+    let data = {"Submit": "registration", "nome": document.getElementById("newNameTicket").value, "descrizione": document.getElementById("newDescrizioneTicket").value, "Immagine": document.getElementById("newImmagineTicket").value, "stato": document.getElementById("newStatoTicket").value, "priorita": document.getElementById("newPrioritaTicket").value, "data": document.getElementById("newDataTicket").value, "ora": document.getElementById("newDataTicket").value, "IdMacroarea": document.getElementById("macroarea_add_ticket").value, "IdUtente": document.getElementById("utente_add_ticket").value, "IdAula": document.getElementById("aula_add_ticket").value, "IdUnione": document.getElementById("newUnioneTicket").value, "visualizzato": document.getElementById("newVisualizzatoTicket").value };
 
     // effettuo la chiamata ajax
     $.ajax({
 
-        url: HOSTNAME + "/assets/php/authentication/Authentication.php",
+        url: HOSTNAME + "/assets/php/issues/Ticket.php",
         type: "post",
         data: data,
         dataType: "json",
@@ -348,12 +355,12 @@ function deleteTicket(ID) {   // può anche essere passato un array
     console.log("Elimino: " + ID);
 
     // creo l'oggetto data da mandare in post
-    let data = {"Submit": "delete", "Data": ID};
+    let data = {"Submit": "Delete", "Data": ID};
 
     // effettuo la chiamata ajax
     $.ajax({
 
-        url: HOSTNAME + "/assets/php/authentication/Authentication.php",
+        url: HOSTNAME + "/assets/php/issues/Ticket.php",
         type: "post",
         data: data,
         dataType: "json",
@@ -419,28 +426,68 @@ function createFormNewTicket() {
     // inserisco l'ID
     // Predisposizione IdUtente: record += '<td>' + Ticket.IdUtente + '</td>';
 
-    // inserisco il COGNOME
+    // inserisco il Nome
     record += '<td>' +
-    '<input type="text" placeholder="Cognome" oninput="checkNewSurnameTicket()" class="form-control" id="newSurnameTicket">' +
+    '<input type="text" placeholder="Nome" oninput="" class="form-control" id="newNameTicket">' +
     '</td>';
 
-    // inserisco il NOME
+    // inserisco il Descrizione
     record += '<td>' +
-    '<input type="text" placeholder="Nome" oninput="checkNewNameTicket()" class="form-control" id="newNameTicket">' +
+    '<input type="text" placeholder="Descrizione" oninput="" class="form-control" id="newDescrizioneTicket">' +
     '</td>';
 
-    // inserisco l'EMAIL
+    // inserisco l'Immagine
     record += '<td>' +
-    '<input type="email" placeholder="Email" oninput="checkNewEmailTicket()" class="form-control" id="newEmailTicket">' +
+    '<input type="text" placeholder="Immagine" oninput="" class="form-control" id="newImmagineTicket">' +
     '</td>';
 
-    // inserisco la PASSWORD
+    // inserisco la Stato
     record += '<td>' +
-    '<input type="password" placeholder="Password" oninput="checkNewPasswordTicket()" class="form-control" id="newPasswordTicket">' +
+    '<input type="text" placeholder="Stato di avanzamento" oninput="" class="form-control" id="newStatoTicket">' +
     '</td>';
 
+		// inserisco la Priorità
+		record += '<td>' +
+		'<input type="number" placeholder="Priorità" oninput="" class="form-control" id="newPrioritaTicket">' +
+		'</td>';
 
-    // inserisco la CATEGORIA
+		// inserisco la Data
+		record += '<td>' +
+		//'<input type="text" placeholder="Data" oninput="" class="form-control" id="newDataTicket">' +
+		'</td>';
+
+		// inserisco la Ora
+		record += '<td>' +
+		//'<input type="text" placeholder="Ora" oninput="" class="form-control" id="newOraTicket">' +
+		'</td>';
+
+		// inserisco la Macroarea
+			 record += '<td>';
+			 record += '<select name="select" class="form-control" id="macroarea_add_ticket"></select>';
+			 record += '</td>';
+
+		// inserisco la Utente
+			 record += '<td>';
+			 record += USER.Nome + ' ' + USER.Cognome;
+			 record += '</td>';
+
+		// inserisco la Aula
+			 record += '<td>';
+			 record += '<select name="select" class="form-control" id="aula_add_ticket"></select>';
+			 record += '</td>';
+
+		// inserisco la Unione
+		record += '<td>' +
+		//'<input type="text" placeholder="StatoDiAvanzamento" oninput="" class="form-control" id="newUnioneTicket">' +
+		'</td>';
+
+		// inserisco la Visualizzato
+		record += '<td>' +
+
+		//'<input type="text" placeholder="StatoDiAvanzamento" oninput="" class="form-control" id="newVisualizzatoTicket">' +
+		'</td>';
+
+/*    // inserisco la CATEGORIA
     record += '<td>';
     record += '<select name="select" class="form-control" id="categoria_add_ticket"></select>';
     record += '</td>';
@@ -449,7 +496,7 @@ function createFormNewTicket() {
     record += '<td>';
     record += '<select name="select" class="form-control" id="permessi_add_ticket"></select>';
     record += '</td>';
-
+*/
     // inserisco i bottoni per le diverse azioni
     record += '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_ticket" onclick="addTicket()" style="margin-left: 0.5vw; border-radius: 5%" disabled>' +   // aggiungo l'onclick per effettuare correttamente l'azione
         '<i class="far fa-check-circle"></i> Conferma' +
@@ -637,6 +684,28 @@ function changeRecordTicketToForm(ID) {
 
 }
 
+
+// controllo se abilitare il bottone
+function checkCheckboxTicket() {
+
+    let array = getArrayTicketsChecked();
+
+    console.log(array);
+
+    if(array.length > 0) {
+
+        btn_delete_checked_ticket.removeAttribute("disabled");
+        btn_delete_checked_ticket.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella ' + array.length + ' ticket selezionati</font></font>';
+
+    } else {
+
+        btn_delete_checked_ticket.setAttribute("disabled", "disabled");
+        btn_delete_checked_ticket.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella 0 ticket selezionati</font></font>';
+
+    }
+
+}
+
 // funzione che elimina tutti gli id selezionati
 function getArrayTicketsChecked() {
 
@@ -689,10 +758,10 @@ function checkCheckboxTicket() {
 // ----------------------------------------------------------------
 
 // al click del checkbox generale, verifico il suo stato e modifico tutti quelli presenti di conseguenza
-general_checkbox.addEventListener("change", () => {
+general_checkbox_ticket.addEventListener("change", () => {
 
     // controllo lo stato del bottone e richiamo la funzione con il valore del checkbox giusta
-    setCheckboxRecordTicket(general_checkbox.checked);
+    setCheckboxRecordTicket(general_checkbox_ticket.checked);
     checkCheckboxTicket();
 
 });
@@ -708,8 +777,9 @@ form_add_ticket.addEventListener("click", () => {
     body_table_tickets.innerHTML = createFormNewTicket() + actual_body;
 
     // richiamo le funzioni per aggiungere categorie e permessi
-    addCategorie(document.getElementById("categoria_add_ticket"), feedback_table_management_ticket, 10);
-    addPermessi(document.getElementById("permessi_add_ticket"), feedback_table_management_ticket, 10);
+    addMacroaree(document.getElementById("macroarea_add_ticket"), feedback_table_management_ticket, 10);
+    addClassroom(document.getElementById("aula_add_ticket"), feedback_table_management_ticket, 10);
+
 });
 
 // ricarico la tabella riaggiungendola al click del bottone di refresh

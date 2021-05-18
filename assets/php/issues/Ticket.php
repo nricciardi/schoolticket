@@ -665,9 +665,21 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "DeviationTicketNumber"){
 }
 
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "Delete"){
-  $ID_ticket = 1;//$_POST[""];                      // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! controlli sul POST, l'id di ID_user da prendere da sessione
-  $ID_user = 1;//$_POST["ID"];
+  //$ID_ticket = 1;//$_POST[""];
+  $control = true;
+
+  if(isset($_POST["Data"]) && $_POST["Data"] != null && trim($_POST["Data"]) != ""){//controllo i dati passati
+    $Id_ticket = $_POST["Data"];
+  }else{
+
+    $control = false;
+  }
+
+  if(isset($_POST["Data"]) && $_POST["Data"] != null && trim($_POST["Data"]) != "")//
+  $ID_user = 2;//$_POST["ID"];
   echo $ticket -> Delete($ID_ticket, $ID_user);
+
+
 }
 
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "NewTicketNumber"){
@@ -732,10 +744,10 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "Insert"){
   echo $ticket->insert($Nome, $Descrizione, $Url, $Stato, $Priorit, $IdAula, $Data, $Ora, $IdMacro, $IdUtn);
 }
 
-//if(isset($_POST["Submit"]) && $_POST["Submit"] == "Show"){
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "Show"){
   $ID = 2; // $_SESSION["logged"]
   echo $ticket -> Show($ID);
-//}
+}
 
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "Union"){
   $Ticket1 = $POST['ID1'];
@@ -763,5 +775,3 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "Update"){
   }
 }*/
 ?>
-
-
