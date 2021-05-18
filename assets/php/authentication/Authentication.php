@@ -197,7 +197,7 @@
 		}
 		
 
-		/*public function verifyPsw($psw)
+		public function verifyPsw($psw)
 		{
 			$control[5] = array();
 			for($i = 0; $i < 5; $i++)
@@ -226,44 +226,9 @@
 			}
 
 			if($verify == false)
-				return '{"result":false, "description":""La password deve contenere: 8 caratteri, almeno una lettera maiuscola, minuscola, un carattere speciale e un numero."}';
+				return '{"result":false, "description":"La password deve contenere: 8 caratteri, almeno una lettera maiuscola, minuscola, un carattere speciale e un numero."}';
 			else
 				return '{"result":true, "description":""La password è stata modificata con successo."}';
-		}*/
-		
-		public function verifyPsw($psw)
-		{
-			$control[5] = array();
-			for($i = 0; $i < 5; $i++)
-				$control[$i] = 0;
-
-			if(strlen($psw) >= 8)
-				$control[0] = 1;
-			for($i = 0; $i < strlen($psw); $i++)
-			{
-				if(ord($psw[$i]) >= 65 and ord($psw[$i]) <= 90)
-					$control[1] = 1;
-				if(ord($psw[$i]) >= 97 and ord($psw[$i]) <= 122)
-					$control[2] = 1;
-				if((ord($psw[$i]) >= 33 and ord($psw[$i]) <= 47) or (ord($psw[$i]) >= 58 and ord($psw[$i]) <= 64))
-					$control[3] = 1;
-				if(ord($psw[$i]) >= 48 and ord($psw[$i]) <= 57)
-					$control[4] = 1;
-			}
-
-			$verify = 1;
-
-			if(!$control[0] or !$control[1] or !$control[2] or !$control[3] or !$control[4])
-			{
-				echo '{"result":false, "description":""La password deve contenere: 8 caratteri, almeno una lettera maiuscola, minuscola, un carattere speciale e un numero."}';
-				$verify = 0;
-			}
-
-			if($verify == false)
-				return false;
-			else
-				return true;
-
 		}
 		
 		public function registration($nome, $cognome, $email, $psw, $IdCategoria, $IdPermessi){
@@ -286,10 +251,10 @@
 				$check = false;
 			}
 
-			//$verPsw = json_decode($this->verifyPsw($psw))["result"];
-			echo var_dump(json_decode($this->verifyPsw($psw)));
-			if($verPsw == false){
-				$msg .= 'Password errata; ';
+			$verPsw = json_decode($this->verifyPsw($psw));
+			//echo var_dump(json_decode($this->verifyPsw($psw)));
+			if($verPsw->result == false){
+				$msg .= $verPsw->description . '; ';
 				$check = false;
 			}
 						
@@ -657,5 +622,9 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "getUser"){
 	}
  	
 }
+
+//var_dump(json_decode($auth->verifyPsw("ciao"))->result);
+//var_dump($auth->verifyPsw("ciao"));
+
 
 ?>

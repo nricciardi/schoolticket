@@ -3,7 +3,7 @@
     require_once("../../config.php");
 
     // controllo che l'utente sia loggato
-    //check_session(); 
+    check_session(); 
 
 ?>
 
