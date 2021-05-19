@@ -547,6 +547,68 @@
 // ===========================================================================
 
 $auth = new Auth(DATABASE_HOST, DATABASE_NAME, DATABASE_USERNAME, DATABASE_PASSWORD, PERMESSO_DEFAULT);
+
+$method = strtoupper($_SERVER["REQUEST_METHOD"]);	// recupero il metodo con cui il client ha fatto richiesta alla pagina (server)  
+
+// switch di controllo per instradare le diverse richieste
+switch ($method) {
+	case "GET":		// richiesta GET
+		echo GET_request($auth);
+		break;
+
+	case "POST":		// richiesta POST
+		# code...
+		break;
+	
+	case "PUT":		// richiesta GET
+		# code...
+		break;
+
+	case "DELETE":		// richiesta POST
+		# code...
+		break;
+	
+}
+
+// funzione per selezionare il metodo della classe da richiamare
+function GET_request($auth = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
+
+	// controllo che venga passato l'oggetto della classe per la connessione con il database
+	if($auth === null)	
+		return $json_error;	
+
+	// controllo che il parametro della richiesta GET sia stato passato tramite URL
+	if(isset($_GET["request"])) {
+
+		$request = $_GET["request"];
+
+		switch ($request) {
+			case 'me':
+				if(isset($_SESSION["logged"]) && $_SESSION["logged"] != false) {
+						$id_user = $_SESSION["logged"];
+						return $auth->getUser($id_user);
+					} else {
+						return $json_error;
+					}
+
+				break;
+			
+			case 'users':
+				if(isset($_SESSION["logged"]) && $_SESSION["logged"] != false) {	// controllo che ci sia un utente loggato
+					$ID_utente_loggato = $_SESSION["logged"];
+					return $auth->show($ID_utente_loggato);	//L'id va peso dalla sessione!!
+				} else {
+					return $json_error;
+				}
+				break;
+		}
+	}
+
+	// in caso non sia entrato in un CASE nello SWITCH, restituisco di default il codice di errore
+	return $json_error;
+	
+
+}
 	
 //REGISTRAZIONE:
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "registration"){
@@ -591,8 +653,15 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "delete"){
 
 //SHOW:
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "show"){
-	$id = 2;	// $_SESSION["logged"];
-	echo $auth -> show($id);//L'id va peso dalla sessione!!
+	if(isset($_SESSION["logged"]) && $_SESSION["logged"] != false) {	// controllo che ci sia un utente loggato
+		$ID_utente_loggato = $_SESSION["logged"];
+		echo $auth -> show($id);	//L'id va peso dalla sessione!!
+	} else {
+
+		echo '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}';
+	}
+
+	
 }
 
 //LOGIN:

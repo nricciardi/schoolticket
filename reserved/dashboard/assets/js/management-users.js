@@ -61,7 +61,7 @@ function createRecordUser(user) {   //User è un oggetto contenente le informazi
     record += '<td id="emailUser' + user.IdUtente + '"><span class="block-email">' + user.Email + '</span></td>';
 
     // inserisco la PASSWORD
-    record += '<td id="passwordUser' + user.IdUtente + '"><span class="block-email">' + cutString(user.Password, 10) + '</span></td>';
+    //record += '<td id="passwordUser' + user.IdUtente + '"><span class="block-email">' + cutString(user.Password, 10) + '</span></td>';
     
     // inserisco la CATEGORIA
     record += '<td id="categoriaUser' + user.IdUtente + '" data-categoria="' + user.Categoria.IdCategoria + '">' + user.Categoria.Nome + '</td>';
@@ -172,10 +172,10 @@ function createTableUser() {
 
     // effettuo la chiamata
     $.ajax({
-        url: HOSTNAME + "/assets/php/authentication/Authentication.php",
-        type: "post",
+        url: HOSTNAME + "/assets/php/authentication/Authentication.php?request=users",
+        type: "GET",
         data: data,
-        dataType: "json",
+        dataType: "JSON",
         success: (res) => {
             console.log(res);
             // verifico che la siano stati restituiti correttamente i dati
