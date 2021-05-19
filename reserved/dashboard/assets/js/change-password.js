@@ -257,6 +257,7 @@ btn_conferma.addEventListener("click", () => {
         },
         error: (response) => {
 			span.innerText = "Errore nella risposta del server. Riprovare più tardi.";
+			span.style.color = error_data;
         }
       });
 });

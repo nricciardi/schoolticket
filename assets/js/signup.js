@@ -86,7 +86,7 @@ $("#submit").click(function () {
             "Cognome": cognome,
             "Nome": nome,
             "Email": email,
-            "Passoword": password,
+            "Password": password,
             "IdCategoria": IdCategoria,
             "IdPermessi": IdPermessi
         }
