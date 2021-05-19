@@ -684,15 +684,9 @@ async function set_user() {
 
     USER = null;
 
-	// creo la variabile data da passare per ricevere le classi
-	let data = {
-		"Submit": "getUser"
-	}
-
     await $.ajax({
         url: HOSTNAME + '/assets/php/authentication/Authentication.php',
-        method: 'POST',
-        data: data,
+        method: 'GET',
         dataType: "text",
         success: function( data, textStatus, jQxhr ){
             console.debug("set USER");

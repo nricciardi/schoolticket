@@ -164,15 +164,12 @@ function createTableUser() {
     feedback_table_management_user.innerText = "Sto caricando la tabella...";
     feedback_table_management_user.style.color = "#ededed";
     
-    // creo l'oggetto data da mandare in post
-    let data = {"Submit": "show"};
-
     // elimino gli elementi esistenti
     body_table_users.innerHTML = "";
 
     // effettuo la chiamata
     $.ajax({
-        url: HOSTNAME + "/assets/php/authentication/Authentication.php?request=users",
+        url: HOSTNAME + "/assets/php/authentication/Authentication.php",
         type: "GET",
         data: data,
         dataType: "JSON",
