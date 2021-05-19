@@ -230,7 +230,11 @@ btn_conferma.addEventListener("click", () => {
 
     console.log("click");
 
-    let data = {"Submit": "changePssw", "codice": codice.value, "nuovaPassword": nuovaPassword.value, "re_password": re_password.value};
+    let data = {"Submit": "changePassword", "Data": {
+			"codice": codice.value, 
+			"nuovaPassword": nuovaPassword.value
+		}
+	};
 
 
     $.ajax({

@@ -547,13 +547,10 @@
 		}
 
 //CAMBIO DELLA PASSWORD:
-		public function changePassword($ID_utente_loggato, $ID_utente_da_modificare, $nuovaPassword){
+		public function changePassword($ID_utente_da_modificare, $nuovaPassword, $codice){
 			
-			if(!$this->controlId($ID_utente_da_modificare) || !$this->controlId($ID_utente_loggato))	// controllo che gli id passati esistano
+			if(!$this->controlId($ID_utente_da_modificare))	// controllo che gli id passati esistano
 				return '{"result":false,"description":"Utente non presente nel database"}';
-
-			if($ID_utente_loggato !=  $ID_utente_da_modificare)		// controllo che il richiedente e l'utente a cui verrà modificata la password sia la stessa persona
-				return '{"result":false,"description":"L\'utente corrente cerca di modificare la password di un altro utente"}';
 
 			//CONTROLLI DELLA PASSWORD:
 			$verPsw = json_decode($this->verifyPsw($nuovaPassword));	// traduco il json in array associativo
@@ -566,7 +563,6 @@
 				
 			}else{
 			//QUERY PER CAMBIARE LA PASSWORD:
-					$codice = $_POST["code"];
 					if($this->code == $codice){
 						$q = "UPDATE schoolticket.utente SET Password = ? WHERE ?";
 						$st = $this->PDOconn->prepare($q);
@@ -800,7 +796,7 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "login"){
 }
 
 //ChangePssw:
-if(isset($_POST["Submit"]) && $_POST["Submit"] == "changePssword"){
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "changePassword"){
 
 	$control = true;
 
@@ -810,20 +806,20 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "changePssword"){
 		$control = false;
 	}
 
-	if(isset($_POST["Data"]["ID"]) && $_POST["Data"]["ID"] != false && is_numeric($_POST["Data"]["ID"]) && $_POST["Data"]["ID"] != null) {	// controllo che ci sia un utente da modificare
-		$ID_utente_da_modificare = $_POST["Data"]["ID"];
+	if(isset($_POST["Data"]["nuovaPassword"]) && $_POST["Data"]["nuovaPassword"] != false && $_POST["Data"]["nuovaPassword"] != null) {	// controllo che ci sia una password
+		$ID_utente_da_modificare = $_POST["Data"]["nuovaPassword"];
 	} else {
 		$control = false;
 	}
 
-	if(isset($_POST["Data"]["nuovaPassword"]) && $_POST["Data"]["nuovaPassword"] != false && $_POST["Data"]["nuovaPassword"] != null) {	// controllo che ci sia una password
-		$ID_utente_da_modificare = $_POST["Data"]["ID"];
+	if(isset($_POST["Data"]["codice"]) && $_POST["Data"]["codice"] != false && $_POST["Data"]["codice"] != null) {	// controllo che ci sia una password
+		$codice = $_POST["Data"]["codice"];
 	} else {
 		$control = false;
 	}
 
 	if($control)
-		echo $auth->changePassword($ID_utente_loggato, $ID_utente_da_modificare, $nuovaPassword);
+		echo $auth->changePassword($ID_utente_da_modificare, $nuovaPassword, $codice);
 	else
 		echo '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}';
 }
