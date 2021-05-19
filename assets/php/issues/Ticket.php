@@ -91,7 +91,7 @@ public function insert($Nome, $Descrizione, $Immagine, $Stato, $Priorita, $IdAul
 }
 
 // Metodo per la visualizzazione dei ticket in base ai permessi dell'utente
-public function Show($id) {
+public function show($id) {
 
   if(is_numeric($id))  // Vedere se l'utente è loggato.
   {
@@ -1136,7 +1136,7 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "Insert"){
 
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "Show"){
   $ID = 2; // $_SESSION["logged"]
-  echo $ticket -> Show($ID);
+  echo $ticket->show($ID);
 }
 
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "Union"){
