@@ -870,23 +870,24 @@ async function setDeviationTicketNumber()
 		dataType: "json",
 		success: function (response)
 		{
-			if(response.result === false)
+			
+			if(response.result.TicketTotali === false && response.result.deviation === false)
 			{
 				// In caso response.result == False --> restituisce il messaggio di errore
-				ticketTotali.innerText = "N / D";													// Messaggio restituito all'utente
+				ticketTotali.innerText = "N / D";															// Messaggio restituito all'utente
 				console.debug(response.description);
-				console.error("Errore nella restituzione dei dati da parte del server");		// Messaggio restituito su console
+				console.error("Errore nella restituzione dei dati da parte del server");					// Messaggio restituito su console
 			}
 			else
 			{
 				// In caso response.result == True --> restituisce il numero di ticket
-				ticketTotali.innerHTML = response.result;											// Restituisce all'utente il numero di ticket non visualizzati			
+				ticketTotali.innerHTML = response.result.TicketTotali + " - " + response.result.deviation;		// Restituisce all'utente il numero di ticket non visualizzati			
 			}
 		},
 		error: (response) => {
 			// Errore in caso di problemi al server
 			ticketTotali.innerText = "N / D";														// Messaggio restituito all'utente
-			console.error("Impossibile collegarsi al server");									// Messaggio restituito su console
+			console.error("Impossibile collegarsi al server");										// Messaggio restituito su console
 		}
 	});
 }
