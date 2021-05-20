@@ -75,13 +75,23 @@ function validatePassword (password)
 
 $("#submit").click(function () {
 	  
-    var email = $('input[id=email]').val(); // Utente inserisce email
-    var nome = $('input[id=nome]').val(); // Utente inserisce nome
-    var cognome = $('input[id=cognome]').val(); // Utente inserisce cognome
-    var password = $('input[id=password]').val(); // Utente inserisce password
-	var IdCategoria = $('#IdCategoria').find(":selected").val();
-	var IdPermessi = 1; // PERMESSI :(
-    var data = {"Submit": "registration", "nome": nome, "cognome": cognome, "email": email, "password": password, "IdCategoria": IdCategoria, "IdPermessi": IdPermessi};
+    let email = $('input[id=email]').val(); // Utente inserisce email
+    let nome = $('input[id=nome]').val(); // Utente inserisce nome
+    let cognome = $('input[id=cognome]').val(); // Utente inserisce cognome
+    let password = $('input[id=password]').val(); // Utente inserisce password
+	let IdCategoria = $('#IdCategoria').find(":selected").val();
+	let IdPermessi = 1; // PERMESSI :(
+    
+    let data = {"Data": {
+            "Cognome": cognome,
+            "Nome": nome,
+            "Email": email,
+            "Password": password,
+            "IdCategoria": IdCategoria,
+            "IdPermessi": IdPermessi
+        }
+    };
+
     $.ajax({
         type: "POST",
         url: HOSTNAME + '/assets/php/authentication/Authentication.php',

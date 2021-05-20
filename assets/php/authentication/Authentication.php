@@ -43,8 +43,8 @@
 		private function getAllUsers($id){
 			if(is_numeric($id))  // Vedere se l'utente è loggato.
 			{
-				$controlloId = $this->PDOconn->prepare("SELECT IdPermessi FROM utente WHERE IdUtente = $id");
-				$controlloId->execute();
+				$controlloId = $this->PDOconn->prepare("SELECT IdPermessi FROM utente WHERE IdUtente = ?");
+				$controlloId->execute([$id]);
 				while($record = $controlloId->fetch())
 					$IdPerm = $record['IdPermessi'];
 				
@@ -52,14 +52,56 @@
 				$controlloPerm->execute();
 				while($record = $controlloPerm->fetch())
 					$PermUtenti = $record['ModificaVisualizzaTuttiUtenti'];
-				
+
+					$queryPerPrelevareUtenteLoggato = "SELECT * FROM schoolticket.utente WHERE IdUtente = ?";
+					$stPerPrelevareUtenteLoggato = $this->PDOconn->prepare($queryPerPrelevareUtenteLoggato);
+					$stPerPrelevareUtenteLoggato->execute([$id]);
+
+					$queryPerPrelevareCategorieUtenteLoggato = "SELECT schoolticket.categoria.* FROM schoolticket.utente JOIN schoolticket.categoria ON schoolticket.categoria.IdCategoria = schoolticket.utente.IdCategoria WHERE IdUtente = ?";
+					$stPerPrelevareCategorieUtenteLoggato = $this->PDOconn->prepare($queryPerPrelevareCategorieUtenteLoggato);
+					$stPerPrelevareCategorieUtenteLoggato->execute([$id]);
+
+					$queryPerPrelevarePermessiUtenteLoggato = "SELECT schoolticket.permessi.* FROM schoolticket.utente JOIN schoolticket.permessi ON schoolticket.permessi.IdPermessi = schoolticket.utente.IdPermessi WHERE IdUtente = ?";
+					$stPerPrelevarePermessiUtenteLoggato = $this->PDOconn->prepare($queryPerPrelevarePermessiUtenteLoggato);
+					$stPerPrelevarePermessiUtenteLoggato->execute([$id]);
+
+					$recordPerPrelevareCategorieUtenteLoggato = $stPerPrelevareCategorieUtenteLoggato->fetchAll(PDO::FETCH_ASSOC)[0];
+					$recordPerPrelevareUtenteLoggato = $stPerPrelevareUtenteLoggato->fetchAll(PDO::FETCH_ASSOC)[0];
+					$recordPerPrelevarePermessiUtenteLoggato = $stPerPrelevarePermessiUtenteLoggato->fetchAll(PDO::FETCH_ASSOC)[0];
+					
+					//var_dump($recordPerPrelevareUtenteLoggato);
+
+					$r = '{"result": [';
+					$r .= '{"IdUtente": "';
+					$r .= $recordPerPrelevareUtenteLoggato["IdUtente"]; 
+					$r .= '" ,"Cognome": "';
+					$r .= $recordPerPrelevareUtenteLoggato["Cognome"];
+					$r .= '" ,"Nome": "';
+					$r .= $recordPerPrelevareUtenteLoggato["Nome"];
+					$r .= '" ,"Email": "';
+					$r .= $recordPerPrelevareUtenteLoggato["Email"];
+					$r .= '" ,"Password": "';
+					$r .= $recordPerPrelevareUtenteLoggato["Password"];
+					$r .= '", "Categoria": ';
+					$r .= json_encode($recordPerPrelevareCategorieUtenteLoggato);
+					$r .= ', "Permessi": ';
+					$r .= json_encode($recordPerPrelevarePermessiUtenteLoggato);
+					$r .= "},";
+
+					// inserisco in prima posizione l'utente loggato
+
+
 					$q = "SELECT * FROM schoolticket.utente";
 					$st2 = $this->PDOconn->prepare($q);
 					$st2->execute();
-					$r = '{"result": [';
+
 					$cont = 0;
 					while($record = $st2->fetch())
 					{
+
+						if($record["IdUtente"] == $_SESSION["logged"])	// se l'id dell'utente estratto è uguale a quello dell'utente loggato, lo salto perché è stato aggiunto all'inizio
+							continue;
+
 						$categoria = $record["IdCategoria"];
 						$st = $this->PDOconn->prepare("SELECT schoolticket.categoria.* FROM schoolticket.categoria WHERE schoolticket.categoria.IdCategoria = ?");		// Se è 1 visualizza tutti gli utenti
 						$result = $st->execute([$categoria]);	//Result contiene 1 o 0 in base al corretto funzionamento della query 
@@ -505,13 +547,10 @@
 		}
 
 //CAMBIO DELLA PASSWORD:
-		public function changePassword($ID_utente_loggato, $ID_utente_da_modificare, $nuovaPassword){
+		public function changePassword($ID_utente_da_modificare, $nuovaPassword, $codice){
 			
-			if(!$this->controlId($ID_utente_da_modificare) || !$this->controlId($ID_utente_loggato))	// controllo che gli id passati esistano
+			if(!$this->controlId($ID_utente_da_modificare))	// controllo che gli id passati esistano
 				return '{"result":false,"description":"Utente non presente nel database"}';
-
-			if($ID_utente_loggato !=  $ID_utente_da_modificare)		// controllo che il richiedente e l'utente a cui verrà modificata la password sia la stessa persona
-				return '{"result":false,"description":"L\'utente corrente cerca di modificare la password di un altro utente"}';
 
 			//CONTROLLI DELLA PASSWORD:
 			$verPsw = json_decode($this->verifyPsw($nuovaPassword));	// traduco il json in array associativo
@@ -524,7 +563,6 @@
 				
 			}else{
 			//QUERY PER CAMBIARE LA PASSWORD:
-					$codice = $_POST["code"];
 					if($this->code == $codice){
 						$q = "UPDATE schoolticket.utente SET Password = ? WHERE ?";
 						$st = $this->PDOconn->prepare($q);
@@ -547,6 +585,137 @@
 // ===========================================================================
 
 $auth = new Auth(DATABASE_HOST, DATABASE_NAME, DATABASE_USERNAME, DATABASE_PASSWORD, PERMESSO_DEFAULT);
+
+$method = strtoupper($_SERVER["REQUEST_METHOD"]);	// recupero il metodo con cui il client ha fatto richiesta alla pagina (server)  
+
+// switch di controllo per instradare le diverse richieste
+switch ($method) {
+	case "GET":		// richiesta GET
+		echo GET_request($auth);
+		break;
+
+	case "POST":		// richiesta POST
+		echo POST_request($auth);
+		break;
+	
+	case "PUT":		// richiesta PUT
+		# code...
+		break;
+
+	case "DELETE":		// richiesta DELETE
+		# code...
+		break;
+	
+}
+
+// funzione per selezionare il metodo della classe da richiamare
+function GET_request($auth = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
+
+	// controllo che venga passato l'oggetto della classe per la connessione con il database
+	if($auth === null)	
+		return $json_error;	
+	
+	if(isset($_SESSION["logged"]) && $_SESSION["logged"] != false) {	// controllo che ci sia un utente loggato
+		$ID_utente_loggato = $_SESSION["logged"];
+		return $auth->show($ID_utente_loggato);		// richiamo il metodo della classe per mostrare tutti gli utenti
+	} else {
+		return $json_error;
+	}
+
+	// restituisco di default il codice di errore
+	return $json_error;
+	
+
+}
+
+function POST_request($auth = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
+
+	// controllo che venga passato l'oggetto della classe per la connessione con il database
+	if($auth === null)	
+		return $json_error;	
+	
+		if(isset($_POST["Data"]) && $_POST["Data"] != null) {
+
+			$control = true;
+	
+			$data_new_user = $_POST["Data"]; 
+
+			if(isset($data_new_user["Nome"])) {
+				$nome = $data_new_user["Nome"];
+			} else {
+				$control = false;
+			}
+		
+			if(isset($data_new_user["Cognome"])) {
+				$cognome = $data_new_user["Cognome"];
+			} else {
+				$control = false;
+			}
+		
+			if(isset($data_new_user["Email"])) {
+				$email = $data_new_user["Email"];
+			} else {
+				$control = false;
+			}
+		
+			if(isset($data_new_user["Password"])) {
+				$password = $data_new_user["Password"];
+			} else {
+				$control = false;
+			}
+		
+			if(isset($data_new_user["IdCategoria"])) {
+				$IdCategoria = $data_new_user["IdCategoria"];
+			} else {
+				$control = false;
+			}
+		
+			if(isset($data_new_user["IdPermessi"])) {
+				$IdPermessi = $data_new_user["IdPermessi"];
+			} else {
+				$control = false;
+			}
+		
+			if($control)
+				return $auth->registration(/*$id,*/ $nome, $cognome, $email, $password, $IdCategoria, $IdPermessi);	// Deprecato, l'id dell'utente è autoincrementale
+			else
+				return $json_error;
+
+		} else {
+			return $json_error;
+		}
+
+	//  restituisco di default il codice di errore
+	return $json_error;
+	
+
+}
+
+function DELETE_request($auth = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
+
+	// controllo che venga passato l'oggetto della classe per la connessione con il database
+	if($auth === null)	
+		return $json_error;	
+	
+		if(isset($_POST["Submit"]) && $_POST["Submit"] == "delete"){
+
+			// controllo che sia stato passato un id
+			if(isset($_POST["Data"]) && $_POST["Data"] != "")
+				$auth -> delete($id);//L'id va peso dalla sessione!!
+			else	// altrimenti stampo un errore
+				echo '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}';
+		
+		} else {
+			return $json_error;
+		}
+
+	// in caso non sia entrato in un CASE nello SWITCH, restituisco di default il codice di errore
+	return $json_error;
+	
+
+}
+
+
 	
 //REGISTRAZIONE:
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "registration"){
@@ -591,8 +760,15 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "delete"){
 
 //SHOW:
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "show"){
-	$id = 2;	// $_SESSION["logged"];
-	echo $auth -> show($id);//L'id va peso dalla sessione!!
+	if(isset($_SESSION["logged"]) && $_SESSION["logged"] != false) {	// controllo che ci sia un utente loggato
+		$ID_utente_loggato = $_SESSION["logged"];
+		echo $auth -> show($id);	//L'id va peso dalla sessione!!
+	} else {
+
+		echo '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}';
+	}
+
+	
 }
 
 //LOGIN:
@@ -620,7 +796,7 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "login"){
 }
 
 //ChangePssw:
-if(isset($_POST["Submit"]) && $_POST["Submit"] == "changePssword"){
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "changePassword"){
 
 	$control = true;
 
@@ -630,20 +806,20 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "changePssword"){
 		$control = false;
 	}
 
-	if(isset($_POST["Data"]["ID"]) && $_POST["Data"]["ID"] != false && is_numeric($_POST["Data"]["ID"]) && $_POST["Data"]["ID"] != null) {	// controllo che ci sia un utente da modificare
-		$ID_utente_da_modificare = $_POST["Data"]["ID"];
+	if(isset($_POST["Data"]["nuovaPassword"]) && $_POST["Data"]["nuovaPassword"] != false && $_POST["Data"]["nuovaPassword"] != null) {	// controllo che ci sia una password
+		$ID_utente_da_modificare = $_POST["Data"]["nuovaPassword"];
 	} else {
 		$control = false;
 	}
 
-	if(isset($_POST["Data"]["nuovaPassword"]) && $_POST["Data"]["nuovaPassword"] != false && $_POST["Data"]["nuovaPassword"] != null) {	// controllo che ci sia una password
-		$ID_utente_da_modificare = $_POST["Data"]["ID"];
+	if(isset($_POST["Data"]["codice"]) && $_POST["Data"]["codice"] != false && $_POST["Data"]["codice"] != null) {	// controllo che ci sia una password
+		$codice = $_POST["Data"]["codice"];
 	} else {
 		$control = false;
 	}
 
 	if($control)
-		echo $auth->changePassword($ID_utente_loggato, $ID_utente_da_modificare, $nuovaPassword);
+		echo $auth->changePassword($ID_utente_da_modificare, $nuovaPassword, $codice);
 	else
 		echo '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}';
 }
