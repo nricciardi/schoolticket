@@ -143,13 +143,13 @@ function login(email, password) {
 
   var data = {
               "email": email,
-              "password": password
+              "password": password,
             };
 
   $.ajax({
       type: "LOGIN",
       url: HOSTNAME + '/assets/php/authentication/Authentication.php',
-      data : data,
+      data : JSON.stringify(data),    // invio i dati in formato JSON
       dataType: "JSON",
       success: function (res) {
           var success = res.result;
