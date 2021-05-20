@@ -141,13 +141,16 @@ function validateEmail (email)
 function login(email, password) {
   
 
-  var data = {"Submit": "login", "mail": email, "password": password};
+  var data = {
+              "email": email,
+              "password": password
+            };
 
   $.ajax({
-      type: "POST",
+      type: "LOGIN",
       url: HOSTNAME + '/assets/php/authentication/Authentication.php',
       data : data,
-      dataType: "json",
+      dataType: "JSON",
       success: function (res) {
           var success = res.result;
           if(success == false) {
