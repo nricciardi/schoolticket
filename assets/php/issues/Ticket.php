@@ -251,8 +251,12 @@ public function show($id) {
   }
   else
   {
-    $st = $this->PDOconn->prepare('SELECT * FROM schoolticket.ticket WHERE schoolticket.ticket.IdUtente =  $_SESSION["logged"]'); // Aggiungere nella query e controllare se l'IdUtente è uguale a quello nella sessione.
-    $result = $st->execute();
+    $st = $this->PDOconn->prepare('SELECT * FROM schoolticket.ticket WHERE schoolticket.ticket.IdUtente = 4 '); // $_SESSION["logged"] Aggiungere nella query e controllare se l'IdUtente è uguale a quello nella sessione.
+	$result = $st->execute();
+	if($result == false){
+		$r = '{"result":false, "description":"query non riuscita"}';
+	 	return $r;
+	}
     // stampo in formato JSON le classi
     $rows = $st->fetchAll(PDO::FETCH_ASSOC);
     $temp = (json_encode($rows));
@@ -1135,7 +1139,7 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "Insert"){
 }
 
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "Show"){
-  $ID = 2; // $_SESSION["logged"]
+  $ID = 4; // $_SESSION["logged"]
   echo $ticket->show($ID);
 }
 
