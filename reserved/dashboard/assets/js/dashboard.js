@@ -887,6 +887,7 @@ btn_change_password.addEventListener("click", () => {
     div_form_change_password.style.display = "";
 });
 
+/*
 btn_change_password2.addEventListener("click", () => {
     // nascondo tutti i form 
     hideAllDynamicPage();  
@@ -897,6 +898,7 @@ btn_change_password2.addEventListener("click", () => {
     $("#header-desktop-menu").removeClass("show-sidebar");
     $("#header-desktop-menu2").removeClass("show-sidebar");
 });
+*/
 
 btn_show_user.addEventListener("click", () => {
 

@@ -86,7 +86,7 @@
 					$r .= json_encode($recordPerPrelevareCategorieUtenteLoggato);
 					$r .= ', "Permessi": ';
 					$r .= json_encode($recordPerPrelevarePermessiUtenteLoggato);
-					$r .= "},";
+					$r .= "}";
 
 					// inserisco in prima posizione l'utente loggato
 
@@ -125,9 +125,9 @@
 						//var_dump($rows3);
 						$temp2 = (json_encode($rows3));
 						
-						if($cont == 0)
+						/*if($cont == 0)
 							$r .= ' {"IdUtente": "';
-						else
+						else*/
 							$r .= ', {"IdUtente": "';
 						$r .= $record["IdUtente"]; 
 						$r .= '" ,"Cognome": "';
@@ -593,10 +593,12 @@ switch ($method) {
 
 	// ============== CRUD ==================
 	case "GET":		// richiesta GET
+		//echo "GET";
 		echo GET_request($auth);
 		break;
 
 	case "POST":		// richiesta POST
+		//echo "POST";
 		echo POST_request($auth);
 		break;
 	
@@ -610,6 +612,7 @@ switch ($method) {
 
 	// ============= CUSTOM ===================
 	case "LOGIN":		// richiesta LOGIN
+		//echo "LOGIN";
 		echo LOGIN_request($auth);
 		break;
 	
@@ -724,39 +727,33 @@ function DELETE_request($auth = null, $json_error = '{"result":false,"descriptio
 
 function LOGIN_request($auth = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
 
-	
+	$login_data = json_decode(urldecode(file_get_contents("php://input")));	// recupero dallo stream di input del server le informazioni passate in LOGIN
 
-	return urldecode(file_get_contents("php://input"));
-
-	$login_data = json_decode(file_get_contents("php://input"));
-
-	return $login_data;
 
 	// controllo che venga passato l'oggetto della classe per la connessione con il database
 	if($auth === null)	
 		return $json_error;	
+
 	
-	if(isset($_POST["Data"]) && $_POST["Data"] != null) {
+	if(isset($login_data) && $login_data != null && !empty($login_data)) {
 
 		$control = true;
 
-		$data_new_user = $_POST["Data"]; 
-
-		if(isset($data_new_user["email"])) {
-			$mail = $data_new_user["email"];
+		if(isset($login_data->email)) {
+			$mail = $login_data->email;
 		} else {
-			$checked = false;
+			$control = false;
 		}
 
 
-		if(isset($data_new_user["password"])) {
-			$password = $data_new_user["password"];
+		if(isset($login_data->password)) {
+			$password = $login_data->password;
 		} else {
-			$checked = false;
+			$control = false;
 		}
 
-		if($checked)
-			echo $auth->login($mail, $password);
+		if($control)
+			return $auth->login($mail, $password);
 		else{
 			return $json_error;
 		}
