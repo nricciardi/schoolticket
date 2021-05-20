@@ -82,15 +82,14 @@ $("#submit").click(function () {
 	let IdCategoria = $('#IdCategoria').find(":selected").val();
 	let IdPermessi = 1; // PERMESSI :(
     
-    let data = {"Data": {
-            "Cognome": cognome,
-            "Nome": nome,
-            "Email": email,
-            "Password": password,
-            "IdCategoria": IdCategoria,
-            "IdPermessi": IdPermessi
-        }
-    };
+    let data = {
+            "cognome": cognome,
+            "nome": nome,
+            "email": email,
+            "password": password,
+            "idCategoria": IdCategoria,
+            "idPermessi": IdPermessi
+        };
 
     $.ajax({
         type: "POST",
