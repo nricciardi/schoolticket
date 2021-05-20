@@ -590,6 +590,8 @@ $method = strtoupper($_SERVER["REQUEST_METHOD"]);	// recupero il metodo con cui 
 
 // switch di controllo per instradare le diverse richieste
 switch ($method) {
+
+	// ============== CRUD ==================
 	case "GET":		// richiesta GET
 		echo GET_request($auth);
 		break;
@@ -604,6 +606,11 @@ switch ($method) {
 
 	case "DELETE":		// richiesta DELETE
 		# code...
+		break;
+
+	// ============= CUSTOM ===================
+	case "LOGIN":		// richiesta LOGIN
+		echo LOGIN_request($auth);
 		break;
 	
 }
@@ -634,44 +641,44 @@ function POST_request($auth = null, $json_error = '{"result":false,"description"
 	if($auth === null)	
 		return $json_error;	
 	
-		if(isset($_POST["Data"]) && $_POST["Data"] != null) {
+		if(isset($_POST) && $_POST != null && !empty($_POST)) {
 
 			$control = true;
 	
-			$data_new_user = $_POST["Data"]; 
+			$data_new_user = $_POST; 
 
-			if(isset($data_new_user["Nome"])) {
-				$nome = $data_new_user["Nome"];
+			if(isset($data_new_user["nome"])) {
+				$nome = $data_new_user["nome"];
 			} else {
 				$control = false;
 			}
 		
-			if(isset($data_new_user["Cognome"])) {
-				$cognome = $data_new_user["Cognome"];
+			if(isset($data_new_user["cognome"])) {
+				$cognome = $data_new_user["cognome"];
 			} else {
 				$control = false;
 			}
 		
-			if(isset($data_new_user["Email"])) {
-				$email = $data_new_user["Email"];
+			if(isset($data_new_user["email"])) {
+				$email = $data_new_user["email"];
 			} else {
 				$control = false;
 			}
 		
-			if(isset($data_new_user["Password"])) {
-				$password = $data_new_user["Password"];
+			if(isset($data_new_user["password"])) {
+				$password = $data_new_user["password"];
 			} else {
 				$control = false;
 			}
 		
-			if(isset($data_new_user["IdCategoria"])) {
-				$IdCategoria = $data_new_user["IdCategoria"];
+			if(isset($data_new_user["idCategoria"])) {
+				$IdCategoria = $data_new_user["idCategoria"];
 			} else {
 				$control = false;
 			}
 		
-			if(isset($data_new_user["IdPermessi"])) {
-				$IdPermessi = $data_new_user["IdPermessi"];
+			if(isset($data_new_user["idPermessi"])) {
+				$IdPermessi = $data_new_user["idPermessi"];
 			} else {
 				$control = false;
 			}
@@ -715,6 +722,52 @@ function DELETE_request($auth = null, $json_error = '{"result":false,"descriptio
 
 }
 
+function LOGIN_request($auth = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
+
+	
+
+	return urldecode(file_get_contents("php://input"));
+
+	$login_data = json_decode(file_get_contents("php://input"));
+
+	return $login_data;
+
+	// controllo che venga passato l'oggetto della classe per la connessione con il database
+	if($auth === null)	
+		return $json_error;	
+	
+	if(isset($_POST["Data"]) && $_POST["Data"] != null) {
+
+		$control = true;
+
+		$data_new_user = $_POST["Data"]; 
+
+		if(isset($data_new_user["email"])) {
+			$mail = $data_new_user["email"];
+		} else {
+			$checked = false;
+		}
+
+
+		if(isset($data_new_user["password"])) {
+			$password = $data_new_user["password"];
+		} else {
+			$checked = false;
+		}
+
+		if($checked)
+			echo $auth->login($mail, $password);
+		else{
+			return $json_error;
+		}
+	
+	}
+
+	// in caso non sia entrato in un CASE nello SWITCH, restituisco di default il codice di errore
+	return $json_error;
+	
+
+}
 
 	
 //REGISTRAZIONE:
