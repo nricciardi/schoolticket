@@ -5,8 +5,6 @@
     // controllo che l'utente sia loggato
     //check_session(); 
 
-    $_SESSION["logged"] = 4;
-
 ?>
 
 <!DOCTYPE html>
