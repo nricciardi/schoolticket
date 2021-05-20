@@ -776,16 +776,10 @@ form_add_ticket.addEventListener("click", () => {
     let actual_body = body_table_tickets.innerHTML
     body_table_tickets.innerHTML = createFormNewTicket() + actual_body;
 
-<<<<<<< HEAD
-    // richiamo le funzioni per aggiungere macroaree
-    addMacroaree(document.getElementById("idmacroarea"), feedback_table_management_ticket, 10);
-	addAula(document.getElementById("idaula"), feedback_table_management_ticket, 10);
-=======
     // richiamo le funzioni per aggiungere categorie e permessi
     addMacroaree(document.getElementById("macroarea_add_ticket"), feedback_table_management_ticket, 10);
     addClassroom(document.getElementById("aula_add_ticket"), feedback_table_management_ticket, 10);
 
->>>>>>> 69dcdfe4d90d90370676fcbe5d95a0177ad1224f
 });
 
 // ricarico la tabella riaggiungendola al click del bottone di refresh
