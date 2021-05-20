@@ -288,7 +288,7 @@
 			if($verify == false)
 				return '{"result":false, "description":"La password deve contenere: 8 caratteri, almeno una lettera maiuscola, minuscola, un carattere speciale e un numero."}';
 			else
-				return '{"result":true, "description":""La password è stata modificata con successo."}';
+				return '{"result":true, "description":"La password è stata modificata con successo."}';
 		}
 		
 		public function registration($nome, $cognome, $email, $psw, $IdCategoria, $IdPermessi){
