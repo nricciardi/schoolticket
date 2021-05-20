@@ -86,7 +86,7 @@
 					$r .= json_encode($recordPerPrelevareCategorieUtenteLoggato);
 					$r .= ', "Permessi": ';
 					$r .= json_encode($recordPerPrelevarePermessiUtenteLoggato);
-					$r .= "},";
+					$r .= "}";
 
 					// inserisco in prima posizione l'utente loggato
 
@@ -125,9 +125,9 @@
 						//var_dump($rows3);
 						$temp2 = (json_encode($rows3));
 						
-						if($cont == 0)
+						/*if($cont == 0)
 							$r .= ' {"IdUtente": "';
-						else
+						else*/
 							$r .= ', {"IdUtente": "';
 						$r .= $record["IdUtente"]; 
 						$r .= '" ,"Cognome": "';
