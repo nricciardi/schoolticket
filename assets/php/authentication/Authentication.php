@@ -443,6 +443,11 @@
 					return '{"result":false, "description":"Problemi durante l\'elaborazione del server, riprovare più tardi o contattare l\'assistenza"}';
 
 				$permesso = $controlloId->fetch();
+				//var_dump($permesso);
+				
+				if($permesso == false)
+					return '{"result":false, "description":"Problemi durante l\'elaborazione del server, riprovare più tardi o contattare l\'assistenza"}';
+				
 				$IdP = $permesso[0];
 				//echo $IdP;
 					if(!is_numeric($IdP)){
