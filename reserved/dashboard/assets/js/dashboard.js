@@ -67,6 +67,10 @@ var menu_gestione2 = document.getElementById("menu_gestione_2");
 var btn_show_ticket = document.getElementById("btn_show_ticket");
 var btn_show_ticket2 = document.getElementById("btn_show_ticket_2");
 
+// bottone del sotto menù gestione: btn_show_account
+var btn_show_account = document.getElementById("btn_show_account");
+var btn_show_account2 = document.getElementById("btn_show_account2");
+
 // bottone del sotto menù gestione: btn_show_user
 var btn_show_user2 = document.getElementById("btn_show_user_2");
 
@@ -156,6 +160,9 @@ async function init() {
 
     // imposto il profilo in modo dinamico
     setProfile();
+	
+	// restituisce il numero di ticket non visualizzati
+	setNewTicketNumber();
 
 }
 
@@ -483,7 +490,8 @@ function createMenu() {
 }
 
 // restituisce il codice HTML del menù funzionalità
-function settingMenuGestione() {
+function settingMenuGestione() 
+{
 
     //console.log("settingMenuGestione");
     //console.log(USER);
@@ -658,7 +666,7 @@ async function set_classrooms() {
 
     await $.ajax({
         url: HOSTNAME + '/reserved/dashboard/assets/php/Dashboard.php',
-        method: 'POST',
+        type: 'POST',
         data: data,
         dataType: "text",
         success: function( data, textStatus, jQxhr ){
@@ -686,7 +694,7 @@ async function set_user() {
 
     await $.ajax({
         url: HOSTNAME + '/assets/php/authentication/Authentication.php',
-        method: 'GET',
+        type: 'GET',
         dataType: "text",
         success: function( data, textStatus, jQxhr ){
             console.debug("set USER");
@@ -724,7 +732,7 @@ async function set_macroaree() {
 
     await $.ajax({
         url: HOSTNAME + '/reserved/dashboard/assets/php/Dashboard.php',
-        method: 'POST',
+        type: 'POST',
         data: data,
         dataType: "text",
         success: function( data, textStatus, jQxhr ){
@@ -756,7 +764,7 @@ function set_permessi() {
 
     $.ajax({
         url: HOSTNAME + '/reserved/dashboard/assets/php/Dashboard.php',
-        method: 'POST',
+        type: 'POST',
         data: data,
         dataType: "text",
         success: function( data, textStatus, jQxhr ){
@@ -787,7 +795,7 @@ async function set_categorie() {
 
     await $.ajax({
         url: HOSTNAME + '/reserved/dashboard/assets/php/Dashboard.php',
-        method: 'POST',
+        type: 'POST',
         data: data,
         dataType: "text",
         success: function( data, textStatus, jQxhr ){
@@ -807,8 +815,9 @@ async function set_categorie() {
     });					
 }
 
+
 // restituisce il numero di ticket non visualizzati
-function setNewTicketNumber()
+async function setNewTicketNumber()
 {
 	// Chiamata Ajax
 	let data = {"Submit":"NewTicketNumber"};
@@ -820,7 +829,7 @@ function setNewTicketNumber()
 		dataType: "json",
 		success: function (response)
 		{
-			if(response.result == false)
+			if(response.result === false)
 			{
 				// In caso response.result == False --> restituisce il messaggio di errore
 				newTicket.innerText = "N / D";													// Messaggio restituito all'utente
@@ -987,3 +996,152 @@ btn_show_categorie2.addEventListener("click", () => {
     $("#header-desktop-menu2").removeClass("show-sidebar");
 
 });
+
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------
+function settingMenuGestioneAccount()
+{
+
+    //console.log("settingMenuGestione");
+    //console.log(USER);
+    if(USER !== null) {
+
+        // recupero i permessi dell'utente
+        let permessi_utente = USER.Permessi;
+
+        // variabile da restituire true nel caso ci sia almeno un menu da visualizzare
+        let show = false;
+        
+        // per ogni permesso impostato su "1" elimino il display none al bottone
+        //                                                                  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! inserire sezione incarichi
+        if(permessi_utente.VisualizzaTuttiTicket === "1" || permessi_utente.ModificaTuttiTicket === "1" || permessi_utente.ModificaStatoAvanzamentoTicket === "1" || permessi_utente.UnireTicket === "1" || permessi_utente.CreaIncarico === "1" || permessi_utente.ModificaStatoAvanzamentoIncarico === "1") {
+
+            // restituirò true
+            show = true;
+
+            // tolgo il display none dal bottone associato
+            btn_show_account.style.display = "";
+            btn_show_account2.style.display = "";
+
+            console.log("if1");
+            
+        } else {
+            // continuo a tener nascosto il bottone
+            btn_show_account.style.display = "none";
+            btn_show_account2.style.display = "none";
+
+        }
+
+        if(permessi_utente.CreaModificaEliminaMacroarea === "1") {
+
+            // restituirò true
+            show = true;
+
+            // tolgo il display none dal bottone associato
+            btn_show_macroaree.style.display = "";
+            btn_show_macroaree2.style.display = "";
+
+            console.log("if2");
+            
+        } else {
+            // continuo a tener nascosto il bottone
+            btn_show_macroaree.style.display = "none";
+            btn_show_macroaree2.style.display = "none";
+
+        }
+
+        if(permessi_utente.CreaModificaEliminaCompetenza === "1") {
+
+            // restituirò true
+            show = true;
+
+            // tolgo il display none dal bottone associato
+            btn_show_competenze.style.display = "";
+            btn_show_competenze2.style.display = "";
+
+
+            console.log("if3");
+            
+        } else {
+            // continuo a tener nascosto il bottone
+            btn_show_competenze.style.display = "none";
+            btn_show_competenze2.style.display = "none";
+
+        }
+
+        if(permessi_utente.CreaModificaEliminaCategoria === "1") {
+
+            // restituirò true
+            show = true;
+
+            // tolgo il display none dal bottone associato
+            btn_show_categorie.style.display = "";
+            btn_show_categorie2.style.display = "";
+
+
+            console.log("if4");
+            
+        } else {
+            // continuo a tener nascosto il bottone
+            btn_show_categorie.style.display = "none";
+            btn_show_categorie2.style.display = "none";
+
+        }
+
+        if(permessi_utente.CreaModificaEliminaAula == "1") {
+
+            // restituirò true
+            show = true;
+
+            // tolgo il display none dal bottone associato
+            btn_show_aule.style.display = "";
+            btn_show_aule2.style.display = "";
+
+
+            console.log("if5");
+            
+        } else {
+            // continuo a tener nascosto il bottone
+            btn_show_aule.style.display = "none";
+            btn_show_aule2.style.display = "none";
+
+        }
+
+        if(permessi_utente.ModificaVisualizzaTuttiUtenti === "1") {
+
+            // restituirò true
+            show = true;
+
+            // tolgo il display none dal bottone associato
+            btn_show_user.style.display = "";
+            btn_show_user2.style.display = "";
+
+
+            console.log("if6");
+            
+        } else {
+            // continuo a tener nascosto il bottone
+            btn_show_user.style.display = "none";
+            btn_show_user2.style.display = "none";
+
+        }
+
+        /*if(permessi_utente.CreaIncarico === "1" || permessi_utente.ModificaStatoAvanzamentoIncarico === "1") {
+
+            // restituirò true
+            show = true;
+
+            // tolgo il display none dal bottone associato
+            btn_show_aule.display = "";
+            
+        } else {
+            // continuo a tener nascosto il bottone
+            btn_show_aule.display = "none";
+        }*/
+
+
+        // restituisco true se ho almeno un permesso valido
+        return show;
+    }
+
+}

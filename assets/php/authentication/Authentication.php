@@ -443,6 +443,11 @@
 					return '{"result":false, "description":"Problemi durante l\'elaborazione del server, riprovare più tardi o contattare l\'assistenza"}';
 
 				$permesso = $controlloId->fetch();
+				//var_dump($permesso);
+				
+				if($permesso == false)
+					return '{"result":false, "description":"Problemi durante l\'elaborazione del server, riprovare più tardi o contattare l\'assistenza"}';
+				
 				$IdP = $permesso[0];
 				//echo $IdP;
 					if(!is_numeric($IdP)){
@@ -563,7 +568,7 @@
 			$msg = "";
 
 			if($verPsw->result == false){
-				$msg = '{"result":false,"description":' . $verPsw->description . '}';
+				$msg = '{"result":false, "description":' . $verPsw->description . '}';
 				
 			}else{
 			//QUERY PER CAMBIARE LA PASSWORD:
@@ -992,7 +997,7 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "changePassword"){
 
 //SendCode:
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "sendCode"){
-	$id_to_send_code = 1; // $_SESSION["logged"];
+	$id_to_send_code = 2; // $_SESSION["logged"];
  	echo $auth -> sendCode($id_to_send_code);
 }
 
