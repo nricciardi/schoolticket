@@ -14,64 +14,64 @@ var general_checkbox_account = document.getElementById("general_checkbox_account
 // bottone per il refresh della schermata
 var btn_refresh_management_account = document.getElementById("btn_refresh_management_account");
 
-// span di risposta per la tabella management user
-var feedback_table_management_user = document.getElementById("feedback_table_management_user");
+// span di risposta per la tabella management account
+var feedback_table_management_account = document.getElementById("feedback_table_management_account");
 
-// variabile di controllo per il form new user
-var check_new_surname_user = false;
-var check_new_name_user = false;
-var check_new_email_user = false;
-var check_new_password_user = false;
+// variabile di controllo per il form new account
+var check_new_surname_account = false;
+var check_new_name_account = false;
+var check_new_email_account = false;
+var check_new_password_account = false;
 
 // btn per eliminare gli utenti selezionati
-var btn_delete_checked_user = document.getElementById("btn_delete_checked_user");
+var btn_delete_checked_account = document.getElementById("btn_delete_checked_account");
 
 // -------------------------------------------------------------------------------
 // ---------------------- FUNZIONI GENERICHE -------------------------------------
 // -------------------------------------------------------------------------------
 
 // restituisce il codice html in formato stringa da inserire nella tabella dato un oggetto ordinato in base all'intestazione della tabella
-function createRecordUser(user) {   //User è un oggetto contenente le informazioni del record IdUtente, Cognome, Nome, Email, Password, IdCategoria, IdPermessi
+function createRecordaccount(account) {   //account è un oggetto contenente le informazioni del record IdUtente, Cognome, Nome, Email, Password, IdCategoria, IdPermessi
 
     // record che sarà restituito
     let record = "";
 
     // inserisco la parte del CHECKBOX del record (tr)
-    record += '<tr class="tr-shadow" id="recordUser' + user.IdUtente + '">'; // inserisco il tag di apertura
+    record += '<tr class="tr-shadow" id="recordaccount' + account.IdUtente + '">'; // inserisco il tag di apertura
 
     record += '<td>';       // creo il primo campo
     record += '<label class="au-checkbox">';
-    record += '<input type="checkbox" onclick="checkCheckboxUser()" name="checkRecord[]" value="' + user.IdUtente + '" id="checkbox' + user.IdUtente + '">';    // inserisco il checkbox con valore l'ID dell'utente
+    record += '<input type="checkbox" onclick="checkCheckboxaccount()" name="checkRecord[]" value="' + account.IdUtente + '" id="checkbox' + account.IdUtente + '">';    // inserisco il checkbox con valore l'ID dell'utente
     record += '<span class="au-checkmark"></span>';
     record += '</label>    </td>';
 
     // inserisco l'ID
-    // Predisposizione IdUtente: record += '<td>' + user.IdUtente + '</td>';
+    // Predisposizione IdUtente: record += '<td>' + account.IdUtente + '</td>';
     
     // inserisco il COGNOME
-    record += '<td id="surnameUser' + user.IdUtente + '">' + user.Cognome + '</td>';
+    record += '<td id="surnameaccount' + account.IdUtente + '">' + account.Cognome + '</td>';
     
     // inserisco il NOME
-    record += '<td id="nameUser' + user.IdUtente + '">' + user.Nome + '</td>';
+    record += '<td id="nameaccount' + account.IdUtente + '">' + account.Nome + '</td>';
     
     // inserisco l'EMAIL
-    record += '<td id="emailUser' + user.IdUtente + '"><span class="block-email">' + user.Email + '</span></td>';
+    record += '<td id="emailaccount' + account.IdUtente + '"><span class="block-email">' + account.Email + '</span></td>';
 
     // inserisco la PASSWORD
-    //record += '<td id="passwordUser' + user.IdUtente + '"><span class="block-email">' + cutString(user.Password, 10) + '</span></td>';
+    //record += '<td id="passwordaccount' + account.IdUtente + '"><span class="block-email">' + cutString(account.Password, 10) + '</span></td>';
     
     // inserisco la CATEGORIA
-    record += '<td id="categoriaUser' + user.IdUtente + '" data-categoria="' + user.Categoria.IdCategoria + '">' + user.Categoria.Nome + '</td>';
+    record += '<td id="categoriaaccount' + account.IdUtente + '" data-categoria="' + account.Categoria.IdCategoria + '">' + account.Categoria.Nome + '</td>';
 
     // inserisco i PERMESSI
-    record += '<td id="permessiUser' + user.IdUtente + '" data-permessi="' + user.Permessi.IdPermessi + '">' + user.Permessi.Descrizione + '</td>';
+    record += '<td id="permessiaccount' + account.IdUtente + '" data-permessi="' + account.Permessi.IdPermessi + '">' + account.Permessi.Descrizione + '</td>';
 
     // inserisco i bottoni per le diverse azioni
-    record += '<td id="td_action_userId_' + user.IdUtente + '"> <div class="table-data-feature">';
-    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Send" id="sendUser' + user.IdUtente + '" onclick="requestActionUser(\'send\', ' + user.IdUtente + ')">    <i class="zmdi zmdi-mail-send"></i> </button>';        // tasto SEND
-    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Edit" id="editUser' + user.IdUtente + '" onclick="requestActionUser(\'edit\', ' + user.IdUtente + ')">    <i class="zmdi zmdi-edit"></i>  </button>';            // tasto EDIT
-    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Delete" id="deleteUser' + user.IdUtente + '" onclick="requestActionUser(\'delete\', ' + user.IdUtente + ')">  <i class="zmdi zmdi-delete"></i>    </button>';    // tasto DELETE                                    
-    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="More" id="moreUser' + user.IdUtente + '" onclick="requestActionUser(\'more\', ' + user.IdUtente + ')">    <i class="zmdi zmdi-more"></i>  </button>';       // tasto MORE       
+    record += '<td id="td_action_accountId_' + account.IdUtente + '"> <div class="table-data-feature">';
+    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Send" id="sendaccount' + account.IdUtente + '" onclick="requestActionaccount(\'send\', ' + account.IdUtente + ')">    <i class="zmdi zmdi-mail-send"></i> </button>';        // tasto SEND
+    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Edit" id="editaccount' + account.IdUtente + '" onclick="requestActionaccount(\'edit\', ' + account.IdUtente + ')">    <i class="zmdi zmdi-edit"></i>  </button>';            // tasto EDIT
+    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Delete" id="deleteaccount' + account.IdUtente + '" onclick="requestActionaccount(\'delete\', ' + account.IdUtente + ')">  <i class="zmdi zmdi-delete"></i>    </button>';    // tasto DELETE                                    
+    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="More" id="moreaccount' + account.IdUtente + '" onclick="requestActionaccount(\'more\', ' + account.IdUtente + ')">    <i class="zmdi zmdi-more"></i>  </button>';       // tasto MORE       
     record += '</div>   </td>   </tr>';
 
     // inserisco il record di spaziatura
@@ -83,7 +83,7 @@ function createRecordUser(user) {   //User è un oggetto contenente le informazi
 }
 
 // funzione che crea un box per la conferma prima di eseguire effettivamente "send", "edit", "delete" o "more"
-function requestActionUser(type, ID) {      // passo il tipo di richiesta che viene chiesta 
+function requestActionaccount(type, ID) {      // passo il tipo di richiesta che viene chiesta 
     switch (type) {
         case "send":
             
@@ -91,15 +91,15 @@ function requestActionUser(type, ID) {      // passo il tipo di richiesta che vi
     
         case "edit":
             
-            changeRecordUserToForm(ID);
+            changeRecordaccountToForm(ID);
             break;
 
         case "delete":
             // creo il form per la conferma
-            form_html = createRequestActionUser(type, ID);
+            form_html = createRequestActionaccount(type, ID);
 
             // ricavo il td dell'utente passato per inserire la richiesta
-            document.getElementById("td_action_userId_" + ID).innerHTML = form_html;
+            document.getElementById("td_action_accountId_" + ID).innerHTML = form_html;
 
             break;
         case "more":
@@ -112,7 +112,7 @@ function requestActionUser(type, ID) {      // passo il tipo di richiesta che vi
 }
 
 // crea il codice HTML per la richiesta da aggiungere sopra il bottone cliccato
-function createRequestActionUser(type, ID) {
+function createRequestActionaccount(type, ID) {
     
     let question = "Sei sicuro ";
 
@@ -144,10 +144,10 @@ function createRequestActionUser(type, ID) {
     // inserisco il form dimanico
     request +=
         '<strong>' + question + '</strong>' +
-        '<button type="button" class="btn btn-primary btn-sm" onclick="' + type + 'User(' + ID + ')" style="margin-left: 0.5vw; border-radius: 5%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
+        '<button type="button" class="btn btn-primary btn-sm" onclick="' + type + 'account(' + ID + ')" style="margin-left: 0.5vw; border-radius: 5%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
             '<i class="far fa-check-circle"></i> Sì' +
         '</button>' + // nel caso di click su annulla viene ricreata la tabella
-        '<button type="button" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%" onclick="createTableUser()">' + 
+        '<button type="button" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%" onclick="createTableaccount()">' + 
             '<!--<i class="fas fa-minus-circle"></i>--> Annulla' + 
         '</button>';
 
@@ -156,13 +156,13 @@ function createRequestActionUser(type, ID) {
 }
 
 // richiama gli utenti dal database tramite chiamata AJAX e successivamente crea la tabella
-function createTableUser() {
+function createTableaccount() {
 
-    feedback_table_management_user.innerText = "Sto caricando la tabella...";
-    feedback_table_management_user.style.color = "#ededed";
+    feedback_table_management_account.innerText = "Sto caricando la tabella...";
+    feedback_table_management_account.style.color = "#ededed";
     
     // elimino gli elementi esistenti
-    body_table_users.innerHTML = "";
+    body_table_accounts.innerHTML = "";
 
     // effettuo la chiamata
     $.ajax({
@@ -176,21 +176,21 @@ function createTableUser() {
             if(res.result === false) {
 
                 // in caso di errore stampo un messaggio nel box al posto della tabella
-                feedback_table_management_user.innerText = res.description;
-                feedback_table_management_user.style.color = error_data;
+                feedback_table_management_account.innerText = res.description;
+                feedback_table_management_account.style.color = error_data;
 
             } else {    // in caso positivo creo la tabella per gli utenti
 
                 // recupero gli utenti passati da "result"
-                let users = res.result;
+                let accounts = res.result;
 
                 console.log(res.description);
 
-                // per ogni utente in users creo il codice HTML per il record
-                users.forEach((element) => {
+                // per ogni utente in accounts creo il codice HTML per il record
+                accounts.forEach((element) => {
 
                     // aggiungo il record alla tabella
-                    body_table_users.innerHTML += createRecordUser(element);
+                    body_table_accounts.innerHTML += createRecordaccount(element);
 
                 });
                 
@@ -203,23 +203,23 @@ function createTableUser() {
             console.error("Errore durante la chiamata per la creazione della tabella, il server non risponde o il risultato non è in formato JSON");
 
             // in caso di errore stampo un messaggio nel box al posto della tabella
-            feedback_table_management_user.innerText = "Errore durante la connessione con il server, riprovare più tardi o contattare l'assistenza.";
-            feedback_table_management_user.style.color = error_data;
+            feedback_table_management_account.innerText = "Errore durante la connessione con il server, riprovare più tardi o contattare l'assistenza.";
+            feedback_table_management_account.style.color = error_data;
 
         }
     });
 }
 
 // in base all'id passato cerco di creare un nuovo utente
-function addUser() {
+function addaccount() {
     console.log("Aggiungo un utente");
 
     // controllo che tutti i controlli siano andati a buon fine
-    if(!check_form_new_user)
+    if(!check_form_new_account)
         return false;
 
     // creo l'oggetto data da mandare in post
-    let data = {"Submit": "registration", "nome": document.getElementById("newNameUser").value, "email": document.getElementById("newEmailUser").value, "cognome": document.getElementById("newSurnameUser").value, "password": document.getElementById("newPasswordUser").value, "IdCategoria": document.getElementById("categoria_add_user").value, "IdPermessi": document.getElementById("permessi_add_user").value};
+    let data = {"Submit": "registration", "nome": document.getElementById("newNameaccount").value, "email": document.getElementById("newEmailaccount").value, "cognome": document.getElementById("newSurnameaccount").value, "password": document.getElementById("newPasswordaccount").value, "IdCategoria": document.getElementById("categoria_add_account").value, "IdPermessi": document.getElementById("permessi_add_account").value};
 
     // effettuo la chiamata ajax
     $.ajax({
@@ -235,13 +235,13 @@ function addUser() {
             if(res.result === false) {
 
                 // in caso di errore stampo un messaggio nel box al posto della tabella
-                feedback_table_management_user.innerText = res.description;
-                feedback_table_management_user.style.color = error_data;
+                feedback_table_management_account.innerText = res.description;
+                feedback_table_management_account.style.color = error_data;
 
             } else {
 
                 // in caso positivo creo la tabella per gli utenti
-                createTableUser();
+                createTableaccount();
                 
             }
 
@@ -249,10 +249,10 @@ function addUser() {
         error: (res) => {
 
             // in caso di errore stampo un messaggio nel box al posto della tabella
-            //div_management_users.innerText = "Errore durante la connessione con il server, riprovare più tardi o contattare l'assistenza.";
-            //div_management_users.style.color = error_data;
-            feedback_table_management_user.innerText = "Errore durante la connessione con il server, riprovare più tardi o contattare l'assistenza.";
-            feedback_table_management_user.style.color = error_data;
+            //div_management_accounts.innerText = "Errore durante la connessione con il server, riprovare più tardi o contattare l'assistenza.";
+            //div_management_accounts.style.color = error_data;
+            feedback_table_management_account.innerText = "Errore durante la connessione con il server, riprovare più tardi o contattare l'assistenza.";
+            feedback_table_management_account.style.color = error_data;
         }
 
     });
@@ -260,12 +260,12 @@ function addUser() {
 }
 
 // in base all'id passato elimino l'utente
-function editUser(ID) {   // può anche essere passato un array
+function editaccount(ID) {   // può anche essere passato un array
     
     console.log("Modifico: " + ID);
 
     // creo l'oggetto data da mandare in post
-    let data = {"Submit": "Update", "IdCategoria": document.getElementById("editCategoriaUser").value, "IdPermessi": document.getElementById("editCategoriaUser").value};
+    let data = {"Submit": "Update", "IdCategoria": document.getElementById("editCategoriaaccount").value, "IdPermessi": document.getElementById("editCategoriaaccount").value};
 
     // effettuo la chiamata ajax
     $.ajax({
@@ -281,13 +281,13 @@ function editUser(ID) {   // può anche essere passato un array
             if(res.result === false) {
 
                 // in caso di errore stampo un messaggio nel box al posto della tabella
-                feedback_table_management_user.innerText = res.description;
-                feedback_table_management_user.style.color = error_data;
+                feedback_table_management_account.innerText = res.description;
+                feedback_table_management_account.style.color = error_data;
 
             } else {
 
                 // in caso positivo creo la tabella per gli utenti
-                createTableUser();
+                createTableaccount();
 
             }
 
@@ -295,10 +295,10 @@ function editUser(ID) {   // può anche essere passato un array
         error: (res) => {
 
             // in caso di errore stampo un messaggio nel box al posto della tabella
-            //div_management_users.innerText = "Errore durante la connessione con il server, riprovare più tardi o contattare l'assistenza.";
-            //div_management_users.style.color = error_data;
-            feedback_table_management_user.innerText = "Errore durante la connessione con il server, riprovare più tardi o contattare l'assistenza.";
-            feedback_table_management_user.style.color = error_data;
+            //div_management_accounts.innerText = "Errore durante la connessione con il server, riprovare più tardi o contattare l'assistenza.";
+            //div_management_accounts.style.color = error_data;
+            feedback_table_management_account.innerText = "Errore durante la connessione con il server, riprovare più tardi o contattare l'assistenza.";
+            feedback_table_management_account.style.color = error_data;
         }
 
     });
@@ -306,7 +306,7 @@ function editUser(ID) {   // può anche essere passato un array
 }
 
 // in base all'id passato elimino l'utente
-function deleteUser(ID) {   // può anche essere passato un array
+function deleteaccount(ID) {   // può anche essere passato un array
     
     console.log("Elimino: " + ID);
 
@@ -327,13 +327,13 @@ function deleteUser(ID) {   // può anche essere passato un array
             if(res.result === false) {
 
                 // in caso di errore stampo un messaggio nel box al posto della tabella
-                feedback_table_management_user.innerText = res.description;
-                feedback_table_management_user.style.color = error_data;
+                feedback_table_management_account.innerText = res.description;
+                feedback_table_management_account.style.color = error_data;
 
             } else {
 
                 // in caso positivo creo la tabella per gli utenti
-                createTableUser();
+                createTableaccount();
 
             }
 
@@ -341,10 +341,10 @@ function deleteUser(ID) {   // può anche essere passato un array
         error: (res) => {
 
             // in caso di errore stampo un messaggio nel box al posto della tabella
-            //div_management_users.innerText = "Errore durante la connessione con il server, riprovare più tardi o contattare l'assistenza.";
-            //div_management_users.style.color = error_data;
-            feedback_table_management_user.innerText = "Errore durante la connessione con il server, riprovare più tardi o contattare l'assistenza.";
-            feedback_table_management_user.style.color = error_data;
+            //div_management_accounts.innerText = "Errore durante la connessione con il server, riprovare più tardi o contattare l'assistenza.";
+            //div_management_accounts.style.color = error_data;
+            feedback_table_management_account.innerText = "Errore durante la connessione con il server, riprovare più tardi o contattare l'assistenza.";
+            feedback_table_management_account.style.color = error_data;
         }
 
     });
@@ -352,72 +352,72 @@ function deleteUser(ID) {   // può anche essere passato un array
 }
 
 // imposta tutti i checkbox dei record della tabella utenti con la modalità passata
-function setCheckboxRecordUser(mode) {
+function setCheckboxRecordaccount(mode) {
     
     // per ogni id checkboxN, imposto su true il checked
-    for (let index = 0; index < body_table_users.childElementCount; index += 2) {
+    for (let index = 0; index < body_table_accounts.childElementCount; index += 2) {
         
         // tramite il body della tabella, richiamo i suoi elementi figli e recupero l'input checkbox impostandolo con mode
-        body_table_users.children.item(index).getElementsByTagName("input")[0].checked = mode;
+        body_table_accounts.children.item(index).getElementsByTagName("input")[0].checked = mode;
     }       
 }
 
 // crea il codice HTML del form da inserire in formato record per creare un nuovo utente
-function createFormNewUser() {
+function createFormNewaccount() {
     
     // record che sarà restituito
     let record = "";
 
     // inserisco la parte del CHECKBOX del record (tr)
-    record += '<tr class="tr-shadow" id="form_new_user">'; // inserisco il tag di apertura
+    record += '<tr class="tr-shadow" id="form_new_account">'; // inserisco il tag di apertura
 
     record += '<td>';       // creo il primo campo
     //record += '<label class="au-checkbox">';
-    //record += '<input type="checkbox" name="checkRecord[]" value="checkboxAddUser" id="checkboxAddUser" disabled>';    // inserisco il checkbox con valore l'ID dell'utente
+    //record += '<input type="checkbox" name="checkRecord[]" value="checkboxAddaccount" id="checkboxAddaccount" disabled>';    // inserisco il checkbox con valore l'ID dell'utente
     //record += '<span class="au-checkmark"></span>';
     //record += '</label>'; 
-    //record += '<i class="fas fa-user-plus"></i>';
+    //record += '<i class="fas fa-account-plus"></i>';
     record += '</td>';
 
     // inserisco l'ID
-    // Predisposizione IdUtente: record += '<td>' + user.IdUtente + '</td>';
+    // Predisposizione IdUtente: record += '<td>' + account.IdUtente + '</td>';
     
     // inserisco il COGNOME
     record += '<td>' + 
-    '<input type="text" placeholder="Cognome" oninput="checkNewSurnameUser()" class="form-control" id="newSurnameUser">' + 
+    '<input type="text" placeholder="Cognome" oninput="checkNewSurnameaccount()" class="form-control" id="newSurnameaccount">' + 
     '</td>';
     
     // inserisco il NOME
     record += '<td>' + 
-    '<input type="text" placeholder="Nome" oninput="checkNewNameUser()" class="form-control" id="newNameUser">' + 
+    '<input type="text" placeholder="Nome" oninput="checkNewNameaccount()" class="form-control" id="newNameaccount">' + 
     '</td>';
     
     // inserisco l'EMAIL
     record += '<td>' + 
-    '<input type="email" placeholder="Email" oninput="checkNewEmailUser()" class="form-control" id="newEmailUser">' + 
+    '<input type="email" placeholder="Email" oninput="checkNewEmailaccount()" class="form-control" id="newEmailaccount">' + 
     '</td>';
 
     // inserisco la PASSWORD
     record += '<td>' + 
-    '<input type="password" placeholder="Password" oninput="checkNewPasswordUser()" class="form-control" id="newPasswordUser">' + 
+    '<input type="password" placeholder="Password" oninput="checkNewPasswordaccount()" class="form-control" id="newPasswordaccount">' + 
     '</td>';
 
     
     // inserisco la CATEGORIA
     record += '<td>';
-    record += '<select name="select" class="form-control" id="categoria_add_user"></select>';
+    record += '<select name="select" class="form-control" id="categoria_add_account"></select>';
     record += '</td>';
 
     // inserisco i PERMESSI
     record += '<td>';
-    record += '<select name="select" class="form-control" id="permessi_add_user"></select>';
+    record += '<select name="select" class="form-control" id="permessi_add_account"></select>';
     record += '</td>';
 
     // inserisco i bottoni per le diverse azioni
-    record += '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_user" onclick="addUser()" style="margin-left: 0.5vw; border-radius: 5%" disabled>' +   // aggiungo l'onclick per effettuare correttamente l'azione
+    record += '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_account" onclick="addaccount()" style="margin-left: 0.5vw; border-radius: 5%" disabled>' +   // aggiungo l'onclick per effettuare correttamente l'azione
         '<i class="far fa-check-circle"></i> Conferma' +
     '</button>' + 
-    '<button type="button" onclick="createTableUser()" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%">' + 
+    '<button type="button" onclick="createTableaccount()" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%">' + 
         '<!--<i class="fas fa-minus-circle"></i>--> Annulla' + 
     '</button></td>';
 
@@ -431,150 +431,150 @@ function createFormNewUser() {
 }
 
 // imposto le funzioni per gli eventi del form 
-function checkNewSurnameUser(ID = "newSurnameUser") {
+function checkNewSurnameaccount(ID = "newSurnameaccount") {
     
     // controllo che sia aggiunto almeno un valore per il cognome
 
     if(document.getElementById(ID).value.trim() == "") {
 
         document.getElementById(ID).style.borderColor = error_data;
-        check_new_surname_user = false;
+        check_new_surname_account = false;
 
     } else {
 
-        check_new_surname_user = true;
+        check_new_surname_account = true;
         document.getElementById(ID).style.borderColor = correct_data;
 
     }
 
     // controllo se posso abilitare il bottone di conferma
-    checkFormNewUser();
+    checkFormNewaccount();
 
 }
 
-function checkNewNameUser(ID = "newNameUser") {
+function checkNewNameaccount(ID = "newNameaccount") {
     
     // controllo che sia aggiunto almeno un valore per il nome
 
     if(document.getElementById(ID).value.trim() == "") {
 
         document.getElementById(ID).style.borderColor = error_data;
-        check_new_name_user = false;
+        check_new_name_account = false;
 
     } else {
 
-        check_new_name_user = true;
+        check_new_name_account = true;
         document.getElementById(ID).style.borderColor = correct_data;
 
     }
 
     // controllo se posso abilitare il bottone di conferma
-    checkFormNewUser();
+    checkFormNewaccount();
 
 }
 
 // imposto le funzioni per gli eventi del form 
-function checkNewEmailUser(ID = "newEmailUser") {
+function checkNewEmailaccount(ID = "newEmailaccount") {
     
     // controllo che sia aggiunto almeno un valore per il email
 
     if(document.getElementById(ID).value.trim() == "") {
 
         document.getElementById(ID).style.borderColor = error_data;
-        check_new_email_user = false;
+        check_new_email_account = false;
 
     } else {
 
-        check_new_email_user = true;
+        check_new_email_account = true;
         document.getElementById(ID).style.borderColor = correct_data;
 
     }
 
     // controllo se posso abilitare il bottone di conferma
-    checkFormNewUser();
+    checkFormNewaccount();
 
 }
 
-function checkNewPasswordUser(ID = "newPasswordUser") {
+function checkNewPasswordaccount(ID = "newPasswordaccount") {
     
     // controllo che sia aggiunto almeno un valore per il email
 
     if(document.getElementById(ID).value.trim() == "") {
 
         document.getElementById(ID).style.borderColor = error_data;
-        check_new_password_user = false;
+        check_new_password_account = false;
 
     } else {
 
-        check_new_password_user = true;
+        check_new_password_account = true;
         document.getElementById(ID).style.borderColor = correct_data;
 
     }
 
     // controllo se posso abilitare il bottone di conferma
-    checkFormNewUser();
+    checkFormNewaccount();
 
 }
 
 // funzione che modifica il record della tabella con id passato, predisponendolo come form
-function changeRecordUserToForm(ID) {
+function changeRecordaccountToForm(ID) {
     
     // elimino il form per l'inserimento di un nuovo utente
-    removeForm("form_new_user");
+    removeForm("form_new_account");
     
     // DEPRECATI
     /*
     // COGNOME
     // recupero la referenza del cognome del record della tabella tramite ID
-    let td_surname = document.getElementById("surnameUser" + ID);
+    let td_surname = document.getElementById("surnameaccount" + ID);
     surname = td_surname.innerText;     // recupero il valore del cognome
 
     // modifico la label in un input:text
-    td_surname.innerHTML = '<input type="text" placeholder="Cognome" value="' + surname + '" oninput="checkNewSurnameUser(\'editSurname\')" class="form-control" id="editSurname">'
+    td_surname.innerHTML = '<input type="text" placeholder="Cognome" value="' + surname + '" oninput="checkNewSurnameaccount(\'editSurname\')" class="form-control" id="editSurname">'
 
     // NOME
     // recupero la referenza del cognome del record della tabella tramite ID
-    let td_name = document.getElementById("nameUser" + ID);
+    let td_name = document.getElementById("nameaccount" + ID);
     name = td_name.innerText;     // recupero il valore del cognome
 
     // modifico la label in un input:text
-    td_name.innerHTML = '<input type="text" placeholder="Nome" value="' + name + '" oninput="checkNewNameUser(\'editName\')" class="form-control" id="editName">'
+    td_name.innerHTML = '<input type="text" placeholder="Nome" value="' + name + '" oninput="checkNewNameaccount(\'editName\')" class="form-control" id="editName">'
 
     // EMAIL
     // recupero la referenza del cognome del record della tabella tramite ID
-    let td_email = document.getElementById("emailUser" + ID);
+    let td_email = document.getElementById("emailaccount" + ID);
     email = td_email.innerText;     // recupero il valore del cognome
 
     // modifico la label in un input:text
-    td_email.innerHTML = '<input type="email" placeholder="Email" value="' + email + '" oninput="checkNewEmailUser(\'editEmail\')" class="form-control" id="editEmail">'
+    td_email.innerHTML = '<input type="email" placeholder="Email" value="' + email + '" oninput="checkNewEmailaccount(\'editEmail\')" class="form-control" id="editEmail">'
     */
 
     // CATEGORIA
     // recupero la referenza della categoria del record della tabella tramite ID
-    let td_categoria = document.getElementById("categoriaUser" + ID);
+    let td_categoria = document.getElementById("categoriaaccount" + ID);
     categoria = td_categoria.dataset.categoria;     // recupero il valore del cognome
 
-    td_categoria.innerHTML = '<select id="editCategoriaUser" class="form-control"></select>';   // creo il select contenitore
-    addCategorie(document.getElementById("editCategoriaUser"), feedback_table_management_user, 10);      // aggiungo le categorie
-    document.getElementById("editCategoriaUser").value = categoria;     // imposto il valore corrente
+    td_categoria.innerHTML = '<select id="editCategoriaaccount" class="form-control"></select>';   // creo il select contenitore
+    addCategorie(document.getElementById("editCategoriaaccount"), feedback_table_management_account, 10);      // aggiungo le categorie
+    document.getElementById("editCategoriaaccount").value = categoria;     // imposto il valore corrente
 
     // PERMESSI
     // recupero la referenza della categoria del record della tabella tramite ID
-    let td_permessi = document.getElementById("permessiUser" + ID);
+    let td_permessi = document.getElementById("permessiaccount" + ID);
     permessi = td_permessi.dataset.permessi;     // recupero il valore del cognome
 
-    td_permessi.innerHTML = '<select id="editPermessiUser" class="form-control"></select>';   // creo il select contenitore
-    addPermessi(document.getElementById("editPermessiUser"), feedback_table_management_user, 10);      // aggiungo le categorie
-    document.getElementById("editPermessiUser").value = permessi;       // imposto il valore corrente
+    td_permessi.innerHTML = '<select id="editPermessiaccount" class="form-control"></select>';   // creo il select contenitore
+    addPermessi(document.getElementById("editPermessiaccount"), feedback_table_management_account, 10);      // aggiungo le categorie
+    document.getElementById("editPermessiaccount").value = permessi;       // imposto il valore corrente
 
 
 
     // ACTION
-    let td_action_userId = document.getElementById("td_action_userId_" + ID);
-    td_action_userId.innerHTML = '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_user" onclick="editUser(' + ID + ')" style="margin-left: 0.5vw; border-radius: 5%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
+    let td_action_accountId = document.getElementById("td_action_accountId_" + ID);
+    td_action_accountId.innerHTML = '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_account" onclick="editaccount(' + ID + ')" style="margin-left: 0.5vw; border-radius: 5%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
         '<i class="far fa-check-circle"></i> Conferma' +
     '</button>' + 
-    '<button type="button" onclick="createTableUser()" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%">' + 
+    '<button type="button" onclick="createTableaccount()" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%">' + 
         '<!--<i class="fas fa-minus-circle"></i>--> Annulla' + 
     '</button></td>';
 
@@ -582,15 +582,15 @@ function changeRecordUserToForm(ID) {
 } 
 
 // funzione che elimina tutti gli id selezionati 
-function getArrayUsersChecked() {
+function getArrayaccountsChecked() {
 
     let array = Array();
     
     // per ogni record della tabella cerco l'input checkbox
-    for (let index = 0; index < body_table_users.childElementCount; index++) {
+    for (let index = 0; index < body_table_accounts.childElementCount; index++) {
         
         // verifico che non sia un record spacer verificando che esista un figlio
-        let tr = body_table_users.children[index];
+        let tr = body_table_accounts.children[index];
         if(tr.firstElementChild != null) {
             let checkbox = tr.firstElementChild.firstElementChild.firstElementChild;
             let checkbox_checked = checkbox.checked;
@@ -608,21 +608,21 @@ function getArrayUsersChecked() {
 }
 
 // controllo se abilitare il bottone
-function checkCheckboxUser() {
+function checkCheckboxaccount() {
     
-    let array = getArrayUsersChecked();
+    let array = getArrayaccountsChecked();
 
     console.log(array);
 
     if(array.length > 0) {
 
-        btn_delete_checked_user.removeAttribute("disabled");
-        btn_delete_checked_user.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella ' + array.length + ' utenti selezionati</font></font>';
+        btn_delete_checked_account.removeAttribute("disabled");
+        btn_delete_checked_account.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella ' + array.length + ' utenti selezionati</font></font>';
 
     } else {
 
-        btn_delete_checked_user.setAttribute("disabled", "disabled");
-        btn_delete_checked_user.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella 0 utenti selezionati</font></font>';
+        btn_delete_checked_account.setAttribute("disabled", "disabled");
+        btn_delete_checked_account.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella 0 utenti selezionati</font></font>';
 
     }
 
@@ -633,47 +633,49 @@ function checkCheckboxUser() {
 // ----------------------------------------------------------------
 
 // al click del checkbox generale, verifico il suo stato e modifico tutti quelli presenti di conseguenza
-general_checkbox_users.addEventListener("change", () => {
+general_checkbox_accounts.addEventListener("change", () => {
     
     // controllo lo stato del bottone e richiamo la funzione con il valore del checkbox giusta
-    setCheckboxRecordUser(general_checkbox_users.checked);
-    checkCheckboxUser();
+    setCheckboxRecordaccount(general_checkbox_accounts.checked);
+    checkCheckboxaccount();
     
 });
 // ricarico la tabella riaggiungendola al click del bottone di refresh
-btn_refresh_management_user.addEventListener("click", () => {
+btn_refresh_management_account.addEventListener("click", () => {
 
     
 
     // disabilito il bottone per 3 secondi
     
     // creo la tabella
-    createTableUser();
+    createTableaccount();
 
     // disabilito il bottone
-    btn_refresh_management_user.disabled = true;
+    btn_refresh_management_account.disabled = true;
 
     // cambio il colore per dare un feedback
-    btn_refresh_management_user.color = "#ededed";
+    btn_refresh_management_account.color = "#ededed";
 
     setTimeout(() => {
         
         // abilito il bottone
-        btn_refresh_management_user.disabled = false;
+        btn_refresh_management_account.disabled = false;
 
         // cambio il colore per dare un feedback
-        btn_refresh_management_user.color = "#6C757D";
+        btn_refresh_management_account.color = "#6C757D";
 
     }, 3000);
 });
 
 // al click elimino tutti gli utenti selezionati
-btn_delete_checked_user.addEventListener("click", () => {
+btn_delete_checked_account.addEventListener("click", () => {
 
     // richiamo al funzione per elimiare
-    deleteUser(getArrayUsersChecked());
+    deleteaccount(getArrayaccountsChecked());
 
 });
+
+button.onclick("
 
 // -------------------------------------------------------------------------------
 // ---------------------- RICHIAMO FUNZIONI --------------------------------------
