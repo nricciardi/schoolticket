@@ -969,6 +969,7 @@ public function NewTicketNumber(){//Restituisce il numero di ticket non letti:
     return $st;
   }
   $valore = $st->fetchAll();
+  
 
 //Vedo il risultato come un array e conto da quanti elementi è composto;
   $num = 0;
@@ -1153,7 +1154,6 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "ChangePriority"){
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "Update"){
   echo $ticket -> Update();
 }
-
 
 //echo $ticket -> Update(3, "Alle", "", "", "", "", "", "", "", "", "", "",);
 ?>

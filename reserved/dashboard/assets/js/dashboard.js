@@ -156,6 +156,9 @@ async function init() {
 
     // imposto il profilo in modo dinamico
     setProfile();
+	
+	// restituisce il numero di ticket non visualizzati
+	setNewTicketNumber();
 
 }
 
@@ -658,7 +661,7 @@ async function set_classrooms() {
 
     await $.ajax({
         url: HOSTNAME + '/reserved/dashboard/assets/php/Dashboard.php',
-        method: 'POST',
+        type: 'POST',
         data: data,
         dataType: "text",
         success: function( data, textStatus, jQxhr ){
@@ -686,7 +689,7 @@ async function set_user() {
 
     await $.ajax({
         url: HOSTNAME + '/assets/php/authentication/Authentication.php',
-        method: 'GET',
+        type: 'GET',
         dataType: "text",
         success: function( data, textStatus, jQxhr ){
             console.debug("set USER");
@@ -724,7 +727,7 @@ async function set_macroaree() {
 
     await $.ajax({
         url: HOSTNAME + '/reserved/dashboard/assets/php/Dashboard.php',
-        method: 'POST',
+        type: 'POST',
         data: data,
         dataType: "text",
         success: function( data, textStatus, jQxhr ){
@@ -756,7 +759,7 @@ function set_permessi() {
 
     $.ajax({
         url: HOSTNAME + '/reserved/dashboard/assets/php/Dashboard.php',
-        method: 'POST',
+        type: 'POST',
         data: data,
         dataType: "text",
         success: function( data, textStatus, jQxhr ){
@@ -787,7 +790,7 @@ async function set_categorie() {
 
     await $.ajax({
         url: HOSTNAME + '/reserved/dashboard/assets/php/Dashboard.php',
-        method: 'POST',
+        type: 'POST',
         data: data,
         dataType: "text",
         success: function( data, textStatus, jQxhr ){
@@ -807,8 +810,9 @@ async function set_categorie() {
     });					
 }
 
+
 // restituisce il numero di ticket non visualizzati
-function setNewTicketNumber()
+async function setNewTicketNumber()
 {
 	// Chiamata Ajax
 	let data = {"Submit":"NewTicketNumber"};
@@ -820,7 +824,7 @@ function setNewTicketNumber()
 		dataType: "json",
 		success: function (response)
 		{
-			if(response.result == false)
+			if(response.result === false)
 			{
 				// In caso response.result == False --> restituisce il messaggio di errore
 				newTicket.innerText = "N / D";													// Messaggio restituito all'utente
