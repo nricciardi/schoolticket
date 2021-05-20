@@ -67,6 +67,10 @@ var menu_gestione2 = document.getElementById("menu_gestione_2");
 var btn_show_ticket = document.getElementById("btn_show_ticket");
 var btn_show_ticket2 = document.getElementById("btn_show_ticket_2");
 
+// bottone del sotto menù gestione: btn_show_account
+var btn_show_account = document.getElementById("btn_show_account");
+var btn_show_account2 = document.getElementById("btn_show_account2");
+
 // bottone del sotto menù gestione: btn_show_user
 var btn_show_user2 = document.getElementById("btn_show_user_2");
 
@@ -492,7 +496,8 @@ function createMenu() {
 }
 
 // restituisce il codice HTML del menù funzionalità
-function settingMenuGestione() {
+function settingMenuGestione() 
+{
 
     //console.log("settingMenuGestione");
     //console.log(USER);
@@ -1031,3 +1036,152 @@ btn_show_categorie2.addEventListener("click", () => {
     $("#header-desktop-menu2").removeClass("show-sidebar");
 
 });
+
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------
+function settingMenuGestioneAccount()
+{
+
+    //console.log("settingMenuGestione");
+    //console.log(USER);
+    if(USER !== null) {
+
+        // recupero i permessi dell'utente
+        let permessi_utente = USER.Permessi;
+
+        // variabile da restituire true nel caso ci sia almeno un menu da visualizzare
+        let show = false;
+        
+        // per ogni permesso impostato su "1" elimino il display none al bottone
+        //                                                                  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! inserire sezione incarichi
+        if(permessi_utente.VisualizzaTuttiTicket === "1" || permessi_utente.ModificaTuttiTicket === "1" || permessi_utente.ModificaStatoAvanzamentoTicket === "1" || permessi_utente.UnireTicket === "1" || permessi_utente.CreaIncarico === "1" || permessi_utente.ModificaStatoAvanzamentoIncarico === "1") {
+
+            // restituirò true
+            show = true;
+
+            // tolgo il display none dal bottone associato
+            btn_show_account.style.display = "";
+            btn_show_account2.style.display = "";
+
+            console.log("if1");
+            
+        } else {
+            // continuo a tener nascosto il bottone
+            btn_show_account.style.display = "none";
+            btn_show_account2.style.display = "none";
+
+        }
+
+        if(permessi_utente.CreaModificaEliminaMacroarea === "1") {
+
+            // restituirò true
+            show = true;
+
+            // tolgo il display none dal bottone associato
+            btn_show_macroaree.style.display = "";
+            btn_show_macroaree2.style.display = "";
+
+            console.log("if2");
+            
+        } else {
+            // continuo a tener nascosto il bottone
+            btn_show_macroaree.style.display = "none";
+            btn_show_macroaree2.style.display = "none";
+
+        }
+
+        if(permessi_utente.CreaModificaEliminaCompetenza === "1") {
+
+            // restituirò true
+            show = true;
+
+            // tolgo il display none dal bottone associato
+            btn_show_competenze.style.display = "";
+            btn_show_competenze2.style.display = "";
+
+
+            console.log("if3");
+            
+        } else {
+            // continuo a tener nascosto il bottone
+            btn_show_competenze.style.display = "none";
+            btn_show_competenze2.style.display = "none";
+
+        }
+
+        if(permessi_utente.CreaModificaEliminaCategoria === "1") {
+
+            // restituirò true
+            show = true;
+
+            // tolgo il display none dal bottone associato
+            btn_show_categorie.style.display = "";
+            btn_show_categorie2.style.display = "";
+
+
+            console.log("if4");
+            
+        } else {
+            // continuo a tener nascosto il bottone
+            btn_show_categorie.style.display = "none";
+            btn_show_categorie2.style.display = "none";
+
+        }
+
+        if(permessi_utente.CreaModificaEliminaAula == "1") {
+
+            // restituirò true
+            show = true;
+
+            // tolgo il display none dal bottone associato
+            btn_show_aule.style.display = "";
+            btn_show_aule2.style.display = "";
+
+
+            console.log("if5");
+            
+        } else {
+            // continuo a tener nascosto il bottone
+            btn_show_aule.style.display = "none";
+            btn_show_aule2.style.display = "none";
+
+        }
+
+        if(permessi_utente.ModificaVisualizzaTuttiUtenti === "1") {
+
+            // restituirò true
+            show = true;
+
+            // tolgo il display none dal bottone associato
+            btn_show_user.style.display = "";
+            btn_show_user2.style.display = "";
+
+
+            console.log("if6");
+            
+        } else {
+            // continuo a tener nascosto il bottone
+            btn_show_user.style.display = "none";
+            btn_show_user2.style.display = "none";
+
+        }
+
+        /*if(permessi_utente.CreaIncarico === "1" || permessi_utente.ModificaStatoAvanzamentoIncarico === "1") {
+
+            // restituirò true
+            show = true;
+
+            // tolgo il display none dal bottone associato
+            btn_show_aule.display = "";
+            
+        } else {
+            // continuo a tener nascosto il bottone
+            btn_show_aule.display = "none";
+        }*/
+
+
+        // restituisco true se ho almeno un permesso valido
+        return show;
+    }
+
+}

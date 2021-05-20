@@ -28,7 +28,7 @@
                                         <i class="fas fa-ticket-alt"></i>Ticket</button>
                                 </li>
                                 <li>
-                                    <button id="" style="/*display: none;*/">
+                                    <button id="btn_show_account" style="/*display: none;*/">
                                         <i class="fas fa-user"></i>Account</button>
                                 </li>
                                 <!--<li>

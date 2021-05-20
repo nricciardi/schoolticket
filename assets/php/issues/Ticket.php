@@ -6,6 +6,7 @@ class Ticket{
     private $username = "";
     private $pass = "";
     private $PDOconn;
+    private $nGiorni = 30;
 //COSTRUTTORE
   public function __construct(string $host1, string $dbName1, string $username1, string $pass1){
 
@@ -251,12 +252,8 @@ public function show($id) {
   }
   else
   {
-    $st = $this->PDOconn->prepare('SELECT * FROM schoolticket.ticket WHERE schoolticket.ticket.IdUtente = 4 '); // $_SESSION["logged"] Aggiungere nella query e controllare se l'IdUtente è uguale a quello nella sessione.
-	$result = $st->execute();
-	if($result == false){
-		$r = '{"result":false, "description":"query non riuscita"}';
-	 	return $r;
-	}
+    $st = $this->PDOconn->prepare('SELECT * FROM schoolticket.ticket WHERE schoolticket.ticket.IdUtente =  $_SESSION["logged"]'); // Aggiungere nella query e controllare se l'IdUtente è uguale a quello nella sessione.
+    $result = $st->execute();
     // stampo in formato JSON le classi
     $rows = $st->fetchAll(PDO::FETCH_ASSOC);
     $temp = (json_encode($rows));
@@ -379,55 +376,57 @@ public function show($id) {
 
   private function controlDate($newDate){
 		$now = date("Y-m-d");
-		$date1=date_create($now);
-		$date2=date_create($newDate);
-		$diff=date_diff($date1, $date2);
+		$date1 = date_create($now);
+		$date2 = date_create($newDate);
+		$diff = $date2->diff($date1);
 
-		if($diff->y >= 0)
-		{
-			if($diff->m >= 0)
-				if($diff->d > 0)
-					return true;
-		}
-		else
-			return false;
+		return $diff->format("%r%a");
 	}
 public function changeHour($IdTicket, $newHour){
 
-		$q = "SELECT Data FROM schoolticket.ticket WHERE IdTicket = $IdTicket";
-		$st = $this->PDOconn->prepare($q);
-		$result = $st->execute();
-		if($result == false){
+		if(($this->controlId($IdTicket)))
+		{
+			$q = "SELECT Data FROM schoolticket.ticket WHERE IdTicket = $IdTicket";
+			$st = $this->PDOconn->prepare($q);
+			$result = $st->execute();
+			if($result == false){
 				$st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
 				return $st;
-		}
-		while($record = $st->fetch())
-			$data = $record['Data'];
-		echo ($this->controlDate($data));
-		if(($this->controlId($IdTicket)) and ($this->controlDate($data)))
-		{
-			$q = "UPDATE schoolticket.ticket SET Ora = '$newHour' WHERE IdTicket = $IdTicket";
-			$st = $this->PDOconn->prepare($q);
-			$st->execute();
-			$st = '{"result":true,"description":"Ora Ticket aggiornata correttamente"}';
-			return $st;
-		}
-		/*if(($this->controlId($IdTicket)) and ($this->controlDate($data)) == false)
-		{
-			$now = date("H-i-s");
-			$date1=date_create($now);
-			$date2=date_create($newHour);
-			$diff=date_diff($date1, $date2);
-
-			if($diff->H > 0)
-			{
-						$q = "UPDATE schoolticket.ticket SET Ora = '$newHour' WHERE IdTicket = $IdTicket";
-						$st = $this->PDOconn->prepare($q);
-						$st->execute();
-						$st = '{"result":true,"description":"Ora Ticket aggiornata correttamente"}';
-						return $st;
 			}
-		}*/
+			while($record = $st->fetch())
+				$data = $record['Data'];
+
+			if(($this->controlDate($data)) > 0)
+			{
+				$q = "UPDATE schoolticket.ticket SET Ora = '$newHour' WHERE IdTicket = $IdTicket";
+				$st = $this->PDOconn->prepare($q);
+				$st->execute();
+				$st = '{"result":true,"description":"Ora Ticket aggiornata correttamente"}';
+				return $st;
+			}
+			else
+			{
+				$now = date("h:i.sa");
+				$date1 = date_create($now);
+				$date2 = date_create($newHour);
+				$diff = $date2->diff($date1);
+
+				if($diff->format("%r%i") >= 0)
+				{
+					$q = "UPDATE schoolticket.ticket SET Ora = '$newHour' WHERE IdTicket = $IdTicket";
+					$st = $this->PDOconn->prepare($q);
+					$st->execute();
+					$st = '{"result":true,"description":"Ora Ticket aggiornata correttamente"}';
+					return $st;
+				}
+				else
+					return '{"result":false,"description":"Ora Ticket inserita non corretta."}';
+
+			}
+
+		}
+		else
+			return '{"result":false,"description":"IdTicket inserito non corretto."}';
 
 	}
 
@@ -435,28 +434,33 @@ public function changeHour($IdTicket, $newHour){
 		$now = date("Y-m-d");
 		$date1 = date_create($now);
 		$date2 = date_create($newDate);
-		$diff = date_diff($date1, $date2);
+		$diff = $date2->diff($date1);
 
-		if(($this->controlId($IdTicket)) and $diff->y >= 0)
-			if($diff->m >= 0)
-				if($diff->d >= 0)
-				{
-					$q = "UPDATE schoolticket.ticket SET Data = '$newDate' WHERE IdTicket = $IdTicket";
-					$st = $this->PDOconn->prepare($q);
-					$result = $st->execute();
-					if($result == false){
+		if(($this->controlId($IdTicket)))
+		{
+			if($diff->format("%r%a") >= 0)
+			{
+				$q = "UPDATE schoolticket.ticket SET Data = '$newDate' WHERE IdTicket = $IdTicket";
+				$st = $this->PDOconn->prepare($q);
+				$result = $st->execute();
+				if($result == false){
 					$st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
 					return $st;
 				}
-					$st = '{"result":true,"description":"Data Ticket aggiornata correttamente"}';
-					return $st;
-				}
+				$st = '{"result":true,"description":"Data Ticket aggiornata correttamente"}';
+				return $st;
+			}
+			else
+				return '{"result":false,"description":"La data inserita non è corretta."}';
+		}
+		else
+			return '{"result":false,"description":"IdTicket inserito non è corretto."}';
 	}
 
 	public function changeName($IdTicket, $newName){
 		$st = "";
 		$result = $this->controlId($IdTicket);
-		
+
 		if($result == false) {
 			$r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
 			return $r;
@@ -479,12 +483,12 @@ public function changeHour($IdTicket, $newHour){
 	public function changeDescr($IdTicket, $newDescr){
 		$st = "";
 		$result = $this->controlId($IdTicket);
-		
+
 		if($result == false) {
 			$r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
 			return $r;
 		}
-		
+
 		if(!filter_var($newDescr, FILTER_SANITIZE_STRING)){
 			$st = '{"result":false,"description":"Descrizione errata"}';
 			return $st;
@@ -504,12 +508,12 @@ public function changeHour($IdTicket, $newHour){
 		$st = "";
 
 		$result = $this->controlId($IdTicket);
-		
+
 		if($result == false) {
 			$r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
 			return $r;
 		}
-		
+
 		if(!filter_var($newStato, FILTER_SANITIZE_STRING)){
 			$st = '{"result":false,"description":"StatoDiAvanzamento errata"}';
 			return $st;
@@ -524,7 +528,7 @@ public function changeHour($IdTicket, $newHour){
 		$st = '{"result":true,"description":"StatoDiAvanzamento Ticket aggiornata correttamente"}';
 		return $st;
 	}
-	
+
 	public function changePriorita($IdTicket, $newPriorita){
 		$st = "";
 		if(!is_numeric($newPriorita)){
@@ -532,12 +536,12 @@ public function changeHour($IdTicket, $newHour){
 			return $st;
 		}
 		$result = $this->controlId($IdTicket);
-		
+
 		if($result == false) {
 			$r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
 			return $r;
 		}
-		
+
 		$q = "UPDATE schoolticket.ticket SET Priorita = ? WHERE IdTicket = ?";
 		$st = $this->PDOconn->prepare($q);
 		$result = $st->execute([$newPriorita, $IdTicket]);
@@ -547,28 +551,28 @@ public function changeHour($IdTicket, $newHour){
 		}
 		$st = '{"result":true,"description":"Priorità Ticket aggiornata correttamente"}';
 		return $st;
-		
+
 	}
-	
+
 	public function changeMacroarea($IdTicket, $newMacro){
 		$st = "";
 		if(!is_numeric($newMacro)){
 			$st = '{"result":false,"description":"IdMacroArea errata"}';
 			return $st;
 		}
-		
+
 		if(!is_numeric($IdTicket)){
 			$st = '{"result":false,"description":"IdTicket errata"}';
 			return $st;
 		}
-		
+
 		$result = $this->controlId($IdTicket);
-		
+
 		if($result == false) {
 			$r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
 			return $r;
 		}
-		
+
 		$q = "SELECT * FROM schoolticket.macroarea WHERE IdMacroarea = ?";
 		$st = $this->PDOconn->prepare($q);
 		$result = $st->execute([$newMacro]);
@@ -577,7 +581,7 @@ public function changeHour($IdTicket, $newHour){
 			$result = false;
 		else
 			$result = true;
-		
+
 		if($result)
 		{
 			$q = "UPDATE schoolticket.ticket SET IdMacroarea = ? WHERE IdTicket = ?";
@@ -596,26 +600,26 @@ public function changeHour($IdTicket, $newHour){
 			return $st;
 		}
 	}
-	
+
 	public function changeUtente($IdTicket, $newUtente){
 		$st = "";
 		if(!is_numeric($newUtente)){
 			$st = '{"result":false,"description":"IdUtente errata"}';
 			return $st;
 		}
-		
+
 		if(!is_numeric($IdTicket)){
 			$st = '{"result":false,"description":"IdTicket errata"}';
 			return $st;
 		}
-		
+
 		$result = $this->controlId($IdTicket);
-		
+
 		if($result == false) {
 			$r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
 			return $r;
 		}
-		
+
 		$q = "SELECT * FROM schoolticket.utente WHERE IdUtente = ?";
 		$st = $this->PDOconn->prepare($q);
 		$result = $st->execute([$newUtente]);
@@ -624,7 +628,7 @@ public function changeHour($IdTicket, $newHour){
 			$result = false;
 		else
 			$result = true;
-		
+
 		if($result)
 		{
 			$q = "UPDATE schoolticket.ticket SET IdUtente = ? WHERE IdTicket = ?";
@@ -643,26 +647,26 @@ public function changeHour($IdTicket, $newHour){
 			return $st;
 		}
 	}
-	
+
 	public function changeAula($IdTicket, $newAula){
 		$st = "";
 		if(!is_numeric($newAula)){
 			$st = '{"result":false,"description":"IdAula errata"}';
 			return $st;
 		}
-		
+
 		if(!is_numeric($IdTicket)){
 			$st = '{"result":false,"description":"IdTicket errata"}';
 			return $st;
 		}
-		
+
 		$result = $this->controlId($IdTicket);
-		
+
 		if($result == false) {
 			$r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
 			return $r;
 		}
-		
+
 		$q = "SELECT * FROM schoolticket.aula WHERE IdAula = ?";
 		$st = $this->PDOconn->prepare($q);
 		$result = $st->execute([$newAula]);
@@ -671,7 +675,7 @@ public function changeHour($IdTicket, $newHour){
 			$result = false;
 		else
 			$result = true;
-		
+
 		if($result)
 		{
 			$q = "UPDATE schoolticket.ticket SET IdAula = ? WHERE IdTicket = ?";
@@ -690,33 +694,33 @@ public function changeHour($IdTicket, $newHour){
 			return $st;
 		}
 	}
-	
+
 	public function changeUnione($IdTicket, $newUnione){
 		$st = "";
 		if(!is_numeric($newUnione)){
-			$st = '{"result":false,"description":"IdUnione errata"}';
+			$st = '{"result":false,"description":"IdUnione errato"}';
 			return $st;
 		}
-		
+
 		if(!is_numeric($IdTicket)){
-			$st = '{"result":false,"description":"IdTicket errata"}';
+			$st = '{"result":false,"description":"IdTicket errato"}';
 			return $st;
 		}
-		
+
 		$result = $this->controlId($IdTicket);
-		
+
 		if($result == false) {
 			$r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
 			return $r;
 		}
-		
+
 		$result = $this->controlId($newUnione);
-		
+
 		if($result == false) {
-			$r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
+			$r = '{"result":false, "description":"IdUnione inesistente"}';
 			return $r;
 		}
-		
+
 		if($result)
 		{
 			$q = "UPDATE schoolticket.ticket SET IdUnione = ? WHERE IdTicket = ?";
@@ -735,20 +739,24 @@ public function changeHour($IdTicket, $newHour){
 			return $st;
 		}
 	}
-	
+
 	public function changeVisualizzato($IdTicket, $newVisualizzato){
 		$st = "";
-		if(!(is_numeric($newVisualizzato) or $newVisualizzato != 0 or $newVisualizzato != 1)){
-			$st = '{"result":false,"description":"Visualizzato errato"}';
+		if(!is_numeric($newVisualizzato)){
+			$st = '{"result":false,"description":"Stato visualizzazione non corretto"}';
+			return $st;
+		}
+		if($newVisualizzato != 0 and $newVisualizzato != 1){
+			$st = '{"result":false,"description":"Stato visualizzazione non corretto"}';
 			return $st;
 		}
 		$result = $this->controlId($IdTicket);
-		
+
 		if($result == false) {
-			$r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
+			$r = '{"result":false, "description":"IdTicket inserito non corretto"}';
 			return $r;
 		}
-		
+
 		$q = "UPDATE schoolticket.ticket SET Visualizzato = ? WHERE IdTicket = ?";
 		$st = $this->PDOconn->prepare($q);
 		$result = $st->execute([$newVisualizzato, $IdTicket]);
@@ -759,17 +767,16 @@ public function changeHour($IdTicket, $newHour){
 		$st = '{"result":true,"description":"Visualizzato Ticket aggiornata correttamente"}';
 		return $st;
 	}
-	
+
 	public function Update($IdTicket, $Nome = "", $Descrizione = "", $Stato = "", $Priorita = "", $Data = "", $Ora = "", $Macro = "", $Utente = "", $Aula = "", $Unione = "", $Visualizzato = ""){
-		
+
 		$st = "";
 		$totDescr = "";
 		$cont = 0;
-		
+
 		if($Nome != "")
 		{
-			$retName = json_decode($this->changeName($IdTicket, $Nome));
-			var_dump($retName);
+			$retName = (array) json_decode($this->changeName($IdTicket, $Nome));
 			if($cont == 0)
 				$totDescr .= $retName["description"];
 			else
@@ -778,17 +785,17 @@ public function changeHour($IdTicket, $newHour){
 		}
 		if($Descrizione != "")
 		{
-			$retDescr = json_decode($this->changeDescr($IdTicket, $Descrizione));
+			$retDescr = (array) json_decode($this->changeDescr($IdTicket, $Descrizione));
 			if($cont == 0)
 				$totDescr .= $retDescr["description"];
 			else
 				$totDescr .= "; " . $retDescr["description"];
 			$cont++;
 		}
-			
+
 		if($Stato != "")
 		{
-			$retStato = json_decode($this->changeStato($IdTicket, $Stato));
+			$retStato = (array) json_decode($this->changeStato($IdTicket, $Stato));
 			if($cont == 0)
 				$totDescr .= $retStato["description"];
 			else
@@ -797,7 +804,7 @@ public function changeHour($IdTicket, $newHour){
 		}
 		if($Priorita != "")
 		{
-			$retPrio = json_decode($this->changePriorita($IdTicket, $Priorita));
+			$retPrio = (array) json_decode($this->changePriorita($IdTicket, $Priorita));
 			if($cont == 0)
 				$totDescr .= $retPrio["description"];
 			else
@@ -806,7 +813,7 @@ public function changeHour($IdTicket, $newHour){
 		}
 		if($Data != "")
 		{
-			$retData = json_decode($this->changeDate($IdTicket, $Data));
+			$retData = (array) json_decode($this->changeDate($IdTicket, $Data));
 			if($cont == 0)
 				$totDescr .= $retData["description"];
 			else
@@ -815,7 +822,8 @@ public function changeHour($IdTicket, $newHour){
 		}
 		if($Ora != "")
 		{
-			$retOra = json_decode($this->changeHour($IdTicket, $Ora));
+			$retOra = (array) json_decode($this->changeHour($IdTicket, $Ora));
+
 			if($cont == 0)
 				$totDescr .= $retOra["description"];
 			else
@@ -824,7 +832,7 @@ public function changeHour($IdTicket, $newHour){
 		}
 		if($Macro != "")
 		{
-			$retMacro = json_decode($this->changeMacroarea($IdTicket, $Macro));
+			$retMacro = (array) json_decode($this->changeMacroarea($IdTicket, $Macro));
 			if($cont == 0)
 				$totDescr .= $retMacro["description"];
 			else
@@ -833,7 +841,7 @@ public function changeHour($IdTicket, $newHour){
 		}
 		if($Utente != "")
 		{
-			$retUtente = json_decode($this->changeUtente($IdTicket, $Utente));
+			$retUtente = (array) json_decode($this->changeUtente($IdTicket, $Utente));
 			if($cont == 0)
 				$totDescr .= $retUtente["description"];
 			else
@@ -842,17 +850,17 @@ public function changeHour($IdTicket, $newHour){
 		}
 		if($Aula != "")
 		{
-			$retAula = json_decode($this->changeAula($IdTicket, $Aula));
+			$retAula = (array) json_decode($this->changeAula($IdTicket, $Aula));
 			if($cont == 0)
 				$totDescr .= $retAula["description"];
 			else
 				$totDescr .= "; " . $retAula["description"];
 			$cont++;
 		}
-			
+
 		if($Unione != "")
 		{
-			$retUnione = json_decode($this->changeUnione($IdTicket, $Unione));
+			$retUnione = (array) json_decode($this->changeUnione($IdTicket, $Unione));
 			if($cont == 0)
 				$totDescr .= $retUnione["description"];
 			else
@@ -861,26 +869,58 @@ public function changeHour($IdTicket, $newHour){
 		}
 		if($Visualizzato != "")
 		{
-			$retVis = json_decode($this->changeVisualizzato($IdTicket, $Visualizzato));
+			$retVis = (array) json_decode($this->changeVisualizzato($IdTicket, $Visualizzato));
 			if($cont == 0)
 				$totDescr .= $retVis["description"];
 			else
 				$totDescr .= "; " . $retVis["description"];
 			$cont++;
 		}
-		
-		$control = false;
-		if(!($retName["result"] or $retDescr["result"] or $retStato["result"] or $retPrio["result"] or $retMacro["result"] or $retUnione["result"] or $retUtente["result"] or $retVis["result"] or $retAula["result"] or $retData["result"] or $retOra["result"]))		
-			$control = false;
-		else
-			$control = true;
-		
+
+		$control = true;
+
+		if(!empty($retName))
+			if(!$retName["result"])
+				$control = false;
+		if(!empty($retDescr))
+			if(!$retDescr["result"])
+				$control = false;
+		if(!empty($retStato))
+			if(!$retStato["result"])
+				$control = false;
+		if(!empty($retPrio))
+			if(!$retPrio["result"])
+				$control = false;
+		if(!empty($retData))
+			if(!$retData["result"])
+				$control = false;
+		if(!empty($retOra))
+			if(!$retOra["result"])
+				$control = false;
+		if(!empty($retMacro))
+			if(!$retMacro["result"])
+				$control = false;
+		if(!empty($retUtente))
+			if(!$retUtente["result"])
+				$control = false;
+		if(!empty($retAula))
+			if(!$retAula["result"])
+				$control = false;
+		if(!empty($retUnione))
+			if(!$retUnione["result"])
+				$control = false;
+		if(!empty($retVis))
+			if(!$retVis["result"])
+				$control = false;
+
+
+
 		if($control)
 			return $st = '{"result":true,"description":"' .$totDescr .'"}';
 		else
 			return $st = '{"result":false,"description":"' .$totDescr .'"}';
 	}
-	
+
 public function Union($IdTicket1, $IdTicket2){
 
 //SETTO I VALORI DA INSERIRE NEL NUOVO TICKET:
@@ -973,7 +1013,6 @@ public function NewTicketNumber(){//Restituisce il numero di ticket non letti:
     return $st;
   }
   $valore = $st->fetchAll();
-  
 
 //Vedo il risultato come un array e conto da quanti elementi è composto;
   $num = 0;
@@ -1140,7 +1179,7 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "Insert"){
 }
 
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "Show"){
-  $ID = 4; // $_SESSION["logged"]
+  $ID = 2; // $_SESSION["logged"]
   echo $ticket->show($ID);
 }
 
@@ -1159,5 +1198,4 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "Update"){
   echo $ticket -> Update();
 }
 
-//echo $ticket -> Update(3, "Alle", "", "", "", "", "", "", "", "", "", "",);
 ?>

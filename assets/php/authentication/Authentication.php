@@ -443,6 +443,11 @@
 					return '{"result":false, "description":"Problemi durante l\'elaborazione del server, riprovare più tardi o contattare l\'assistenza"}';
 
 				$permesso = $controlloId->fetch();
+				//var_dump($permesso);
+				
+				if($permesso == false)
+					return '{"result":false, "description":"Problemi durante l\'elaborazione del server, riprovare più tardi o contattare l\'assistenza"}';
+				
 				$IdP = $permesso[0];
 				//echo $IdP;
 					if(!is_numeric($IdP)){
@@ -504,6 +509,10 @@
 
 		public function logout(){
 			$_SESSION["logged"] = false;			
+		}
+
+		public function update($nome, $cognome, $email, $psw, $IdCategoria, $IdPermessi) {
+			return '{"result":false, "description":"metodo da implementare"}'; 
 		}
 
 //MANDA IL CODICE DI VERIFICA:
@@ -603,17 +612,22 @@ switch ($method) {
 		break;
 	
 	case "PUT":		// richiesta PUT
-		# code...
+		echo PUT_request($auth);
 		break;
 
 	case "DELETE":		// richiesta DELETE
-		# code...
+		echo DELETE_request($auth);
 		break;
 
 	// ============= CUSTOM ===================
 	case "LOGIN":		// richiesta LOGIN
 		//echo "LOGIN";
 		echo LOGIN_request($auth);
+		break;
+	
+	case "SENDCODE":		// richiesta SEND CODE (invia il codice per il cambio della password)
+		//echo "LOGIN";
+		echo SENDCODE_request($auth);
 		break;
 	
 }
@@ -701,19 +715,117 @@ function POST_request($auth = null, $json_error = '{"result":false,"description"
 
 }
 
-function DELETE_request($auth = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
+function PUT_request($auth = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
 
 	// controllo che venga passato l'oggetto della classe per la connessione con il database
 	if($auth === null)	
 		return $json_error;	
 	
-		if(isset($_POST["Submit"]) && $_POST["Submit"] == "delete"){
+		$put_data = json_decode(urldecode(file_get_contents("php://input")));	// recupero dallo stream di input del server le informazioni passate in LOGIN
+
+		if(isset($put_data) && $put_data != null && !empty($put_data)) {
+
+			$control = true;
+
+			if(isset($put_data["nome"])) {
+				$nome = $put_data["nome"];
+			} else {
+				$nome = null;
+			}
+		
+			if(isset($put_data["cognome"])) {
+				$cognome = $put_data["cognome"];
+			} else {
+				$cognome = null;
+			}
+		
+			if(isset($put_data["email"])) {
+				$email = $put_data["email"];
+			} else {
+				$email = null;
+			}
+		
+			if(isset($put_data["password"])) {
+				$password = $put_data["password"];
+			} else {
+				$password = null;
+			}
+		
+			if(isset($put_data["idCategoria"])) {
+				$IdCategoria = $put_data["idCategoria"];
+			} else {
+				$IdCategoria = null;
+			}
+		
+			if(isset($put_data["idPermessi"])) {
+				$IdPermessi = $put_data["idPermessi"];
+			} else {
+				$IdPermessi = null;
+			}
+		
+			return $auth->update($nome, $cognome, $email, $password, $IdCategoria, $IdPermessi);	// Deprecato, l'id dell'utente è autoincrementale
+			
+
+		} else {
+			return $json_error;
+		}
+
+	//  restituisco di default il codice di errore
+	return $json_error;
+	
+
+}
+
+function DELETE_request($auth = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
+
+	// controllo che venga passato l'oggetto della classe per la connessione con il database
+	if($auth === null)	
+		return $json_error;	
+
+		$delete_data = json_decode(urldecode(file_get_contents("php://input")));	// recupero dallo stream di input del server le informazioni passate in LOGIN
+
+		if(isset($delete_data) && $delete_data != null && !empty($delete_data)) {
 
 			// controllo che sia stato passato un id
-			if(isset($_POST["Data"]) && $_POST["Data"] != "")
-				$auth -> delete($id);//L'id va peso dalla sessione!!
-			else	// altrimenti stampo un errore
-				echo '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}';
+			if(isset($delete_data->id) && $delete_data->id != "") {
+
+				if(isset($_SESSION["logged"]) && $_SESSION["logged"] != false && is_numeric($_SESSION["logged"])) {	// controllo che ci sia un utente loggato
+					$ID_utente_loggato = $_SESSION["logged"];		// inserisco l'id dell'utente loggato in una variabile
+
+					return $auth -> delete($ID_utente_loggato, $delete_data->id);
+				}
+			} else {	// altrimenti stampo un errore
+				return $json_error;
+			}	
+		
+		} else {
+			return $json_error;
+		}
+
+	// in caso non sia entrato in un CASE nello SWITCH, restituisco di default il codice di errore
+	return $json_error;
+	
+
+}
+
+function SENDCODE_request($auth = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
+
+	// controllo che venga passato l'oggetto della classe per la connessione con il database
+	if($auth === null)	
+		return $json_error;	
+
+		$sencode_data = json_decode(urldecode(file_get_contents("php://input")));	// recupero dallo stream di input del server le informazioni passate in LOGIN
+
+		if(isset($sencode_data) && $sencode_data != null && !empty($sencode_data)) {
+
+			// controllo che sia stato passato un id
+			if(isset($sencode_data->id) && $sencode_data->id != "") {
+
+				return $auth -> delete($sencode_data->id);
+				
+			} else {	// altrimenti stampo un errore
+				return $json_error;
+			}	
 		
 		} else {
 			return $json_error;
@@ -768,6 +880,7 @@ function LOGIN_request($auth = null, $json_error = '{"result":false,"description
 
 	
 //REGISTRAZIONE:
+/*
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "registration"){
 	
 	/*
@@ -775,6 +888,7 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "registration"){
 	if(isset($_POST["id"]))
     	$id = $_POST["id"];
 	*/
+	/*	
 
 	if(isset($_POST["nome"]))
     	$nome = $_POST["nome"];
@@ -794,10 +908,12 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "registration"){
 	if(isset($_POST["IdPermessi"]))
     	$IdPermessi = $_POST["IdPermessi"];
 
-	$auth->registration(/*$id,*/ $nome, $cognome, $email, $password, $IdCategoria, $IdPermessi);	// Deprecato, l'id dell'utente è autoincrementale
+	$auth->registration( $nome, $cognome, $email, $password, $IdCategoria, $IdPermessi);	// Deprecato, l'id dell'utente è autoincrementale
 }
+*/
 
 //DELETE:
+/*
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "delete"){
 
 	// controllo che sia stato passato un id
@@ -807,8 +923,10 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "delete"){
 		echo '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}';
 
 }
+*/
 
 //SHOW:
+/*
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "show"){
 	if(isset($_SESSION["logged"]) && $_SESSION["logged"] != false) {	// controllo che ci sia un utente loggato
 		$ID_utente_loggato = $_SESSION["logged"];
@@ -820,8 +938,10 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "show"){
 
 	
 }
+*/
 
 //LOGIN:
+/*
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "login"){
 
 	$checked = true;
@@ -844,6 +964,7 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "login"){
 	else
 		echo '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}';
 }
+*/
 
 //ChangePssw:
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "changePassword"){

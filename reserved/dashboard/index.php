@@ -5,6 +5,11 @@
     // controllo che l'utente sia loggato
     //check_session(); 
 
+<<<<<<< HEAD
+    $_SESSION["logged"] = 2;
+
+=======
+>>>>>>> 079c39ebe93ca0e7dc23ed6d2ba7fd6cad90e162
 ?>
 
 <!DOCTYPE html>
