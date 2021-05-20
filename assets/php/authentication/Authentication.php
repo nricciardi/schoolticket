@@ -876,7 +876,7 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "changePassword"){
 
 //SendCode:
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "sendCode"){
-	$id_to_send_code = 2; // $_SESSION["logged"];
+	$id_to_send_code = 7; // $_SESSION["logged"];
  	echo $auth -> sendCode($id_to_send_code);
 }
 

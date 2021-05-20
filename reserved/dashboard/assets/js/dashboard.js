@@ -97,6 +97,9 @@ var btn_show_note2 = document.getElementById("btn_show_note_2");
 // Variabile per scrivere il numero di ticket
 var newTicket = document.getElementById("ticketNumber");
 
+// Calcolo ticket con discostamento percentuale
+var ticketTotali = document.getElementById("ticketTotali");
+
 // box contenitore delle pagine visualizzate in modo dinamico
 var dynamic_page_box = document.getElementById("dynamic-page");
 
@@ -159,6 +162,9 @@ async function init() {
 	
 	// restituisce il numero di ticket non visualizzati
 	setNewTicketNumber();
+	
+	// Calcolo ticket con discostamento percentuale
+	setDeviationTicketNumber();
 
 }
 
@@ -845,6 +851,40 @@ async function setNewTicketNumber()
 	});
 }
 
+
+// Calcolo ticket con discostamento percentuale
+async function setDeviationTicketNumber()
+{
+	// Chiamata Ajax
+	let data = {"Submit":"DeviationTicketNumber"};
+
+	$.ajax({
+		type: "POST",
+		url: HOSTNAME + "/assets/php/issues/Ticket.php",
+		data: data,
+		dataType: "json",
+		success: function (response)
+		{
+			if(response.result === false)
+			{
+				// In caso response.result == False --> restituisce il messaggio di errore
+				ticketTotali.innerText = "N / D";													// Messaggio restituito all'utente
+				console.debug(response.description);
+				console.error("Errore nella restituzione dei dati da parte del server");		// Messaggio restituito su console
+			}
+			else
+			{
+				// In caso response.result == True --> restituisce il numero di ticket
+				ticketTotali.innerHTML = response.result;											// Restituisce all'utente il numero di ticket non visualizzati			
+			}
+		},
+		error: (response) => {
+			// Errore in caso di problemi al server
+			ticketTotali.innerText = "N / D";														// Messaggio restituito all'utente
+			console.error("Impossibile collegarsi al server");									// Messaggio restituito su console
+		}
+	});
+}
 
 // funzione per eliminare il record per l'inserimento di un nuovo utente
 function removeForm(ID) {
