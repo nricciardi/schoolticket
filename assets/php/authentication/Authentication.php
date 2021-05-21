@@ -1281,8 +1281,4 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "getUser"){
  	
 }
 
-//var_dump(json_decode($auth->verifyPsw("ciao"))->result);
-//var_dump($auth->verifyPsw("ciao"));
-echo "<br>";
-echo $auth->Update(1, "Statuti", "Alessandro", "alle@gmail.com", "piero", "", 8, 1);
 ?>
