@@ -271,7 +271,7 @@ btn_inviaCodice.addEventListener("click", () => {
     let data = {"Submit": "sendCode"};
 
     $.ajax({
-        type: "POST",
+        type: "SENDCODE",
         url: HOSTNAME + "/assets/php/authentication/Authentication.php",
         data: data,
         dataType: "json",
