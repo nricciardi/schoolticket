@@ -20,7 +20,7 @@ class Ticket{
       $dsn = "mysql:host=" .$this->host; "dbname=" .$this->dbName;
       $this->PDOconn = new PDO($dsn, $this->username, $this->pass);
       $this->PDOconn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    }catch(PDOExpetion $e){
+    }catch(PDOException $e){
       echo $e->getMessage();
       echo '{"result":false,"description":"Errore nella connessione al Database"}';
     }

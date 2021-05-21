@@ -17,7 +17,7 @@
 					$dsn = "mysql:host=" . $host . ";dbname=" . $dbName;
 					$this->PDOconn = new PDO($dsn, $username, $pass);
 					$this->PDOconn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-				}catch(PDOExpetion $e){
+				}catch(PDOException $e){
 					echo '{"result":false, "description": "Connessione errato' . $e->getMessage().'}';
 				}
 		}
@@ -432,6 +432,7 @@
 		}
 		
 		public function show($id){
+
 			if(is_numeric($id))  // Vedere se l'utente è loggato.
 			{
 
@@ -643,7 +644,7 @@ function GET_request($auth = null, $json_error = '{"result":false,"description":
 		$ID_utente_loggato = $_SESSION["logged"];
 		return $auth->show($ID_utente_loggato);		// richiamo il metodo della classe per mostrare tutti gli utenti
 	} else {
-		return $json_error;
+		return '{"result":false,"description":"Necessario effettuare il login"}';
 	}
 
 	// restituisco di default il codice di errore
