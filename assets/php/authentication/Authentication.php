@@ -23,21 +23,25 @@
 		}
 
 		private function controlId($IdUtente){
-			$q = "SELECT * FROM schoolticket.utente WHERE IdUtente = :idPl";
-			$st = $this->PDOconn->prepare($q);
-			$result = $st->execute(['idPl' => $IdUtente]);
+			
+			if(is_numeric($IdUtente))
+			{
+				$q = "SELECT * FROM schoolticket.utente WHERE IdUtente = :idPl";
+				$st = $this->PDOconn->prepare($q);
+				$result = $st->execute(['idPl' => $IdUtente]);
 
-			if($result == false){
-				return false;
+				if($result == false){
+					return false;
+				}
+
+				$record = $st->fetchAll();
+				if(empty($record))
+					return false;
+				else
+					return true;
 			}
-
-			$record = $st->fetchAll();
-			if(empty($record))
-				return false;
 			else
-				return true;
-	
-				//if($IdTicket = $record['Id'])
+				return false;
 		}
 		
 		private function getAllUsers($id){
@@ -431,6 +435,268 @@
 			$st->execute(['idPl' => $id]);
 		}
 		
+		public function changeSurname($IdUtn, $newSurname){
+			$st = "";
+			$result = $this->controlId($IdUtn);
+			if($result == false) {
+				$r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
+				return $r;
+			}
+			if(!filter_var($newSurname, FILTER_SANITIZE_STRING)){
+				$st =  '{"result":false,"description":"Cognome inserito non corretto"}';
+				return $st;
+			}
+			if(is_numeric($newSurname))
+			{
+				$st =  '{"result":false,"description":"Cognome inserito non corretto"}';
+				return $st;
+			}
+			$q = "UPDATE schoolticket.utente SET Cognome = ? WHERE IdUtente = ?";
+			$st = $this->PDOconn->prepare($q);
+			$result = $st->execute([$newSurname, $IdUtn]);
+			if($result == false){
+					$st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
+					return $st;
+			}
+			$st = '{"result":true,"description":"Cognome Utente aggiornato correttamente"}';
+			return $st;
+		}
+		
+		public function changeName($IdUtn, $newName){
+			$st = "";
+			$result = $this->controlId($IdUtn);
+			if($result == false) {
+				$r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
+				return $r;
+			}
+			if(!filter_var($newName, FILTER_SANITIZE_STRING)){
+				$st =  '{"result":false,"description":"Nome inserito non corretto"}';
+				return $st;
+			}
+			if(is_numeric($newName))
+			{
+				$st =  '{"result":false,"description":"Nome inserito non corretto"}';
+				return $st;
+			}
+			$q = "UPDATE schoolticket.utente SET Nome = ? WHERE IdUtente = ?";
+			$st = $this->PDOconn->prepare($q);
+			$result = $st->execute([$newName, $IdUtn]);
+			if($result == false){
+					$st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
+					return $st;
+			}
+			$st = '{"result":true,"description":"Nome Utente aggiornato correttamente"}';
+			return $st;
+		}
+		
+		public function changeEmail($IdUtn, $newEmail){
+			$st = "";
+			$result = $this->controlId($IdUtn);
+			if($result == false) {
+				$r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
+				return $r;
+			}
+			
+			if(!filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
+				$r = '{"result":false, "description":"Email inserita non corretta"}';
+				return $r;
+			}
+			$q = "UPDATE schoolticket.utente SET Email = ? WHERE IdUtente = ?";
+			$st = $this->PDOconn->prepare($q);
+			$result = $st->execute([$newEmail, $IdUtn]);
+			if($result == false){
+					$st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
+					return $st;
+			}
+			$st = '{"result":true,"description":"Email Utente aggiornata correttamente"}';
+			return $st;
+		}
+		
+		public function changeCategoria($IdUtente, $newCategoria){
+			$st = "";
+			if(!is_numeric($newCategoria)){
+				$st = '{"result":false,"description":"IdCategoria inserito non corretto"}';
+				return $st;
+			}
+
+			if(!is_numeric($IdUtente)){
+				$st = '{"result":false,"description":"IdUtente inserito non corretto"}';
+				return $st;
+			}
+
+			$result = $this->controlId($IdUtente);
+
+			if($result == false) {
+				$r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
+				return $r;
+			}
+
+			$q = "SELECT * FROM schoolticket.categoria WHERE IdCategoria = ?";
+			$st = $this->PDOconn->prepare($q);
+			$result = $st->execute([$newCategoria]);
+			$record = $st->fetchAll();
+			if(empty($record))
+				$result = false;
+			else
+				$result = true;
+
+			if($result)
+			{
+				$q = "UPDATE schoolticket.utente SET IdCategoria = ? WHERE IdUtente = ?";
+				$st = $this->PDOconn->prepare($q);
+				$result = $st->execute([$newCategoria, $IdUtente]);
+				if($result == false){
+					$st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
+					return $st;
+				}
+				$st = '{"result":true,"description":"IdCategoria Utente aggiornata correttamente"}';
+				return $st;
+			}
+			else
+			{
+				$st = '{"result":false,"description":"IdCategoria Utente non esistente."}';
+				return $st;
+			}
+		}
+		
+		public function changePermessi($IdUtente, $newPermessi){
+			$st = "";
+			if(!is_numeric($newPermessi)){
+				$st = '{"result":false,"description":"IdPermessi inserito non corretto"}';
+				return $st;
+			}
+
+			if(!is_numeric($IdUtente)){
+				$st = '{"result":false,"description":"IdUtente inserito non corretto"}';
+				return $st;
+			}
+
+			$result = $this->controlId($IdUtente);
+
+			if($result == false) {
+				$r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
+				return $r;
+			}
+
+			$q = "SELECT * FROM schoolticket.permessi WHERE IdPermessi = ?";
+			$st = $this->PDOconn->prepare($q);
+			$result = $st->execute([$newPermessi]);
+			$record = $st->fetchAll();
+			if(empty($record))
+				$result = false;
+			else
+				$result = true;
+
+			if($result)
+			{
+				$q = "UPDATE schoolticket.utente SET IdPermessi = ? WHERE IdUtente = ?";
+				$st = $this->PDOconn->prepare($q);
+				$result = $st->execute([$newPermessi, $IdUtente]);
+				if($result == false){
+					$st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
+					return $st;
+				}
+				$st = '{"result":true,"description":"IdPermessi Utente aggiornata correttamente"}';
+				return $st;
+			}
+			else
+			{
+				$st = '{"result":false,"description":"IdPermessi Utente non esistente."}';
+				return $st;
+			}
+		}
+		
+	public function Update($IdUtente, $Cognome = "", $Nome = "", $Email = "", $Password = "", $Codice = "", $Categoria = "", $Permessi = ""){
+
+		$st = "";
+		$totDescr = "";
+		$cont = 0;
+
+		if($Cognome != "")
+		{
+			$retCognome = (array) json_decode($this->changeSurname($IdUtente, $Cognome));
+			if($cont == 0)
+				$totDescr .= $retCognome["description"];
+			else
+				$totDescr .= "; " . $retCognome["description"];
+			$cont++;
+		}
+		if($Nome != "")
+		{
+			$retNome = (array) json_decode($this->changeName($IdUtente, $Nome));
+			if($cont == 0)
+				$totDescr .= $retNome["description"];
+			else
+				$totDescr .= "; " . $retNome["description"];
+			$cont++;
+		}
+
+		if($Email != "")
+		{
+			$retEmail = (array) json_decode($this->changeEmail($IdUtente, $Email));
+			if($cont == 0)
+				$totDescr .= $retEmail["description"];
+			else
+				$totDescr .= "; " . $retEmail["description"];
+			$cont++;
+		}
+		if($Password != "")
+		{
+			$retPsw = (array) json_decode($this->changePassword($IdUtente, $Password, $Codice));
+			if($cont == 0)
+				$totDescr .= $retPsw["description"];
+			else
+				$totDescr .= "; " . $retPsw["description"];
+			$cont++;
+		}
+		if($Categoria != "")
+		{
+			$retCat = (array) json_decode($this->changeCategoria($IdUtente, $Categoria));
+			if($cont == 0)
+				$totDescr .= $retCat["description"];
+			else
+				$totDescr .= "; " . $retCat["description"];
+			$cont++;
+		}
+		if($Permessi != "")
+		{
+			$retPerm = (array) json_decode($this->changePermessi($IdUtente, $Permessi));
+
+			if($cont == 0)
+				$totDescr .= $retPerm["description"];
+			else
+				$totDescr .= "; " . $retPerm["description"];
+			$cont++;
+		}
+	
+		$control = true;
+
+		if(!empty($retCognome))
+			if(!$retCognome["result"])
+				$control = false;
+		if(!empty($retNome))
+			if(!$retNome["result"])
+				$control = false;
+		if(!empty($retEmail))
+			if(!$retEmail["result"])
+				$control = false;
+		if(!empty($retPsw))
+			if(!$retPsw["result"])
+				$control = false;
+		if(!empty($retCat))
+			if(!$retCat["result"])
+				$control = false;
+		if(!empty($retPerm))
+			if(!$retPerm["result"])
+				$control = false;
+
+		if($control)
+			return $st = '{"result":true,"description":"' .$totDescr .'"}';
+		else
+			return $st = '{"result":false,"description":"' .$totDescr .'"}';
+	}
+	
+		
 		public function show($id){
 
 			if(is_numeric($id))  // Vedere se l'utente è loggato.
@@ -512,9 +778,9 @@
 			$_SESSION["logged"] = false;			
 		}
 
-		public function update($nome, $cognome, $email, $psw, $IdCategoria, $IdPermessi) {
+		/*public function update($nome, $cognome, $email, $psw, $IdCategoria, $IdPermessi) {
 			return '{"result":false, "description":"metodo da implementare"}'; 
-		}
+		}*/
 
 //MANDA IL CODICE DI VERIFICA:
 		public function sendCode($ID){	// $ID andrà preso nella sessione
@@ -1017,6 +1283,6 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "getUser"){
 
 //var_dump(json_decode($auth->verifyPsw("ciao"))->result);
 //var_dump($auth->verifyPsw("ciao"));
-
-
+echo "<br>";
+echo $auth->Update(1, "Statuti", "Alessandro", "alle@gmail.com", "piero", "", 8, 1);
 ?>
