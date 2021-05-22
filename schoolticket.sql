@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 11, 2021 alle 10:09
+-- Creato il: Mag 22, 2021 alle 11:16
 -- Versione del server: 10.4.13-MariaDB
 -- Versione PHP: 7.4.8
 
@@ -29,7 +29,6 @@ USE `schoolticket`;
 -- Struttura della tabella `aula`
 --
 
-DROP TABLE IF EXISTS `aula`;
 CREATE TABLE `aula` (
   `IdAula` int(11) NOT NULL,
   `Nome` varchar(100) NOT NULL,
@@ -53,7 +52,6 @@ INSERT INTO `aula` (`IdAula`, `Nome`, `Descrizione`, `Laboratorio`) VALUES
 -- Struttura della tabella `categoria`
 --
 
-DROP TABLE IF EXISTS `categoria`;
 CREATE TABLE `categoria` (
   `IdCategoria` int(11) NOT NULL,
   `Nome` varchar(100) NOT NULL,
@@ -78,7 +76,6 @@ INSERT INTO `categoria` (`IdCategoria`, `Nome`, `Descrizione`) VALUES
 -- Struttura della tabella `competenza`
 --
 
-DROP TABLE IF EXISTS `competenza`;
 CREATE TABLE `competenza` (
   `IdCompetenza` int(11) NOT NULL,
   `IdCategoria` int(11) NOT NULL,
@@ -147,7 +144,6 @@ INSERT INTO `competenza` (`IdCompetenza`, `IdCategoria`, `IdMacroarea`) VALUES
 -- Struttura della tabella `incarico`
 --
 
-DROP TABLE IF EXISTS `incarico`;
 CREATE TABLE `incarico` (
   `IdIncarico` int(11) NOT NULL,
   `StatodiAvanzamento` varchar(100) NOT NULL,
@@ -161,7 +157,6 @@ CREATE TABLE `incarico` (
 -- Struttura della tabella `macroarea`
 --
 
-DROP TABLE IF EXISTS `macroarea`;
 CREATE TABLE `macroarea` (
   `IdMacroarea` int(11) NOT NULL,
   `Nome` varchar(100) NOT NULL,
@@ -193,7 +188,6 @@ INSERT INTO `macroarea` (`IdMacroarea`, `Nome`, `Descrizione`) VALUES
 -- Struttura della tabella `note`
 --
 
-DROP TABLE IF EXISTS `note`;
 CREATE TABLE `note` (
   `IdNote` int(11) NOT NULL,
   `Descrizione` varchar(1000) DEFAULT NULL,
@@ -207,7 +201,6 @@ CREATE TABLE `note` (
 -- Struttura della tabella `permessi`
 --
 
-DROP TABLE IF EXISTS `permessi`;
 CREATE TABLE `permessi` (
   `IdPermessi` int(11) NOT NULL,
   `Descrizione` varchar(1000) NOT NULL,
@@ -223,15 +216,16 @@ CREATE TABLE `permessi` (
   `CreaModificaEliminaNote` tinyint(1) NOT NULL DEFAULT 0,
   `CreaModificaEliminaMacroarea` tinyint(1) NOT NULL DEFAULT 0,
   `CreaModificaEliminaCompetenza` tinyint(1) NOT NULL DEFAULT 0,
-  `CreaModificaEliminaCategoria` tinyint(1) NOT NULL DEFAULT 0
+  `CreaModificaEliminaCategoria` tinyint(1) NOT NULL DEFAULT 0,
+  `CreaModificaEliminaPermessi` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dump dei dati per la tabella `permessi`
 --
 
-INSERT INTO `permessi` (`IdPermessi`, `Descrizione`, `ModificaVisualizzaTuttiUtenti`, `CreareTicket`, `ModificaTuttiTicket`, `UnireTicket`, `VisualizzaTuttiTicket`, `ModificaStatoAvanzamentoTicket`, `ModificaStatoAvanzamentoIncarico`, `CreaIncarico`, `CreaModificaEliminaAula`, `CreaModificaEliminaNote`, `CreaModificaEliminaMacroarea`, `CreaModificaEliminaCompetenza`, `CreaModificaEliminaCategoria`) VALUES
-(1, 'Prova', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+INSERT INTO `permessi` (`IdPermessi`, `Descrizione`, `ModificaVisualizzaTuttiUtenti`, `CreareTicket`, `ModificaTuttiTicket`, `UnireTicket`, `VisualizzaTuttiTicket`, `ModificaStatoAvanzamentoTicket`, `ModificaStatoAvanzamentoIncarico`, `CreaIncarico`, `CreaModificaEliminaAula`, `CreaModificaEliminaNote`, `CreaModificaEliminaMacroarea`, `CreaModificaEliminaCompetenza`, `CreaModificaEliminaCategoria`, `CreaModificaEliminaPermessi`) VALUES
+(1, 'Prova', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -239,7 +233,6 @@ INSERT INTO `permessi` (`IdPermessi`, `Descrizione`, `ModificaVisualizzaTuttiUte
 -- Struttura della tabella `ticket`
 --
 
-DROP TABLE IF EXISTS `ticket`;
 CREATE TABLE `ticket` (
   `IdTicket` int(11) NOT NULL,
   `Nome` varchar(100) NOT NULL,
@@ -269,7 +262,6 @@ INSERT INTO `ticket` (`IdTicket`, `Nome`, `Descrizione`, `Immagine`, `StatoDiAva
 -- Struttura della tabella `utente`
 --
 
-DROP TABLE IF EXISTS `utente`;
 CREATE TABLE `utente` (
   `IdUtente` int(11) NOT NULL,
   `Cognome` varchar(100) NOT NULL,
