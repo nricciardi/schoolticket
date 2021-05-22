@@ -888,25 +888,21 @@ async function setDeviationTicketNumber()
 			}
 			else
 			{
+				let string = "";
 				// In caso response.result == True --> restituisce il numero di ticket
-				ticketTotali.innerHTML = response.result.TicketTotali;								// Restituisce all'utente il numero di ticket non visualizzati			
 				
+				let deviation = "";
+				if(response.result.deviation < 0)
+					deviation += '<span class="number" style="color: ' + error_data + '; font-size: 0.6em; margin-left: 4px;" id="percentualeTicket">' + "-" + response.result.deviation + "%" + "</span>";
 				if(response.result.deviation == 0)
-				{
-					percentualeTicket.innerHTML = response.result.deviation + "%";
-					percentualeTicket.style.color = default_text_color;
-				}
-				else
-					if(response.result.deviation > 0)
-					{
-						percentualeTicket.innerHTML = response.result.deviation + "%";
-						percentualeTicket.style.color = correct_data;
-					}
-					else
-					{
-						percentualeTicket.innerHTML = response.result.deviation + "%";
-						percentualeTicket.style.color = error_data;
-					}
+					deviation += '<span class="number" style="color: ' + default_text_color + '; font-size: 0.6em; margin-left: 4px;" id="percentualeTicket">' + response.result.deviation + "%" + "</span>";
+				if(response.result.deviation > 0)
+					deviation += '<span class="number" style="color: ' + correct_data + '; font-size: 0.6em;  margin-left: 4px;" id="percentualeTicket">' + "+" + response.result.deviation + "%" + "</span>";
+	
+				string += response.result.TicketTotali + deviation;	
+				
+				// Restituisce all'utente il numero di ticket non visualizzati				
+				ticketTotali.innerHTML = string;
 				
 			}
 		},
