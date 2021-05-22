@@ -173,9 +173,9 @@
                     $permesso = json_decode(json_encode($permesso), true);
                 }
                 
-                $permesso["Descrizione"] = filter_var($permesso["Descrizione"], FILTER_SANITIZE_STRING);        // sanifico la stringa di testo
                 if(isset($permesso["Descrizione"]) && trim($permesso["Descrizione"]) != "" && $permesso["Descrizione"] != null && $permesso["Descrizione"] != false) {
 
+                    $permesso["Descrizione"] = filter_var($permesso["Descrizione"], FILTER_SANITIZE_STRING);        // sanifico la stringa di testo
                     $descrizione = $permesso["Descrizione"];
                     $query .= "`Descrizione`,";
                     $end_query .= "?,";
@@ -358,8 +358,9 @@
 
             } else {  // per ogni attributo dell'oggetto passato, aggiungo il rispettivo alla query e all'array da passare alla query
                 
-                $permesso->Descrizione = filter_var($permesso->Descrizione, FILTER_SANITIZE_STRING);        // sanifico la stringa di testo
                 if(isset($permesso->Descrizione) && trim($permesso->Descrizione) != "" && $permesso->Descrizione != null && $permesso->Descrizione != false) {
+                    
+                    $permesso->Descrizione = filter_var($permesso->Descrizione, FILTER_SANITIZE_STRING);        // sanifico la stringa di testo
                     $descrizione = $permesso->Descrizione;
                     $query .= " `Descrizione` = ?,";
                     array_push($array_values, $descrizione);
@@ -603,7 +604,7 @@
         if(isset($_GET["id"]) && is_numeric((int) $_GET["id"]) && trim($_GET["id"]) != "")      // controllo che sia stato passato un parametro in GET
             $ID_permesso = (int) $_GET["id"];
 
-        return $obj_permessi->get($ID_permesso);		// richiamo il metodo della classe per mostrare tutti gli utenti
+        return $obj_permessi->get($ID_permesso);		// richiamo il metodo della classe per mostrare tutti gli elementi
 
     }
 
