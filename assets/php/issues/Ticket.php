@@ -1,5 +1,8 @@
 <?php
 
+require_once("../../../config.php");
+
+
 class Ticket{
     private $host = "";
     private $dbName = "";
@@ -20,7 +23,7 @@ class Ticket{
       $dsn = "mysql:host=" .$this->host; "dbname=" .$this->dbName;
       $this->PDOconn = new PDO($dsn, $this->username, $this->pass);
       $this->PDOconn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    }catch(PDOExpetion $e){
+    }catch(PDOException $e){
       echo $e->getMessage();
       echo '{"result":false,"description":"Errore nella connessione al Database"}';
     }
@@ -92,7 +95,10 @@ public function insert($Nome, $Descrizione, $Immagine, $Stato, $Priorita, $IdAul
 }
 
 // Metodo per la visualizzazione dei ticket in base ai permessi dell'utente
-public function show($id) {
+public function show($id = null) {
+
+  if($id === null)
+    return '{"result":false, "description":"L\'utente non ha effettuato l\'accesso correttamente"}';
 
   if(is_numeric($id))  // Vedere se l'utente è loggato.
   {
@@ -252,8 +258,10 @@ public function show($id) {
   }
   else
   {
-    $st = $this->PDOconn->prepare('SELECT * FROM schoolticket.ticket WHERE schoolticket.ticket.IdUtente =  $_SESSION["logged"]'); // Aggiungere nella query e controllare se l'IdUtente è uguale a quello nella sessione.
-    $result = $st->execute();
+    $query = 'SELECT * FROM schoolticket.ticket WHERE schoolticket.ticket.IdUtente = ?';
+    $st = $this->PDOconn->prepare($query); // Aggiungere nella query e controllare se l'IdUtente è uguale a quello nella sessione.
+
+    $result = $st->execute([$id]);
     // stampo in formato JSON le classi
     $rows = $st->fetchAll(PDO::FETCH_ASSOC);
     $temp = (json_encode($rows));
@@ -274,104 +282,157 @@ public function show($id) {
 }
 }
 
-  public function Delete($IdTicket, $id){//Elimino il/i ticket in base all'IdTicket e controllo attraverso $id che l'utente sia loggato e abbia i permessi;
+	public function Delete($IdTicket, $id){//Elimino il/i ticket in base all'IdTicket e controllo attraverso $id che l'utente sia loggato e abbia i permessi;
 
-    if(is_numeric($id))  // Vedere se l'utente è loggato.
+    if(is_numeric($IdTicket))  // Vedere se l'utente è loggato.
     {
-      $controlloId = $this->PDOconn->prepare("SELECT schoolticket.Utente.IdUtente FROM schoolticket.Utente");
-      $resultId = $controlloId->execute();
-      $risultatoControlloId = $controlloId->fetchAll(PDO::FETCH_ASSOC);
+		if($this->controlId($IdTicket))	//Se l'Id è presente allora possiamo andare a eliminare un ticket
+		{
+
+			$st = $this->PDOconn->prepare("SELECT schoolticket.ticket.IdUtente FROM schoolticket.ticket WHERE schoolticket.ticket.IdTicket = ?");
+			$result = $st->execute([$IdTicket]);
+			if($result)
+			{
+				$risUtn = $st->fetchAll(PDO::FETCH_ASSOC);
+				$utente = $risUtn[0]["IdUtente"];
+			}
+			else
+			{
+				$r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
+				return $r;
+			}
+
+			$st = $this->PDOconn->prepare("SELECT schoolticket.Permessi.ModificaTuttiTicket FROM schoolticket.Utente JOIN schoolticket.Permessi ON schoolticket.Permessi.IdPermessi = schoolticket.Utente.IdPermessi WHERE schoolticket.Utente.IdUtente = ?");
+			$result = $st->execute([$utente]);
+
+			if($result == false) // Se la query è sbagliata
+			{
+				$r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
+				return $r;
+			}
+			else
+			{
+				$st->execute([$utente]);
+				$risultatoquery = $st->fetchAll(PDO::FETCH_ASSOC);	//Contiene il risultato della query
+				if($risultatoquery[0]["ModificaTuttiTicket"] == 1)	//Verifichiamo se ha permesso 1 o 0 nel modificare i ticket
+				{
+					//ESEGUO LA QUERY:
+					if(is_array($id))
+					{
+						$ver = 1;
+						$totDescr = "";
+						//Controllo se è un array o una variabile;
+						for($i = 0; $i < count($id); $i++)
+						{
+							if(is_numeric($id[$i]) and $this->controlId($id[$i]))
+							{
+								$q = "DELETE FROM schoolticket.ticket WHERE IdTicket = $id[$i]";
+								$st = $this->PDOconn->prepare($q);
+								$result = $st->execute();
+								if($result)
+								{
+									if($i == 0)
+										$totDescr .= "Utente " . $id[$i] . " eliminato correttamente";
+									else
+										$totDescr .= ";Utente " . $id[$i] . " eliminato correttamente";
+								}
+								else
+								{
+									if($i == 0)
+										$totDescr .= "Utente " . $id[$i] . " non eliminato";
+									else
+										$totDescr .= ";Utente " . $id[$i] . " non eliminato";
+								}
+
+							}
+							else
+							{
+								$ver = 0;
+								if($i == 0)
+									$totDescr .= "Utente " . $id[$i] . " non eliminato";
+								else
+									$totDescr .= ";Utente " . $id[$i] . " non eliminato";
+							}
+						}
+						if($ver == 0)
+						{
+							$st = '{"result":false,"description":"' . $totDescr . '"}';
+							return $st;
+						}
+						else
+						{
+							$st = '{"result":false,"description":"' . $totDescr . '"}';
+							return $st;
+						}
 
 
-      $IdCorretto = 0; 	//Dopo il for contiene 1 se l'ID passato alla funzione esiste nel Database degli utenti
+					}
+					else
+					{
+						//se non è un array elimino solo un ticket
+						if(is_numeric($id) and $this->controlId($id))
+						{
+							$q = "DELETE FROM schoolticket.ticket WHERE IdTicket = $id";
+							$st = $this->PDOconn->prepare($q);
+							$result = $st->execute();
+							if($result == false)
+							{
+								$st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
+								return $st;
+							}
+							else
+							{
+								$st = '{"result":true,"description":"Ticket eliminato correttamente"}';
+								return $st;
+							}
+						}
+						else
+						{
+							$st = '{"result":false,"description":"Utente da eliminare inserito non corretto"}';
+							return $st;
+						}
 
-      for($i = 0; $i < COUNT($risultatoControlloId); $i++)	//Ciclo for per controllare che l'Id sia presente nel Database
-      {
-        if($risultatoControlloId[$i]["IdUtente"] == $id)
-        {
-          $IdCorretto = 1;
-          break;
-        }
-      }
-
-      if($IdCorretto == 1)	//Se l'Id è presente allora possiamo andare a eliminare un ticket
-      {
-
-        $st = $this->PDOconn->prepare("SELECT schoolticket.Permessi.ModificaTuttiTicket FROM schoolticket.Utente JOIN schoolticket.Permessi ON schoolticket.Permessi.IdPermessi = schoolticket.Utente.IdPermessi WHERE schoolticket.Utente.IdUtente = ?");
-        $result = $st->execute([$id]);
-
-      if($result == false) // Se la query è sbagliata
-      {
-        $r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
-        return $r;
-      }
-        else {
-          $risultatoquery = $st->fetchAll(PDO::FETCH_ASSOC);	//Contiene il risultato della query
-
-          if($risultatoquery[0]["ModificaTuttiTicket"] == 1)	//Verifichiamo se ha permesso 1 o 0 nel modificare i ticket
-          {
-            //ESEGUO LA QUERY:
-            if(is_array($IdTicket)){
-            //Controllo se è un array o una variabile;
-              for($i = 0; $i < count($IdTicket); $i++){
-
-                $q = "DELETE FROM schoolticket.ticket WHERE IdTicket = $IdTicket[$i]";
-                $st = $this->PDOconn->prepare($q);
-                $st->execute();
-
-                if($result == false){
-                  $st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
-                  return $st;
-                }
-
-              }
-
-              $st = '{"result":true,"description":"Ticket eliminati correttamente"}';
-              return $st;
-
-            }else{//se non è un array elimino solo un ticket
-              $q = "DELETE FROM schoolticket.ticket WHERE IdTicket = $IdTicket";
-              $st = $this->PDOconn->prepare($q);
-              $st->execute();
-              if($result == false){
-                $st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
-                return $st;
-              }else{
-                $st = '{"result":true,"description":"Ticket eliminato correttamente"}';
-                return $st;
-              }
-            }
-          }
-          else
-          {
-            $st = '{"result":false,"description":"Non puoi eliminare un ticket"}';
-            return $st;
-          }
-        }
-        }else{
-          //se l id non è presente
-          $st = '{"result":false,"description":"Utente non esistente"}';
-          return $st;
-        }
+					}
+				}
+				else
+				{
+					$st = '{"result":false,"description":"L\'utente selezionato non ha i permessi per eliminare altri utenti."}';
+					return $st;
+				}
+			}
+		}
+		else
+		{
+			//se l id non è presente
+			$st = '{"result":false,"description":"Utente non esistente"}';
+			return $st;
+		}
     }
+	else
+		return '{"result":false,"description":"Informazioni utente non corrette"}';
+
   }
 
   // Nel caso in cui l'array è vuoto significa che non ha trovato nessun utente,
   // perciò restituisce false, se invece trova l'utente restituisce true.
 	private function controlId($IdTicket){
-		$q = "SELECT * FROM schoolticket.ticket WHERE IdTicket = :idPl";
-		$st = $this->PDOconn->prepare($q);
-		$result = $st->execute(['idPl' => $IdTicket]);
-		if($result == false){
-				return false;
-				}
-		$record = $st->fetchAll();
-		if(empty($record))
-			return false;
-		else
-			return true;
 
-			//if($IdTicket = $record['Id'])
+		if(is_numeric($IdTicket))
+		{
+			$q = "SELECT * FROM schoolticket.ticket WHERE IdTicket = :idPl";
+			$st = $this->PDOconn->prepare($q);
+			$result = $st->execute(['idPl' => $IdTicket]);
+			if($result == false){
+					return false;
+					}
+			$record = $st->fetchAll();
+			if(empty($record))
+				return false;
+			else
+				return true;
+		}
+		else
+			return false;
 	}
 
   private function controlDate($newDate){
@@ -382,7 +443,7 @@ public function show($id) {
 
 		return $diff->format("%r%a");
 	}
-public function changeHour($IdTicket, $newHour){
+	public function changeHour($IdTicket, $newHour){
 
 		if(($this->controlId($IdTicket)))
 		{
@@ -1179,8 +1240,15 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "Insert"){
 }
 
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "Show"){
-  $ID = 2; // $_SESSION["logged"]
-  echo $ticket->show($ID);
+  if(isset($_SESSION["logged"]) && $_SESSION["logged"] != false && trim($_SESSION["logged"]) != "")
+    $IdUtn = $_SESSION["logged"];
+  else
+    $IdUtn = null;
+
+  //var_dump($_SESSION["logged"]);
+
+  echo $ticket->show($IdUtn);
+
 }
 
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "Union"){
