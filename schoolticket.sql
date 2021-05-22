@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 22, 2021 alle 11:16
--- Versione del server: 10.4.13-MariaDB
--- Versione PHP: 7.4.8
+-- Creato il: Mag 22, 2021 alle 14:13
+-- Versione del server: 10.1.28-MariaDB
+-- Versione PHP: 7.1.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -33,7 +34,7 @@ CREATE TABLE `aula` (
   `IdAula` int(11) NOT NULL,
   `Nome` varchar(100) NOT NULL,
   `Descrizione` varchar(1000) DEFAULT NULL,
-  `Laboratorio` tinyint(1) NOT NULL
+  `Laboratorio` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -204,20 +205,20 @@ CREATE TABLE `note` (
 CREATE TABLE `permessi` (
   `IdPermessi` int(11) NOT NULL,
   `Descrizione` varchar(1000) NOT NULL,
-  `ModificaVisualizzaTuttiUtenti` tinyint(1) NOT NULL DEFAULT 0,
-  `CreareTicket` tinyint(1) NOT NULL DEFAULT 1,
-  `ModificaTuttiTicket` tinyint(1) NOT NULL DEFAULT 0,
-  `UnireTicket` tinyint(1) NOT NULL DEFAULT 0,
-  `VisualizzaTuttiTicket` tinyint(1) NOT NULL DEFAULT 0,
-  `ModificaStatoAvanzamentoTicket` tinyint(1) NOT NULL DEFAULT 0,
-  `ModificaStatoAvanzamentoIncarico` tinyint(1) NOT NULL DEFAULT 0,
-  `CreaIncarico` tinyint(1) NOT NULL DEFAULT 0,
-  `CreaModificaEliminaAula` tinyint(1) NOT NULL DEFAULT 0,
-  `CreaModificaEliminaNote` tinyint(1) NOT NULL DEFAULT 0,
-  `CreaModificaEliminaMacroarea` tinyint(1) NOT NULL DEFAULT 0,
-  `CreaModificaEliminaCompetenza` tinyint(1) NOT NULL DEFAULT 0,
-  `CreaModificaEliminaCategoria` tinyint(1) NOT NULL DEFAULT 0,
-  `CreaModificaEliminaPermessi` tinyint(1) NOT NULL DEFAULT 0
+  `ModificaVisualizzaTuttiUtenti` tinyint(1) NOT NULL DEFAULT '0',
+  `CreareTicket` tinyint(1) NOT NULL DEFAULT '1',
+  `ModificaTuttiTicket` tinyint(1) NOT NULL DEFAULT '0',
+  `UnireTicket` tinyint(1) NOT NULL DEFAULT '0',
+  `VisualizzaTuttiTicket` tinyint(1) NOT NULL DEFAULT '0',
+  `ModificaStatoAvanzamentoTicket` tinyint(1) NOT NULL DEFAULT '0',
+  `ModificaStatoAvanzamentoIncarico` tinyint(1) NOT NULL DEFAULT '0',
+  `CreaIncarico` tinyint(1) NOT NULL DEFAULT '0',
+  `CreaModificaEliminaAula` tinyint(1) NOT NULL DEFAULT '0',
+  `CreaModificaEliminaNote` tinyint(1) NOT NULL DEFAULT '0',
+  `CreaModificaEliminaMacroarea` tinyint(1) NOT NULL DEFAULT '0',
+  `CreaModificaEliminaCompetenza` tinyint(1) NOT NULL DEFAULT '0',
+  `CreaModificaEliminaCategoria` tinyint(1) NOT NULL DEFAULT '0',
+  `CreaModificaEliminaPermessi` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -237,16 +238,16 @@ CREATE TABLE `ticket` (
   `IdTicket` int(11) NOT NULL,
   `Nome` varchar(100) NOT NULL,
   `Descrizione` varchar(1000) DEFAULT NULL,
-  `Immagine` blob DEFAULT NULL,
+  `Immagine` blob,
   `StatoDiAvanzamento` varchar(100) NOT NULL,
-  `Priorita` int(11) NOT NULL DEFAULT 1,
+  `Priorita` int(11) NOT NULL DEFAULT '1',
   `Data` date NOT NULL,
   `Ora` time NOT NULL,
   `IdMacroarea` int(11) NOT NULL,
   `IdUtente` int(11) NOT NULL,
   `IdAula` int(11) NOT NULL,
   `IdUnione` int(11) DEFAULT NULL,
-  `Visualizzato` tinyint(1) NOT NULL DEFAULT 0
+  `Visualizzato` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
