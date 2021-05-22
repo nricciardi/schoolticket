@@ -1,6 +1,6 @@
 <?php
     // richiamo il file di configurazione
-    require_once("../../../../../../config.php");
+    require_once("../../config.php");
 
 
     class Permessi {
