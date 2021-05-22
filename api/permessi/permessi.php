@@ -94,7 +94,7 @@
         public function delete($idPermesso = null, $credenziali = null) {      // opzionale: se viene passato un id, eliminino solo il permesso con l'id passato
 
             // controllo del permesso delete dell'utente passato
-            if(!isset($this->authorized($credenziali["email"], $credenziali["password"])["CreaModificaEliminaPermessi"]) || $this->authorized($credenziali["email"], $credenziali["password"])["CreaModificaEliminaPermessi"] == 0)
+            if($credenziali === null || !isset($this->authorized($credenziali["email"], $credenziali["password"])["CreaModificaEliminaPermessi"]) || $this->authorized($credenziali["email"], $credenziali["password"])["CreaModificaEliminaPermessi"] == 0)
                 return '{"result":false, "description":"Azione non consentita per questo utente"}';
             
             $query = "DELETE FROM schoolticket.permessi";     // creo la query per eliminare i tutti permessi
@@ -342,7 +342,7 @@
         public function update($permesso = null, $credenziali = null) {
 
             // controllo del permesso delete dell'utente passato
-            if(!isset($this->authorized($credenziali["email"], $credenziali["password"])["CreaModificaEliminaPermessi"]) || $this->authorized($credenziali["email"], $credenziali["password"])["CreaModificaEliminaPermessi"] == 0)
+            if($credenziali === null || !isset($this->authorized($credenziali["email"], $credenziali["password"])["CreaModificaEliminaPermessi"]) || $this->authorized($credenziali["email"], $credenziali["password"])["CreaModificaEliminaPermessi"] == 0)
                 return '{"result":false, "description":"Azione non consentita per questo utente"}';
 
             if(!isset($permesso->IdPermesso) || $this->exist($permesso->IdPermesso) === false)   // se l'id passato non esiste, creo il permesso
@@ -562,33 +562,57 @@
     // ========================================================================================
 
     // istanzio l'oggetto per la manipolazione dei permessi
-    $permessi = new Permessi(DATABASE_HOST, DATABASE_NAME, DATABASE_USERNAME, DATABASE_PASSWORD);
+    $obj_permessi = new Permessi(DATABASE_HOST, DATABASE_NAME, DATABASE_USERNAME, DATABASE_PASSWORD);
 
     $method = strtoupper($_SERVER["REQUEST_METHOD"]);	// recupero il metodo con cui il client ha fatto richiesta alla pagina (server)  
 
-    $credenziali = array("email" => "a@a.com", "password" => hash("sha512", "Qwerty1234!"));      // recupero le credenziali dell'utente
+    switch_request($obj_permessi, $method);
 
-    // switch di controllo per instradare le diverse richieste
-    switch ($method) {
+    // funzione che mi restituisce le credenziali passate al server tramite client
+    function getCredenziali() {
 
-        // ============== CRUD ==================
-        case "GET":		// richiesta GET
-            //echo "GET";
-            echo GET_request($permessi);
-            break;
+        // controllo che sia stato passato un username per l'autenticazione
+        if(isset($_SERVER["PHP_AUTH_USER"]) && $_SERVER["PHP_AUTH_USER"] != null && $_SERVER["PHP_AUTH_USER"] != false) {
+            // controllo che sia stato passato la password per l'autenticazione
+            if(isset($_SERVER["PHP_AUTH_PW"]) && $_SERVER["PHP_AUTH_PW"] != null && $_SERVER["PHP_AUTH_PW"] != false) {
 
-        case "POST":		// richiesta POST
-            //echo "POST";
-            echo POST_request($permessi, $credenziali);
-            break;
-        
-        case "PUT":		// richiesta PUT
-            echo PUT_request($permessi, $credenziali);
-            break;
+                // imposto le credenziali in un array
+                $credenziali = array("email" => $_SERVER["PHP_AUTH_USER"], "password" => $_SERVER["PHP_AUTH_PW"]);      // la password è passata criptata in sha512
+                
+                // restituisco le credenziali
+                return $credenziali;
+            }
+        }
 
-        case "DELETE":		// richiesta DELETE
-            echo DELETE_request($permessi, $credenziali);
-            break;
+        return null;
+    }
+    
+
+    // funzione per l'instradamento delle richieste
+    function switch_request($obj_permessi = null, $method = null) {
+
+        // switch di controllo per instradare le diverse richieste
+        switch ($method) {
+
+            // ============== CRUD ==================
+            case "GET":		// richiesta GET
+                //echo "GET";
+                echo GET_request($obj_permessi);
+                break;
+
+            case "POST":		// richiesta POST
+                //echo "POST";
+                echo POST_request($obj_permessi, getCredenziali());
+                break;
+            
+            case "PUT":		// richiesta PUT
+                echo PUT_request($obj_permessi, getCredenziali());
+                break;
+
+            case "DELETE":		// richiesta DELETE
+                echo DELETE_request($obj_permessi, getCredenziali());
+                break;
+        }
     }
 
     // funzione per selezionare il metodo della classe da richiamare
