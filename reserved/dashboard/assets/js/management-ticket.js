@@ -254,15 +254,15 @@ function createTableTicket() {
 }
 
 
-// in base all'id passato cerco di creare un nuovo utente
+// in base all'id passato cerco di creare un nuovo ticket
 function addTicket() {
     console.log("Aggiungo un ticket");
 
     // controllo che tutti i controlli siano andati a buon fine
-   
+
 
     // creo l'oggetto data da mandare in post
-    let data = {"Submit": "insert", "nome": document.getElementById("newNameTicket").value, "descrizione": document.getElementById("newDescrizioneTicket").value, "Immagine": document.getElementById("newImmagineTicket").value, "stato": document.getElementById("newStatoTicket").value, "priorita": document.getElementById("newPrioritaTicket").value, "data": document.getElementById("newDataTicket").value, "ora": document.getElementById("newDataTicket").value, "IdMacroarea": document.getElementById("macroarea_add_ticket").value, "IdUtente": document.getElementById("utente_add_ticket").value, "IdAula": document.getElementById("aula_add_ticket").value, "IdUnione": document.getElementById("newUnioneTicket").value, "visualizzato": document.getElementById("newVisualizzatoTicket").value };
+    let data = {"Submit": "insert", "nome": document.getElementById("newNameTicket").value, "descrizione": document.getElementById("newDescrizioneTicket").value, "Immagine": document.getElementById("newImmagineTicket").value, "stato": document.getElementById("newStatoTicket").value, "priorita": document.getElementById("newPrioritaTicket").value,/* "data": document.getElementById("newDataTicket").value, "ora": document.getElementById("newDataTicket").value,*/ "IdMacroarea": document.getElementById("macroarea_add_ticket").value, /*"IdUtente": document.getElementById("utente_add_ticket").value, */"IdAula": document.getElementById("aula_add_ticket").value/*, "IdUnione": document.getElementById("newUnioneTicket").value, "visualizzato": document.getElementById("newVisualizzatoTicket").value */};
 
     // effettuo la chiamata ajax
     $.ajax({
@@ -497,7 +497,7 @@ function createFormNewTicket() {
     record += '</td>';
 */
     // inserisco i bottoni per le diverse azioni
-    record += '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_ticket" onclick="addTicket()" style="margin-left: 0.5vw; border-radius: 5%" disabled>' +   // aggiungo l'onclick per effettuare correttamente l'azione
+    record += '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_ticket" onclick="addTicket()" style="margin-left: 0.5vw; border-radius: 5%" >' +   // aggiungo l'onclick per effettuare correttamente l'azione
         '<i class="far fa-check-circle"></i> Conferma' +
     '</button>' +
     '<button type="button" onclick="createTableTicket()" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%">' +
@@ -611,10 +611,10 @@ function checkFormNewTicket(ID = "btn_confirm_new_ticket") {
         return false;
     }
 
-    if(check_new_surname_ticket && check_new_name_ticket && check_new_password_ticket && check_new_email_ticket)
+    //if(check_new_surname_ticket && check_new_name_ticket && check_new_password_ticket && check_new_email_ticket)
         btn_confirm_new_ticket.removeAttribute("disabled");
-    else
-        btn_confirm_new_ticket.setAttribute("disabled", "disabled");
+    /*else
+        btn_confirm_new_ticket.setAttribute("disabled", "disabled");*/
 
 }
 
