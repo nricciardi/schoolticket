@@ -23,7 +23,7 @@
 		}
 
 		private function controlId($IdUtente){
-			
+
 			if(is_numeric($IdUtente))
 			{
 				$q = "SELECT * FROM schoolticket.utente WHERE IdUtente = :idPl";
@@ -43,7 +43,7 @@
 			else
 				return false;
 		}
-		
+
 		private function getAllUsers($id){
 			if(is_numeric($id))  // Vedere se l'utente è loggato.
 			{
@@ -51,7 +51,7 @@
 				$controlloId->execute([$id]);
 				while($record = $controlloId->fetch())
 					$IdPerm = $record['IdPermessi'];
-				
+
 				$controlloPerm = $this->PDOconn->prepare("SELECT schoolticket.permessi.ModificaVisualizzaTuttiUtenti FROM schoolticket.permessi WHERE schoolticket.permessi.IdPermessi = $IdPerm");
 				$controlloPerm->execute();
 				while($record = $controlloPerm->fetch())
@@ -72,12 +72,12 @@
 					$recordPerPrelevareCategorieUtenteLoggato = $stPerPrelevareCategorieUtenteLoggato->fetchAll(PDO::FETCH_ASSOC)[0];
 					$recordPerPrelevareUtenteLoggato = $stPerPrelevareUtenteLoggato->fetchAll(PDO::FETCH_ASSOC)[0];
 					$recordPerPrelevarePermessiUtenteLoggato = $stPerPrelevarePermessiUtenteLoggato->fetchAll(PDO::FETCH_ASSOC)[0];
-					
+
 					//var_dump($recordPerPrelevareUtenteLoggato);
 
 					$r = '{"result": [';
 					$r .= '{"IdUtente": "';
-					$r .= $recordPerPrelevareUtenteLoggato["IdUtente"]; 
+					$r .= $recordPerPrelevareUtenteLoggato["IdUtente"];
 					$r .= '" ,"Cognome": "';
 					$r .= $recordPerPrelevareUtenteLoggato["Cognome"];
 					$r .= '" ,"Nome": "';
@@ -108,7 +108,7 @@
 
 						$categoria = $record["IdCategoria"];
 						$st = $this->PDOconn->prepare("SELECT schoolticket.categoria.* FROM schoolticket.categoria WHERE schoolticket.categoria.IdCategoria = ?");		// Se è 1 visualizza tutti gli utenti
-						$result = $st->execute([$categoria]);	//Result contiene 1 o 0 in base al corretto funzionamento della query 
+						$result = $st->execute([$categoria]);	//Result contiene 1 o 0 in base al corretto funzionamento della query
 						if($result == false){
 							$r = '{"result":false, "description":"Query non avvenuta con successo"}';
 							return $r;
@@ -116,11 +116,11 @@
 						$rows2 = $st->fetch(PDO::FETCH_ASSOC);
 						$temp = (json_encode($rows2));
 						//echo $temp;
-					
+
 						//CATEGORIA
 						$permessi = $record["IdPermessi"];
 							$st = $this->PDOconn->prepare("SELECT schoolticket.permessi.* FROM schoolticket.permessi WHERE schoolticket.permessi.IdPermessi = ?");		// Se è 1 visualizza tutti gli utenti
-							$result = $st->execute([$permessi]);	//Result contiene 1 o 0 in base al corretto funzionamento della query 
+							$result = $st->execute([$permessi]);	//Result contiene 1 o 0 in base al corretto funzionamento della query
 							if($result == false){
 								$r = '{"result":false, "description":"Query non avvenuta con successo"}';
 								return $r;
@@ -128,12 +128,12 @@
 						$rows3 = $st->fetch(PDO::FETCH_ASSOC);
 						//var_dump($rows3);
 						$temp2 = (json_encode($rows3));
-						
+
 						/*if($cont == 0)
 							$r .= ' {"IdUtente": "';
 						else*/
 							$r .= ', {"IdUtente": "';
-						$r .= $record["IdUtente"]; 
+						$r .= $record["IdUtente"];
 						$r .= '" ,"Cognome": "';
 						$r .= $record["Cognome"];
 						$r .= '" ,"Nome": "';
@@ -165,10 +165,10 @@
 				}
 
 				$risultatoControlloId = $controlloId->fetchAll(PDO::FETCH_ASSOC);
-				
-				
+
+
 				$IdCorretto = 0; 	//Dopo il for contiene 1 se l'ID passato alla funzione esiste nel Database degli utenti
-				
+
 				for($i = 0; $i < COUNT($risultatoControlloId); $i++)	//Ciclo for per controllare che l'Id sia presente nel Database
 				{
 					if($risultatoControlloId[$i]["IdUtente"] == $id)
@@ -177,14 +177,14 @@
 						break;
 					}
 				}
-				
+
 				if($IdCorretto == 1)	//Se l'Id è presente allora possiamo andare a stampare le sue informazioni
 				{
-										
+
 						$st = $this->PDOconn->prepare("SELECT schoolticket.Utente.* FROM schoolticket.Utente WHERE schoolticket.Utente.IdUtente = ?");		// Se è 1 visualizza tutti gli utenti
-						$result = $st->execute([$id]);	//Result contiene 1 o 0 in base al corretto funzionamento della query 
-						
-						if($result == false)	//Verifica la corretta connessione al Database 
+						$result = $st->execute([$id]);	//Result contiene 1 o 0 in base al corretto funzionamento della query
+
+						if($result == false)	//Verifica la corretta connessione al Database
 						{
 							$r = '{"result":false, "description":"Problemi durante l\'elaborazione dei dati del server"}';
 							return $r;		//In caso di errore di connessione la funzione ritorna -1
@@ -192,17 +192,17 @@
 				} else {
 					return '{"result":false, "description":"Problemi durante l\'elaborazione dei dati del server"}';
 				}
-			
-			
+
+
 			//QUERY:
 				$rows = $st->fetchAll(PDO::FETCH_ASSOC);//Qui abbiamo tutti gli utenti
-				
+
 				if($result != false)
 				{
 					//CATEGORIA:
 					$categoria = $rows[0]["IdCategoria"];
 						$st = $this->PDOconn->prepare("SELECT schoolticket.categoria.* FROM schoolticket.categoria WHERE schoolticket.categoria.IdCategoria = ?");		// Se è 1 visualizza tutti gli utenti
-						$result = $st->execute([$categoria]);	//Result contiene 1 o 0 in base al corretto funzionamento della query 
+						$result = $st->execute([$categoria]);	//Result contiene 1 o 0 in base al corretto funzionamento della query
 						if($result == false){
 							$r = '{"result":false, "description":"Problemi durante l\'elaborazione dei dati del server"}';
 							return $r;
@@ -210,11 +210,11 @@
 					$rows2 = $st->fetch(PDO::FETCH_ASSOC);
 					$temp = (json_encode($rows2));
 					//echo $temp;
-					
+
 					//PERMESSI
 					$permessi = $rows[0]["IdPermessi"];
 						$st = $this->PDOconn->prepare("SELECT schoolticket.permessi.* FROM schoolticket.permessi WHERE schoolticket.permessi.IdPermessi = ?");		// Se è 1 visualizza tutti gli utenti
-						$result = $st->execute([$permessi]);	//Result contiene 1 o 0 in base al corretto funzionamento della query 
+						$result = $st->execute([$permessi]);	//Result contiene 1 o 0 in base al corretto funzionamento della query
 						if($result == false){
 							$r = '{"result":false, "description":"Problemi durante l\'elaborazione dei dati del server"}';
 							return $r;
@@ -223,16 +223,16 @@
 					//var_dump($rows3);
 					$temp2 = (json_encode($rows3));
 					//echo '</br>' .$temp2;
-					
+
 					//$rows[0]["IdCategoria"] = $temp;
 					//$rows[0]["IdPermessi"] = $temp2;
-					
+
 					//var_dump($rows);
-					
+
 				//STRINGA JSON da restituire:
 					$r = '{"result":';
 					$r .= ' [{"IdUtente": "';
-					$r .= $rows[0]["IdUtente"]; 
+					$r .= $rows[0]["IdUtente"];
 					$r .= '", "Cognome": "';
 					$r .= $rows[0]["Cognome"];
 					$r .= '", "Nome": "';
@@ -245,21 +245,21 @@
 					$r .= $temp;
 					$r .= ', "Permessi": ';
 					$r .= $temp2 . '}';
-					
+
 					$r .= '] , "description":"Dati utente correttamente restituiti"}';
 					return $r;
-					
+
 				}
 				else
 				{
 					$r = '{"result":false, "description":"Stampa non avvenuta con successo"}';
 					return $r;
 				}
-					
-				
+
+
 			}
 		}
-		
+
 
 		public function verifyPsw($psw)
 		{
@@ -294,12 +294,12 @@
 			else
 				return '{"result":true, "description":"La password è stata modificata con successo."}';
 		}
-		
+
 		public function registration($nome, $cognome, $email, $psw, $IdCategoria, $IdPermessi){
-			
-			$msg = '{"result":false, "description":"'; //stringa del msg errore 
-			$check = true; //variabile di controllo 
-			
+
+			$msg = '{"result":false, "description":"'; //stringa del msg errore
+			$check = true; //variabile di controllo
+
 			if (!filter_var($nome, FILTER_SANITIZE_STRING)) {
 				$msg .= 'Nome errato; ';
 				$check = false;
@@ -321,56 +321,56 @@
 				$msg .= $verPsw->description . '; ';
 				$check = false;
 			}
-						
+
 			if($_SESSION["logged"] == false){ 					//controllo che se il permesso inserito è vuoto (0) lo metto di default a 1
-				
+
 				$IdPermessi = $this->permessoDefault;
 				$verifyPermessi = true;
-				
+
 			}
 			else{
 				if(is_numeric($_SESSION["logged"])){
-					
+
 					$q = "SELECT schoolticket.permessi.ModificaVisualizzaTuttiUtenti FROM schoolticket.utente JOIN schoolticket.permessi ON schoolticket.utente.IdPermessi = schoolticket.permessi.IdPermessi WHERE schoolticket.utente.IdUtente = ?";
 					$st = $this->PDOconn->prepare($q);
 					$result = $st->execute([$_SESSION["logged"]]);
 					$user = $st->fetchAll(PDO::FETCH_ASSOC);
 					if($user[0]['ModificaVisualizzaTuttiUtenti'] == 0){
-						
+
 						$IdPermessi = $this->permessoDefault;
 						$verifyPermessi = true;
-						
+
 					}else{
 						//controllo i permessi
 						$q = "SELECT * FROM schoolticket.permessi WHERE IdPermessi = :permessiP1";
 						$st = $this->PDOconn->prepare($q);
 						$result = $st->execute(['permessiP1' => $IdPermessi]); //CONTROLlO se il permesso esiste
-						
+
 						if($result == false) {
 							// problema coi permessi
 							$check = false;
 							$msg .= 'Errore inserimento permessi; ';
 						}
-						
+
 						$permessi = $st->fetchAll(PDO::FETCH_ASSOC);
-						
+
 						if(!isset($permessi[0])) {
 							$IdPermessi = $this->permessoDefault;
 						}
 						$verifyPermessi = true;
-					}		
+					}
 				}
 			}
-			
+
 			if($verifyPermessi == false and $check = false){
 				$msg .='Problemi con il collegamento con il server; ';
 				$check = false;
 			}
 			/*else{
-				$rows = $st->fetchAll(PDO::FETCH_ASSOC);		//ERRORE ST NON E' STAT DICHIARATO PRIMA 
-					
+				$rows = $st->fetchAll(PDO::FETCH_ASSOC);		//ERRORE ST NON E' STAT DICHIARATO PRIMA
+
 				//echo VAR_DUMP($rows);
-					
+
 				if(empty($rows)){
 					$msg .= 'Non esiste questo permesso; ';
 					$check = false;
@@ -380,36 +380,36 @@
 			$q = "SELECT * FROM schoolticket.categoria WHERE IdCategoria = :categoriaP1";
 			$st = $this->PDOconn->prepare($q);
 			$verifyCategoria = $st->execute(['categoriaP1' => $IdCategoria]); //CONTROLlO se categoria esiste
-			
+
 			if($verifyCategoria == false and $check = false){
 				$msg .= 'Problemi con il collegamento con il server; ';
 				$check = false;
 			}
 			else{
 				$rows = $st -> fetchAll(PDO::FETCH_ASSOC);
-					
+
 				//echo VAR_DUMP($rows);
-					
+
 				if(empty($rows)){
 					$msg .= 'Non esiste questa categoria; ';
 					$check = false;
 				}
 			}
-						
+
 			//controllo la mail
 			$q = "SELECT * FROM schoolticket.utente WHERE Email = :emailPl";
 			$st = $this->PDOconn->prepare($q);
 			$verifyEmail = $st->execute(['emailPl' => $email]); //CONTROLlO se email esiste
-			
+
 			if($verifyEmail == false and $check = false){
 				$msg .= 'Non esiste questa categoria.';
 				$check = false;
 			}
 			else{
 				$rows = $st -> fetchAll(PDO::FETCH_ASSOC);
-					
+
 				//echo VAR_DUMP($rows);
-					
+
 				if(!empty($rows)){
 					$msg .= 'Non esiste questa categoria; ';
 					$check = false;
@@ -419,14 +419,14 @@
 					$st = $this->PDOconn->prepare($q);
 					$check = $st->execute(['nomePl' => $nome, 'cognomePl' => $cognome, 'emailPl' => $email, 'pswPl' => hash('sha512', $psw), 'categoriaP1' => $IdCategoria, 'permessiP1' => $IdPermessi]);
 						//return '{"result":false, "description":"Registrazione non andata a buon fine."}';
-				}		
+				}
 			}
-			
+
 			if($check == false)  //controllo che non ci siano errori
 				return $msg.'"}';
 			else				//return del messaggio giusto
 				return '{"result":true, "description":"Registrazione effettuata con successo."}';
-			
+
 		}
 
 		public function Delete($IdUtente, $id){//Elimino il/i ticket in base all'IdUtente e controllo attraverso $id che l'utente sia loggato e abbia i permessi;
@@ -443,7 +443,7 @@
 					$r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
 					return $r;
 				}
-				else 		
+				else
 				{
 					$risultatoquery = $st->fetchAll(PDO::FETCH_ASSOC);	//Contiene il risultato della query
 					if($risultatoquery[0]["ModificaTuttiTicket"] == 1)	//Verifichiamo se ha permesso 1 o 0 nel modificare i ticket
@@ -475,7 +475,7 @@
 										else
 											$totDescr .= ";Utente " . $id[$i] . " non eliminato";
 									}
-									
+
 								}
 								else
 								{
@@ -496,11 +496,11 @@
 								$st = '{"result":false,"description":"' . $totDescr . '"}';
 								return $st;
 							}
-							
 
-						}		
+
+						}
 						else
-						{	
+						{
 							//se non è un array elimino solo un ticket
 							if(is_numeric($id) and $this->controlId($id))
 							{
@@ -523,7 +523,7 @@
 								$st = '{"result":false,"description":"Utente da eliminare inserito non corretto"}';
 								return $st;
 							}
-								
+
 						}
 					}
 					else
@@ -533,7 +533,7 @@
 					}
 				}
 			}
-			else	
+			else
 			{
 				//se l id non è presente
 				$st = '{"result":false,"description":"Utente non esistente"}';
@@ -543,7 +543,7 @@
 		else
 			return '{"result":false,"description":"Informazioni utente non corrette"}';
     }
-		
+
 		public function changeSurname($IdUtn, $newSurname){
 			$st = "";
 			$result = $this->controlId($IdUtn);
@@ -570,7 +570,7 @@
 			$st = '{"result":true,"description":"Cognome Utente aggiornato correttamente"}';
 			return $st;
 		}
-		
+
 		public function changeName($IdUtn, $newName){
 			$st = "";
 			$result = $this->controlId($IdUtn);
@@ -597,7 +597,7 @@
 			$st = '{"result":true,"description":"Nome Utente aggiornato correttamente"}';
 			return $st;
 		}
-		
+
 		public function changeEmail($IdUtn, $newEmail){
 			$st = "";
 			$result = $this->controlId($IdUtn);
@@ -605,7 +605,7 @@
 				$r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
 				return $r;
 			}
-			
+
 			if(!filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
 				$r = '{"result":false, "description":"Email inserita non corretta"}';
 				return $r;
@@ -620,7 +620,7 @@
 			$st = '{"result":true,"description":"Email Utente aggiornata correttamente"}';
 			return $st;
 		}
-		
+
 		public function changeCategoria($IdUtente, $newCategoria){
 			$st = "";
 			if(!is_numeric($newCategoria)){
@@ -667,7 +667,7 @@
 				return $st;
 			}
 		}
-		
+
 		public function changePermessi($IdUtente, $newPermessi){
 			$st = "";
 			if(!is_numeric($newPermessi)){
@@ -714,7 +714,7 @@
 				return $st;
 			}
 		}
-		
+
 	public function Update($IdUtente, $Cognome = "", $Nome = "", $Email = "", $Password = "", $Codice = "", $Categoria = "", $Permessi = ""){
 
 		$st = "";
@@ -777,7 +777,7 @@
 				$totDescr .= "; " . $retPerm["description"];
 			$cont++;
 		}
-	
+
 		$control = true;
 
 		if(!empty($retCognome))
@@ -804,8 +804,8 @@
 		else
 			return $st = '{"result":false,"description":"' .$totDescr .'"}';
 	}
-	
-		
+
+
 		public function show($id){
 
 			if(is_numeric($id))  // Vedere se l'utente è loggato.
@@ -820,10 +820,10 @@
 
 				$permesso = $controlloId->fetch();
 				//var_dump($permesso);
-				
+
 				if($permesso == false)
 					return '{"result":false, "description":"Problemi durante l\'elaborazione del server, riprovare più tardi o contattare l\'assistenza"}';
-				
+
 				$IdP = $permesso[0];
 				//echo $IdP;
 					if(!is_numeric($IdP)){
@@ -868,7 +868,7 @@
 			//var_dump($user);
 
 			if($user) {
-				
+
 				// imposto la variabile di sessione con l'id dell'utente registrato
 				$_SESSION["logged"] = $user[0]["IdUtente"];
 
@@ -884,11 +884,11 @@
 		}
 
 		public function logout(){
-			$_SESSION["logged"] = false;			
+			$_SESSION["logged"] = false;
 		}
 
 		/*public function update($nome, $cognome, $email, $psw, $IdCategoria, $IdPermessi) {
-			return '{"result":false, "description":"metodo da implementare"}'; 
+			return '{"result":false, "description":"metodo da implementare"}';
 		}*/
 
 //MANDA IL CODICE DI VERIFICA:
@@ -897,15 +897,15 @@
 			$q = "SELECT Email FROM schoolticket.utente WHERE IdUtente = ? ";
 			$st = $this->PDOconn->prepare($q);
 			$result = $st->execute([$ID]);
-			
+
 			// controllo se la query è andata a buon fine per evitare errori, in caso invio il feedback
 			if(!$result)
 				return '{"result":false, "description":"Errore nell\'invio del codice."}';
 
 			try {
-				
+
 				$rows = $st->fetchAll(PDO::FETCH_ASSOC);	// recupero i risultati della query
-				
+
 				// controllo che sia presente un'email nella ricerca, in caso negativo genero un'eccezione
 				if(!isset($rows[0]["Email"]))
 					throw new Exception("Non esiste nessuna email o non esiste l'utente con ID: $ID");
@@ -915,7 +915,7 @@
 				$codice = rand(10000000,99999999);			// genero un numero causuale (codice) da inviare all'utente
 				$this->code = $codice;						// tengo in memoria il codice						!!!!!!!!!!!!!!!!!!! controllare che in caso di più utenti non sia necessario tenere in memoria il codice in una variabile di sessione
 				$result = send_mail(" ",$mail,"Codice",$this->code);		// richiamo la funzione per l'invio dell'email
-				
+
 				// DEBUG:
 				//var_dump(json_decode($result));
 				//echo json_decode($result)->result;
@@ -933,7 +933,7 @@
 
 //CAMBIO DELLA PASSWORD:
 		public function changePassword($ID_utente_da_modificare, $nuovaPassword, $codice){
-			
+
 			if(!$this->controlId($ID_utente_da_modificare))	// controllo che gli id passati esistano
 				return '{"result":false,"description":"Utente non presente nel database"}';
 
@@ -945,7 +945,7 @@
 
 			if($verPsw->result == false){
 				$msg = '{"result":false, "description":' . $verPsw->description . '}';
-				
+
 			}else{
 			//QUERY PER CAMBIARE LA PASSWORD:
 					if($this->code == $codice){
@@ -971,7 +971,7 @@
 
 $auth = new Auth(DATABASE_HOST, DATABASE_NAME, DATABASE_USERNAME, DATABASE_PASSWORD, PERMESSO_DEFAULT);
 
-$method = strtoupper($_SERVER["REQUEST_METHOD"]);	// recupero il metodo con cui il client ha fatto richiesta alla pagina (server)  
+$method = strtoupper($_SERVER["REQUEST_METHOD"]);	// recupero il metodo con cui il client ha fatto richiesta alla pagina (server)
 
 // switch di controllo per instradare le diverse richieste
 switch ($method) {
@@ -986,7 +986,7 @@ switch ($method) {
 		//echo "POST";
 		echo POST_request($auth);
 		break;
-	
+
 	case "PUT":		// richiesta PUT
 		echo PUT_request($auth);
 		break;
@@ -1000,21 +1000,21 @@ switch ($method) {
 		//echo "LOGIN";
 		echo LOGIN_request($auth);
 		break;
-	
+
 	case "SENDCODE":		// richiesta SEND CODE (invia il codice per il cambio della password)
 		//echo "LOGIN";
 		echo SENDCODE_request($auth);
 		break;
-	
+
 }
 
 // funzione per selezionare il metodo della classe da richiamare
 function GET_request($auth = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
 
 	// controllo che venga passato l'oggetto della classe per la connessione con il database
-	if($auth === null)	
-		return $json_error;	
-	
+	if($auth === null)
+		return $json_error;
+
 	if(isset($_SESSION["logged"]) && $_SESSION["logged"] != false) {	// controllo che ci sia un utente loggato
 		$ID_utente_loggato = $_SESSION["logged"];
 		return $auth->show($ID_utente_loggato);		// richiamo il metodo della classe per mostrare tutti gli utenti
@@ -1024,58 +1024,58 @@ function GET_request($auth = null, $json_error = '{"result":false,"description":
 
 	// restituisco di default il codice di errore
 	return $json_error;
-	
+
 
 }
 
 function POST_request($auth = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
 
 	// controllo che venga passato l'oggetto della classe per la connessione con il database
-	if($auth === null)	
-		return $json_error;	
-	
+	if($auth === null)
+		return $json_error;
+
 		if(isset($_POST) && $_POST != null && !empty($_POST)) {
 
 			$control = true;
-	
-			$data_new_user = $_POST; 
+
+			$data_new_user = $_POST;
 
 			if(isset($data_new_user["nome"])) {
 				$nome = $data_new_user["nome"];
 			} else {
 				$control = false;
 			}
-		
+
 			if(isset($data_new_user["cognome"])) {
 				$cognome = $data_new_user["cognome"];
 			} else {
 				$control = false;
 			}
-		
+
 			if(isset($data_new_user["email"])) {
 				$email = $data_new_user["email"];
 			} else {
 				$control = false;
 			}
-		
+
 			if(isset($data_new_user["password"])) {
 				$password = $data_new_user["password"];
 			} else {
 				$control = false;
 			}
-		
+
 			if(isset($data_new_user["idCategoria"])) {
 				$IdCategoria = $data_new_user["idCategoria"];
 			} else {
 				$control = false;
 			}
-		
+
 			if(isset($data_new_user["idPermessi"])) {
 				$IdPermessi = $data_new_user["idPermessi"];
 			} else {
 				$control = false;
 			}
-		
+
 			if($control)
 				return $auth->registration(/*$id,*/ $nome, $cognome, $email, $password, $IdCategoria, $IdPermessi);	// Deprecato, l'id dell'utente è autoincrementale
 			else
@@ -1087,16 +1087,16 @@ function POST_request($auth = null, $json_error = '{"result":false,"description"
 
 	//  restituisco di default il codice di errore
 	return $json_error;
-	
+
 
 }
 
 function PUT_request($auth = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
 
 	// controllo che venga passato l'oggetto della classe per la connessione con il database
-	if($auth === null)	
-		return $json_error;	
-	
+	if($auth === null)
+		return $json_error;
+
 		$put_data = json_decode(urldecode(file_get_contents("php://input")));	// recupero dallo stream di input del server le informazioni passate in LOGIN
 
 		if(isset($put_data) && $put_data != null && !empty($put_data)) {
@@ -1108,39 +1108,39 @@ function PUT_request($auth = null, $json_error = '{"result":false,"description":
 			} else {
 				$nome = null;
 			}
-		
+
 			if(isset($put_data["cognome"])) {
 				$cognome = $put_data["cognome"];
 			} else {
 				$cognome = null;
 			}
-		
+
 			if(isset($put_data["email"])) {
 				$email = $put_data["email"];
 			} else {
 				$email = null;
 			}
-		
+
 			if(isset($put_data["password"])) {
 				$password = $put_data["password"];
 			} else {
 				$password = null;
 			}
-		
+
 			if(isset($put_data["idCategoria"])) {
 				$IdCategoria = $put_data["idCategoria"];
 			} else {
 				$IdCategoria = null;
 			}
-		
+
 			if(isset($put_data["idPermessi"])) {
 				$IdPermessi = $put_data["idPermessi"];
 			} else {
 				$IdPermessi = null;
 			}
-		
+
 			return $auth->update($nome, $cognome, $email, $password, $IdCategoria, $IdPermessi);	// Deprecato, l'id dell'utente è autoincrementale
-			
+
 
 		} else {
 			return $json_error;
@@ -1148,15 +1148,15 @@ function PUT_request($auth = null, $json_error = '{"result":false,"description":
 
 	//  restituisco di default il codice di errore
 	return $json_error;
-	
+
 
 }
 
 function DELETE_request($auth = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
 
 	// controllo che venga passato l'oggetto della classe per la connessione con il database
-	if($auth === null)	
-		return $json_error;	
+	if($auth === null)
+		return $json_error;
 
 		$delete_data = json_decode(urldecode(file_get_contents("php://input")));	// recupero dallo stream di input del server le informazioni passate in LOGIN
 
@@ -1172,23 +1172,23 @@ function DELETE_request($auth = null, $json_error = '{"result":false,"descriptio
 				}
 			} else {	// altrimenti stampo un errore
 				return $json_error;
-			}	
-		
+			}
+
 		} else {
 			return $json_error;
 		}
 
 	// in caso non sia entrato in un CASE nello SWITCH, restituisco di default il codice di errore
 	return $json_error;
-	
+
 
 }
 
 function SENDCODE_request($auth = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
 
 	// controllo che venga passato l'oggetto della classe per la connessione con il database
-	if($auth === null)	
-		return $json_error;	
+	if($auth === null)
+		return $json_error;
 
 		$sencode_data = json_decode(urldecode(file_get_contents("php://input")));	// recupero dallo stream di input del server le informazioni passate in LOGIN
 
@@ -1198,18 +1198,18 @@ function SENDCODE_request($auth = null, $json_error = '{"result":false,"descript
 			if(isset($sencode_data->id) && $sencode_data->id != "") {
 
 				return $auth -> delete($sencode_data->id);
-				
+
 			} else {	// altrimenti stampo un errore
 				return $json_error;
-			}	
-		
+			}
+
 		} else {
 			return $json_error;
 		}
 
 	// in caso non sia entrato in un CASE nello SWITCH, restituisco di default il codice di errore
 	return $json_error;
-	
+
 
 }
 
@@ -1219,10 +1219,10 @@ function LOGIN_request($auth = null, $json_error = '{"result":false,"description
 
 
 	// controllo che venga passato l'oggetto della classe per la connessione con il database
-	if($auth === null)	
-		return $json_error;	
+	if($auth === null)
+		return $json_error;
 
-	
+
 	if(isset($login_data) && $login_data != null && !empty($login_data)) {
 
 		$control = true;
@@ -1245,26 +1245,26 @@ function LOGIN_request($auth = null, $json_error = '{"result":false,"description
 		else{
 			return $json_error;
 		}
-	
+
 	}
 
 	// in caso non sia entrato in un CASE nello SWITCH, restituisco di default il codice di errore
 	return $json_error;
-	
+
 
 }
 
-	
+
 //REGISTRAZIONE:
 /*
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "registration"){
-	
+
 	/*
 	// Deprecato, l'id dell'utente è autoincrementale
 	if(isset($_POST["id"]))
     	$id = $_POST["id"];
 	*/
-	/*	
+	/*
 
 	if(isset($_POST["nome"]))
     	$nome = $_POST["nome"];
@@ -1312,7 +1312,7 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "show"){
 		echo '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}';
 	}
 
-	
+
 }
 */
 
@@ -1387,7 +1387,7 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "getUser"){
 	} else {
 		echo '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}';
 	}
- 	
+
 }
 
 ?>

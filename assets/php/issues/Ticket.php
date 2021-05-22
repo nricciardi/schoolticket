@@ -1,5 +1,8 @@
 <?php
 
+require_once("../../../config.php");
+
+
 class Ticket{
     private $host = "";
     private $dbName = "";
@@ -92,7 +95,10 @@ public function insert($Nome, $Descrizione, $Immagine, $Stato, $Priorita, $IdAul
 }
 
 // Metodo per la visualizzazione dei ticket in base ai permessi dell'utente
-public function show($id) {
+public function show($id = null) {
+
+  if($id === null)
+    return '{"result":false, "description":"L\'utente non ha effettuato l\'accesso correttamente"}';
 
   if(is_numeric($id))  // Vedere se l'utente è loggato.
   {
@@ -252,8 +258,10 @@ public function show($id) {
   }
   else
   {
-    $st = $this->PDOconn->prepare('SELECT * FROM schoolticket.ticket WHERE schoolticket.ticket.IdUtente =  $_SESSION["logged"]'); // Aggiungere nella query e controllare se l'IdUtente è uguale a quello nella sessione.
-    $result = $st->execute();
+    $query = 'SELECT * FROM schoolticket.ticket WHERE schoolticket.ticket.IdUtente = ?';
+    $st = $this->PDOconn->prepare($query); // Aggiungere nella query e controllare se l'IdUtente è uguale a quello nella sessione.
+
+    $result = $st->execute([$id]);
     // stampo in formato JSON le classi
     $rows = $st->fetchAll(PDO::FETCH_ASSOC);
     $temp = (json_encode($rows));
@@ -292,8 +300,8 @@ public function show($id) {
 			{
 				$r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
 				return $r;
-			}	
-			
+			}
+
 			$st = $this->PDOconn->prepare("SELECT schoolticket.Permessi.ModificaTuttiTicket FROM schoolticket.Utente JOIN schoolticket.Permessi ON schoolticket.Permessi.IdPermessi = schoolticket.Utente.IdPermessi WHERE schoolticket.Utente.IdUtente = ?");
 			$result = $st->execute([$utente]);
 
@@ -302,7 +310,7 @@ public function show($id) {
 				$r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
 				return $r;
 			}
-			else 		
+			else
 			{
 				$st->execute([$utente]);
 				$risultatoquery = $st->fetchAll(PDO::FETCH_ASSOC);	//Contiene il risultato della query
@@ -335,7 +343,7 @@ public function show($id) {
 									else
 										$totDescr .= ";Utente " . $id[$i] . " non eliminato";
 								}
-								
+
 							}
 							else
 							{
@@ -356,11 +364,11 @@ public function show($id) {
 							$st = '{"result":false,"description":"' . $totDescr . '"}';
 							return $st;
 						}
-						
 
-					}		
+
+					}
 					else
-					{	
+					{
 						//se non è un array elimino solo un ticket
 						if(is_numeric($id) and $this->controlId($id))
 						{
@@ -383,7 +391,7 @@ public function show($id) {
 							$st = '{"result":false,"description":"Utente da eliminare inserito non corretto"}';
 							return $st;
 						}
-							
+
 					}
 				}
 				else
@@ -393,7 +401,7 @@ public function show($id) {
 				}
 			}
 		}
-		else	
+		else
 		{
 			//se l id non è presente
 			$st = '{"result":false,"description":"Utente non esistente"}';
@@ -408,7 +416,7 @@ public function show($id) {
   // Nel caso in cui l'array è vuoto significa che non ha trovato nessun utente,
   // perciò restituisce false, se invece trova l'utente restituisce true.
 	private function controlId($IdTicket){
-		
+
 		if(is_numeric($IdTicket))
 		{
 			$q = "SELECT * FROM schoolticket.ticket WHERE IdTicket = :idPl";
@@ -1232,8 +1240,15 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "Insert"){
 }
 
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "Show"){
-  $ID = 2; // $_SESSION["logged"]
-  echo $ticket->show($ID);
+  if(isset($_SESSION["logged"]) && $_SESSION["logged"] != false && trim($_SESSION["logged"]) != "")
+    $IdUtn = $_SESSION["logged"];
+  else
+    $IdUtn = null;
+
+  //var_dump($_SESSION["logged"]);
+
+  echo $ticket->show($IdUtn);
+
 }
 
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "Union"){
@@ -1250,11 +1265,5 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "ChangePriority"){
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "Update"){
   echo $ticket -> Update();
 }
-$array = array();
 
-$array[0] = 1;
-$array[1] = 5;
-$array[2] = 8;
-$array[3] = "ciao";
-echo $ticket->Delete(3, $array);
 ?>
