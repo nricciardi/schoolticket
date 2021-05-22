@@ -71,6 +71,9 @@ var btn_show_ticket2 = document.getElementById("btn_show_ticket_2");
 var btn_show_account = document.getElementById("btn_show_account");
 var btn_show_account2 = document.getElementById("btn_show_account2");
 
+// div contenente il form di per cambiare password
+var div_form_show_account = document.getElementById("div_form_show_account");
+
 // bottone del sotto menù gestione: btn_show_user
 var btn_show_user2 = document.getElementById("btn_show_user_2");
 
@@ -931,6 +934,15 @@ function removeForm(ID) {
 // ----------------------------------------------------------------
 // ----------------------- EVENTI --------------------------------- 
 // ----------------------------------------------------------------
+
+// al click in Account mostro il relativo form
+btn_show_account.addEventListener("click", () => {
+    // nascondo tutti i form 
+    hideAllDynamicPage();
+    // mostro il form selezionato
+    console.debug("change psw");
+    div_form_show_account.style.display = "";
+});
 
 // al click del add ticket viene mostrato il form
 btn_add_ticket.addEventListener("click", () => {

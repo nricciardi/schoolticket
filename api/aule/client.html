@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <p id="p"></p>
+
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+
+        $.ajax({
+
+            url: "aule.php",
+            type: "DELETE",
+            //data: JSON.stringify({"IdPermessi": 42, "Descrizione": "descrizione di un id inesistente"}),
+            //data: {"IdPermessi": 2, "Descrizione": "descrizione cambiata"},
+            data: JSON.stringify({"id": 6, "Nome": "stalin"}),
+            dataType: "JSON",
+            headers: {
+                        'Authorization': 'Basic ' + btoa('a@a.com:05be1ce3b695041f41341868251d8c0dcf6239be9e87b76f45471e9b5e23bde2a57d6b759ed81aca0329c794a654c785c666986841736cdc6b604d08ddfc83e1')
+                    },
+            success: (data) => {
+
+                console.log(data);
+                document.getElementById("p").innerHTML = JSON.stringify(data);
+
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>

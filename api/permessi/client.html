@@ -7,6 +7,9 @@
     <title>Document</title>
 </head>
 <body>
+
+    <p id="p"></p>
+
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
@@ -14,12 +17,14 @@
         $.ajax({
 
             url: "permessi.php",
-            type: "DELETE",
-            data: JSON.stringify({"id": 7, "Descrizione": "prova-finale2"}),
+            type: "PUT",
+            data: JSON.stringify({"IdPermessi": 42, "Descrizione": "descrizione di un id inesistente"}),
+            //data: {"IdPermessi": 2, "Descrizione": "descrizione cambiata"},
             dataType: "JSON",
             success: (data) => {
 
-                console.log(data)
+                console.log(data);
+                document.getElementById("p").innerHTML = JSON.stringify(data);
 
             }
 

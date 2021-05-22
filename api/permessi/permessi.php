@@ -1,6 +1,6 @@
 <?php
     // richiamo il file di configurazione
-    require_once("../../../../../../config.php");
+    require_once("../../config.php");
 
 
     class Permessi {
@@ -91,7 +91,11 @@
         }
 
         // metodo per l'eliminazione dei permessi
-        public function delete($idPermesso = null) {      // opzionale: se viene passato un id, eliminino solo il permesso con l'id passato
+        public function delete($idPermesso = null, $credenziali = null) {      // opzionale: se viene passato un id, eliminino solo il permesso con l'id passato
+
+            // controllo del permesso delete dell'utente passato
+            if($credenziali === null || !isset($this->authorized($credenziali["email"], $credenziali["password"])["CreaModificaEliminaPermessi"]) || $this->authorized($credenziali["email"], $credenziali["password"])["CreaModificaEliminaPermessi"] == 0)
+                return '{"result":false, "description":"Azione non consentita per questo utente"}';
             
             $query = "DELETE FROM schoolticket.permessi";     // creo la query per eliminare i tutti permessi
             
@@ -145,7 +149,11 @@
         }
 
         // metodo per creare un nuovo permesso
-        public function create($permesso = null) {
+        public function create($permesso = null, $credenziali = null) {
+
+            // controllo del permesso delete dell'utente passato
+            if($credenziali === null || !isset($this->authorized($credenziali["email"], $credenziali["password"])["CreaModificaEliminaPermessi"]) || $this->authorized($credenziali["email"], $credenziali["password"])["CreaModificaEliminaPermessi"] == 0)
+                return '{"result":false, "description":"Azione non consentita per questo utente"}';
             
             // creo la query per eliminare i tutti permessi
             $query = "INSERT INTO schoolticket.permessi(";
@@ -161,10 +169,14 @@
                 // associo ad ogni variabile il suo rispettivo valore
                 $return_message = "";
                 
-                $permesso->Descrizione = filter_var($permesso->Descrizione, FILTER_SANITIZE_STRING);        // sanifico la stringa di testo
-                if(isset($permesso->Descrizione) && trim($permesso->Descrizione) != "" && $permesso->Descrizione != null && $permesso->Descrizione != false) {
+                if(is_object($permesso)) {      // se il permesso passato è un oggetto, lo trasformo in un array
+                    $permesso = json_decode(json_encode($permesso), true);
+                }
+                
+                if(isset($permesso["Descrizione"]) && trim($permesso["Descrizione"]) != "" && $permesso["Descrizione"] != null && $permesso["Descrizione"] != false) {
 
-                    $descrizione = $permesso->Descrizione;
+                    $permesso["Descrizione"] = filter_var($permesso["Descrizione"], FILTER_SANITIZE_STRING);        // sanifico la stringa di testo
+                    $descrizione = $permesso["Descrizione"];
                     $query .= "`Descrizione`,";
                     $end_query .= "?,";
                     array_push($array_values, $descrizione);
@@ -172,8 +184,8 @@
                     return '{"result":false, "description":"La descrizione non è stata inviata"}';
                 }
 
-                if(isset($permesso->ModificaVisualizzaTuttiUtenti) && trim($permesso->ModificaVisualizzaTuttiUtenti) != "" && $permesso->ModificaVisualizzaTuttiUtenti != null) {
-                    $ModificaVisualizzaTuttiUtenti = $permesso->ModificaVisualizzaTuttiUtenti;
+                if(isset($permesso["ModificaVisualizzaTuttiUtenti"]) && trim($permesso["ModificaVisualizzaTuttiUtenti"]) != "" && $permesso["ModificaVisualizzaTuttiUtenti"] != null) {
+                    $ModificaVisualizzaTuttiUtenti = $permesso["ModificaVisualizzaTuttiUtenti"];
                     $query .= "`ModificaVisualizzaTuttiUtenti`,";
                     $end_query .= "?,";
                     array_push($array_values, $ModificaVisualizzaTuttiUtenti);
@@ -181,8 +193,8 @@
                     $return_message .= "ModificaVisualizzaTuttiUtenti mancante, utilizzato valore di default; ";
                 }
 
-                if(isset($permesso->CreareTicket) && trim($permesso->CreareTicket) != "" && $permesso->CreareTicket != null) {
-                    $CreareTicket = $permesso->CreareTicket;
+                if(isset($permesso["CreareTicket"]) && trim($permesso["CreareTicket"]) != "" && $permesso["CreareTicket"] != null) {
+                    $CreareTicket = $permesso["CreareTicket"];
                     $query .= "`CreareTicket`,";
                     $end_query .= "?,";
                     array_push($array_values, $CreareTicket);
@@ -190,8 +202,8 @@
                     $return_message .= "CreareTicket mancante, utilizzato valore di default; ";
                 }
                 
-                if(isset($permesso->ModificaTuttiTicket) && trim($permesso->ModificaTuttiTicket) != "" && $permesso->ModificaTuttiTicket != null) {
-                    $ModificaTuttiTicket = $permesso->ModificaTuttiTicket;
+                if(isset($permesso["ModificaTuttiTicket"]) && trim($permesso["ModificaTuttiTicket"]) != "" && $permesso["ModificaTuttiTicket"] != null) {
+                    $ModificaTuttiTicket = $permesso["ModificaTuttiTicket"];
                     $query .= "`ModificaTuttiTicket`,";
                     $end_query .= "?,";
                     array_push($array_values, $ModificaTuttiTicket);
@@ -199,8 +211,8 @@
                     $return_message .= "ModificaTuttiTicket mancante, utilizzato valore di default; ";
                 }
                 
-                if(isset($permesso->UnireTicket) && trim($permesso->UnireTicket) != "" && $permesso->UnireTicket != null) {
-                    $UnireTicket = $permesso->UnireTicket;
+                if(isset($permesso["UnireTicket"]) && trim($permesso["UnireTicket"]) != "" && $permesso["UnireTicket"] != null) {
+                    $UnireTicket = $permesso["UnireTicket"];
                     $query .= "`UnireTicket`,";
                     $end_query .= "?,";
                     array_push($array_values, $UnireTicket);
@@ -208,8 +220,8 @@
                     $return_message .= "UnireTicket mancante, utilizzato valore di default; ";
                 }
                 
-                if(isset($permesso->VisualizzaTuttiTicket) && trim($permesso->VisualizzaTuttiTicket) != "" && $permesso->VisualizzaTuttiTicket != null) {
-                    $VisualizzaTuttiTicket = $permesso->VisualizzaTuttiTicket;
+                if(isset($permesso["VisualizzaTuttiTicket"]) && trim($permesso["VisualizzaTuttiTicket"]) != "" && $permesso["VisualizzaTuttiTicket"] != null) {
+                    $VisualizzaTuttiTicket = $permesso["VisualizzaTuttiTicket"];
                     $query .= "`VisualizzaTuttiTicket`,";
                     $end_query .= "?,";
                     array_push($array_values, $VisualizzaTuttiTicket);
@@ -217,8 +229,8 @@
                     $return_message .= "VisualizzaTuttiTicket mancante, utilizzato valore di default; ";
                 }
                 
-                if(isset($permesso->ModificaStatoAvanzamentoTicket) && trim($permesso->ModificaStatoAvanzamentoTicket) != "" && $permesso->ModificaStatoAvanzamentoTicket != null) {
-                    $ModificaStatoAvanzamentoTicket = $permesso->ModificaStatoAvanzamentoTicket;
+                if(isset($permesso["ModificaStatoAvanzamentoTicket"]) && trim($permesso["ModificaStatoAvanzamentoTicket"]) != "" && $permesso["ModificaStatoAvanzamentoTicket"] != null) {
+                    $ModificaStatoAvanzamentoTicket = $permesso["ModificaStatoAvanzamentoTicket"];
                     $query .= "`ModificaStatoAvanzamentoTicket`,";
                     $end_query .= "?,";
                     array_push($array_values, $ModificaStatoAvanzamentoTicket);
@@ -226,8 +238,8 @@
                     $return_message .= "ModificaStatoAvanzamentoTicket mancante, utilizzato valore di default; ";
                 }
                 
-                if(isset($permesso->ModificaStatoAvanzamentoIncarico) && trim($permesso->ModificaStatoAvanzamentoIncarico) != "" && $permesso->ModificaStatoAvanzamentoIncarico != null) {
-                    $ModificaStatoAvanzamentoIncarico = $permesso->ModificaStatoAvanzamentoIncarico;
+                if(isset($permesso["ModificaStatoAvanzamentoIncarico"]) && trim($permesso["ModificaStatoAvanzamentoIncarico"]) != "" && $permesso["ModificaStatoAvanzamentoIncarico"] != null) {
+                    $ModificaStatoAvanzamentoIncarico = $permesso["ModificaStatoAvanzamentoIncarico"];
                     $query .= "`ModificaStatoAvanzamentoIncarico`,";
                     $end_query .= "?,";
                     array_push($array_values, $ModificaStatoAvanzamentoIncarico);
@@ -235,8 +247,8 @@
                     $return_message .= "ModificaStatoAvanzamentoIncarico mancante, utilizzato valore di default; ";
                 }
                 
-                if(isset($permesso->CreaIncarico) && trim($permesso->CreaIncarico) != "" && $permesso->CreaIncarico != null) {
-                    $CreaIncarico = $permesso->CreaIncarico;
+                if(isset($permesso["CreaIncarico"]) && trim($permesso["CreaIncarico"]) != "" && $permesso["CreaIncarico"] != null) {
+                    $CreaIncarico = $permesso["CreaIncarico"];
                     $query .= "`CreaIncarico`,";
                     $end_query .= "?,";
                     array_push($array_values, $CreaIncarico);
@@ -244,8 +256,8 @@
                     $return_message .= "CreaIncarico mancante, utilizzato valore di default; ";
                 }
                 
-                if(isset($permesso->CreaModificaEliminaAula) && trim($permesso->CreaModificaEliminaAula) != "" && $permesso->CreaModificaEliminaAula != null) {
-                    $CreaModificaEliminaAula = $permesso->CreaModificaEliminaAula;
+                if(isset($permesso["CreaModificaEliminaAula"]) && trim($permesso["CreaModificaEliminaAula"]) != "" && $permesso["CreaModificaEliminaAula"] != null) {
+                    $CreaModificaEliminaAula = $permesso["CreaModificaEliminaAula"];
                     $query .= "`CreaModificaEliminaAula`,";
                     $end_query .= "?,";
                     array_push($array_values, $CreaModificaEliminaAula);
@@ -253,8 +265,8 @@
                     $return_message .= "CreaModificaEliminaAula mancante, utilizzato valore di default; ";
                 }
                 
-                if(isset($permesso->CreaModificaEliminaNote) && trim($permesso->CreaModificaEliminaNote) != "" && $permesso->CreaModificaEliminaNote != null) {
-                    $CreaModificaEliminaNote = $permesso->CreaModificaEliminaNote;
+                if(isset($permesso["CreaModificaEliminaNote"]) && trim($permesso["CreaModificaEliminaNote"]) != "" && $permesso["CreaModificaEliminaNote"] != null) {
+                    $CreaModificaEliminaNote = $permesso["CreaModificaEliminaNote"];
                     $query .= "`CreaModificaEliminaNote`,";
                     $end_query .= "?,";
                     array_push($array_values, $CreaModificaEliminaNote);
@@ -262,8 +274,8 @@
                     $return_message .= "CreaModificaEliminaNote mancante, utilizzato valore di default; ";
                 }
                 
-                if(isset($permesso->CreaModificaEliminaMacroarea) && trim($permesso->CreaModificaEliminaMacroarea) != "" && $permesso->CreaModificaEliminaMacroarea != null) {
-                    $CreaModificaEliminaMacroarea = $permesso->CreaModificaEliminaMacroarea;
+                if(isset($permesso["CreaModificaEliminaMacroarea"]) && trim($permesso["CreaModificaEliminaMacroarea"]) != "" && $permesso["CreaModificaEliminaMacroarea"] != null) {
+                    $CreaModificaEliminaMacroarea = $permesso["CreaModificaEliminaMacroarea"];
                     $query .= "`CreaModificaEliminaMacroarea`,";
                     $end_query .= "?,";
                     array_push($array_values, $CreaModificaEliminaMacroarea);
@@ -271,8 +283,8 @@
                     $return_message .= "CreaModificaEliminaMacroarea mancante, utilizzato valore di default; ";
                 }
 
-                if(isset($permesso->CreaModificaEliminaCompetenza) && trim($permesso->CreaModificaEliminaCompetenza) != "" && $permesso->CreaModificaEliminaCompetenza != null) {
-                    $CreaModificaEliminaMacroarea = $permesso->CreaModificaEliminaCompetenza;
+                if(isset($permesso["CreaModificaEliminaCompetenza"]) && trim($permesso["CreaModificaEliminaCompetenza"]) != "" && $permesso["CreaModificaEliminaCompetenza"] != null) {
+                    $CreaModificaEliminaMacroarea = $permesso["CreaModificaEliminaCompetenza"];
                     $query .= "`CreaModificaEliminaCompetenza`,";
                     $end_query .= "?,";
                     array_push($array_values, $CreaModificaEliminaMacroarea);
@@ -280,13 +292,21 @@
                     $return_message .= "CreaModificaEliminaCompetenza mancante, utilizzato valore di default; ";
                 }
 
-                if(isset($permesso->CreaModificaEliminaCategoria) && trim($permesso->CreaModificaEliminaCategoria) != "" && $permesso->CreaModificaEliminaCategoria != null) {
-                    $CreaModificaEliminaCategoria = $permesso->CreaModificaEliminaCategoria;
+                if(isset($permesso["CreaModificaEliminaCategoria"]) && trim($permesso["CreaModificaEliminaCategoria"]) != "" && $permesso["CreaModificaEliminaCategoria"] != null) {
+                    $CreaModificaEliminaCategoria = $permesso["CreaModificaEliminaCategoria"];
                     $query .= "`CreaModificaEliminaCategoria`,";
                     $end_query .= "?,";
                     array_push($array_values, $CreaModificaEliminaCategoria);
                 } else {
                     $return_message .= "CreaModificaEliminaCategoria mancante, utilizzato valore di default; ";
+                }
+
+                if(isset($permesso->CreaModificaEliminaPermessi) && trim($permesso->CreaModificaEliminaPermessi) != "" && $permesso->CreaModificaEliminaPermessi != null) {
+                    $CreaModificaEliminaPermessi = $permesso->CreaModificaEliminaPermessi;
+                    $query .= "`CreaModificaEliminaPermessi`,";
+                    array_push($array_values, $CreaModificaEliminaPermessi);
+                } else {
+                    $return_message .= "CreaModificaEliminaPermessi mancante, utilizzato valore di default; ";
                 }
 
                 // elimino la , alla fine della stringa
@@ -319,8 +339,15 @@
         }
 
         // metodo per creare un nuovo permesso
-        public function update($permesso = null) {
-            
+        public function update($permesso = null, $credenziali = null) {
+
+            // controllo del permesso delete dell'utente passato
+            if($credenziali === null || !isset($this->authorized($credenziali["email"], $credenziali["password"])["CreaModificaEliminaPermessi"]) || $this->authorized($credenziali["email"], $credenziali["password"])["CreaModificaEliminaPermessi"] == 0)
+                return '{"result":false, "description":"Azione non consentita per questo utente"}';
+
+            if(!isset($permesso->IdPermesso) || $this->exist($permesso->IdPermesso) === false)   // se l'id passato non esiste, creo il permesso
+                return $this->create($permesso, $credenziali);
+        
             // creo la query per eliminare i tutti permessi
             $query = "UPDATE schoolticket.permessi SET";
             $array_values = array();
@@ -331,8 +358,9 @@
 
             } else {  // per ogni attributo dell'oggetto passato, aggiungo il rispettivo alla query e all'array da passare alla query
                 
-                $permesso->Descrizione = filter_var($permesso->Descrizione, FILTER_SANITIZE_STRING);        // sanifico la stringa di testo
                 if(isset($permesso->Descrizione) && trim($permesso->Descrizione) != "" && $permesso->Descrizione != null && $permesso->Descrizione != false) {
+                    
+                    $permesso->Descrizione = filter_var($permesso->Descrizione, FILTER_SANITIZE_STRING);        // sanifico la stringa di testo
                     $descrizione = $permesso->Descrizione;
                     $query .= " `Descrizione` = ?,";
                     array_push($array_values, $descrizione);
@@ -416,6 +444,12 @@
                     array_push($array_values, $CreaModificaEliminaCategoria);
                 } 
 
+                if(isset($permesso->CreaModificaEliminaPermessi) && trim($permesso->CreaModificaEliminaPermessi) != "" && $permesso->CreaModificaEliminaPermessi != null) {
+                    $CreaModificaEliminaPermessi = $permesso->CreaModificaEliminaPermessi;
+                    $query .= "`CreaModificaEliminaPermessi`,";
+                    array_push($array_values, $CreaModificaEliminaPermessi);
+                } 
+
                 // elimino la , alla fine della stringa
                 if($query[strlen($query)-1] === ",")
                     $query = substr($query, 0, -1);
@@ -450,7 +484,76 @@
             return $r;
         }
 
-        
+        // dato username e passwrod viene restituito l'insieme dei permessi dell'utente pasato
+        private function authorized($username = null, $password = null) {
+
+            // controllo sui parametri
+            if($username == null || $password == null)
+                return false;//'{"result":false, "description":"Username o password non inseriti correttamente"}';
+
+
+            $query =    "SELECT schoolticket.permessi.* FROM schoolticket.utente 
+                        JOIN schoolticket.permessi ON schoolticket.permessi.IdPermessi = schoolticket.utente.IdPermessi 
+                        WHERE schoolticket.utente.Email = ? AND schoolticket.utente.Password = ?";
+
+            // eseguo la query
+            $st = $this->PDOconn->prepare($query);  
+            $result = $st->execute([$username, $password]);
+
+            if($result != false) {       // controllo che la query abbia dato un risultato positivo
+                
+                // recupero le informazioni del select
+                $data = $st->fetchAll(PDO::FETCH_ASSOC);
+                
+                // controllo che sia stato restituito almeno un utente, altrimenti restituisco false
+                if($st->rowCount() === 0)
+                    return false;
+
+                // creo la stringa di output
+                $r = $data[0];//'{"result":true, "description":"Il permesso è stato modificato correttamente"}';
+
+            } else {        // in caso di errore della query
+                $r = false;//'{"result":false, "description":"Problemi durante l\'autenticazione dell\'utente"}';
+            }
+
+            return $r;  // restituisco il risultato
+        }
+
+        private function exist($idPermesso = null) {
+
+            if($idPermesso == null)     // controllo che sia stato passato un id
+                return false;//'{"result":false, "description":"Username o password non inseriti correttamente"}';
+
+            // query per vedere se esiste l'id passato
+            $query =    "SELECT schoolticket.permessi.* FROM schoolticket.permessi 
+                        WHERE schoolticket.permessi.IdPermessi = ?";
+
+            // eseguo la query
+            $st = $this->PDOconn->prepare($query);  
+            $result = $st->execute([$idPermesso]);
+
+            if($result != false) {       // controllo che la query abbia dato un risultato positivo
+                
+                // recupero le informazioni del select
+                $data = $st->fetchAll(PDO::FETCH_ASSOC);
+                
+                // controllo che sia stato restituito almeno un utente, altrimenti restituisco false
+                if($st->rowCount() === 0)
+                    return false;
+
+                // creo la stringa di output
+                $r = $data[0];//'{"result":true, "description":"Il permesso è stato modificato correttamente"}';
+
+            } else {        // in caso di errore della query
+                $r = false;//'{"result":false, "description":"Problemi durante l\'autenticazione dell\'utente"}';
+            }
+
+            return $r;  // restituisco il risultato
+
+
+        }
+
+
     }
     
 
@@ -459,31 +562,57 @@
     // ========================================================================================
 
     // istanzio l'oggetto per la manipolazione dei permessi
-    $permessi = new Permessi(DATABASE_HOST, DATABASE_NAME, DATABASE_USERNAME, DATABASE_PASSWORD);
+    $obj_permessi = new Permessi(DATABASE_HOST, DATABASE_NAME, DATABASE_USERNAME, DATABASE_PASSWORD);
 
     $method = strtoupper($_SERVER["REQUEST_METHOD"]);	// recupero il metodo con cui il client ha fatto richiesta alla pagina (server)  
 
-    // switch di controllo per instradare le diverse richieste
-    switch ($method) {
+    switch_request($obj_permessi, $method);
 
-        // ============== CRUD ==================
-        case "GET":		// richiesta GET
-            //echo "GET";
-            echo GET_request($permessi);
-            break;
+    // funzione che mi restituisce le credenziali passate al server tramite client
+    function getCredenziali() {
 
-        case "POST":		// richiesta POST
-            //echo "POST";
-            echo POST_request($permessi);
-            break;
-        
-        case "PUT":		// richiesta PUT
-            echo PUT_request($permessi);
-            break;
+        // controllo che sia stato passato un username per l'autenticazione
+        if(isset($_SERVER["PHP_AUTH_USER"]) && $_SERVER["PHP_AUTH_USER"] != null && $_SERVER["PHP_AUTH_USER"] != false) {
+            // controllo che sia stato passato la password per l'autenticazione
+            if(isset($_SERVER["PHP_AUTH_PW"]) && $_SERVER["PHP_AUTH_PW"] != null && $_SERVER["PHP_AUTH_PW"] != false) {
 
-        case "DELETE":		// richiesta DELETE
-            echo DELETE_request($permessi);
-            break;
+                // imposto le credenziali in un array
+                $credenziali = array("email" => $_SERVER["PHP_AUTH_USER"], "password" => $_SERVER["PHP_AUTH_PW"]);      // la password è passata criptata in sha512
+                
+                // restituisco le credenziali
+                return $credenziali;
+            }
+        }
+
+        return null;
+    }
+    
+
+    // funzione per l'instradamento delle richieste
+    function switch_request($obj_permessi = null, $method = null) {
+
+        // switch di controllo per instradare le diverse richieste
+        switch ($method) {
+
+            // ============== CRUD ==================
+            case "GET":		// richiesta GET
+                //echo "GET";
+                echo GET_request($obj_permessi);
+                break;
+
+            case "POST":		// richiesta POST
+                //echo "POST";
+                echo POST_request($obj_permessi, getCredenziali());
+                break;
+            
+            case "PUT":		// richiesta PUT
+                echo PUT_request($obj_permessi, getCredenziali());
+                break;
+
+            case "DELETE":		// richiesta DELETE
+                echo DELETE_request($obj_permessi, getCredenziali());
+                break;
+        }
     }
 
     // funzione per selezionare il metodo della classe da richiamare
@@ -499,11 +628,11 @@
         if(isset($_GET["id"]) && is_numeric((int) $_GET["id"]) && trim($_GET["id"]) != "")      // controllo che sia stato passato un parametro in GET
             $ID_permesso = (int) $_GET["id"];
 
-        return $obj_permessi->get($ID_permesso);		// richiamo il metodo della classe per mostrare tutti gli utenti
+        return $obj_permessi->get($ID_permesso);		// richiamo il metodo della classe per mostrare tutti gli elementi
 
     }
 
-    function POST_request($obj_permessi = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
+    function POST_request($obj_permessi = null, $credenziali = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
 
         // controllo che venga passato l'oggetto della classe per la connessione con il database
         if($obj_permessi === null)	
@@ -514,11 +643,10 @@
                 $data_new_permesso = $_POST; 
     
                 if(!isset($data_new_permesso["Descrizione"])) {     // controllo sia stata passata la descrizone, obbligatoria per il permesso
-                    return $json_error;
+                    return '{"result":false,"description":"La descrizione è un campo obbligatorio"}';
                 }
             
-            
-                return $obj_permessi->create($data_new_permesso);	// passo come parametro le informazioni del nuovo permesso
+                return $obj_permessi->create($data_new_permesso, $credenziali);	// passo come parametro le informazioni del nuovo permesso
                 
             } else {
                 return $json_error;
@@ -530,7 +658,7 @@
     
     }
     
-    function PUT_request($obj_permessi = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
+    function PUT_request($obj_permessi = null, $credenziali = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
 
         // controllo che venga passato l'oggetto della classe per la connessione con il database
         if($obj_permessi === null)	
@@ -540,7 +668,7 @@
     
             if(isset($put_data) && $put_data != null && !empty($put_data)) {
 
-                return $obj_permessi->update($put_data);	// passo come parametro l'oggetto ricevuto 
+                return $obj_permessi->update($put_data, $credenziali);	// passo come parametro l'oggetto ricevuto 
                 
             } else {
                 return $json_error;
@@ -552,7 +680,7 @@
     
     }
 
-    function DELETE_request($obj_permessi = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
+    function DELETE_request($obj_permessi = null, $credenziali = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
 
         // controllo che venga passato l'oggetto della classe per la connessione con il database
         if($obj_permessi === null)	
@@ -565,7 +693,7 @@
         if(isset($delete_data->id) && is_numeric((int) $delete_data->id) && trim($delete_data->id) != "")      // controllo che sia stato passato l'id
             $ID_permesso = (int) $delete_data->id;
 
-        return $obj_permessi->delete($ID_permesso);        
+        return $obj_permessi->delete($ID_permesso, $credenziali);        
     
     }
 

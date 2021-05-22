@@ -24,12 +24,12 @@
                             </a>
                             <ul class="list-unstyled navbar__sub-list js-sub-list">
                                 <li>
-                                    <button id="" style="/*display: none;*/">
+                                    <button id="btn_show_ticket" style="/*display: none;*/">
                                         <i class="fas fa-ticket-alt"></i>Ticket</button>
                                 </li>
                                 <li>
-                                    <button id="btn_show_account" style="/*display: none;*/">
-                                        <i class="fas fa-user"></i>Account</button>
+                                    <button id="btn_show_account">
+                                        <i class="fas fa-unlock-alt"></i>Account</button>
                                 </li>
                                 <!--<li>
                                     <a href="index3.html">
