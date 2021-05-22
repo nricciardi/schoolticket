@@ -274,7 +274,7 @@ public function show($id) {
 }
 }
 
-  public function Delete($IdTicket, $id){//Elimino il/i ticket in base all'IdTicket e controllo attraverso $id che l'utente sia loggato e abbia i permessi;
+	public function Delete($IdTicket, $id){//Elimino il/i ticket in base all'IdTicket e controllo attraverso $id che l'utente sia loggato e abbia i permessi;
 
     if(is_numeric($IdTicket))  // Vedere se l'utente è loggato.
     {

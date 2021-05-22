@@ -429,11 +429,120 @@
 			
 		}
 
-		public function delete($id){
-			$q = "DELETE FROM schoolticket.utente WHERE ID = :idPl";
-			$st = $this->PDOconn->prepare($q);
-			$st->execute(['idPl' => $id]);
+		public function Delete($IdUtente, $id){//Elimino il/i ticket in base all'IdUtente e controllo attraverso $id che l'utente sia loggato e abbia i permessi;
+
+		if(is_numeric($IdUtente))  // Vedere se l'utente è loggato.
+		{
+			if($this->controlId($IdUtente))	//Se l'Id è presente allora possiamo andare a eliminare un ticket
+			{
+				$st = $this->PDOconn->prepare("SELECT schoolticket.Permessi.ModificaTuttiTicket FROM schoolticket.Utente JOIN schoolticket.Permessi ON schoolticket.Permessi.IdPermessi = schoolticket.Utente.IdPermessi WHERE schoolticket.Utente.IdUtente = ?");
+				$result = $st->execute([$IdUtente]);
+
+				if($result == false) // Se la query è sbagliata
+				{
+					$r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
+					return $r;
+				}
+				else 		
+				{
+					$risultatoquery = $st->fetchAll(PDO::FETCH_ASSOC);	//Contiene il risultato della query
+					if($risultatoquery[0]["ModificaTuttiTicket"] == 1)	//Verifichiamo se ha permesso 1 o 0 nel modificare i ticket
+					{
+						//ESEGUO LA QUERY:
+						if(is_array($id))
+						{
+							$ver = 1;
+							$totDescr = "";
+							//Controllo se è un array o una variabile;
+							for($i = 0; $i < count($id); $i++)
+							{
+								if(is_numeric($id[$i]) and $this->controlId($id[$i]))
+								{
+									$q = "DELETE FROM schoolticket.ticket WHERE IdUtente = $id[$i]";
+									$st = $this->PDOconn->prepare($q);
+									$result = $st->execute();
+									if($result)
+									{
+										if($i == 0)
+											$totDescr .= "Utente " . $id[$i] . " eliminato correttamente";
+										else
+											$totDescr .= ";Utente " . $id[$i] . " eliminato correttamente";
+									}
+									else
+									{
+										if($i == 0)
+											$totDescr .= "Utente " . $id[$i] . " non eliminato";
+										else
+											$totDescr .= ";Utente " . $id[$i] . " non eliminato";
+									}
+									
+								}
+								else
+								{
+									$ver = 0;
+									if($i == 0)
+										$totDescr .= "Utente " . $id[$i] . " non eliminato";
+									else
+										$totDescr .= ";Utente " . $id[$i] . " non eliminato";
+								}
+							}
+							if($ver == 0)
+							{
+								$st = '{"result":false,"description":"' . $totDescr . '"}';
+								return $st;
+							}
+							else
+							{
+								$st = '{"result":false,"description":"' . $totDescr . '"}';
+								return $st;
+							}
+							
+
+						}		
+						else
+						{	
+							//se non è un array elimino solo un ticket
+							if(is_numeric($id) and $this->controlId($id))
+							{
+								$q = "DELETE FROM schoolticket.utente WHERE IdUtente = $id";
+								$st = $this->PDOconn->prepare($q);
+								$result = $st->execute();
+								if($result == false)
+								{
+									$st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
+									return $st;
+								}
+								else
+								{
+									$st = '{"result":true,"description":"Utente eliminato correttamente"}';
+									return $st;
+								}
+							}
+							else
+							{
+								$st = '{"result":false,"description":"Utente da eliminare inserito non corretto"}';
+								return $st;
+							}
+								
+						}
+					}
+					else
+					{
+						$st = '{"result":false,"description":"L\'utente selezionato non ha i permessi per eliminare altri utenti."}';
+						return $st;
+					}
+				}
+			}
+			else	
+			{
+				//se l id non è presente
+				$st = '{"result":false,"description":"Utente non esistente"}';
+				return $st;
+			}
 		}
+		else
+			return '{"result":false,"description":"Informazioni utente non corrette"}';
+    }
 		
 		public function changeSurname($IdUtn, $newSurname){
 			$st = "";
@@ -1281,4 +1390,6 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "getUser"){
  	
 }
 
+echo "<br>";
+echo $auth->Delete(1, 5);
 ?>
