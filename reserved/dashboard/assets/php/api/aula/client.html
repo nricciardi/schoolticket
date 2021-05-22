@@ -16,10 +16,11 @@
 
         $.ajax({
 
-            url: "permessi.php",
-            type: "PUT",
-            data: JSON.stringify({"IdPermessi": 42, "Descrizione": "descrizione di un id inesistente"}),
+            url: "aula.php",
+            type: "DELETE",
+            //data: JSON.stringify({"IdPermessi": 42, "Descrizione": "descrizione di un id inesistente"}),
             //data: {"IdPermessi": 2, "Descrizione": "descrizione cambiata"},
+            data: JSON.stringify({"id": 5, "Nome": "stalin"}),
             dataType: "JSON",
             success: (data) => {
 

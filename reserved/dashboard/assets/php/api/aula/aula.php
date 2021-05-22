@@ -80,10 +80,10 @@
                 // creo la stringa di output
                 $r = '{"result":';
                 $r .= $temp;
-                $r .= ', "description":"Sono stati prelevati i aula"}';
+                $r .= ', "description":"Sono state prelevate le aule"}';
 
             } else {        // in caso di errore della query
-                $r = '{"result":false, "description":"Riscontrato un problema nel recupero dei aula"}';
+                $r = '{"result":false, "description":"Riscontrato un problema nel recupero delle aule"}';
             }
 
             // restituisco il risultato
@@ -138,10 +138,10 @@
             if($result != false) {       // controllo che la query abbia dato un risultato positivo
                 
                 // creo la stringa di output
-                $r = '{"result":true, "description":"I aula sono stati eliminati correttamente"}';
+                $r = '{"result":true, "description":"Aula eliminata correttamente"}';
 
             } else {        // in caso di errore della query
-                $r = '{"result":false, "description":"I aula non sono stati eliminati correttamente"}';
+                $r = '{"result":false, "description":"Aula non eliminata correttamente"}';
             }
 
             // restituisco il risultato
@@ -168,138 +168,45 @@
 
                 // associo ad ogni variabile il suo rispettivo valore
                 $return_message = "";
-                
+                $control = true;        // variabile di controllo per i diversi campi
+
                 if(is_object($aula)) {      // se il aula passato è un oggetto, lo trasformo in un array
                     $aula = json_decode(json_encode($aula), true);
                 }
                 
-                $aula["Descrizione"] = filter_var($aula["Descrizione"], FILTER_SANITIZE_STRING);        // sanifico la stringa di testo
                 if(isset($aula["Descrizione"]) && trim($aula["Descrizione"]) != "" && $aula["Descrizione"] != null && $aula["Descrizione"] != false) {
-
+                    $aula["Descrizione"] = filter_var($aula["Descrizione"], FILTER_SANITIZE_STRING);        // sanifico la stringa di testo
                     $descrizione = $aula["Descrizione"];
                     $query .= "`Descrizione`,";
                     $end_query .= "?,";
                     array_push($array_values, $descrizione);
                 } else {
-                    return '{"result":false, "description":"La descrizione non è stata inviata"}';
+                    $return_message .= "Descrizione mancante, utilizzato valore di default; ";
                 }
 
-                if(isset($aula["ModificaVisualizzaTuttiUtenti"]) && trim($aula["ModificaVisualizzaTuttiUtenti"]) != "" && $aula["ModificaVisualizzaTuttiUtenti"] != null) {
-                    $ModificaVisualizzaTuttiUtenti = $aula["ModificaVisualizzaTuttiUtenti"];
-                    $query .= "`ModificaVisualizzaTuttiUtenti`,";
+                if(isset($aula["Laboratorio"]) && trim($aula["Laboratorio"]) != "" && $aula["Laboratorio"] != null) {
+                    $Laboratorio = $aula["Laboratorio"];
+                    $query .= "`Laboratorio`,";
                     $end_query .= "?,";
-                    array_push($array_values, $ModificaVisualizzaTuttiUtenti);
+                    array_push($array_values, $Laboratorio);
                 } else {
-                    $return_message .= "ModificaVisualizzaTuttiUtenti mancante, utilizzato valore di default; ";
+                    $return_message .= "Laboratorio mancante, utilizzato valore di default; ";
                 }
 
-                if(isset($aula["CreareTicket"]) && trim($aula["CreareTicket"]) != "" && $aula["CreareTicket"] != null) {
-                    $CreareTicket = $aula["CreareTicket"];
-                    $query .= "`CreareTicket`,";
+                if(isset($aula["Nome"]) && trim($aula["Nome"]) != "" && $aula["Nome"] != null && $aula["Nome"] != false) {
+                    
+                    $aula["Nome"] = filter_var($aula["Nome"], FILTER_SANITIZE_STRING);        // sanifico la stringa di testo
+                    $Nome = $aula["Nome"];
+                    $query .= "`Nome`,";
                     $end_query .= "?,";
-                    array_push($array_values, $CreareTicket);
+                    array_push($array_values, $Nome);
                 } else {
-                    $return_message .= "CreareTicket mancante, utilizzato valore di default; ";
-                }
-                
-                if(isset($aula["ModificaTuttiTicket"]) && trim($aula["ModificaTuttiTicket"]) != "" && $aula["ModificaTuttiTicket"] != null) {
-                    $ModificaTuttiTicket = $aula["ModificaTuttiTicket"];
-                    $query .= "`ModificaTuttiTicket`,";
-                    $end_query .= "?,";
-                    array_push($array_values, $ModificaTuttiTicket);
-                } else {
-                    $return_message .= "ModificaTuttiTicket mancante, utilizzato valore di default; ";
-                }
-                
-                if(isset($aula["UnireTicket"]) && trim($aula["UnireTicket"]) != "" && $aula["UnireTicket"] != null) {
-                    $UnireTicket = $aula["UnireTicket"];
-                    $query .= "`UnireTicket`,";
-                    $end_query .= "?,";
-                    array_push($array_values, $UnireTicket);
-                } else {
-                    $return_message .= "UnireTicket mancante, utilizzato valore di default; ";
-                }
-                
-                if(isset($aula["VisualizzaTuttiTicket"]) && trim($aula["VisualizzaTuttiTicket"]) != "" && $aula["VisualizzaTuttiTicket"] != null) {
-                    $VisualizzaTuttiTicket = $aula["VisualizzaTuttiTicket"];
-                    $query .= "`VisualizzaTuttiTicket`,";
-                    $end_query .= "?,";
-                    array_push($array_values, $VisualizzaTuttiTicket);
-                } else {
-                    $return_message .= "VisualizzaTuttiTicket mancante, utilizzato valore di default; ";
-                }
-                
-                if(isset($aula["ModificaStatoAvanzamentoTicket"]) && trim($aula["ModificaStatoAvanzamentoTicket"]) != "" && $aula["ModificaStatoAvanzamentoTicket"] != null) {
-                    $ModificaStatoAvanzamentoTicket = $aula["ModificaStatoAvanzamentoTicket"];
-                    $query .= "`ModificaStatoAvanzamentoTicket`,";
-                    $end_query .= "?,";
-                    array_push($array_values, $ModificaStatoAvanzamentoTicket);
-                } else {
-                    $return_message .= "ModificaStatoAvanzamentoTicket mancante, utilizzato valore di default; ";
-                }
-                
-                if(isset($aula["ModificaStatoAvanzamentoIncarico"]) && trim($aula["ModificaStatoAvanzamentoIncarico"]) != "" && $aula["ModificaStatoAvanzamentoIncarico"] != null) {
-                    $ModificaStatoAvanzamentoIncarico = $aula["ModificaStatoAvanzamentoIncarico"];
-                    $query .= "`ModificaStatoAvanzamentoIncarico`,";
-                    $end_query .= "?,";
-                    array_push($array_values, $ModificaStatoAvanzamentoIncarico);
-                } else {
-                    $return_message .= "ModificaStatoAvanzamentoIncarico mancante, utilizzato valore di default; ";
-                }
-                
-                if(isset($aula["CreaIncarico"]) && trim($aula["CreaIncarico"]) != "" && $aula["CreaIncarico"] != null) {
-                    $CreaIncarico = $aula["CreaIncarico"];
-                    $query .= "`CreaIncarico`,";
-                    $end_query .= "?,";
-                    array_push($array_values, $CreaIncarico);
-                } else {
-                    $return_message .= "CreaIncarico mancante, utilizzato valore di default; ";
-                }
-                
-                if(isset($aula["CreaModificaEliminaAula"]) && trim($aula["CreaModificaEliminaAula"]) != "" && $aula["CreaModificaEliminaAula"] != null) {
-                    $CreaModificaEliminaAula = $aula["CreaModificaEliminaAula"];
-                    $query .= "`CreaModificaEliminaAula`,";
-                    $end_query .= "?,";
-                    array_push($array_values, $CreaModificaEliminaAula);
-                } else {
-                    $return_message .= "CreaModificaEliminaAula mancante, utilizzato valore di default; ";
-                }
-                
-                if(isset($aula["CreaModificaEliminaNote"]) && trim($aula["CreaModificaEliminaNote"]) != "" && $aula["CreaModificaEliminaNote"] != null) {
-                    $CreaModificaEliminaNote = $aula["CreaModificaEliminaNote"];
-                    $query .= "`CreaModificaEliminaNote`,";
-                    $end_query .= "?,";
-                    array_push($array_values, $CreaModificaEliminaNote);
-                } else {
-                    $return_message .= "CreaModificaEliminaNote mancante, utilizzato valore di default; ";
-                }
-                
-                if(isset($aula["CreaModificaEliminaMacroarea"]) && trim($aula["CreaModificaEliminaMacroarea"]) != "" && $aula["CreaModificaEliminaMacroarea"] != null) {
-                    $CreaModificaEliminaMacroarea = $aula["CreaModificaEliminaMacroarea"];
-                    $query .= "`CreaModificaEliminaMacroarea`,";
-                    $end_query .= "?,";
-                    array_push($array_values, $CreaModificaEliminaMacroarea);
-                } else {
-                    $return_message .= "CreaModificaEliminaMacroarea mancante, utilizzato valore di default; ";
+                    $control = false;
+                    $return_message .= "Impossibile creare una nuova aula: Nome mancante o errato; ";
                 }
 
-                if(isset($aula["CreaModificaEliminaCompetenza"]) && trim($aula["CreaModificaEliminaCompetenza"]) != "" && $aula["CreaModificaEliminaCompetenza"] != null) {
-                    $CreaModificaEliminaMacroarea = $aula["CreaModificaEliminaCompetenza"];
-                    $query .= "`CreaModificaEliminaCompetenza`,";
-                    $end_query .= "?,";
-                    array_push($array_values, $CreaModificaEliminaMacroarea);
-                } else {
-                    $return_message .= "CreaModificaEliminaCompetenza mancante, utilizzato valore di default; ";
-                }
-
-                if(isset($aula["CreaModificaEliminaCategoria"]) && trim($aula["CreaModificaEliminaCategoria"]) != "" && $aula["CreaModificaEliminaCategoria"] != null) {
-                    $CreaModificaEliminaCategoria = $aula["CreaModificaEliminaCategoria"];
-                    $query .= "`CreaModificaEliminaCategoria`,";
-                    $end_query .= "?,";
-                    array_push($array_values, $CreaModificaEliminaCategoria);
-                } else {
-                    $return_message .= "CreaModificaEliminaCategoria mancante, utilizzato valore di default; ";
-                }
+                if($control === false)      // se non sono stati superati i controlli restituisco un errore
+                    return '{"result":false, "description":"' . $return_message . '"}';
 
                 // elimino la , alla fine della stringa
                 if($query[strlen($query)-1] === ",")
@@ -320,10 +227,10 @@
             if($result != false) {       // controllo che la query abbia dato un risultato positivo
                 
                 // creo la stringa di output
-                $r = '{"result":true, "description":"Il aula è stato creato correttamente ' . $return_message . '"}';
+                $r = '{"result":true, "description":"Aula creata correttamente ' . $return_message . '"}';
 
             } else {        // in caso di errore della query
-                $r = '{"result":false, "description":"Il aula non è stato creato correttamente"}';
+                $r = '{"result":false, "description":"Aula non creata correttamente"}';
             }
 
             // restituisco il risultato
@@ -350,91 +257,27 @@
 
             } else {  // per ogni attributo dell'oggetto passato, aggiungo il rispettivo alla query e all'array da passare alla query
                 
-                $aula->Descrizione = filter_var($aula->Descrizione, FILTER_SANITIZE_STRING);        // sanifico la stringa di testo
                 if(isset($aula->Descrizione) && trim($aula->Descrizione) != "" && $aula->Descrizione != null && $aula->Descrizione != false) {
+                    $aula->Descrizione = filter_var($aula->Descrizione, FILTER_SANITIZE_STRING);        // sanifico la stringa di testo
                     $descrizione = $aula->Descrizione;
                     $query .= " `Descrizione` = ?,";
                     array_push($array_values, $descrizione);
                 }
 
-                if(isset($aula->ModificaVisualizzaTuttiUtenti) && trim($aula->ModificaVisualizzaTuttiUtenti) != "" && $aula->ModificaVisualizzaTuttiUtenti != null) {
-                    $ModificaVisualizzaTuttiUtenti = $aula->ModificaVisualizzaTuttiUtenti;
-                    $query .= "`ModificaVisualizzaTuttiUtenti`,";
-                    array_push($array_values, $ModificaVisualizzaTuttiUtenti);
-                } 
+                if(isset($aula->Nome) && trim($aula->Nome) != "" && $aula->Nome != null && $aula->Nome != false) {
 
-                if(isset($aula->CreareTicket) && trim($aula->CreareTicket) != "" && $aula->CreareTicket != null) {
-                    $CreareTicket = $aula->CreareTicket;
-                    $query .= "`CreareTicket`,";
-                    array_push($array_values, $CreareTicket);
-                }
-                
-                if(isset($permesso->ModificaTuttiTicket) && trim($permesso->ModificaTuttiTicket) != "" && $permesso->ModificaTuttiTicket != null) {
-                    $ModificaTuttiTicket = $permesso->ModificaTuttiTicket;
-                    $query .= "`ModificaTuttiTicket`,";
-                    array_push($array_values, $ModificaTuttiTicket);
-                }
-                
-                if(isset($permesso->UnireTicket) && trim($permesso->UnireTicket) != "" && $permesso->UnireTicket != null) {
-                    $UnireTicket = $permesso->UnireTicket;
-                    $query .= "`UnireTicket`,";
-                    array_push($array_values, $UnireTicket);
-                }
-                
-                if(isset($permesso->VisualizzaTuttiTicket) && trim($permesso->VisualizzaTuttiTicket) != "" && $permesso->VisualizzaTuttiTicket != null) {
-                    $VisualizzaTuttiTicket = $permesso->VisualizzaTuttiTicket;
-                    $query .= "`VisualizzaTuttiTicket`,";
-                    array_push($array_values, $VisualizzaTuttiTicket);
-                }
-                
-                if(isset($permesso->ModificaStatoAvanzamentoTicket) && trim($permesso->ModificaStatoAvanzamentoTicket) != "" && $permesso->ModificaStatoAvanzamentoTicket != null) {
-                    $ModificaStatoAvanzamentoTicket = $permesso->ModificaStatoAvanzamentoTicket;
-                    $query .= "`ModificaStatoAvanzamentoTicket`,";
-                    array_push($array_values, $ModificaStatoAvanzamentoTicket);
-                }
-                
-                if(isset($permesso->ModificaStatoAvanzamentoIncarico) && trim($permesso->ModificaStatoAvanzamentoIncarico) != "" && $permesso->ModificaStatoAvanzamentoIncarico != null) {
-                    $ModificaStatoAvanzamentoIncarico = $permesso->ModificaStatoAvanzamentoIncarico;
-                    $query .= "`ModificaStatoAvanzamentoIncarico`,";
-                    array_push($array_values, $ModificaStatoAvanzamentoIncarico);
-                }
-                
-                if(isset($permesso->CreaIncarico) && trim($permesso->CreaIncarico) != "" && $permesso->CreaIncarico != null) {
-                    $CreaIncarico = $permesso->CreaIncarico;
-                    $query .= "`CreaIncarico`,";
-                    array_push($array_values, $CreaIncarico);
-                }
-                
-                if(isset($permesso->CreaModificaEliminaAula) && trim($permesso->CreaModificaEliminaAula) != "" && $permesso->CreaModificaEliminaAula != null) {
-                    $CreaModificaEliminaAula = $permesso->CreaModificaEliminaAula;
-                    $query .= "`CreaModificaEliminaAula`,";
-                    array_push($array_values, $CreaModificaEliminaAula);
-                }
-                
-                if(isset($permesso->CreaModificaEliminaNote) && trim($permesso->CreaModificaEliminaNote) != "" && $permesso->CreaModificaEliminaNote != null) {
-                    $CreaModificaEliminaNote = $permesso->CreaModificaEliminaNote;
-                    $query .= "`CreaModificaEliminaNote`,";
-                    array_push($array_values, $CreaModificaEliminaNote);
-                }
-                
-                if(isset($permesso->CreaModificaEliminaMacroarea) && trim($permesso->CreaModificaEliminaMacroarea) != "" && $permesso->CreaModificaEliminaMacroarea != null) {
-                    $CreaModificaEliminaMacroarea = $permesso->CreaModificaEliminaMacroarea;
-                    $query .= "`CreaModificaEliminaMacroarea`,";
-                    array_push($array_values, $CreaModificaEliminaMacroarea);
+                    $aula->Nome = filter_var($aula->Nome, FILTER_SANITIZE_STRING);        // sanifico la stringa di testo
+                    $nome = $aula->Nome;
+                    $query .= " `Nome` = ?,";
+                    array_push($array_values, $nome);
                 }
 
-                if(isset($permesso->CreaModificaEliminaCompetenza) && trim($permesso->CreaModificaEliminaCompetenza) != "" && $permesso->CreaModificaEliminaCompetenza != null) {
-                    $CreaModificaEliminaMacroarea = $permesso->CreaModificaEliminaCompetenza;
-                    $query .= "`CreaModificaEliminaCompetenza`,";
-                    array_push($array_values, $CreaModificaEliminaMacroarea);
-                } 
-
-                if(isset($permesso->CreaModificaEliminaCategoria) && trim($permesso->CreaModificaEliminaCategoria) != "" && $permesso->CreaModificaEliminaCategoria != null) {
-                    $CreaModificaEliminaCategoria = $permesso->CreaModificaEliminaCategoria;
-                    $query .= "`CreaModificaEliminaCategoria`,";
-                    array_push($array_values, $CreaModificaEliminaCategoria);
-                } 
-
+                if(isset($aula->Laboratorio) && trim($aula->Laboratorio) != "" && $aula->Laboratorio != null) {
+                    $laboratorio = $aula->Laboratorio;
+                    $query .= "`Laboratorio`,";
+                    array_push($array_values, $laboratorio);
+                }
+                
                 // elimino la , alla fine della stringa
                 if($query[strlen($query)-1] === ",")
                     $query = substr($query, 0, -1);
@@ -443,11 +286,11 @@
                 $query .= " WHERE schoolticket.aula.IdAula = ?";
 
                 // aggiungo l'id del permesso all'array dei valori
-                if(isset($permesso->IdAula) && trim($permesso->IdAula) != "" && $permesso->IdAula != null && is_numeric((int) $permesso->IdAula)) {
-                    $IdAula = (int) $permesso->IdAula;
+                if(isset($aula->IdAula) && trim($aula->IdAula) != "" && $aula->IdAula != null && is_numeric((int) $aula->IdAula)) {
+                    $IdAula = (int) $aula->IdAula;
                     array_push($array_values, $IdAula);
                 } else {
-                    return '{"result":false, "description":"Permesso non aggiornato correttamente: IdAula mancante"}';
+                    return '{"result":false, "description":"Aula non aggiornata correttamente: IdAula mancante"}';
                 }
 
                 // eseguo la query
@@ -459,10 +302,10 @@
             if($result != false) {       // controllo che la query abbia dato un risultato positivo
                 
                 // creo la stringa di output
-                $r = '{"result":true, "description":"Il permesso è stato modificato correttamente"}';
+                $r = '{"result":true, "description":"Aula modificata correttamente"}';
 
             } else {        // in caso di errore della query
-                $r = '{"result":false, "description":"Il permesso non è stato modificato correttamente"}';
+                $r = '{"result":false, "description":"Aula non modificata correttamente"}';
             }
 
             // restituisco il risultato
@@ -477,8 +320,8 @@
                 return false;//'{"result":false, "description":"Username o password non inseriti correttamente"}';
 
 
-            $query =    "SELECT schoolticket.aula.* FROM schoolticket.utente 
-                        JOIN schoolticket.aula ON schoolticket.aula.IdAula = schoolticket.utente.IdAula 
+            $query =    "SELECT schoolticket.permessi.* FROM schoolticket.utente 
+                        JOIN schoolticket.permessi ON schoolticket.permessi.IdPermessi = schoolticket.utente.IdPermessi 
                         WHERE schoolticket.utente.Email = ? AND schoolticket.utente.Password = ?";
 
             // eseguo la query
@@ -584,12 +427,12 @@
             return $json_error;	
         
         // istanzio il parametro del metodo su null di default
-        $ID_permesso = null;
+        $ID_aula = null;
 
         if(isset($_GET["id"]) && is_numeric((int) $_GET["id"]) && trim($_GET["id"]) != "")      // controllo che sia stato passato un parametro in GET
-            $ID_permesso = (int) $_GET["id"];
+            $ID_aula = (int) $_GET["id"];
 
-        return $obj_aula->get($ID_permesso);		// richiamo il metodo della classe per mostrare tutti gli utenti
+        return $obj_aula->get($ID_aula);		// richiamo il metodo della classe per mostrare tutti gli elementi
 
     }
 
@@ -601,13 +444,13 @@
         
             if(isset($_POST) && $_POST != null && !empty($_POST)) {
             
-                $data_new_permesso = $_POST; 
+                $data_new_aula = $_POST; 
     
-                if(!isset($data_new_permesso["Descrizione"])) {     // controllo sia stata passata la descrizone, obbligatoria per il permesso
-                    return '{"result":false,"description":"La descrizione è un campo obbligatorio"}';
+                if(!isset($data_new_aula["Nome"])) {     // controllo sia stata passata la descrizone, obbligatoria per il permesso
+                    return '{"result":false,"description":"Il Nome è un campo obbligatorio"}';
                 }
             
-                return $obj_aula->create($data_new_permesso, $credenziali);	// passo come parametro le informazioni del nuovo permesso
+                return $obj_aula->create($data_new_aula, $credenziali);	// passo come parametro le informazioni del nuovo permesso
                 
             } else {
                 return $json_error;
@@ -649,12 +492,12 @@
 
         $delete_data = json_decode(urldecode(file_get_contents("php://input")));	// recupero dallo stream di input del server le informazioni passate
 
-        $ID_permesso = null;    // istanzio l'id del permesso da eliminare
+        $ID_aula = null;    // istanzio l'id del permesso da eliminare
 
         if(isset($delete_data->id) && is_numeric((int) $delete_data->id) && trim($delete_data->id) != "")      // controllo che sia stato passato l'id
-            $ID_permesso = (int) $delete_data->id;
+            $ID_aula = (int) $delete_data->id;
 
-        return $obj_aula->delete($ID_permesso, $credenziali);        
+        return $obj_aula->delete($ID_aula, $credenziali);        
     
     }
 
