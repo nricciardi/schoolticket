@@ -301,6 +301,14 @@
                     $return_message .= "CreaModificaEliminaCategoria mancante, utilizzato valore di default; ";
                 }
 
+                if(isset($permesso->CreaModificaEliminaPermessi) && trim($permesso->CreaModificaEliminaPermessi) != "" && $permesso->CreaModificaEliminaPermessi != null) {
+                    $CreaModificaEliminaPermessi = $permesso->CreaModificaEliminaPermessi;
+                    $query .= "`CreaModificaEliminaPermessi`,";
+                    array_push($array_values, $CreaModificaEliminaPermessi);
+                } else {
+                    $return_message .= "CreaModificaEliminaPermessi mancante, utilizzato valore di default; ";
+                }
+
                 // elimino la , alla fine della stringa
                 if($query[strlen($query)-1] === ",")
                     $query = substr($query, 0, -1);
@@ -433,6 +441,12 @@
                     $CreaModificaEliminaCategoria = $permesso->CreaModificaEliminaCategoria;
                     $query .= "`CreaModificaEliminaCategoria`,";
                     array_push($array_values, $CreaModificaEliminaCategoria);
+                } 
+
+                if(isset($permesso->CreaModificaEliminaPermessi) && trim($permesso->CreaModificaEliminaPermessi) != "" && $permesso->CreaModificaEliminaPermessi != null) {
+                    $CreaModificaEliminaPermessi = $permesso->CreaModificaEliminaPermessi;
+                    $query .= "`CreaModificaEliminaPermessi`,";
+                    array_push($array_values, $CreaModificaEliminaPermessi);
                 } 
 
                 // elimino la , alla fine della stringa
