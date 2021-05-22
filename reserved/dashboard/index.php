@@ -90,6 +90,12 @@
                                    require_once("assets".DS."php".DS."utilities".DS."change-password.php");      // includo il form per il new ticket
                                 ?>
                             </div>
+							<!-- !!!!!!!!!!!!!!! FORM ACCOUNT !!!!!!!!!!!!!!! -->
+                            <div class="col-md-12" style="display: none;" id="div_form_show_account"> <!-- Di default è invisibile, viene visualizzato solo dopo il click di btn_show_account -->
+                                <?php
+                                   require_once("assets".DS."php".DS."utilities".DS."management-account.php");      // includo il form per account
+                                ?>
+                            </div>
                             <!-- !!!!!!!!!!!!!!! PAGE MANAGEMENT USERS !!!!!!!!!!!!!!! -->
                             <div class="col-md-12" style="display: none;" id="div_management_users"> <!-- Di default è invisibile, viene visualizzato solo dopo il click di btn_add_ticket -->
                                 <?php
