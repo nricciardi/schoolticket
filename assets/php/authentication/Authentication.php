@@ -1390,6 +1390,4 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "getUser"){
  	
 }
 
-echo "<br>";
-echo $auth->Delete(1, 5);
 ?>
