@@ -23,7 +23,7 @@
                             </div>
                             <div class="col-md-6 col-lg-3">
                                 <div class="statistic__item">
-                                    <h2 class="number" id="ticketTotali"> N / D </h2>
+                                    <h2 class="number" id="ticketTotali"> N / D </h2> <h4 class="number" id="percentualeTicket"> N / D </h4>
                                     <span class="desc"> Ticket Totali </span>
                                     <div class="icon">
                                         <i class="zmdi zmdi-calendar-note"></i>

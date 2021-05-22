@@ -101,6 +101,9 @@ var btn_show_note2 = document.getElementById("btn_show_note_2");
 // Variabile per scrivere il numero di ticket
 var newTicket = document.getElementById("ticketNumber");
 
+// Variabile per scrivere il numero di ticket
+var percentualeTicket = document.getElementById("percentualeTicket");
+
 // Calcolo ticket con discostamento percentuale
 var ticketTotali = document.getElementById("ticketTotali");
 
@@ -118,6 +121,11 @@ var user_name2 = document.getElementById("user_name_2");
 // contenitore immagine utente
 var user_img = document.getElementById("user_img");
 var user_img2 = document.getElementById("user_img_2");
+
+// Colori
+var error_data = "#ff5757";										// "dato errato" --> Rosso
+var correct_data = "#67f257";									// "dato corretto" --> Verde
+var default_text_color = "#495057";								// "colore di default testo" --> Colore standard Grigio
 
 
 // -------------------------------------------------------------------------------
@@ -881,7 +889,25 @@ async function setDeviationTicketNumber()
 			else
 			{
 				// In caso response.result == True --> restituisce il numero di ticket
-				ticketTotali.innerHTML = response.result.TicketTotali + " - " + response.result.deviation;		// Restituisce all'utente il numero di ticket non visualizzati			
+				ticketTotali.innerHTML = response.result.TicketTotali;								// Restituisce all'utente il numero di ticket non visualizzati			
+				
+				if(response.result.deviation == 0)
+				{
+					percentualeTicket.innerHTML = response.result.deviation + "%";
+					percentualeTicket.style.color = default_text_color;
+				}
+				else
+					if(response.result.deviation > 0)
+					{
+						percentualeTicket.innerHTML = response.result.deviation + "%";
+						percentualeTicket.style.color = correct_data;
+					}
+					else
+					{
+						percentualeTicket.innerHTML = response.result.deviation + "%";
+						percentualeTicket.style.color = error_data;
+					}
+				
 			}
 		},
 		error: (response) => {
