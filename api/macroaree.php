@@ -12,7 +12,7 @@
         private $PDOconn;
 
         //COSTRUTTORE
-        public function __construct(string $host, string $database_name, string $username, string $password) {     // i
+        public function __construct(string $host, string $database_name, string $username, string $password) {  
             $this->host = $host;
             $this->dbName = $database_name;
             $this->username = $username;
@@ -518,8 +518,8 @@
 
         $ID_aula = null;    // istanzio l'id del permesso da eliminare
 
-        if(isset($delete_data->id) && is_numeric((int) $delete_data->id) && trim($delete_data->id) != "")      // controllo che sia stato passato l'id
-            $ID_aula = (int) $delete_data->id;
+        if(isset($delete_data->id))      // controllo che sia stato passato l'id
+            $ID_aula = $delete_data->id;
 
         return $obj_aula->delete($ID_aula, $credenziali);        
     

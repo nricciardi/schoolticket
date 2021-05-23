@@ -3,7 +3,7 @@
     require_once("../config.php");
 
 
-    class Aula {
+    class Categoria {
 
         private $host = "";
         private $dbName = "";
@@ -12,7 +12,7 @@
         private $PDOconn;
 
         //COSTRUTTORE
-        public function __construct(string $host, string $database_name, string $username, string $password) {     // i
+        public function __construct(string $host, string $database_name, string $username, string $password) {  
             $this->host = $host;
             $this->dbName = $database_name;
             $this->username = $username;
@@ -30,35 +30,35 @@
             }
         }
         
-        // metodo per la restituzione dei aula
-        public function get($idAula = null) {      // opzionale: se viene passato un id, restituisco solo il aula con l'id passato
+        // metodo per la restituzione dei categoria
+        public function get($idCategoria = null) {      // opzionale: se viene passato un id, restituisco solo il categoria con l'id passato
             
-            $query = "SELECT * FROM schoolticket.aula";     // creo la query per prelevare i tutti aula
+            $query = "SELECT * FROM schoolticket.categoria";     // creo la query per prelevare i tutti categoria
             
-            if($idAula === null) {      // se il parametro è null non viene richiesto un aula specifico, restituisco tutte le aule
+            if($idCategoria === null) {      // se il parametro è null non viene richiesto un categoria specifico, restituisco tutte le aule
 
                 $st = $this->PDOconn->prepare($query);
                 $result = $st->execute();
 
-            } elseif (is_numeric($idAula)){     // controllo che l'id passato sia un numero, quindi un possibile id
+            } elseif (is_numeric($idCategoria)){     // controllo che l'id passato sia un numero, quindi un possibile id
 
-                $query .= " WHERE schoolticket.aula.IdAula = ?";    // aggiungo una condizione alla query di selezione
+                $query .= " WHERE schoolticket.categoria.IdCategoria = ?";    // aggiungo una condizione alla query di selezione
                 $st = $this->PDOconn->prepare($query);
-                $result = $st->execute([$idAula]);
+                $result = $st->execute([$idCategoria]);
 
-            } elseif (is_array($idAula)) {  // controllo che l'id passato sia un array, quindi restituisco tutti i aula passati
+            } elseif (is_array($idCategoria)) {  // controllo che l'id passato sia un array, quindi restituisco tutti i categoria passati
 
                 // aggiungo le condizioni alla query di selezione
                 $query .= " WHERE";
                 $array_id = array();        // array per associare gli id dell'array durante l'esecuzione della query
 
-                for ($i=0; $i < count($idAula); $i++) { 
+                for ($i=0; $i < count($idCategoria); $i++) { 
                     
-                    $query .= " schoolticket.aula.IdAula = ?"; 
+                    $query .= " schoolticket.categoria.IdCategoria = ?"; 
 
-                    array_push($array_id, $idAula[$i]);     // inserisco nell'array l'id da associare durante l'esecuzione
+                    array_push($array_id, $idCategoria[$i]);     // inserisco nell'array l'id da associare durante l'esecuzione
 
-                    if($i < count($idAula)-1)        // aggiungo l'or nella query, tranne nell'ultimo ciclo
+                    if($i < count($idCategoria)-1)        // aggiungo l'or nella query, tranne nell'ultimo ciclo
                         $query .= " OR";
 
                 }
@@ -74,7 +74,7 @@
             
             if($result != false) {       // controllo che la query abbia dato un risultato positivo
                 
-                $rows = $st->fetchAll(PDO::FETCH_ASSOC);        // recupero tutti i aula presi dal database
+                $rows = $st->fetchAll(PDO::FETCH_ASSOC);        // recupero tutti i categoria presi dal database
                 $temp = (json_encode($rows));                   // trasformo l'array associativo restituito in una stringa in formato JSON
 
                 // creo la stringa di output
@@ -90,38 +90,38 @@
             return $r;
         }
 
-        // metodo per l'eliminazione dei aula
-        public function delete($idAula = null, $credenziali = null) {      // opzionale: se viene passato un id, eliminino solo il aula con l'id passato
+        // metodo per l'eliminazione dei categoria
+        public function delete($idCategoria = null, $credenziali = null) {      // opzionale: se viene passato un id, eliminino solo il categoria con l'id passato
 
-            // controllo del aula delete dell'utente passato
-            if($credenziali === null || !isset($this->authorized($credenziali["email"], $credenziali["password"])["CreaModificaEliminaAula"]) || $this->authorized($credenziali["email"], $credenziali["password"])["CreaModificaEliminaAula"] == 0)
+            // controllo del categoria delete dell'utente passato
+            if($credenziali === null || !isset($this->authorized($credenziali["email"], $credenziali["password"])["CreaModificaEliminaCategoria"]) || $this->authorized($credenziali["email"], $credenziali["password"])["CreaModificaEliminaCategoria"] == 0)
                 return '{"result":false, "description":"Azione non consentita per questo utente"}';
             
-            $query = "DELETE FROM schoolticket.aula";     // creo la query per eliminare i tutti aula
+            $query = "DELETE FROM schoolticket.categoria";     // creo la query per eliminare i tutti categoria
             
-            if($idAula === null) {      // se il parametro è null non viene richiesto un aula specifico, restituisco errore
+            if($idCategoria === null) {      // se il parametro è null non viene richiesto un categoria specifico, restituisco errore
 
                 return '{"result":false, "description":"Non è stato passato nessun ID"}';
 
-            } elseif (is_numeric($idAula)){     // controllo che l'id passato sia un numero, quindi un possibile id
+            } elseif (is_numeric($idCategoria)){     // controllo che l'id passato sia un numero, quindi un possibile id
 
-                $query .= " WHERE schoolticket.aula.IdAula = ?";    // aggiungo una condizione alla query di selezione
+                $query .= " WHERE schoolticket.categoria.IdCategoria = ?";    // aggiungo una condizione alla query di selezione
                 $st = $this->PDOconn->prepare($query);
-                $result = $st->execute([$idAula]);
+                $result = $st->execute([$idCategoria]);
 
-            } elseif (is_array($idAula)) {  // controllo che l'id passato sia un array, quindi elimino tutti i aula passati
+            } elseif (is_array($idCategoria)) {  // controllo che l'id passato sia un array, quindi elimino tutti i categoria passati
 
                 // aggiungo le condizioni alla query di selezione
                 $query .= " WHERE";
                 $array_id = array();        // array per associare gli id dell'array durante l'esecuzione della query
 
-                for ($i=0; $i < count($idAula); $i++) { 
+                for ($i=0; $i < count($idCategoria); $i++) { 
                     
-                    $query .= " schoolticket.aula.IdAula = ?"; 
+                    $query .= " schoolticket.categoria.IdCategoria = ?"; 
 
-                    array_push($array_id, $idAula[$i]);     // inserisco nell'array l'id da associare durante l'esecuzione
+                    array_push($array_id, $idCategoria[$i]);     // inserisco nell'array l'id da associare durante l'esecuzione
 
-                    if($i < count($idAula)-1)        // aggiungo l'or nella query, tranne nell'ultimo ciclo
+                    if($i < count($idCategoria)-1)        // aggiungo l'or nella query, tranne nell'ultimo ciclo
                         $query .= " OR";
 
                 }
@@ -138,45 +138,45 @@
             if($result != false) {       // controllo che la query abbia dato un risultato positivo
                 
                 // creo la stringa di output
-                $r = '{"result":true, "description":"Aula eliminata correttamente"}';
+                $r = '{"result":true, "description":"Eliminazione avvenuta correttamente"}';
 
             } else {        // in caso di errore della query
-                $r = '{"result":false, "description":"Aula non eliminata correttamente"}';
+                $r = '{"result":false, "description":"Categoria non eliminata correttamente"}';
             }
 
             // restituisco il risultato
             return $r;
         }
 
-        // metodo per creare un nuovo aula
-        public function create($aula = null, $credenziali = null) {
+        // metodo per creare un nuovo categoria
+        public function create($categoria = null, $credenziali = null) {
 
-            // controllo del aula delete dell'utente passato
-            if($credenziali === null || !isset($this->authorized($credenziali["email"], $credenziali["password"])["CreaModificaEliminaAula"]) || $this->authorized($credenziali["email"], $credenziali["password"])["CreaModificaEliminaAula"] == 0)
+            // controllo del categoria delete dell'utente passato
+            if($credenziali === null || !isset($this->authorized($credenziali["email"], $credenziali["password"])["CreaModificaEliminaCategoria"]) || $this->authorized($credenziali["email"], $credenziali["password"])["CreaModificaEliminaCategoria"] == 0)
                 return '{"result":false, "description":"Azione non consentita per questo utente"}';
             
-            // creo la query per eliminare i tutti aula
-            $query = "INSERT INTO schoolticket.aula(";
+            // creo la query per eliminare i tutti categoria
+            $query = "INSERT INTO schoolticket.categoria(";
             $end_query = ") VALUES (";
             $array_values = array();
 
-            if($aula === null) {      // se il parametro è null non viene richiesto un aula specifico, restituisco errore
+            if($categoria === null) {      // se il parametro è null non viene richiesto un categoria specifico, restituisco errore
 
                 return '{"result":false, "description":"Non sono state passate le informazioni necessarie"}';
 
-            } else {  // controllo che l'id passato sia un array, quindi elimino tutti i aula passati
+            } else {  // controllo che l'id passato sia un array, quindi elimino tutti i categoria passati
 
                 // associo ad ogni variabile il suo rispettivo valore
                 $return_message = "";
                 $control = true;        // variabile di controllo per i diversi campi
 
-                if(is_object($aula)) {      // se il aula passato è un oggetto, lo trasformo in un array
-                    $aula = json_decode(json_encode($aula), true);
+                if(is_object($categoria)) {      // se il categoria passato è un oggetto, lo trasformo in un array
+                    $categoria = json_decode(json_encode($categoria), true);
                 }
                 
-                if(isset($aula["Descrizione"]) && trim($aula["Descrizione"]) != "" && $aula["Descrizione"] != null && $aula["Descrizione"] != false) {
-                    $aula["Descrizione"] = filter_var($aula["Descrizione"], FILTER_SANITIZE_STRING);        // sanifico la stringa di testo
-                    $descrizione = $aula["Descrizione"];
+                if(isset($categoria["Descrizione"]) && trim($categoria["Descrizione"]) != "" && $categoria["Descrizione"] != null && $categoria["Descrizione"] != false) {
+                    $categoria["Descrizione"] = filter_var($categoria["Descrizione"], FILTER_SANITIZE_STRING);        // sanifico la stringa di testo
+                    $descrizione = $categoria["Descrizione"];
                     $query .= "`Descrizione`,";
                     $end_query .= "?,";
                     array_push($array_values, $descrizione);
@@ -184,25 +184,16 @@
                     $return_message .= "Descrizione mancante, utilizzato valore di default; ";
                 }
 
-                if(isset($aula["Laboratorio"]) && trim($aula["Laboratorio"]) != "" && $aula["Laboratorio"] != null) {
-                    $Laboratorio = $aula["Laboratorio"];
-                    $query .= "`Laboratorio`,";
-                    $end_query .= "?,";
-                    array_push($array_values, $Laboratorio);
-                } else {
-                    $return_message .= "Laboratorio mancante, utilizzato valore di default; ";
-                }
-
-                if(isset($aula["Nome"]) && trim($aula["Nome"]) != "" && $aula["Nome"] != null && $aula["Nome"] != false) {
+                if(isset($categoria["Nome"]) && trim($categoria["Nome"]) != "" && $categoria["Nome"] != null && $categoria["Nome"] != false) {
                     
-                    $aula["Nome"] = filter_var($aula["Nome"], FILTER_SANITIZE_STRING);        // sanifico la stringa di testo
-                    $Nome = $aula["Nome"];
+                    $categoria["Nome"] = filter_var($categoria["Nome"], FILTER_SANITIZE_STRING);        // sanifico la stringa di testo
+                    $Nome = $categoria["Nome"];
                     $query .= "`Nome`,";
                     $end_query .= "?,";
                     array_push($array_values, $Nome);
                 } else {
                     $control = false;
-                    $return_message .= "Impossibile creare una nuova aula: Nome mancante o errato; ";
+                    $return_message .= "Impossibile creare una nuova categoria: Nome mancante o errato; ";
                 }
 
                 if($control === false)      // se non sono stati superati i controlli restituisco un errore
@@ -227,55 +218,49 @@
             if($result != false) {       // controllo che la query abbia dato un risultato positivo
                 
                 // creo la stringa di output
-                $r = '{"result":true, "description":"Aula creata correttamente ' . $return_message . '"}';
+                $r = '{"result":true, "description":"Categoria creata correttamente ' . $return_message . '"}';
 
             } else {        // in caso di errore della query
-                $r = '{"result":false, "description":"Aula non creata correttamente"}';
+                $r = '{"result":false, "description":"Categoria non creata correttamente"}';
             }
 
             // restituisco il risultato
             return $r;
         }
 
-        // metodo per creare un nuovo aula
-        public function update($aula = null, $credenziali = null) {
+        // metodo per creare un nuovo categoria
+        public function update($categoria = null, $credenziali = null) {
 
-            // controllo del aula delete dell'utente passato
-            if($credenziali === null || !isset($this->authorized($credenziali["email"], $credenziali["password"])["CreaModificaEliminaAula"]) || $this->authorized($credenziali["email"], $credenziali["password"])["CreaModificaEliminaAula"] == 0)
+            // controllo del categoria delete dell'utente passato
+            if($credenziali === null || !isset($this->authorized($credenziali["email"], $credenziali["password"])["CreaModificaEliminaCategoria"]) || $this->authorized($credenziali["email"], $credenziali["password"])["CreaModificaEliminaCategoria"] == 0)
                 return '{"result":false, "description":"Azione non consentita per questo utente"}';
 
-            if(!isset($aula->IdAula) || $this->exist($aula->IdAula) === false)   // se l'id passato non esiste, creo il aula
-                return $this->create($aula, $credenziali);
+            if(!isset($categoria->IdCategoria) || $this->exist($categoria->IdCategoria) === false)   // se l'id passato non esiste, creo il categoria
+                return $this->create($categoria, $credenziali);
         
             // creo la query per eliminare tutte le aule
-            $query = "UPDATE schoolticket.aula SET";
+            $query = "UPDATE schoolticket.categoria SET";
             $array_values = array();
 
-            if($aula === null) {      // se il parametro è null non viene richiesto un aula specifico, restituisco errore
+            if($categoria === null) {      // se il parametro è null non viene richiesto un categoria specifico, restituisco errore
 
                 return '{"result":false, "description":"Non sono state passate le informazioni necessarie"}';
 
             } else {  // per ogni attributo dell'oggetto passato, aggiungo il rispettivo alla query e all'array da passare alla query
                 
-                if(isset($aula->Descrizione) && trim($aula->Descrizione) != "" && $aula->Descrizione != null && $aula->Descrizione != false) {
-                    $aula->Descrizione = filter_var($aula->Descrizione, FILTER_SANITIZE_STRING);        // sanifico la stringa di testo
-                    $descrizione = $aula->Descrizione;
+                if(isset($categoria->Descrizione) && trim($categoria->Descrizione) != "" && $categoria->Descrizione != null && $categoria->Descrizione != false) {
+                    $categoria->Descrizione = filter_var($categoria->Descrizione, FILTER_SANITIZE_STRING);        // sanifico la stringa di testo
+                    $descrizione = $categoria->Descrizione;
                     $query .= " `Descrizione` = ?,";
                     array_push($array_values, $descrizione);
                 }
 
-                if(isset($aula->Nome) && trim($aula->Nome) != "" && $aula->Nome != null && $aula->Nome != false) {
+                if(isset($categoria->Nome) && trim($categoria->Nome) != "" && $categoria->Nome != null && $categoria->Nome != false) {
 
-                    $aula->Nome = filter_var($aula->Nome, FILTER_SANITIZE_STRING);        // sanifico la stringa di testo
-                    $nome = $aula->Nome;
+                    $categoria->Nome = filter_var($categoria->Nome, FILTER_SANITIZE_STRING);        // sanifico la stringa di testo
+                    $nome = $categoria->Nome;
                     $query .= " `Nome` = ?,";
                     array_push($array_values, $nome);
-                }
-
-                if(isset($aula->Laboratorio) && trim($aula->Laboratorio) != "" && $aula->Laboratorio != null) {
-                    $laboratorio = $aula->Laboratorio;
-                    $query .= "`Laboratorio`,";
-                    array_push($array_values, $laboratorio);
                 }
                 
                 // elimino la , alla fine della stringa
@@ -283,14 +268,14 @@
                     $query = substr($query, 0, -1);
 
                 // creo la query finale da usare 
-                $query .= " WHERE schoolticket.aula.IdAula = ?";
+                $query .= " WHERE schoolticket.categoria.IdCategoria = ?";
 
                 // aggiungo l'id del permesso all'array dei valori
-                if(isset($aula->IdAula) && trim($aula->IdAula) != "" && $aula->IdAula != null && is_numeric((int) $aula->IdAula)) {
-                    $IdAula = (int) $aula->IdAula;
-                    array_push($array_values, $IdAula);
+                if(isset($categoria->IdCategoria) && trim($categoria->IdCategoria) != "" && $categoria->IdCategoria != null && is_numeric((int) $categoria->IdCategoria)) {
+                    $idCategoria = (int) $categoria->IdCategoria;
+                    array_push($array_values, $idCategoria);
                 } else {
-                    return '{"result":false, "description":"Aula non aggiornata correttamente: IdAula mancante"}';
+                    return '{"result":false, "description":"Categoria non aggiornata correttamente: idCategoria mancante"}';
                 }
 
                 // eseguo la query
@@ -302,17 +287,17 @@
             if($result != false) {       // controllo che la query abbia dato un risultato positivo
                 
                 // creo la stringa di output
-                $r = '{"result":true, "description":"Aula modificata correttamente"}';
+                $r = '{"result":true, "description":"Categoria modificata correttamente"}';
 
             } else {        // in caso di errore della query
-                $r = '{"result":false, "description":"Aula non modificata correttamente"}';
+                $r = '{"result":false, "description":"Categoria non modificata correttamente"}';
             }
 
             // restituisco il risultato
             return $r;
         }
 
-        // dato username e passwrod viene restituito l'insieme dei aula dell'utente pasato
+        // dato username e passwrod viene restituito l'insieme dei categoria dell'utente pasato
         private function authorized($username = null, $password = null) {
 
             // controllo sui parametri
@@ -347,18 +332,18 @@
             return $r;  // restituisco il risultato
         }
 
-        private function exist($idAula = null) {
+        private function exist($idCategoria = null) {
 
-            if($idAula == null)     // controllo che sia stato passato un id
+            if($idCategoria == null)     // controllo che sia stato passato un id
                 return false;//'{"result":false, "description":"Username o password non inseriti correttamente"}';
 
             // query per vedere se esiste l'id passato
-            $query =    "SELECT schoolticket.aula.* FROM schoolticket.aula 
-                        WHERE schoolticket.aula.IdAula = ?";
+            $query =    "SELECT schoolticket.categoria.* FROM schoolticket.categoria 
+                        WHERE schoolticket.categoria.IdCategoria = ?";
 
             // eseguo la query
             $st = $this->PDOconn->prepare($query);  
-            $result = $st->execute([$idAula]);
+            $result = $st->execute([$idCategoria]);
 
             if($result != false) {       // controllo che la query abbia dato un risultato positivo
                 
@@ -389,12 +374,12 @@
     // ==================================       API         ===================================
     // ========================================================================================
 
-    // istanzio l'oggetto per la manipolazione dei aula
-    $obj_aula = new Aula(DATABASE_HOST, DATABASE_NAME, DATABASE_USERNAME, DATABASE_PASSWORD);
+    // istanzio l'oggetto per la manipolazione dei categoria
+    $obj_categoria = new Categoria(DATABASE_HOST, DATABASE_NAME, DATABASE_USERNAME, DATABASE_PASSWORD);
 
     $method = strtoupper($_SERVER["REQUEST_METHOD"]);	// recupero il metodo con cui il client ha fatto richiesta alla pagina (server) 
     
-    switch_request($obj_aula, $method);
+    switch_request($obj_categoria, $method);
 
     // funzione che mi restituisce le credenziali passate al server tramite client
     function getCredenziali() {
@@ -416,7 +401,7 @@
     }
 
     // funzione per l'instradamento delle richieste
-    function switch_request($obj_aula = null, $method = null) {
+    function switch_request($obj_categoria = null, $method = null) {
 
         // switch di controllo per instradare le diverse richieste
         switch ($method) {
@@ -424,57 +409,57 @@
             // ============== CRUD ==================
             case "GET":		// richiesta GET
                 //echo "GET";
-                echo GET_request($obj_aula);
+                echo GET_request($obj_categoria);
                 break;
     
             case "POST":		// richiesta POST
                 //echo "POST";
-                echo POST_request($obj_aula, getCredenziali());
+                echo POST_request($obj_categoria, getCredenziali());
                 break;
             
             case "PUT":		// richiesta PUT
-                echo PUT_request($obj_aula, getCredenziali());
+                echo PUT_request($obj_categoria, getCredenziali());
                 break;
     
             case "DELETE":		// richiesta DELETE
-                echo DELETE_request($obj_aula, getCredenziali());
+                echo DELETE_request($obj_categoria, getCredenziali());
                 break;
         }
     }
     
 
     // funzione per selezionare il metodo della classe da richiamare
-    function GET_request($obj_aula = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
+    function GET_request($obj_categoria = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
 
         // controllo che venga passato l'oggetto della classe per la connessione con il database
-        if($obj_aula === null)	
+        if($obj_categoria === null)	
             return $json_error;	
         
         // istanzio il parametro del metodo su null di default
-        $ID_aula = null;
+        $ID_categoria = null;
 
         if(isset($_GET["id"]) && is_numeric((int) $_GET["id"]) && trim($_GET["id"]) != "")      // controllo che sia stato passato un parametro in GET
-            $ID_aula = (int) $_GET["id"];
+            $ID_categoria = (int) $_GET["id"];
 
-        return $obj_aula->get($ID_aula);		// richiamo il metodo della classe per mostrare tutti gli elementi
+        return $obj_categoria->get($ID_categoria);		// richiamo il metodo della classe per mostrare tutti gli elementi
 
     }
 
-    function POST_request($obj_aula = null, $credenziali = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
+    function POST_request($obj_categoria = null, $credenziali = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
 
         // controllo che venga passato l'oggetto della classe per la connessione con il database
-        if($obj_aula === null)	
+        if($obj_categoria === null)	
             return $json_error;	
         
             if(isset($_POST) && $_POST != null && !empty($_POST)) {
             
-                $data_new_aula = $_POST; 
+                $data_new_categoria = $_POST; 
     
-                if(!isset($data_new_aula["Nome"])) {     // controllo sia stata passata la descrizone, obbligatoria per il permesso
+                if(!isset($data_new_categoria["Nome"])) {     // controllo sia stata passata la descrizone, obbligatoria per il permesso
                     return '{"result":false,"description":"Il Nome è un campo obbligatorio"}';
                 }
             
-                return $obj_aula->create($data_new_aula, $credenziali);	// passo come parametro le informazioni del nuovo permesso
+                return $obj_categoria->create($data_new_categoria, $credenziali);	// passo come parametro le informazioni del nuovo permesso
                 
             } else {
                 return $json_error;
@@ -486,17 +471,17 @@
     
     }
     
-    function PUT_request($obj_aula = null, $credenziali = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
+    function PUT_request($obj_categoria = null, $credenziali = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
 
         // controllo che venga passato l'oggetto della classe per la connessione con il database
-        if($obj_aula === null)	
+        if($obj_categoria === null)	
             return $json_error;	
         
             $put_data = json_decode(urldecode(file_get_contents("php://input")));	// recupero dallo stream di input del server le informazioni passate in LOGIN
     
             if(isset($put_data) && $put_data != null && !empty($put_data)) {
 
-                return $obj_aula->update($put_data, $credenziali);	// passo come parametro l'oggetto ricevuto 
+                return $obj_categoria->update($put_data, $credenziali);	// passo come parametro l'oggetto ricevuto 
                 
             } else {
                 return $json_error;
@@ -508,21 +493,20 @@
     
     }
 
-    function DELETE_request($obj_aula = null, $credenziali = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
+    function DELETE_request($obj_categoria = null, $credenziali = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
 
         // controllo che venga passato l'oggetto della classe per la connessione con il database
-        if($obj_aula === null)	
+        if($obj_categoria === null)	
             return $json_error;	
 
         $delete_data = json_decode(urldecode(file_get_contents("php://input")));	// recupero dallo stream di input del server le informazioni passate
 
-        $ID_aula = null;    // istanzio l'id del permesso da eliminare
+        $ID_categoria = null;    // istanzio l'id del permesso da eliminare
 
-        if(isset($delete_data->id) && is_numeric((int) $delete_data->id) && trim($delete_data->id) != "")      // controllo che sia stato passato l'id
-            $ID_aula = (int) $delete_data->id;
+        if(isset($delete_data->id))      // controllo che sia stato passato l'id
+            $ID_categoria = $delete_data->id;
 
-        return $obj_aula->delete($ID_aula, $credenziali);        
+        return $obj_categoria->delete($ID_categoria, $credenziali);        
     
     }
-
 ?>
