@@ -146,6 +146,9 @@ function login(email, password) {
               "password": password,
             };
 
+  if(!email_validate || !password_validate)
+    return false;
+
   $.ajax({
       type: "LOGIN",
       url: HOSTNAME + '/assets/php/authentication/Authentication.php',
@@ -171,8 +174,7 @@ function login(email, password) {
             });// end fadeOut function()
             
             // porto alla pagina principale della dashboard
-            location.href = HOSTNAME + '/reserved/dashboard/index.php';
-                                           
+            location.href = HOSTNAME + '/reserved/dashboard/index.php';                                           
           }
       },
       error: (res) => {
