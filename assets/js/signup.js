@@ -41,6 +41,9 @@ var re_password_validate = false;
 // IdCategoria
 var IdCategoria = document.getElementById("IdCategoria");
 
+// sezione per il feedback dell'utente
+var feedback = document.getElementById("feedback");
+
 // HOSTNAME per il percorso
 const HOSTNAME = window.location.protocol + "//" + window.location.hostname + "/" + window.location.pathname.split("/")[1];
 
@@ -79,7 +82,7 @@ $("#submit").click(function () {
     let nome = $('input[id=nome]').val(); // Utente inserisce nome
     let cognome = $('input[id=cognome]').val(); // Utente inserisce cognome
     let password = $('input[id=password]').val(); // Utente inserisce password
-	let IdCategoria = $('#IdCategoria').find(":selected").val();
+	let IdCategoria = $('#select_categorie').find(":selected").val();
 	let IdPermessi = 1; // PERMESSI :(
     
     let data = {
@@ -91,29 +94,39 @@ $("#submit").click(function () {
             "idPermessi": IdPermessi
         };
 
+    if(!name_validate || !surname_validate || !email_validate || !re_email_validate || !password_validate || !re_password_validate)
+        return;
+
     $.ajax({
         type: "POST",
         url: HOSTNAME + '/assets/php/authentication/Authentication.php',
         data : data,
-        dataType: "text",
-        success: function (data) 
-        {
+        dataType: "JSON",
+        success: function (res) {
             
-            var success = data['success'];
-            if(success == false)
-            {
-                var error = data['message'];
-                alert(error); // Nel caso non scriva niente :
+            let success = res.result;
+            if(success == false) {
 
-
-            }
-
-            if(success == true) {
+                let error_description = res.description;
+                feedback.innerText = error_description;
+                feedback.style.color = error_data;
+    
+    
+            } else {
+    
+                let success_description = res.description;
+                feedback.innerText = success_description;
+                feedback.style.color = correct_data;
+    
                 $('#mask , .login-popup').fadeOut(300 , function() {
-                $('#mask').remove();  
-                                            });// end fadeOut function()
-                setTimeout("location.href = 'home.php';",1000);                                 
-                                                            }
+                    $('#mask').remove();  
+                });// end fadeOut function()
+                
+                // porto alla pagina principale della dashboard
+                setTimeout(() => {
+                    location.href = HOSTNAME + '/page/login.php';
+                }, 250)
+            }
         }
         //error:function(console.log(data));
 
@@ -330,8 +343,6 @@ re_password.addEventListener("blur", () => {
 });
 
 
-
-
 document.getElementById("nome").addEventListener("input", () => {
 
     console.log("nome: " + document.getElementById("nome").value);
@@ -412,3 +423,64 @@ document.getElementById("cognome").addEventListener("input", () => {
     console.log("--------------");
 
 });
+
+// imposta le categorie possibili nella select box
+function setCategorie() {
+    
+    var CATEGORIE = null;
+
+	// creo la variabile data da passare per ricevere le macroaree
+    $.ajax({
+        url: HOSTNAME + '/api/categorie.php',
+        type: 'GET',
+        dataType: "JSON",
+        success: function( response, textStatus, jQxhr ){
+            console.debug("set CATEGORIE");
+            console.log(response);
+            //console.log(JSON.parse(data));
+            
+            // controllo che non sia stato restituito false
+            if(response.result == false) {
+                CATEGORIE = null;
+                feedback.innerText = response.description;
+                feedback.style.color = error_data;
+            } else {
+                CATEGORIE = response.result;
+
+                let input = document.getElementById("select_categorie");
+
+                console.log(CATEGORIE);
+                if(CATEGORIE !== null) {
+                    CATEGORIE.forEach(element => {
+                        //console.log(element);
+                        // creo l'elemento option
+                        let option = document.createElement("option");
+                        // inserisco il value nell'option
+                        option.value = element.IdCategoria;
+                        // inserisco il testo nell'option
+                        let text = element.Nome;
+                        if (element.Descrizione !== null)       // se è presente una descrizione la inserisco
+                            text += " - " + element.Descrizione;
+                        option.text = text;
+                        
+                        if(element.Registrabile == 1)       // constrollo che sia registrabile
+                            input.appendChild(option);      // inserisco l'oggetto option
+                
+                    });
+                } else {
+                    // errore
+                    feedback.style.color = error_data;
+                    feedback.innerText = "Errore nella richiesta delle categorie, riprovare più tardi o contattare l'assistenza.";
+                }
+            }          
+        },
+        error: (response) => {
+            CATEGORIE = null;
+            feedback.innerText = response.description;
+            feedback.style.color = error_data;
+        }
+    });	
+}
+
+// imposto nella select box le categorie
+setCategorie();
