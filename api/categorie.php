@@ -35,7 +35,7 @@
             
             $query = "SELECT * FROM schoolticket.categoria";     // creo la query per prelevare i tutti categoria
             
-            if($idCategoria === null) {      // se il parametro è null non viene richiesto un categoria specifico, restituisco tutte le aule
+            if($idCategoria === null) {      // se il parametro è null non viene richiesto un categoria specifico, restituisco tutte le categorie
 
                 $st = $this->PDOconn->prepare($query);
                 $result = $st->execute();
@@ -80,10 +80,10 @@
                 // creo la stringa di output
                 $r = '{"result":';
                 $r .= $temp;
-                $r .= ', "description":"Sono state prelevate le aule"}';
+                $r .= ', "description":"Sono state prelevate le categorie"}';
 
             } else {        // in caso di errore della query
-                $r = '{"result":false, "description":"Riscontrato un problema nel recupero delle aule"}';
+                $r = '{"result":false, "description":"Riscontrato un problema nel recupero delle categorie"}';
             }
 
             // restituisco il risultato
@@ -238,7 +238,7 @@
             if(!isset($categoria->IdCategoria) || $this->exist($categoria->IdCategoria) === false)   // se l'id passato non esiste, creo il categoria
                 return $this->create($categoria, $credenziali);
         
-            // creo la query per eliminare tutte le aule
+            // creo la query per eliminare tutte le categorie
             $query = "UPDATE schoolticket.categoria SET";
             $array_values = array();
 
