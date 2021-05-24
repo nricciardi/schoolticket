@@ -76,11 +76,8 @@
 									<label for="email" id="label_re_password"></label>
 								</div>
                                 <div class="col-12 col-12-mobilep">
-                                    <select type="IdCategoria" name="" id="IdCategoria" placeholder="IdCategoria">
-                                            <option name = "1" value="Unknown">-- Utente -- </option>
-                                            <option name = "2" value="1">Studente</option>
-                                            <option name = "3" value="2">Insegnante</option>
-                                            <option name = "4" value="3">Personale ATA</option>
+                                    <select type="IdCategoria" name="" id="select_categorie" placeholder="IdCategoria">
+                                            <option value="Unknown">-- Utente -- </option>
                                             <!--<option value="4">Altro</option>-->
                                     </select>
 								</div>
@@ -124,6 +121,7 @@
 										<li><input type="button" id="submit" disabled value="Registrati" /></li>
 									</ul>
 								</div>
+								<span id="feedback"></span>
 							</div>
 						</form>
 					</div>
