@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 22, 2021 alle 14:13
+-- Creato il: Mag 24, 2021 alle 11:55
 -- Versione del server: 10.1.28-MariaDB
 -- Versione PHP: 7.1.11
 
@@ -56,20 +56,21 @@ INSERT INTO `aula` (`IdAula`, `Nome`, `Descrizione`, `Laboratorio`) VALUES
 CREATE TABLE `categoria` (
   `IdCategoria` int(11) NOT NULL,
   `Nome` varchar(100) NOT NULL,
-  `Descrizione` varchar(1000) DEFAULT NULL
+  `Descrizione` varchar(1000) DEFAULT NULL,
+  `Registrabile` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dump dei dati per la tabella `categoria`
 --
 
-INSERT INTO `categoria` (`IdCategoria`, `Nome`, `Descrizione`) VALUES
-(1, 'Dirigenza-DSGA-Vicepresidenza', NULL),
-(2, 'Docenti', NULL),
-(3, 'Studenti', NULL),
-(4, 'Tecnici', NULL),
-(5, 'Amministrativi', NULL),
-(6, 'Collaboratori scolastici', NULL);
+INSERT INTO `categoria` (`IdCategoria`, `Nome`, `Descrizione`, `Registrabile`) VALUES
+(1, 'Dirigenza-DSGA-Vicepresidenza', NULL, 0),
+(2, 'Docenti', NULL, 1),
+(3, 'Studenti', NULL, 1),
+(4, 'Tecnici', NULL, 0),
+(5, 'Amministrativi', NULL, 0),
+(6, 'Collaboratori scolastici', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -250,13 +251,6 @@ CREATE TABLE `ticket` (
   `Visualizzato` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dump dei dati per la tabella `ticket`
---
-
-INSERT INTO `ticket` (`IdTicket`, `Nome`, `Descrizione`, `Immagine`, `StatoDiAvanzamento`, `Priorita`, `Data`, `Ora`, `IdMacroarea`, `IdUtente`, `IdAula`, `IdUnione`, `Visualizzato`) VALUES
-(3, 'Prova', 'provvaaaaaaa', NULL, 'Iniziato', 1, '2021-05-11', '10:07:20', 5, 2, 4, NULL, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -278,7 +272,7 @@ CREATE TABLE `utente` (
 --
 
 INSERT INTO `utente` (`IdUtente`, `Cognome`, `Nome`, `Email`, `Password`, `IdCategoria`, `IdPermessi`) VALUES
-(2, 'Berselli', 'Nicholas', 'n@b.com', 'Nicholas', 3, 1);
+(4, 'Admin', 'Admin', 'a@a.com', '05be1ce3b695041f41341868251d8c0dcf6239be9e87b76f45471e9b5e23bde2a57d6b759ed81aca0329c794a654c785c666986841736cdc6b604d08ddfc83e1', 1, 1);
 
 --
 -- Indici per le tabelle scaricate
@@ -407,7 +401,7 @@ ALTER TABLE `ticket`
 -- AUTO_INCREMENT per la tabella `utente`
 --
 ALTER TABLE `utente`
-  MODIFY `IdUtente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `IdUtente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Limiti per le tabelle scaricate
