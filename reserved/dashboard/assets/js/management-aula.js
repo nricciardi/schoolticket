@@ -159,7 +159,7 @@ function createTableAula() {
 
     // effettuo la chiamata
     $.ajax({
-        url: HOSTNAME + "/assets/php/authentication/Authentication.php",
+        url: HOSTNAME + "/api/aule.php",
         type: "GET",
         data: data,
         dataType: "json",
@@ -208,19 +208,32 @@ function addAula() {
     console.log("Aggiungo un'aula");
 
     // controllo che tutti i controlli siano andati a buon fine
-    if(!check_form_new_aula)
+    if(!check_new_nome_aula)
         return false;
+	
+	// variabile per laboratoria aula
+	let laboratorio = document.getElementById("newLaboratorioAula");
+
+	let temp = null;
+	
+	if(laboratorio.value == false)
+		temp = 0;
+	else
+		temp = 1;
 
     // creo l'oggetto data da mandare in post
-    let data = {"Submit": "registration", "nome": document.getElementById("newNomeAula").value, "descrizione": document.getElementById("newDescrizioneAula").value, "laboratorio": document.getElementById("newLaboratorioAula").value};
+    let data = {"Nome": document.getElementById("newNomeAula").value, "Descrizione": document.getElementById("newDescrizioneAula").value, "Laboratorio": temp};
 
     // effettuo la chiamata ajax
     $.ajax({
 
-        url: HOSTNAME + "/assets/php/authentication/Authentication.php",
+        url: HOSTNAME + "/api/aule.php",
         type: "post",
         data: data,
         dataType: "json",
+		headers:{
+					'Authorization':'Basic '+btoa(USER.Email + ":" + USER.Password)
+				},
         success: (res) => {
 
             console.log(res);
@@ -260,7 +273,7 @@ function editAula(ID) {   // può anche essere passato un array
     // effettuo la chiamata ajax
     $.ajax({
 
-        url: HOSTNAME + "/assets/php/authentication/Authentication.php",
+        url: HOSTNAME + "/api/aule.php",
         type: "post",
         data: data,
         dataType: "json",
@@ -303,7 +316,7 @@ function deleteAula(ID) {   // può anche essere passato un array
     // effettuo la chiamata ajax
     $.ajax({
 
-        url: HOSTNAME + "/assets/php/authentication/Authentication.php",
+        url: HOSTNAME + "/api/aule.php",
         type: "post",
         data: data,
         dataType: "json",
@@ -398,7 +411,7 @@ function createFormNewAula() {
 // imposto le funzioni per gli eventi del form 
 function checkNewNomeAula(ID = "newNomeAula") {
     
-    // controllo che sia aggiunto almeno un valore per il cognome
+    // controllo che sia aggiunto almeno un valore per il nome
 
     if(document.getElementById(ID).value.trim() == "") {
 
@@ -419,7 +432,7 @@ function checkNewNomeAula(ID = "newNomeAula") {
 
 function checkNewDescrizioneAula(ID = "newDescrizioneAula") {
     
-    // controllo che sia aggiunto almeno un valore per il nome
+    // controllo che sia aggiunto almeno un valore per la descrizione
 
     if(document.getElementById(ID).value.trim() == "") {
 
@@ -450,10 +463,10 @@ function checkFormNewAula(ID = "btn_confirm_new_aula") {
         return false;
     } 
 
-    if(check_new_nome_aula && check_new_descrizione_aula)
-    btn_confirm_new_aula.removeAttribute("disabled");
+    if(check_new_nome_aula /*&& check_new_descrizione_aula*/)
+		btn_confirm_new_aula.removeAttribute("disabled");
     else
-    btn_confirm_new_aula.setAttribute("disabled", "disabled");
+		btn_confirm_new_aula.setAttribute("disabled", "disabled");
         
 }
 

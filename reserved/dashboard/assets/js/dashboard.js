@@ -1079,7 +1079,7 @@ btn_show_aule.addEventListener("click", () => {
 
     hideAllDynamicPage();
 
-    // creo la tabella degli utenti
+    // creo la tabella delle aule
     createTableAula();
 
     div_management_aula.style.display = "";
@@ -1094,7 +1094,7 @@ btn_show_aule2.addEventListener("click", () => {
 
     hideAllDynamicPage();
 
-    // creo la tabella degli utenti
+    // creo la tabella delle aule
     createTableAula();
 
     div_management_aula.style.display = "";
