@@ -93,6 +93,9 @@ var btn_show_categorie2 = document.getElementById("btn_show_categorie_2");
 var btn_show_aule = document.getElementById("btn_show_aule");
 var btn_show_aule2 = document.getElementById("btn_show_aule_2");
 
+// div aula
+var div_management_aula = document.getElementById("div_management_aula");
+
 // bottone del sotto menù gestione: btn_show_competenze
 var btn_show_competenze = document.getElementById("btn_show_competenze");
 var btn_show_competenze2 = document.getElementById("btn_show_competenze_2");
@@ -1065,6 +1068,36 @@ btn_show_categorie2.addEventListener("click", () => {
     createTableCategoria();
 
     div_management_categoria.style.display = "";
+
+    // chiudo il menù
+    $("#header-desktop-menu").removeClass("show-sidebar");
+    $("#header-desktop-menu2").removeClass("show-sidebar");
+
+});
+
+btn_show_aule.addEventListener("click", () => {
+
+    hideAllDynamicPage();
+
+    // creo la tabella degli utenti
+    createTableAula();
+
+    div_management_aula.style.display = "";
+
+    // chiudo il menù
+    $("#header-desktop-menu").removeClass("show-sidebar");
+    $("#header-desktop-menu2").removeClass("show-sidebar");
+
+});
+
+btn_show_aule2.addEventListener("click", () => {
+
+    hideAllDynamicPage();
+
+    // creo la tabella degli utenti
+    createTableAula();
+
+    div_management_aula.style.display = "";
 
     // chiudo il menù
     $("#header-desktop-menu").removeClass("show-sidebar");

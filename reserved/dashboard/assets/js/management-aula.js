@@ -2,10 +2,10 @@
 // ----------------------- VARIABILI ------------------------------
 // ----------------------------------------------------------------
 
-// tbody della tabella utenti
+// tbody della tabella aula
 var body_table_aula = document.getElementById("body_table_aula");
 
-// tfoot della tabella utenti
+// tfoot della tabella aula
 var foot_table_aula = document.getElementById("foot_table_aula");
 
 // checkbox generale della tabella
@@ -25,7 +25,7 @@ var check_new_nome_aula = false;
 var check_new_descrizione_aula = false;
 
 
-// btn per eliminare gli utenti selezionati
+// btn per eliminare gli aula selezionati
 var btn_delete_checked_aula = document.getElementById("btn_delete_checked_aula");
 
 // -------------------------------------------------------------------------------
@@ -148,14 +148,11 @@ function createRequestActionAula(type, ID) {
     return request;
 }
 
-// richiama gli utenti dal database tramite chiamata AJAX e successivamente crea la tabella
+// richiama l' aula dal database tramite chiamata AJAX e successivamente crea la tabella
 function createTableAula() {
 
     feedback_table_management_aula.innerText = "Sto caricando la tabella...";
     feedback_table_management_aula.style.color = "#ededed";
-    
-    // creo l'oggetto data da mandare in post
-    let data = {"Submit": "show"};
 
     // elimino gli elementi esistenti
     body_table_aula.innerHTML = "";
@@ -163,7 +160,7 @@ function createTableAula() {
     // effettuo la chiamata
     $.ajax({
         url: HOSTNAME + "/assets/php/authentication/Authentication.php",
-        type: "post",
+        type: "GET",
         data: data,
         dataType: "json",
         success: (res) => {
@@ -175,9 +172,9 @@ function createTableAula() {
                 feedback_table_management_aula.innerText = res.description;
                 feedback_table_management_aula.style.color = error_data;
 
-            } else {    // in caso positivo creo la tabella per gli utenti
+            } else {    // in caso positivo creo la tabella per gli aula
 
-                // recupero gli utenti passati da "result"
+                // recupero gli aula passati da "result"
                 let aula = res.result;
 
                 console.log(res.description);
@@ -236,7 +233,7 @@ function addAula() {
 
             } else {
 
-                // in caso positivo creo la tabella per gli utenti
+                // in caso positivo creo la tabella per gli aula
                 createTableAula();
                 
             }
@@ -279,7 +276,7 @@ function editAula(ID) {   // può anche essere passato un array
 
             } else {
 
-                // in caso positivo creo la tabella per gli utenti
+                // in caso positivo creo la tabella per gli aula
                 createTableAula();
 
             }
@@ -322,7 +319,7 @@ function deleteAula(ID) {   // può anche essere passato un array
 
             } else {
 
-                // in caso positivo creo la tabella per gli utenti
+                // in caso positivo creo la tabella per le aule
                 createTableAula();
 
             }
@@ -339,7 +336,7 @@ function deleteAula(ID) {   // può anche essere passato un array
 
 }
 
-// imposta tutti i checkbox dei record della tabella utenti con la modalità passata
+// imposta tutti i checkbox dei record della tabella aula con la modalità passata
 function setCheckboxRecordAula(mode) {
     
     // per ogni id checkboxN, imposto su true il checked
@@ -514,12 +511,12 @@ function checkCheckboxAula() {
     if(array.length > 0) {
 
         btn_delete_checked_aula.removeAttribute("disabled");
-        btn_delete_checked_aula.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella ' + array.length + ' utenti selezionati</font></font>';
+        btn_delete_checked_aula.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella ' + array.length + ' aula selezionati</font></font>';
 
     } else {
 
         btn_delete_checked_aula.setAttribute("disabled", "disabled");
-        btn_delete_checked_aula.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella 0 utenti selezionati</font></font>';
+        btn_delete_checked_aula.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella 0 aula selezionati</font></font>';
 
     }
 
