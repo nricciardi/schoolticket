@@ -119,7 +119,7 @@ $("#submit").click(function () {
 
     });//end ajax             
 });//end click function
-		 
+
 
 // - Dopo l'inserimento dell'email valida abilito la conferma
 email.addEventListener("input", () => {
@@ -169,7 +169,7 @@ re_email.addEventListener("input", () => {
     if(re_email.value == email.value) {
 
         // messaggio utente:
-        document.getElementById("label_re_email").innerHTML = "Inserisci una password";
+        document.getElementById("label_re_email").innerHTML = "Email confermata";
         document.getElementById("label_re_email").style.color = correct_data;
 
         re_email.style.borderColor = correct_data;
