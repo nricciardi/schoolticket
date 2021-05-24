@@ -24,7 +24,7 @@
                             </a>
                             <ul class="list-unstyled navbar__sub-list js-sub-list">
                                 <li>
-                                    <button id="btn_show_ticket" style="/*display: none;*/">
+                                    <button id="" style="/*display: none;*/">
                                         <i class="fas fa-ticket-alt"></i>Ticket</button>
                                 </li>
                                 <li>

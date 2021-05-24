@@ -16,15 +16,15 @@
 
         $.ajax({
 
-            url: "categorie.php",
-            type: "DELETE",
-            //data: JSON.stringify({"IdCategoria": 7, "Nome": "nomsistente"}),
-            //data: {"IdCategoria": 2, "Nome": "dsjlksjd"},
-            data: JSON.stringify({"id": [8,9,10,11,12], "Nome": "stalin"}),
+            url: "macroaree.php",
+            type: "PUT",
+            data: JSON.stringify({"IdMacroarea": 7, "Nome": "nomsistente"}),
+            //data: {"IdMacroarea": 2, "Nome": "dsjlksjd"},
+            //data: JSON.stringify({"id": [8,9,10,11,12], "Nome": "stalin"}),
             //data: {"id": 4},
             dataType: "JSON",
             headers: {
-                        'Authorization': 'Basic ' + btoa('a@a.com:05be1ce3b695041f41341868251d8c0dcf6239be9e87b76f45471e9b5e23bde2a57d6b759ed81aca0329c794a654c785c666986841736cdc6b604d08ddfc83e1')
+                        'Authorization': 'Basic ' + btoa('l@g.com:cad584e9b5b0244a540446370c09ce21a46c95c0c67c52226c4c9fc28449a85e791bb511c40116ea226c0f8c360569c03bc99c4605a6f9789dac4e13df55704a')
                     },
             success: (data) => {
 
