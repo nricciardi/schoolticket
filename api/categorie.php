@@ -31,8 +31,12 @@
         }
         
         // metodo per la restituzione dei categoria
-        public function get($idCategoria = null) {      // opzionale: se viene passato un id, restituisco solo il categoria con l'id passato
+        public function get($idCategoria = null, $credenziali = null) {      // opzionale: se viene passato un id, restituisco solo il categoria con l'id passato
             
+            // controllo che le credenziali dell'utente passato siano presenti nel database
+            if($credenziali === null || $this->authorized($credenziali["email"], $credenziali["password"]) == null)
+                return '{"result":false, "description":"Azione non consentita per questo utente"}';
+
             $query = "SELECT * FROM schoolticket.categoria";     // creo la query per prelevare i tutti categoria
             
             if($idCategoria === null) {      // se il parametro è null non viene richiesto un categoria specifico, restituisco tutte le categorie
@@ -409,7 +413,7 @@
             // ============== CRUD ==================
             case "GET":		// richiesta GET
                 //echo "GET";
-                echo GET_request($obj_categoria);
+                echo GET_request($obj_categoria, getCredenziali());
                 break;
     
             case "POST":		// richiesta POST
@@ -429,7 +433,7 @@
     
 
     // funzione per selezionare il metodo della classe da richiamare
-    function GET_request($obj_categoria = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
+    function GET_request($obj_categoria = null, $credenziali = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
 
         // controllo che venga passato l'oggetto della classe per la connessione con il database
         if($obj_categoria === null)	
@@ -441,7 +445,7 @@
         if(isset($_GET["id"]) && is_numeric((int) $_GET["id"]) && trim($_GET["id"]) != "")      // controllo che sia stato passato un parametro in GET
             $ID_categoria = (int) $_GET["id"];
 
-        return $obj_categoria->get($ID_categoria);		// richiamo il metodo della classe per mostrare tutti gli elementi
+        return $obj_categoria->get($ID_categoria, $credenziali);		// richiamo il metodo della classe per mostrare tutti gli elementi
 
     }
 

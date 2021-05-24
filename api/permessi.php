@@ -31,8 +31,12 @@
         }
         
         // metodo per la restituzione dei permessi
-        public function get($idPermesso = null) {      // opzionale: se viene passato un id, restituisco solo il permesso con l'id passato
+        public function get($idPermesso = null, $credenziali = null) {      // opzionale: se viene passato un id, restituisco solo il permesso con l'id passato
             
+            // controllo che le credenziali dell'utente passato siano presenti nel database
+            if($credenziali === null || $this->authorized($credenziali["email"], $credenziali["password"]) == null)
+                return '{"result":false, "description":"Azione non consentita per questo utente"}';
+
             $query = "SELECT * FROM schoolticket.permessi";     // creo la query per prelevare i tutti permessi
             
             if($idPermesso === null) {      // se il parametro è null non viene richiesto un permessso specifico, restituisco tutti i permessi
@@ -597,7 +601,7 @@
             // ============== CRUD ==================
             case "GET":		// richiesta GET
                 //echo "GET";
-                echo GET_request($obj_permessi);
+                echo GET_request($obj_permessi, getCredenziali());
                 break;
 
             case "POST":		// richiesta POST
@@ -616,7 +620,7 @@
     }
 
     // funzione per selezionare il metodo della classe da richiamare
-    function GET_request($obj_permessi = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
+    function GET_request($obj_permessi = null, $credenziali = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
 
         // controllo che venga passato l'oggetto della classe per la connessione con il database
         if($obj_permessi === null)	
@@ -628,7 +632,7 @@
         if(isset($_GET["id"]) && is_numeric((int) $_GET["id"]) && trim($_GET["id"]) != "")      // controllo che sia stato passato un parametro in GET
             $ID_permesso = (int) $_GET["id"];
 
-        return $obj_permessi->get($ID_permesso);		// richiamo il metodo della classe per mostrare tutti gli elementi
+        return $obj_permessi->get($ID_permesso, $credenziali);		// richiamo il metodo della classe per mostrare tutti gli elementi
 
     }
 
