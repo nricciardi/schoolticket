@@ -60,11 +60,23 @@ public function insert($Nome, $Descrizione, $Immagine, $Stato, $Priorita, $IdAul
       var_dump(!isset($Immagine["tmp_name"]));
       var_dump($Immagine["tmp_name"] == "");*/
 
-      if(!isset($Immagine) || $Immagine == "" || $Immagine == null || !in_array($Immagine["type"], $extensions_arr) || !isset($Immagine["type"]) || !isset($Immagine["tmp_name"]) || $Immagine["tmp_name"] == ""){
-        $st = '{"result":false,"description":"Immagine non inserita correttamente"}';
-        return $st;
-      }
+		$dati_immagine = NULL;
+		if($Immagine != NULL)
+		{
+			if(!isset($Immagine) || $Immagine == "" || !in_array($Immagine["type"], $extensions_arr) || !isset($Immagine["type"]) || !isset($Immagine["tmp_name"]) || $Immagine["tmp_name"] == ""){
+			  $st = '{"result":false,"description":"Immagine non inserita correttamente"}';
+			  return $st;
+			}
+			else
+			{
+				// preparo il contenuto dell'immagine e la traduco in base64
+				$dati_immagine = base64_encode(file_get_contents($Immagine["tmp_name"]));
+			}
+		}
 
+			
+		
+			
       if(!filter_var($Stato, FILTER_SANITIZE_STRING)){
         $st = '{"result":false,"description":"Lo stato inserito non è valido"}';
         return $st;
@@ -76,8 +88,7 @@ public function insert($Nome, $Descrizione, $Immagine, $Stato, $Priorita, $IdAul
       }
 
 
-      // preparo il contenuto dell'immagine e la traduco in base64
-      $dati_immagine = base64_encode(file_get_contents($Immagine["tmp_name"]));
+      
 
 
       //ESEGUO LA QUERY:
@@ -282,28 +293,14 @@ public function show($id = null) {
 }
 }
 
-	public function Delete($IdTicket, $id){//Elimino il/i ticket in base all'IdTicket e controllo attraverso $id che l'utente sia loggato e abbia i permessi;
+	public function Delete($id, $IdTicket){//Elimino il/i ticket in base all'IdTicket e controllo attraverso $id che l'utente sia loggato e abbia i permessi;
 
-    if(is_numeric($IdTicket))  // Vedere se l'utente è loggato.
+    if(is_numeric($id))  // Vedere se l'utente è loggato.
     {
-		if($this->controlId($IdTicket))	//Se l'Id è presente allora possiamo andare a eliminare un ticket
+		if($this->controlIdUtn($id))	//Se l'Id è presente allora possiamo andare a eliminare un ticket
 		{
-
-			$st = $this->PDOconn->prepare("SELECT schoolticket.ticket.IdUtente FROM schoolticket.ticket WHERE schoolticket.ticket.IdTicket = ?");
-			$result = $st->execute([$IdTicket]);
-			if($result)
-			{
-				$risUtn = $st->fetchAll(PDO::FETCH_ASSOC);
-				$utente = $risUtn[0]["IdUtente"];
-			}
-			else
-			{
-				$r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
-				return $r;
-			}
-
 			$st = $this->PDOconn->prepare("SELECT schoolticket.Permessi.ModificaTuttiTicket FROM schoolticket.Utente JOIN schoolticket.Permessi ON schoolticket.Permessi.IdPermessi = schoolticket.Utente.IdPermessi WHERE schoolticket.Utente.IdUtente = ?");
-			$result = $st->execute([$utente]);
+			$result = $st->execute([$id]);
 
 			if($result == false) // Se la query è sbagliata
 			{
@@ -312,36 +309,35 @@ public function show($id = null) {
 			}
 			else
 			{
-				$st->execute([$utente]);
 				$risultatoquery = $st->fetchAll(PDO::FETCH_ASSOC);	//Contiene il risultato della query
 				if($risultatoquery[0]["ModificaTuttiTicket"] == 1)	//Verifichiamo se ha permesso 1 o 0 nel modificare i ticket
 				{
 					//ESEGUO LA QUERY:
-					if(is_array($id))
+					if(is_array($IdTicket))
 					{
 						$ver = 1;
 						$totDescr = "";
 						//Controllo se è un array o una variabile;
-						for($i = 0; $i < count($id); $i++)
+						for($i = 0; $i < count($IdTicket); $i++)
 						{
-							if(is_numeric($id[$i]) and $this->controlId($id[$i]))
+							if(is_numeric($IdTicket[$i]) and $this->controlId($IdTicket[$i]))
 							{
-								$q = "DELETE FROM schoolticket.ticket WHERE IdTicket = $id[$i]";
+								$q = "DELETE FROM schoolticket.ticket WHERE IdTicket = $IdTicket[$i]";
 								$st = $this->PDOconn->prepare($q);
 								$result = $st->execute();
 								if($result)
 								{
 									if($i == 0)
-										$totDescr .= "Utente " . $id[$i] . " eliminato correttamente";
+										$totDescr .= "Utente " . $IdTicket[$i] . " eliminato correttamente";
 									else
-										$totDescr .= ";Utente " . $id[$i] . " eliminato correttamente";
+										$totDescr .= ";Utente " . $IdTicket[$i] . " eliminato correttamente";
 								}
 								else
 								{
 									if($i == 0)
-										$totDescr .= "Utente " . $id[$i] . " non eliminato";
+										$totDescr .= "Utente " . $IdTicket[$i] . " non eliminato";
 									else
-										$totDescr .= ";Utente " . $id[$i] . " non eliminato";
+										$totDescr .= ";Utente " . $IdTicket[$i] . " non eliminato";
 								}
 
 							}
@@ -349,9 +345,9 @@ public function show($id = null) {
 							{
 								$ver = 0;
 								if($i == 0)
-									$totDescr .= "Utente " . $id[$i] . " non eliminato";
+									$totDescr .= "Utente " . $IdTicket[$i] . " non eliminato";
 								else
-									$totDescr .= ";Utente " . $id[$i] . " non eliminato";
+									$totDescr .= ";Utente " . $IdTicket[$i] . " non eliminato";
 							}
 						}
 						if($ver == 0)
@@ -370,9 +366,9 @@ public function show($id = null) {
 					else
 					{
 						//se non è un array elimino solo un ticket
-						if(is_numeric($id) and $this->controlId($id))
+						if(is_numeric($IdTicket) and $this->controlId($IdTicket))
 						{
-							$q = "DELETE FROM schoolticket.ticket WHERE IdTicket = $id";
+							$q = "DELETE FROM schoolticket.ticket WHERE IdTicket = $IdTicket";
 							$st = $this->PDOconn->prepare($q);
 							$result = $st->execute();
 							if($result == false)
@@ -388,7 +384,7 @@ public function show($id = null) {
 						}
 						else
 						{
-							$st = '{"result":false,"description":"Utente da eliminare inserito non corretto"}';
+							$st = '{"result":false,"description":"Ticket da eliminare inserito non corretto"}';
 							return $st;
 						}
 
@@ -404,7 +400,7 @@ public function show($id = null) {
 		else
 		{
 			//se l id non è presente
-			$st = '{"result":false,"description":"Utente non esistente"}';
+			$st = '{"result":false,"description":"Ticket non esistente"}';
 			return $st;
 		}
     }
@@ -422,6 +418,26 @@ public function show($id = null) {
 			$q = "SELECT * FROM schoolticket.ticket WHERE IdTicket = :idPl";
 			$st = $this->PDOconn->prepare($q);
 			$result = $st->execute(['idPl' => $IdTicket]);
+			if($result == false){
+					return false;
+					}
+			$record = $st->fetchAll();
+			if(empty($record))
+				return false;
+			else
+				return true;
+		}
+		else
+			return false;
+	}
+	
+	private function controlIdUtn($IdUtn){
+
+		if(is_numeric($IdUtn))
+		{
+			$q = "SELECT * FROM schoolticket.utente WHERE IdUtente = :idPl";
+			$st = $this->PDOconn->prepare($q);
+			$result = $st->execute(['idPl' => $IdUtn]);
 			if($result == false){
 					return false;
 					}
@@ -1170,9 +1186,20 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "Delete"){
     $control = false;
   }
 
-  if(isset($_POST["Data"]) && $_POST["Data"] != null && trim($_POST["Data"]) != "")//
-  $ID_user = 2;//$_POST["ID"];
-  echo $ticket -> Delete($ID_ticket, $ID_user);
+  if(isset($_POST["Data"]) && $_POST["Data"] != null && trim($_POST["Data"]) != "")
+  {
+	   if(isset($_SESSION["logged"]) && $_SESSION["logged"] != false && trim($_SESSION["logged"]) != "")
+			 $ID_user = $_SESSION["logged"];
+	   else
+			$ID_user = null;
+		
+  }//
+	
+   if($control == false)
+	   echo '{"result":false,"description":"Non è còsa"}';
+   else
+	   echo $ticket -> Delete($ID_user, $Id_ticket);
+  
 
 
 }
@@ -1181,8 +1208,9 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "NewTicketNumber"){
   echo $ticket->NewTicketNumber();
 }
 
-if(isset($_POST["Submit"]) && $_POST["Submit"] == "Insert"){
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "insert"){
   //SETTO I VALORI DA INSERIRE NELLA TB TICKET:
+  
   if(isset($_POST["Name"]))
     $Nome = $_POST["Name"];
   else
@@ -1191,7 +1219,7 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "Insert"){
   if(isset($_POST["Description"]))
     $Descrizione = $_POST["Description"];
   else
-    $Nome = "Descrizione nuovo ticket";
+    $Descrizione = "Descrizione nuovo ticket";
 
   if(isset($_FILES["Photo"]))
     $Url = $_FILES["Photo"];
@@ -1204,7 +1232,7 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "Insert"){
     $Stato = "Nuovo";  //$_POST["State"];
 
   if(isset($_POST["Prt"]))
-    $Url = $_POST["Prt"];
+    $Priorit = $_POST["Prt"];
   else
     $Priorit = 1; //$_POST["Prt"];
 

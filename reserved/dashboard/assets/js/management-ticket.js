@@ -262,7 +262,7 @@ function addTicket() {
 
 
     // creo l'oggetto data da mandare in post
-    let data = {"Submit": "insert", "nome": document.getElementById("newNameTicket").value, "descrizione": document.getElementById("newDescrizioneTicket").value, "Immagine": document.getElementById("newImmagineTicket").value, "stato": document.getElementById("newStatoTicket").value, "priorita": document.getElementById("newPrioritaTicket").value,/* "data": document.getElementById("newDataTicket").value, "ora": document.getElementById("newDataTicket").value,*/ "IdMacroarea": document.getElementById("macroarea_add_ticket").value, /*"IdUtente": document.getElementById("utente_add_ticket").value, */"IdAula": document.getElementById("aula_add_ticket").value/*, "IdUnione": document.getElementById("newUnioneTicket").value, "visualizzato": document.getElementById("newVisualizzatoTicket").value */};
+    let data = {"Submit": "insert", "Name": document.getElementById("newNameTicket").value, "Description": document.getElementById("newDescrizioneTicket").value, "Photo": document.getElementById("newImmagineTicket").value, "State": document.getElementById("newStatoTicket").value, "Prt": document.getElementById("newPrioritaTicket").value,/* "data": document.getElementById("newDataTicket").value, "ora": document.getElementById("newDataTicket").value,*/ "IdMacroarea": document.getElementById("macroarea_add_ticket").value, /*"IdUtente": document.getElementById("utente_add_ticket").value, */"Classroom": document.getElementById("aula_add_ticket").value/*, "IdUnione": document.getElementById("newUnioneTicket").value, "visualizzato": document.getElementById("newVisualizzatoTicket").value */};
 
     // effettuo la chiamata ajax
     $.ajax({
