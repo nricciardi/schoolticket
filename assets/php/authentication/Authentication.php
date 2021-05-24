@@ -335,7 +335,7 @@
 					$st = $this->PDOconn->prepare($q);
 					$result = $st->execute([$_SESSION["logged"]]);
 					$user = $st->fetchAll(PDO::FETCH_ASSOC);
-					if($user[0]['ModificaVisualizzaTuttiUtenti'] == 0){
+					if(!isset[$user[0]) || ($user[0]['ModificaVisualizzaTuttiUtenti'] == 0){
 
 						$IdPermessi = $this->permessoDefault;
 						$verifyPermessi = true;

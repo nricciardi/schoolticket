@@ -93,6 +93,9 @@ var btn_show_categorie2 = document.getElementById("btn_show_categorie_2");
 var btn_show_aule = document.getElementById("btn_show_aule");
 var btn_show_aule2 = document.getElementById("btn_show_aule_2");
 
+// div aula
+var div_management_aula = document.getElementById("div_management_aula");
+
 // bottone del sotto menù gestione: btn_show_competenze
 var btn_show_competenze = document.getElementById("btn_show_competenze");
 var btn_show_competenze2 = document.getElementById("btn_show_competenze_2");
@@ -931,6 +934,179 @@ function removeForm(ID) {
 
 }
 
+// ----------------------------------------------------------------
+// ----------------------- EVENTI --------------------------------- 
+// ----------------------------------------------------------------
+
+// al click in Account mostro il relativo form
+btn_show_account.addEventListener("click", () => {
+    // nascondo tutti i form 
+    hideAllDynamicPage();
+    // mostro il form selezionato
+    console.debug("change psw");
+    div_form_show_account.style.display = "";
+});
+
+// al click del add ticket viene mostrato il form
+btn_add_ticket.addEventListener("click", () => {
+
+    // aggiungo le categorie e le macroaree al form
+    addMacroaree(input_macroaree_ticket, submit_result);
+    addClassroom(input_classroom_ticket, submit_result);
+
+    // nascondo tutti i form 
+    hideAllDynamicPage(); 
+    // mostro il form selezionato
+    console.debug("add ticket");
+    div_form_add_ticket.style.display = "";
+});
+
+// al click del cambio password mostro il relativo form
+btn_change_password.addEventListener("click", () => {
+    // nascondo tutti i form 
+    hideAllDynamicPage();
+    // mostro il form selezionato
+    console.debug("change psw");
+    div_form_change_password.style.display = "";
+});
+
+/*
+btn_change_password2.addEventListener("click", () => {
+    // nascondo tutti i form 
+    hideAllDynamicPage();  
+    // mostro il form selezionato
+    console.debug("change psw");
+    div_form_change_password.style.display = "";
+    // chiudo il menù
+    $("#header-desktop-menu").removeClass("show-sidebar");
+    $("#header-desktop-menu2").removeClass("show-sidebar");
+});
+*/
+
+btn_show_user.addEventListener("click", () => {
+
+    hideAllDynamicPage();
+
+    console.debug("show management user");
+
+    // creo la tabella degli utenti
+    createTableUser();
+
+    div_management_users.style.display = "";
+    // chiudo il menù
+    $("#header-desktop-menu").removeClass("show-sidebar");
+    $("#header-desktop-menu2").removeClass("show-sidebar");
+
+});
+
+btn_show_user2.addEventListener("click", () => {
+
+    hideAllDynamicPage();
+
+    console.debug("show management user");
+
+    // creo la tabella degli utenti
+    createTableUser();
+
+    div_management_users.style.display = "";
+    // chiudo il menù
+    $("#header-desktop-menu").removeClass("show-sidebar");
+    $("#header-desktop-menu2").removeClass("show-sidebar");
+
+});
+
+btn_show_ticket.addEventListener("click", () => {
+
+    hideAllDynamicPage();
+
+    // creo la tabella degli utenti
+    createTableTicket();
+
+    div_management_ticket.style.display = "";
+
+    // chiudo il menù
+    $("#header-desktop-menu").removeClass("show-sidebar");
+    $("#header-desktop-menu2").removeClass("show-sidebar");
+
+});
+
+btn_show_ticket2.addEventListener("click", () => {
+
+    hideAllDynamicPage();
+
+    // creo la tabella degli utenti
+    createTableTicket();
+
+    div_management_ticket.style.display = "";
+
+    // chiudo il menù
+    $("#header-desktop-menu").removeClass("show-sidebar");
+    $("#header-desktop-menu2").removeClass("show-sidebar");
+
+});
+
+btn_show_categorie.addEventListener("click", () => {
+
+    hideAllDynamicPage();
+
+    // creo la tabella degli utenti
+    createTableCategoria();
+
+    div_management_categoria.style.display = "";
+
+    // chiudo il menù
+    $("#header-desktop-menu").removeClass("show-sidebar");
+    $("#header-desktop-menu2").removeClass("show-sidebar");
+
+});
+
+btn_show_categorie2.addEventListener("click", () => {
+
+    hideAllDynamicPage();
+
+    // creo la tabella degli utenti
+    createTableCategoria();
+
+    div_management_categoria.style.display = "";
+
+    // chiudo il menù
+    $("#header-desktop-menu").removeClass("show-sidebar");
+    $("#header-desktop-menu2").removeClass("show-sidebar");
+
+});
+
+btn_show_aule.addEventListener("click", () => {
+
+    hideAllDynamicPage();
+
+    // creo la tabella delle aule
+    createTableAula();
+
+    div_management_aula.style.display = "";
+
+    // chiudo il menù
+    $("#header-desktop-menu").removeClass("show-sidebar");
+    $("#header-desktop-menu2").removeClass("show-sidebar");
+
+});
+
+btn_show_aule2.addEventListener("click", () => {
+
+    hideAllDynamicPage();
+
+    // creo la tabella delle aule
+    createTableAula();
+
+    div_management_aula.style.display = "";
+
+    // chiudo il menù
+    $("#header-desktop-menu").removeClass("show-sidebar");
+    $("#header-desktop-menu2").removeClass("show-sidebar");
+
+});
+
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------
 function settingMenuGestioneAccount()
 {
 

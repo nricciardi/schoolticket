@@ -1,9 +1,10 @@
 <html>
 <?php
 	//file per effettuare il logout dall'accoutn
+	require_once("../../../../../config.php");
 	//require_once("../../../../../assets/php/authentication/Authentication.php");
 	
-	require_once("../../../../../config.php");
+	
 	
 	function sign_out(){
 		if($_SESSION["logged"] == true){
@@ -15,7 +16,7 @@
 			return '{"result":false,"description":"Sign out non effettuato correttamente"}';
 	}
 	
-	echo sign_out();
+	//echo sign_out();
 	Header ('Location: http://localhost/phoneix/');
 ?>
 </html>
