@@ -1037,6 +1037,7 @@ function POST_request($auth = null, $json_error = '{"result":false,"description"
 		if(isset($_POST) && $_POST != null && !empty($_POST)) {
 
 			$control = true;
+			$msg = "";
 
 			$data_new_user = $_POST;
 
@@ -1044,30 +1045,35 @@ function POST_request($auth = null, $json_error = '{"result":false,"description"
 				$nome = $data_new_user["nome"];
 			} else {
 				$control = false;
+				$msg .= "Nome mancante; ";
 			}
 
 			if(isset($data_new_user["cognome"])) {
 				$cognome = $data_new_user["cognome"];
 			} else {
 				$control = false;
+				$msg .= "Cognome mancante; ";
 			}
 
 			if(isset($data_new_user["email"])) {
 				$email = $data_new_user["email"];
 			} else {
 				$control = false;
+				$msg .= "Email mancante; ";
 			}
 
 			if(isset($data_new_user["password"])) {
 				$password = $data_new_user["password"];
 			} else {
 				$control = false;
+				$msg .= "Password mancante; ";
 			}
 
-			if(isset($data_new_user["idCategoria"])) {
+			if(isset($data_new_user["idCategoria"]) && $data_new_user["idCategoria"] != "Unknown") {
 				$IdCategoria = $data_new_user["idCategoria"];
 			} else {
 				$control = false;
+				$msg .= "Categoria mancante; ";
 			}
 
 			if(isset($data_new_user["idPermessi"])) {
@@ -1079,7 +1085,7 @@ function POST_request($auth = null, $json_error = '{"result":false,"description"
 			if($control)
 				return $auth->registration(/*$id,*/ $nome, $cognome, $email, $password, $IdCategoria, $IdPermessi);	// Deprecato, l'id dell'utente è autoincrementale
 			else
-				return $json_error;
+			return '{"result":false,"description":"' . $msg . '"}';
 
 		} else {
 			return $json_error;
