@@ -29,8 +29,9 @@
 	
 	//funzione per controllare se un utente è loggato nella sessione	1--> rimane nel suo account 0->torna all'index
 	function check_session() {
-		if($_SESSION["logged"] == false) {
-			header('Location: '. PATH_ROOT . DS . '/index.php');
+		if($_SESSION["logged"] == false || !isset($_SESSION["logged"])) {
+			Header ('Location: http://localhost/phoneix/');
+			//header('Location: '. PATH_ROOT . DS . '/index.php');
 			//header("Location: ../..");
 		}
 	}
