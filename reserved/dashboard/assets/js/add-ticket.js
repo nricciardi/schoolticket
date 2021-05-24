@@ -137,7 +137,7 @@ btn_submit_ticket.addEventListener("click", () => {
     if(checkSubmit()) {
 
         let form_data = new FormData();
-        form_data.append("Submit", "Insert");
+        form_data.append("Submit", "insert");
         form_data.append("Name", input_name_ticket.value.replace(/(<([^>]+)>)/gi, ""));
         form_data.append("Description", input_description_ticket.value.replace(/(<([^>]+)>)/gi, ""));
         form_data.append("Photo", input_image_ticket.files[0]);
