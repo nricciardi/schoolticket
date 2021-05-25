@@ -34,8 +34,9 @@
         public function get($idCategoria = null, $credenziali = null) {      // opzionale: se viene passato un id, restituisco solo il categoria con l'id passato
             
             // controllo che le credenziali dell'utente passato siano presenti nel database
+            $get_to_public = false;     // variabile di controllo per restituire le categorie in caso l'utente non sia registrato
             if($credenziali === null || $this->authorized($credenziali["email"], $credenziali["password"]) == null)
-                return '{"result":false, "description":"Azione non consentita per questo utente"}';
+                $get_to_public = true;
 
             $query = "SELECT * FROM schoolticket.categoria";     // creo la query per prelevare i tutti categoria
             
@@ -79,11 +80,25 @@
             if($result != false) {       // controllo che la query abbia dato un risultato positivo
                 
                 $rows = $st->fetchAll(PDO::FETCH_ASSOC);        // recupero tutti i categoria presi dal database
-                $temp = (json_encode($rows));                   // trasformo l'array associativo restituito in una stringa in formato JSON
+
+                //var_dump($rows);
+
+                // se le api sono da restituire per un utente non loggato, elimino tutti i record con Registrabile = 0
+                if($get_to_public) {
+                    foreach ($rows as $key => $value) {     // per ogni record
+                        if($rows[$key]["Registrabile"] == "0")     // se il campo Registrabile è 0, lo elimino
+                            //array_push($id_to_unset, $i)
+                            unset($rows[$key]);
+                    }
+                }
+
+                //var_dump($rows);
+
+                $rows = (json_encode($rows));                   // trasformo l'array associativo restituito in una stringa in formato JSON
 
                 // creo la stringa di output
                 $r = '{"result":';
-                $r .= $temp;
+                $r .= $rows;
                 $r .= ', "description":"Sono state prelevate le categorie"}';
 
             } else {        // in caso di errore della query

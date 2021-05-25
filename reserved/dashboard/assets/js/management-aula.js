@@ -9,7 +9,7 @@ var body_table_aula = document.getElementById("body_table_aula");
 var foot_table_aula = document.getElementById("foot_table_aula");
 
 // checkbox generale della tabella
-var general_checkbox = document.getElementById("general_checkbox");
+var general_checkbox_aula = document.getElementById("general_checkbox_aula");
 
 // button per l'aggiunta del form per l'aggiunta della nuova aula
 var form_add_aula = document.getElementById("formAddAula");
@@ -54,17 +54,25 @@ function createRecordAula(aula) {   //aula è un oggetto contenente le informazi
     record += '<td id="nomeAula' + aula.IdAula + '">' + aula.Nome + '</td>';
     
     // inserisco la DESCRIZIONE
-    record += '<td id="descrizioneAula' + aula.IdAula + '">' + aula.Descrizione + '</td>';
+	if(aula.Descrizione == null)
+		record += '<td id="descrizioneAula' + aula.IdAula + '">' + 'N/D' + '</td>';
+	else
+		record += '<td id="descrizioneAula' + aula.IdAula + '">' + aula.Descrizione + '</td>';
     
     // inserisco LABORATORIO
-    record += '<td id="laboratorioAula' + aula.IdAula + '">' + aula.Laboratorio + '</td>';
+	if(aula.Laboratorio == 1)
+		record += '<td id="laboratorioAula' + aula.IdAula + '" data-check="true">' + 'Sì' + '</td>';
+	else
+		record += '<td id="laboratorioAula' + aula.IdAula + '" data-check="false">' + 'No' + '</td>';
+	
+    // record += '<td id="laboratorioAula' + aula.IdAula + '">' + aula.Laboratorio + '</td>';
 
     // inserisco i bottoni per le diverse azioni
     record += '<td id="td_action_aulaId_' + aula.IdAula + '"> <div class="table-data-feature">';
-    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Send" id="sendAula' + aula.IdAula + '" onclick="requestActionAula(\'send\', ' + aula.IdAula + ')">    <i class="zmdi zmdi-mail-send"></i> </button>';        // tasto SEND
+ // record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Send" id="sendAula' + aula.IdAula + '" onclick="requestActionAula(\'send\', ' + aula.IdAula + ')">    <i class="zmdi zmdi-mail-send"></i> </button>';        // tasto SEND
     record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Edit" id="editAula' + aula.IdAula + '" onclick="requestActionAula(\'edit\', ' + aula.IdAula + ')">    <i class="zmdi zmdi-edit"></i>  </button>';            // tasto EDIT
     record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Delete" id="deleteAula' + aula.IdAula + '" onclick="requestActionAula(\'delete\', ' + aula.IdAula + ')">  <i class="zmdi zmdi-delete"></i>    </button>';    // tasto DELETE                                    
-    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="More" id="moreAula' + aula.IdAula + '" onclick="requestActionAula(\'more\', ' + aula.IdAula + ')">    <i class="zmdi zmdi-more"></i>  </button>';       // tasto MORE       
+ // record += '<button class="item" data-toggle="tooltip" data-placement="top" title="More" id="moreAula' + aula.IdAula + '" onclick="requestActionAula(\'more\', ' + aula.IdAula + ')">    <i class="zmdi zmdi-more"></i>  </button>';       // tasto MORE       
     record += '</div>   </td>   </tr>';
 
     // inserisco il record di spaziatura
@@ -84,7 +92,7 @@ function requestActionAula(type, ID) {      // passo il tipo di richiesta che vi
     
         case "edit":
             
-            changeRecordAulaToForm(ID);
+            changeFormNewAula(ID);
             break;
 
         case "delete":
@@ -161,7 +169,9 @@ function createTableAula() {
     $.ajax({
         url: HOSTNAME + "/api/aule.php",
         type: "GET",
-        data: data,
+        headers:{
+            'Authorization':'Basic ' + btoa(USER.Email + ":" + USER.Password)
+        },
         dataType: "json",
         success: (res) => {
             console.log(res);
@@ -172,9 +182,9 @@ function createTableAula() {
                 feedback_table_management_aula.innerText = res.description;
                 feedback_table_management_aula.style.color = error_data;
 
-            } else {    // in caso positivo creo la tabella per gli aula
+            } else {    // in caso positivo creo la tabella per l'aula
 
-                // recupero gli aula passati da "result"
+                // recupero le aule passate da "result"
                 let aula = res.result;
 
                 console.log(res.description);
@@ -216,7 +226,7 @@ function addAula() {
 
 	let temp = null;
 	
-	if(laboratorio.value == false)
+	if(laboratorio.checked == false)
 		temp = 0;
 	else
 		temp = 1;
@@ -232,7 +242,7 @@ function addAula() {
         data: data,
         dataType: "json",
 		headers:{
-					'Authorization':'Basic '+btoa(USER.Email + ":" + USER.Password)
+					'Authorization':'Basic ' + btoa(USER.Email + ":" + USER.Password)
 				},
         success: (res) => {
 
@@ -267,16 +277,24 @@ function editAula(ID) {   // può anche essere passato un array
     
     console.log("Modifico: " + ID);
 
-    // creo l'oggetto data da mandare in post
-    let data = {"Submit": "Update", "Nome": document.getElementById("editNomeAula").value, "Descrizione": document.getElementById("editDescrizioneAula").value, "Laboratorio": document.getElementById("editLaboratorioAula").value};
+    let checkbox_edit_mode = 0;
+    if(document.getElementById("editLaboratorioAula").checked)
+        checkbox_edit_mode = 1; 
 
+    // creo l'oggetto data da mandare in post
+    let data = {"IdAula": ID, "Nome": document.getElementById("editNomeAula").value, "Descrizione": document.getElementById("editDescrizioneAula").value, "Laboratorio": checkbox_edit_mode};
+
+    console.log(data);
     // effettuo la chiamata ajax
     $.ajax({
 
         url: HOSTNAME + "/api/aule.php",
-        type: "post",
-        data: data,
+        type: "PUT",
+        data: JSON.stringify(data),
         dataType: "json",
+		headers:{
+					'Authorization':'Basic ' + btoa(USER.Email + ":" + USER.Password)
+				},
         success: (res) => {
 
             console.log(res);
@@ -311,14 +329,17 @@ function deleteAula(ID) {   // può anche essere passato un array
     console.log("Elimino: " + ID);
 
     // creo l'oggetto data da mandare in post
-    let data = {"Submit": "delete", "Data": ID};
-
+    let data = {"id": ID};
+	
     // effettuo la chiamata ajax
     $.ajax({
 
         url: HOSTNAME + "/api/aule.php",
-        type: "post",
-        data: data,
+        type: "DELETE",
+        data: JSON.stringify(data),
+		headers: {
+					'Authorization': 'Basic ' + btoa(USER.Email + ':' + USER.Password)
+				 },
         dataType: "json",
         success: (res) => {
 
@@ -430,6 +451,7 @@ function checkNewNomeAula(ID = "newNomeAula") {
 
 }
 
+/*
 function checkNewDescrizioneAula(ID = "newDescrizioneAula") {
     
     // controllo che sia aggiunto almeno un valore per la descrizione
@@ -450,7 +472,7 @@ function checkNewDescrizioneAula(ID = "newDescrizioneAula") {
     checkFormNewAula();
 
 }
-
+*/
 
 // controllo se posso abilitare il bottone per la conferma della nuova aula
 function checkFormNewAula(ID = "btn_confirm_new_aula") {
@@ -463,30 +485,12 @@ function checkFormNewAula(ID = "btn_confirm_new_aula") {
         return false;
     } 
 
-    if(check_new_nome_aula /*&& check_new_descrizione_aula*/)
+    if(check_new_nome_aula)
 		btn_confirm_new_aula.removeAttribute("disabled");
     else
 		btn_confirm_new_aula.setAttribute("disabled", "disabled");
         
 }
-
-// funzione che modifica il record della tabella con id passato, predisponendolo come form
-function changeRecordAulaToForm(ID) {
-    
-    // elimino il form per l'inserimento di una nuova aula
-    removeForm("form_new_aula");
-
-    // ACTION
-    let td_action_aulaId = document.getElementById("td_action_aulaId_" + ID);
-    td_action_aulaId.innerHTML = '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_aula" onclick="editAula(' + ID + ')" style="margin-left: 0.5vw; border-radius: 5%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
-        '<i class="far fa-check-circle"></i> Conferma' +
-    '</button>' + 
-    '<button type="button" onclick="createTableAula()" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%">' + 
-        '<!--<i class="fas fa-minus-circle"></i>--> Annulla' + 
-    '</button></td>';
-
-
-} 
 
 // funzione che elimina tutti gli id selezionati 
 function getArrayAulaChecked() {
@@ -504,9 +508,7 @@ function getArrayAulaChecked() {
 
             if(checkbox_checked)    // se il checkbox è spuntato allora lo aggiungo all'array da eliminare
                 array.push(checkbox.value);
-
         }
-        
     }
 
 
@@ -524,7 +526,11 @@ function checkCheckboxAula() {
     if(array.length > 0) {
 
         btn_delete_checked_aula.removeAttribute("disabled");
-        btn_delete_checked_aula.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella ' + array.length + ' aula selezionati</font></font>';
+		
+		if(array.length == 1)
+			btn_delete_checked_aula.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella ' + array.length + ' aula selezionata</font></font>';
+		else
+			btn_delete_checked_aula.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella ' + array.length + ' aule selezionate</font></font>';
 
     } else {
 
@@ -535,15 +541,60 @@ function checkCheckboxAula() {
 
 }
 
+// funzione che modifica il record della tabella con id passato, predisponendolo come form
+function changeFormNewAula(ID) {
+    
+    // elimino il form per l'inserimento di una nuova aula
+    removeForm("form_new_aula");
+
+    // NOME
+    // recupero la referenza del nome del record della tabella tramite ID
+    let td_nome = document.getElementById("nomeAula" + ID);
+    name = td_nome.innerText;     // recupero il valore del nome
+
+    // modifico la label in un input:text
+    td_nome.innerHTML = '<input type="text" placeholder="Nome" value="' + name + '" oninput="checkNewNomeAula(\'editNomeAula\')" class="form-control" id="editNomeAula">'
+
+    // DESCRIZIONE
+    // recupero la referenza della descrizione del record della tabella tramite ID
+    let td_descrizione = document.getElementById("descrizioneAula" + ID);
+    descrizione = td_descrizione.innerText;     // recupero il valore del cognome
+
+    // modifico la label in un input:text
+    td_descrizione.innerHTML = '<input type="text" placeholder="Descrizione" value="' + descrizione + '" oninput="checkNewDescrizioneAula(\'editDescrizioneAula\')" class="form-control" id="editDescrizioneAula">'
+	
+	
+	// LABORATORIO
+    // recupero la referenza del visualizzato del record della tabella tramite ID
+    let td_laboratorio = document.getElementById("laboratorioAula" + ID);
+    let check = JSON.parse(td_laboratorio.dataset.check);               // recupero lo stato del laboratorio tramite dataset
+
+    // modifico la label in un input:text
+    td_laboratorio.innerHTML = '<input type="checkbox" placeholder="Laboratorio" class="form-control" id="editLaboratorioAula">';
+
+    // controllo se abilitare il checkbox
+    if(check)
+        document.getElementById("editLaboratorioAula").checked = true
+
+	// ACTION
+    let td_action_aulaId = document.getElementById("td_action_aulaId_" + ID);
+    td_action_aulaId.innerHTML = '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_aula" onclick="editAula(' + ID + ')" style="margin-left: 0.5vw; border-radius: 5%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
+        '<i class="far fa-check-circle"></i> Conferma' +
+    '</button>' + 
+    '<button type="button" onclick="createTableAula()" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%">' + 
+        '<!--<i class="fas fa-minus-circle"></i>--> Annulla' + 
+    '</button></td>';
+}
+
 // ----------------------------------------------------------------
 // ----------------------- EVENTI --------------------------------- 
 // ----------------------------------------------------------------
 
 // al click del checkbox generale, verifico il suo stato e modifico tutti quelli presenti di conseguenza
-general_checkbox.addEventListener("change", () => {
+general_checkbox_aula.addEventListener("change", () => {
     
     // controllo lo stato del bottone e richiamo la funzione con il valore del checkbox giusta
-    setCheckboxRecordAula(general_checkbox.checked);
+    setCheckboxRecordAula(general_checkbox_aula.checked);
     checkCheckboxAula();
     
 });
@@ -592,6 +643,8 @@ btn_delete_checked_aula.addEventListener("click", () => {
 
     // richiamo al funzione per elimiare
     deleteAula(getArrayAulaChecked());
+	setCheckboxRecordAula(general_checkbox_aula.checked);
+	checkCheckboxAula();
 
 });
 

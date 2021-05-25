@@ -171,7 +171,6 @@ function createTableUser() {
     $.ajax({
         url: HOSTNAME + "/assets/php/authentication/Authentication.php",
         type: "GET",
-        data: data,
         dataType: "JSON",
         success: (res) => {
             console.log(res);
@@ -599,7 +598,6 @@ function changeRecordUserToForm(ID) {
     '<button type="button" onclick="createTableUser()" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%">' + 
         '<!--<i class="fas fa-minus-circle"></i>--> Annulla' + 
     '</button></td>';
-
 
 } 
 

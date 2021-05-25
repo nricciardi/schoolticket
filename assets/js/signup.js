@@ -104,6 +104,8 @@ $("#submit").click(function () {
         dataType: "JSON",
         success: function (res) {
             
+            console.log(res.result);
+
             let success = res.result;
             if(success == false) {
 

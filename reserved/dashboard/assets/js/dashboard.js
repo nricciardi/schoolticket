@@ -908,7 +908,7 @@ async function setDeviationTicketNumber()
 	});
 }
 
-// funzione per eliminare il record per l'inserimento di un nuovo utente
+// funzione per eliminare il record per l'inserimento di un nuovo utente/aula
 function removeForm(ID) {
     
     // recupero il form per l'inserimento
@@ -1227,6 +1227,25 @@ function settingMenuGestioneAccount()
             // continuo a tener nascosto il bottone
             btn_show_user.style.display = "none";
             btn_show_user2.style.display = "none";
+
+        }
+
+        if(permessi_utente.CreaModificaEliminaPermessi == "1") {
+
+            // restituirò true
+            show = true;
+
+            // tolgo il display none dal bottone associato
+            btn_show_permessi.style.display = "";
+            btn_show_permessi2.style.display = "";
+
+
+            console.log("if7");
+            
+        } else {
+            // continuo a tener nascosto il bottone
+            btn_show_permessi.style.display = "none";
+            btn_show_permessi2.style.display = "none";
 
         }
 
