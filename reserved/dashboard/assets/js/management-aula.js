@@ -69,10 +69,10 @@ function createRecordAula(aula) {   //aula è un oggetto contenente le informazi
 
     // inserisco i bottoni per le diverse azioni
     record += '<td id="td_action_aulaId_' + aula.IdAula + '"> <div class="table-data-feature">';
-    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Send" id="sendAula' + aula.IdAula + '" onclick="requestActionAula(\'send\', ' + aula.IdAula + ')">    <i class="zmdi zmdi-mail-send"></i> </button>';        // tasto SEND
+ // record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Send" id="sendAula' + aula.IdAula + '" onclick="requestActionAula(\'send\', ' + aula.IdAula + ')">    <i class="zmdi zmdi-mail-send"></i> </button>';        // tasto SEND
     record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Edit" id="editAula' + aula.IdAula + '" onclick="requestActionAula(\'edit\', ' + aula.IdAula + ')">    <i class="zmdi zmdi-edit"></i>  </button>';            // tasto EDIT
     record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Delete" id="deleteAula' + aula.IdAula + '" onclick="requestActionAula(\'delete\', ' + aula.IdAula + ')">  <i class="zmdi zmdi-delete"></i>    </button>';    // tasto DELETE                                    
-    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="More" id="moreAula' + aula.IdAula + '" onclick="requestActionAula(\'more\', ' + aula.IdAula + ')">    <i class="zmdi zmdi-more"></i>  </button>';       // tasto MORE       
+ // record += '<button class="item" data-toggle="tooltip" data-placement="top" title="More" id="moreAula' + aula.IdAula + '" onclick="requestActionAula(\'more\', ' + aula.IdAula + ')">    <i class="zmdi zmdi-more"></i>  </button>';       // tasto MORE       
     record += '</div>   </td>   </tr>';
 
     // inserisco il record di spaziatura
@@ -278,15 +278,18 @@ function editAula(ID) {   // può anche essere passato un array
     console.log("Modifico: " + ID);
 
     // creo l'oggetto data da mandare in post
-    let data = {"Submit": "Update", "Nome": document.getElementById("editNomeAula").value, "Descrizione": document.getElementById("editDescrizioneAula").value, "Laboratorio": document.getElementById("editLaboratorioAula").value};
+    let data = {"IdAula": ID, "Nome": document.getElementById("editNomeAula").value, "Descrizione": document.getElementById("editDescrizioneAula").value, "Laboratorio": document.getElementById("editLaboratorioAula").value};
 
     // effettuo la chiamata ajax
     $.ajax({
 
         url: HOSTNAME + "/api/aule.php",
-        type: "post",
-        data: data,
+        type: "PUT",
+        data: JSON.stringify(data),
         dataType: "json",
+		headers:{
+					'Authorization':'Basic ' + btoa(USER.Email + ":" + USER.Password)
+				},
         success: (res) => {
 
             console.log(res);
@@ -562,7 +565,7 @@ function changeFormNewAula(ID) {
 	
 	// ACTION
     let td_action_aulaId = document.getElementById("td_action_aulaId_" + ID);
-    td_action_aulaId.innerHTML = '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_user" onclick="editAula(' + ID + ')" style="margin-left: 0.5vw; border-radius: 5%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
+    td_action_aulaId.innerHTML = '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_aula" onclick="editAula(' + ID + ')" style="margin-left: 0.5vw; border-radius: 5%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
         '<i class="far fa-check-circle"></i> Conferma' +
     '</button>' + 
     '<button type="button" onclick="createTableAula()" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%">' + 
