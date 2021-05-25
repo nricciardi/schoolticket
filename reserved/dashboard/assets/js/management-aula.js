@@ -61,9 +61,9 @@ function createRecordAula(aula) {   //aula è un oggetto contenente le informazi
     
     // inserisco LABORATORIO
 	if(aula.Laboratorio == 1)
-		record += '<td id="laboratorioAula' + aula.IdAula + '">' + 'Sì' + '</td>';
+		record += '<td id="laboratorioAula' + aula.IdAula + '" data-check="true">' + 'Sì' + '</td>';
 	else
-		record += '<td id="laboratorioAula' + aula.IdAula + '">' + 'No' + '</td>';
+		record += '<td id="laboratorioAula' + aula.IdAula + '" data-check="false">' + 'No' + '</td>';
 	
     // record += '<td id="laboratorioAula' + aula.IdAula + '">' + aula.Laboratorio + '</td>';
 
@@ -277,9 +277,14 @@ function editAula(ID) {   // può anche essere passato un array
     
     console.log("Modifico: " + ID);
 
-    // creo l'oggetto data da mandare in post
-    let data = {"IdAula": ID, "Nome": document.getElementById("editNomeAula").value, "Descrizione": document.getElementById("editDescrizioneAula").value, "Laboratorio": document.getElementById("editLaboratorioAula").value};
+    let checkbox_edit_mode = 0;
+    if(document.getElementById("editLaboratorioAula").checked)
+        checkbox_edit_mode = 1; 
 
+    // creo l'oggetto data da mandare in post
+    let data = {"IdAula": ID, "Nome": document.getElementById("editNomeAula").value, "Descrizione": document.getElementById("editDescrizioneAula").value, "Laboratorio": checkbox_edit_mode};
+
+    console.log(data);
     // effettuo la chiamata ajax
     $.ajax({
 
@@ -540,7 +545,7 @@ function changeFormNewAula(ID) {
     // NOME
     // recupero la referenza del nome del record della tabella tramite ID
     let td_nome = document.getElementById("nomeAula" + ID);
-    nome = td_nome.innerText;     // recupero il valore del cognome
+    name = td_nome.innerText;     // recupero il valore del cognome
 
     // modifico la label in un input:text
     td_nome.innerHTML = '<input type="text" placeholder="Nome" value="' + name + '" oninput="checkNewNomeAula(\'editNomeAula\')" class="form-control" id="editNomeAula">'
@@ -557,12 +562,15 @@ function changeFormNewAula(ID) {
 	// LABORATORIO
     // recupero la referenza del visualizzato del record della tabella tramite ID
     let td_laboratorio = document.getElementById("laboratorioAula" + ID);
-    laboratorio = td_laboratorio.innerText;     // recupero il valore del cognome
+    let check = JSON.parse(td_laboratorio.dataset.check);               // recupero lo stato del laboratorio tramite dataset
 
     // modifico la label in un input:text
-    td_laboratorio.innerHTML = '<input type="checkbox" placeholder="Laboratorio" value="' + laboratorio + '" class="form-control" id="editLaboratorioAula">'
-	
-	
+    td_laboratorio.innerHTML = '<input type="checkbox" placeholder="Laboratorio" class="form-control" id="editLaboratorioAula">';
+
+    // controllo se abilitare il checkbox
+    if(check)
+        document.getElementById("editLaboratorioAula").checked = true
+
 	// ACTION
     let td_action_aulaId = document.getElementById("td_action_aulaId_" + ID);
     td_action_aulaId.innerHTML = '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_aula" onclick="editAula(' + ID + ')" style="margin-left: 0.5vw; border-radius: 5%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
