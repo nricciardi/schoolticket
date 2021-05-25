@@ -1230,6 +1230,25 @@ function settingMenuGestioneAccount()
 
         }
 
+        if(permessi_utente.CreaModificaEliminaPermessi == "1") {
+
+            // restituirò true
+            show = true;
+
+            // tolgo il display none dal bottone associato
+            btn_show_permessi.style.display = "";
+            btn_show_permessi2.style.display = "";
+
+
+            console.log("if7");
+            
+        } else {
+            // continuo a tener nascosto il bottone
+            btn_show_permessi.style.display = "none";
+            btn_show_permessi2.style.display = "none";
+
+        }
+
         /*if(permessi_utente.CreaIncarico === "1" || permessi_utente.ModificaStatoAvanzamentoIncarico === "1") {
 
             // restituirò true
