@@ -31,7 +31,10 @@
                         <button type="button" class="btn btn-outline-secondary" style="margin-left: 4%;" onclick="clickInput('immagine')">
                                             <i class="fa fa-upload"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Carica una foto qui</font></font></button>
 
-                        <input type="file" name="Immagine" id="immagine" style="display: none;">
+                        <input type="file" onchange="checkStatusFile()" name="Immagine" id="immagine" style="display: none;">
+                        <span style="margin-left: 1%; padding-top: 1%; color: green" id="feedback_immagine">
+                            
+                        </span>
                     </div>
                 </div>
                 <div class="form-group">
@@ -70,14 +73,19 @@
     </div>
 </div>
 
-
 <script>
-// script per il click dell'input:file
-    function clickInput(ID) {
-        // recupero la referenza dell'id passato
-        let input = document.getElementById(ID);
+    // controllo che sia stato caricato almeno un file, nel caso restituisco un feedback all'utente
+    function checkStatusFile() {
+        if(document.getElementById("immagine").files != 0) {
+            let feedback_immagine = document.getElementById("feedback_immagine");
 
-        input.click();
+            //feedback_immagine.innerText = "Caricamento avvennuto con successo";
+            feedback_immagine.innerHTML = '<i class="far fa-check-circle"></i>';
+        } else {
+            let feedback_immagine = document.getElementById("feedback_immagine");
+
+            feedback_immagine.innerText = "";
+        }
     }
 
 </script>

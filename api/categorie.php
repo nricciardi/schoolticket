@@ -31,8 +31,13 @@
         }
         
         // metodo per la restituzione dei categoria
-        public function get($idCategoria = null) {      // opzionale: se viene passato un id, restituisco solo il categoria con l'id passato
+        public function get($idCategoria = null, $credenziali = null) {      // opzionale: se viene passato un id, restituisco solo il categoria con l'id passato
             
+            // controllo che le credenziali dell'utente passato siano presenti nel database
+            $get_to_public = false;     // variabile di controllo per restituire le categorie in caso l'utente non sia registrato
+            if($credenziali === null || $this->authorized($credenziali["email"], $credenziali["password"]) == null)
+                $get_to_public = true;
+
             $query = "SELECT * FROM schoolticket.categoria";     // creo la query per prelevare i tutti categoria
             
             if($idCategoria === null) {      // se il parametro è null non viene richiesto un categoria specifico, restituisco tutte le categorie
@@ -75,11 +80,25 @@
             if($result != false) {       // controllo che la query abbia dato un risultato positivo
                 
                 $rows = $st->fetchAll(PDO::FETCH_ASSOC);        // recupero tutti i categoria presi dal database
-                $temp = (json_encode($rows));                   // trasformo l'array associativo restituito in una stringa in formato JSON
+
+                //var_dump($rows);
+
+                // se le api sono da restituire per un utente non loggato, elimino tutti i record con Registrabile = 0
+                if($get_to_public) {
+                    foreach ($rows as $key => $value) {     // per ogni record
+                        if($rows[$key]["Registrabile"] == "0")     // se il campo Registrabile è 0, lo elimino
+                            //array_push($id_to_unset, $i)
+                            unset($rows[$key]);
+                    }
+                }
+
+                //var_dump($rows);
+
+                $rows = (json_encode($rows));                   // trasformo l'array associativo restituito in una stringa in formato JSON
 
                 // creo la stringa di output
                 $r = '{"result":';
-                $r .= $temp;
+                $r .= $rows;
                 $r .= ', "description":"Sono state prelevate le categorie"}';
 
             } else {        // in caso di errore della query
@@ -409,7 +428,7 @@
             // ============== CRUD ==================
             case "GET":		// richiesta GET
                 //echo "GET";
-                echo GET_request($obj_categoria);
+                echo GET_request($obj_categoria, getCredenziali());
                 break;
     
             case "POST":		// richiesta POST
@@ -429,7 +448,7 @@
     
 
     // funzione per selezionare il metodo della classe da richiamare
-    function GET_request($obj_categoria = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
+    function GET_request($obj_categoria = null, $credenziali = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
 
         // controllo che venga passato l'oggetto della classe per la connessione con il database
         if($obj_categoria === null)	
@@ -441,7 +460,7 @@
         if(isset($_GET["id"]) && is_numeric((int) $_GET["id"]) && trim($_GET["id"]) != "")      // controllo che sia stato passato un parametro in GET
             $ID_categoria = (int) $_GET["id"];
 
-        return $obj_categoria->get($ID_categoria);		// richiamo il metodo della classe per mostrare tutti gli elementi
+        return $obj_categoria->get($ID_categoria, $credenziali);		// richiamo il metodo della classe per mostrare tutti gli elementi
 
     }
 

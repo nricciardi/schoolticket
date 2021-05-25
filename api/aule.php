@@ -31,7 +31,11 @@
         }
         
         // metodo per la restituzione dei aula
-        public function get($idAula = null) {      // opzionale: se viene passato un id, restituisco solo il aula con l'id passato
+        public function get($idAula = null, $credenziali = null) {      // opzionale: se viene passato un id, restituisco solo il aula con l'id passato
+
+            // controllo che le credenziali dell'utente passato siano presenti nel database
+            if($credenziali === null || $this->authorized($credenziali["email"], $credenziali["password"]) == null)
+                return '{"result":false, "description":"Azione non consentita per questo utente"}';
             
             $query = "SELECT * FROM schoolticket.aula";     // creo la query per prelevare i tutti aula
             
@@ -424,7 +428,7 @@
             // ============== CRUD ==================
             case "GET":		// richiesta GET
                 //echo "GET";
-                echo GET_request($obj_aula);
+                echo GET_request($obj_aula, getCredenziali());
                 break;
     
             case "POST":		// richiesta POST
@@ -444,7 +448,7 @@
     
 
     // funzione per selezionare il metodo della classe da richiamare
-    function GET_request($obj_aula = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
+    function GET_request($obj_aula = null, $credenziali = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
 
         // controllo che venga passato l'oggetto della classe per la connessione con il database
         if($obj_aula === null)	
@@ -456,7 +460,7 @@
         if(isset($_GET["id"]) && is_numeric((int) $_GET["id"]) && trim($_GET["id"]) != "")      // controllo che sia stato passato un parametro in GET
             $ID_aula = (int) $_GET["id"];
 
-        return $obj_aula->get($ID_aula);		// richiamo il metodo della classe per mostrare tutti gli elementi
+        return $obj_aula->get($ID_aula, $credenziali);		// richiamo il metodo della classe per mostrare tutti gli elementi
 
     }
 

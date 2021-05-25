@@ -157,6 +157,9 @@ async function init() {
 	// nascondo tutte le pagine dimaniche presenti
 	hideAllDynamicPage();
 
+    // imposto l'utente loggato attraverso una chiamata ajax
+    await set_user();
+
     // imposto le classi attraverso una chiamata ajax
 	await set_classrooms();
 	
@@ -168,9 +171,6 @@ async function init() {
 
     // imposto le categorie attraverso una chiamata ajax
     await set_categorie();
-
-    // imposto l'utente loggato attraverso una chiamata ajax
-    await set_user();
 
     // creo il menù in modo dinamico
     createMenu();
@@ -679,16 +679,13 @@ async function set_classrooms() {
 
     CLASSROOMS = null;
 
-	// creo la variabile data da passare per ricevere le classi
-	let data = {
-		"Submit": "getClassrooms"
-	}
-
     await $.ajax({
-        url: HOSTNAME + '/reserved/dashboard/assets/php/Dashboard.php',
-        type: 'POST',
-        data: data,
+        url: HOSTNAME + '/api/aule.php',
+        type: 'GET',
         dataType: "text",
+        headers: {
+                    'Authorization': 'Basic ' + btoa(USER.Email + ':' + USER.Password)
+                },
         success: function( data, textStatus, jQxhr ){
             //console.log(data);
             //console.log(JSON.parse(data));
@@ -745,15 +742,12 @@ async function set_macroaree() {
 
     MACROAREE = null;
 
-	// creo la variabile data da passare per ricevere le macroaree
-    data = {
-        "Submit": "getMacroaree"
-    }
-
     await $.ajax({
-        url: HOSTNAME + '/reserved/dashboard/assets/php/Dashboard.php',
-        type: 'POST',
-        data: data,
+        url: HOSTNAME + '/api/macroaree.php',
+        type: 'GET',
+        headers: {
+            'Authorization': 'Basic ' + btoa(USER.Email + ':' + USER.Password)
+        },
         dataType: "text",
         success: function( data, textStatus, jQxhr ){
             console.debug("set MACROAREE");
@@ -777,15 +771,12 @@ function set_permessi() {
 
     PERMESSI = null;
 
-	// creo la variabile data da passare per ricevere le macroaree
-    data = {
-        "Submit": "getPermessi"
-    }
-
     $.ajax({
-        url: HOSTNAME + '/reserved/dashboard/assets/php/Dashboard.php',
-        type: 'POST',
-        data: data,
+        url: HOSTNAME + '/api/permessi.php',
+        type: 'GET',
+        headers: {
+            'Authorization': 'Basic ' + btoa(USER.Email + ':' + USER.Password)
+        },
         dataType: "text",
         success: function( data, textStatus, jQxhr ){
             console.debug("set PERMESSI");
@@ -808,15 +799,12 @@ async function set_categorie() {
 
     CATEGORIE = null;
 
-	// creo la variabile data da passare per ricevere le macroaree
-    data = {
-        "Submit": "getCategorie"
-    }
-
     await $.ajax({
-        url: HOSTNAME + '/reserved/dashboard/assets/php/Dashboard.php',
-        type: 'POST',
-        data: data,
+        url: HOSTNAME + '/api/categorie.php',
+        type: 'GET',
+        headers: {
+            'Authorization': 'Basic ' + btoa(USER.Email + ':' + USER.Password)
+        },
         dataType: "text",
         success: function( data, textStatus, jQxhr ){
             console.debug("set CATEGORIE");
@@ -932,6 +920,14 @@ function removeForm(ID) {
         console.warn("Il form non esiste");
     }
 
+}
+
+// funzione per il click automatico
+function clickInput(ID) {
+    // recupero la referenza dell'id passato
+    let input = document.getElementById(ID);
+
+    input.click();
 }
 
 // ----------------------------------------------------------------
@@ -1231,6 +1227,25 @@ function settingMenuGestioneAccount()
             // continuo a tener nascosto il bottone
             btn_show_user.style.display = "none";
             btn_show_user2.style.display = "none";
+
+        }
+
+        if(permessi_utente.CreaModificaEliminaPermessi == "1") {
+
+            // restituirò true
+            show = true;
+
+            // tolgo il display none dal bottone associato
+            btn_show_permessi.style.display = "";
+            btn_show_permessi2.style.display = "";
+
+
+            console.log("if7");
+            
+        } else {
+            // continuo a tener nascosto il bottone
+            btn_show_permessi.style.display = "none";
+            btn_show_permessi2.style.display = "none";
 
         }
 
