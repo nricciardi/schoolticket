@@ -81,24 +81,21 @@
                 
                 $rows = $st->fetchAll(PDO::FETCH_ASSOC);        // recupero tutti i categoria presi dal database
 
-                //var_dump($rows);
-
                 // se le api sono da restituire per un utente non loggato, elimino tutti i record con Registrabile = 0
                 if($get_to_public) {
-                    foreach ($rows as $key => $value) {     // per ogni record
-                        if($rows[$key]["Registrabile"] == "0")     // se il campo Registrabile è 0, lo elimino
+                    $array_to_return = array();
+                    for ($i = 0; $i < count($rows); $i += 1) {     // per ogni record
+                        if($rows[$i]["Registrabile"] == "1")     // se il campo Registrabile è 0, lo elimino
                             //array_push($id_to_unset, $i)
-                            unset($rows[$key]);
+                            array_push($array_to_return, $rows[$i]);
                     }
                 }
 
-                //var_dump($rows);
-
-                $rows = (json_encode($rows));                   // trasformo l'array associativo restituito in una stringa in formato JSON
+                $array_to_return = (json_encode($array_to_return));                   // trasformo l'array associativo restituito in una stringa in formato JSON
 
                 // creo la stringa di output
                 $r = '{"result":';
-                $r .= $rows;
+                $r .= $array_to_return;
                 $r .= ', "description":"Sono state prelevate le categorie"}';
 
             } else {        // in caso di errore della query
