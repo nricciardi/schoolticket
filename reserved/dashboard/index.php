@@ -3,7 +3,7 @@
     require_once("../../config.php");
 
     // controllo che l'utente sia loggato
-    check_session(); 
+    check_session();
 
 ?>
 
@@ -117,15 +117,21 @@
                             <!-- !!!!!!!!!!!!!!! PAGE MANAGEMENT AULA   !!!!!!!!!!!!!!! -->
                             <div class="col-md-12" style="display: none;" id="div_management_aula"> <!-- Di default è invisibile, viene visualizzato solo dopo il click di btn_add_ticket -->
                                 <?php
-                                   require_once("assets".DS."php".DS."utilities".DS."management-aula.php");      // includo il form per il new ticket
+                                   require_once("assets".DS."php".DS."utilities".DS."management-aula.php");     // includo il form per il new ticket
                                 ?>
                             </div>
-                            
+							              <!-- !!!!!!!!!!!!!!! PAGE MANAGEMENT PERMESSI   !!!!!!!!!!!!!!! -->
+                            <div class="col-md-12" style="//display: none;" id="div_management_permessi"> <!-- Di default è invisibile, viene visualizzato solo dopo il click di btn_add_ticket -->
+                                <?php
+                                   require_once("assets".DS."php".DS."utilities".DS."management-permessi.php");     // includo il form per il new ticket
+                                ?>
+                            </div>
+
 
                             <!-- !!!!!!!!!!!!!!!RECENT REPORT!!!!!!!!!!!!!!! -->
-                            
+
                             <!-- !!!!!!!!!!!!!!!TASK PROGRESS!!!!!!!!!!!!!!! -->
-                            
+
                         </div>
                     </div>
                 </div>
@@ -136,9 +142,9 @@
                     <div class="container-fluid">
                         <div class="row">
                             <!-- !!!!!!!!!!!!!!!USER DATA!!!!!!!!!!!!!!! -->
-                            
+
                             <!-- !!!!!!!!!!!!!!!MAP DATA!!!!!!!!!!!!!!! -->
-                            
+
                         </div>
                     </div>
                 </div>
