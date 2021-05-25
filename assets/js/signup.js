@@ -104,7 +104,7 @@ $("#submit").click(function () {
         dataType: "JSON",
         success: function (res) {
             
-            console.log(res.result);
+            //console.log(res.result);
 
             let success = res.result;
             if(success == false) {
@@ -181,7 +181,7 @@ re_email.addEventListener("input", () => {
 
     console.log("re_email: " + re_email.value);
     // se l'email è valida imposto i diversi colori
-    if(re_email.value == email.value) {
+    if(re_email.value == email.value && re_email.value.trim() != "") {
 
         // messaggio utente:
         document.getElementById("label_re_email").innerHTML = "Email confermata";
@@ -285,8 +285,9 @@ password.addEventListener("input", () => {
 // verifico che le due password siano uguali
 re_password.addEventListener("input", () => {
 
+    console.log("controllo il re password");
     // se l'email è valida imposto i diversi colori
-    if(re_password.value == password.value) {
+    if(re_password.value == password.value && re_password.value.trim() != "") {
 
         // messaggio utente:
         document.getElementById("label_re_password").innerHTML = "Inserisci il tipo di utente";
@@ -444,7 +445,12 @@ function setCategorie() {
             // controllo che non sia stato restituito false
             if(response.result == false) {
                 CATEGORIE = null;
-                feedback.innerText = response.description;
+                let error = response.description;
+
+                if(error.substr(error.length-1, 1) == ";")
+                    error = error.substr(0, error.length-1);
+
+                feedback.innerText = error;
                 feedback.style.color = error_data;
             } else {
                 CATEGORIE = response.result;
