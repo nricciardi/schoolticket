@@ -1196,7 +1196,7 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "Delete"){
   }//
 	
    if($control == false)
-	   echo '{"result":false,"description":"Non è còsa"}';
+	   echo '{"result":false,"description":"Non sono stati inviati correttamente i dati al server"}';
    else
 	   echo $ticket -> Delete($ID_user, $Id_ticket);
   
@@ -1210,7 +1210,6 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "NewTicketNumber"){
 
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "insert"){
   //SETTO I VALORI DA INSERIRE NELLA TB TICKET:
-  
   if(isset($_POST["Name"]))
     $Nome = $_POST["Name"];
   else
