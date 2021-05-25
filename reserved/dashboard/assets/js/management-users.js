@@ -600,7 +600,6 @@ function changeRecordUserToForm(ID) {
         '<!--<i class="fas fa-minus-circle"></i>--> Annulla' + 
     '</button></td>';
 
-
 } 
 
 // funzione che elimina tutti gli id selezionati 
