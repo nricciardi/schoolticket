@@ -523,7 +523,7 @@
         $ID_aula = null;    // istanzio l'id del permesso da eliminare
 
         if(isset($delete_data->id))											      // controllo che sia stato passato l'id
-            $ID_aula = (int) $delete_data->id;
+            $ID_aula = $delete_data->id;
 
         return $obj_aula->delete($ID_aula, $credenziali);        
     
