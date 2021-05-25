@@ -261,14 +261,14 @@
 
             } else {  // per ogni attributo dell'oggetto passato, aggiungo il rispettivo alla query e all'array da passare alla query
                 
-                if(isset($aula->Descrizione) && trim($aula->Descrizione) != "" && $aula->Descrizione != null && $aula->Descrizione != false) {
+                if(isset($aula->Descrizione) && trim($aula->Descrizione) != "" && $aula->Descrizione !== null && $aula->Descrizione != false) {
                     $aula->Descrizione = filter_var($aula->Descrizione, FILTER_SANITIZE_STRING);        // sanifico la stringa di testo
                     $descrizione = $aula->Descrizione;
                     $query .= " `Descrizione` = ?,";
                     array_push($array_values, $descrizione);
                 }
 
-                if(isset($aula->Nome) && trim($aula->Nome) != "" && $aula->Nome != null && $aula->Nome != false) {
+                if(isset($aula->Nome) && trim($aula->Nome) != "" && $aula->Nome !== null && $aula->Nome != false) {
 
                     $aula->Nome = filter_var($aula->Nome, FILTER_SANITIZE_STRING);        // sanifico la stringa di testo
                     $nome = $aula->Nome;
@@ -276,9 +276,9 @@
                     array_push($array_values, $nome);
                 }
 
-                if(isset($aula->Laboratorio) && trim($aula->Laboratorio) != "" && $aula->Laboratorio != null) {
+                if(isset($aula->Laboratorio) && trim($aula->Laboratorio) != "" && $aula->Laboratorio !== null && is_numeric((int) $aula->Laboratorio)) {
                     $laboratorio = $aula->Laboratorio;
-                    $query .= "`Laboratorio`,";
+                    $query .= "`Laboratorio` = ?,";
                     array_push($array_values, $laboratorio);
                 }
                 
@@ -497,7 +497,7 @@
             return $json_error;	
         
             $put_data = json_decode(urldecode(file_get_contents("php://input")));	// recupero dallo stream di input del server le informazioni passate in LOGIN
-    
+
             if(isset($put_data) && $put_data != null && !empty($put_data)) {
 
                 return $obj_aula->update($put_data, $credenziali);	// passo come parametro l'oggetto ricevuto 
