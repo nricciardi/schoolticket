@@ -54,10 +54,18 @@ function createRecordAula(aula) {   //aula è un oggetto contenente le informazi
     record += '<td id="nomeAula' + aula.IdAula + '">' + aula.Nome + '</td>';
     
     // inserisco la DESCRIZIONE
-    record += '<td id="descrizioneAula' + aula.IdAula + '">' + aula.Descrizione + '</td>';
+	if(aula.Descrizione == null)
+		record += '<td id="descrizioneAula' + aula.IdAula + '">' + 'N/D' + '</td>';
+	else
+		record += '<td id="descrizioneAula' + aula.IdAula + '">' + aula.Descrizione + '</td>';
     
     // inserisco LABORATORIO
-    record += '<td id="laboratorioAula' + aula.IdAula + '">' + aula.Laboratorio + '</td>';
+	if(aula.Laboratorio == 1)
+		record += '<td id="laboratorioAula' + aula.IdAula + '">' + 'Sì' + '</td>';
+	else
+		record += '<td id="laboratorioAula' + aula.IdAula + '">' + 'No' + '</td>';
+	
+    // record += '<td id="laboratorioAula' + aula.IdAula + '">' + aula.Laboratorio + '</td>';
 
     // inserisco i bottoni per le diverse azioni
     record += '<td id="td_action_aulaId_' + aula.IdAula + '"> <div class="table-data-feature">';
@@ -84,7 +92,7 @@ function requestActionAula(type, ID) {      // passo il tipo di richiesta che vi
     
         case "edit":
             
-            changeRecordAulaToForm(ID);
+            changeFormNewAula(ID);
             break;
 
         case "delete":
@@ -172,9 +180,9 @@ function createTableAula() {
                 feedback_table_management_aula.innerText = res.description;
                 feedback_table_management_aula.style.color = error_data;
 
-            } else {    // in caso positivo creo la tabella per gli aula
+            } else {    // in caso positivo creo la tabella per l'aula
 
-                // recupero gli aula passati da "result"
+                // recupero le aule passate da "result"
                 let aula = res.result;
 
                 console.log(res.description);
@@ -216,7 +224,7 @@ function addAula() {
 
 	let temp = null;
 	
-	if(laboratorio.value == false)
+	if(laboratorio.checked == false)
 		temp = 0;
 	else
 		temp = 1;
@@ -232,7 +240,7 @@ function addAula() {
         data: data,
         dataType: "json",
 		headers:{
-					'Authorization':'Basic '+btoa(USER.Email + ":" + USER.Password)
+					'Authorization':'Basic ' + btoa(USER.Email + ":" + USER.Password)
 				},
         success: (res) => {
 
@@ -311,14 +319,17 @@ function deleteAula(ID) {   // può anche essere passato un array
     console.log("Elimino: " + ID);
 
     // creo l'oggetto data da mandare in post
-    let data = {"Submit": "delete", "Data": ID};
-
+    let data = {"id": ID};
+	
     // effettuo la chiamata ajax
     $.ajax({
 
         url: HOSTNAME + "/api/aule.php",
-        type: "post",
-        data: data,
+        type: "DELETE",
+        data: JSON.stringify(data),
+		headers: {
+					'Authorization': 'Basic ' + btoa(USER.Email + ':' + USER.Password)
+				 },
         dataType: "json",
         success: (res) => {
 
@@ -470,24 +481,6 @@ function checkFormNewAula(ID = "btn_confirm_new_aula") {
         
 }
 
-// funzione che modifica il record della tabella con id passato, predisponendolo come form
-function changeRecordAulaToForm(ID) {
-    
-    // elimino il form per l'inserimento di una nuova aula
-    removeForm("form_new_aula");
-
-    // ACTION
-    let td_action_aulaId = document.getElementById("td_action_aulaId_" + ID);
-    td_action_aulaId.innerHTML = '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_aula" onclick="editAula(' + ID + ')" style="margin-left: 0.5vw; border-radius: 5%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
-        '<i class="far fa-check-circle"></i> Conferma' +
-    '</button>' + 
-    '<button type="button" onclick="createTableAula()" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%">' + 
-        '<!--<i class="fas fa-minus-circle"></i>--> Annulla' + 
-    '</button></td>';
-
-
-} 
-
 // funzione che elimina tutti gli id selezionati 
 function getArrayAulaChecked() {
 
@@ -504,9 +497,7 @@ function getArrayAulaChecked() {
 
             if(checkbox_checked)    // se il checkbox è spuntato allora lo aggiungo all'array da eliminare
                 array.push(checkbox.value);
-
         }
-        
     }
 
 
@@ -533,6 +524,48 @@ function checkCheckboxAula() {
 
     }
 
+}
+
+// funzione che modifica il record della tabella con id passato, predisponendolo come form
+function changeFormNewAula(ID) {
+    
+    // elimino il form per l'inserimento di una nuova aula
+    removeForm("form_new_aula");
+
+    // NOME
+    // recupero la referenza del nome del record della tabella tramite ID
+    let td_nome = document.getElementById("nomeAula" + ID);
+    nome = td_nome.innerText;     // recupero il valore del cognome
+
+    // modifico la label in un input:text
+    td_nome.innerHTML = '<input type="text" placeholder="Nome" value="' + name + '" oninput="checkNewNomeAula(\'editNomeAula\')" class="form-control" id="editNomeAula">'
+
+    // DESCRIZIONE
+    // recupero la referenza della descrizione del record della tabella tramite ID
+    let td_descrizione = document.getElementById("descrizioneAula" + ID);
+    descrizione = td_descrizione.innerText;     // recupero il valore del cognome
+
+    // modifico la label in un input:text
+    td_descrizione.innerHTML = '<input type="text" placeholder="Descrizione" value="' + descrizione + '" oninput="checkNewDescrizioneAula(\'editDescrizioneAula\')" class="form-control" id="editDescrizioneAula">'
+	
+	
+	// LABORATORIO
+    // recupero la referenza del visualizzato del record della tabella tramite ID
+    let td_laboratorio = document.getElementById("laboratorioAula" + ID);
+    laboratorio = td_laboratorio.innerText;     // recupero il valore del cognome
+
+    // modifico la label in un input:text
+    td_laboratorio.innerHTML = '<input type="checkbox" placeholder="Laboratorio" value="' + laboratorio + '" class="form-control" id="editLaboratorioAula">'
+	
+	
+	// ACTION
+    let td_action_aulaId = document.getElementById("td_action_aulaId_" + ID);
+    td_action_aulaId.innerHTML = '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_user" onclick="editAula(' + ID + ')" style="margin-left: 0.5vw; border-radius: 5%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
+        '<i class="far fa-check-circle"></i> Conferma' +
+    '</button>' + 
+    '<button type="button" onclick="createTableAula()" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%">' + 
+        '<!--<i class="fas fa-minus-circle"></i>--> Annulla' + 
+    '</button></td>';
 }
 
 // ----------------------------------------------------------------

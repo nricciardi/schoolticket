@@ -908,7 +908,7 @@ async function setDeviationTicketNumber()
 	});
 }
 
-// funzione per eliminare il record per l'inserimento di un nuovo utente
+// funzione per eliminare il record per l'inserimento di un nuovo utente/aula
 function removeForm(ID) {
     
     // recupero il form per l'inserimento
