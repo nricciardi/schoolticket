@@ -58,35 +58,39 @@ function createRecordTicket(ticket) {   //ticket è un oggetto contenente le inf
     // Predisposizione IdTicket: record += '<td>' + ticket.IdTicket + '</td>';
 
     // inserisco il NOME
-    record += '<td>' + ticket.Nome + '</td>';
+    record += '<td id="nomeTicket>' + ticket.IdTicket + '<" data-nome="' + ticket.Nome + '">'+ cutString(ticket.Nome, 10);
 
     // inserisco la DESCRIZIONE
-    record += '<td>' + ticket.Descrizione + '</td>';
+    record += '<td id="descrizioneTicket>' + ticket.IdTicket + '<" data-descrizioneTicket="' + ticket.Descrizione + '">'+ cutString(ticket.Descrizione, 10);
 
     // inserisco l'IMMAGINE
-    record += '<td><span class="block-email">' + ticket.Immagine + '</span></td>';
+    record += '<td id="immagineTicket>' + ticket.IdTicket + '<" data-immagineTicket="' + ticket.Immagine + '">'+ cutString(ticket.Immagine, 10);
 
     // inserisco la STATO DI AVANZAMENTO
-    record += '<td><span class="block-email">' + ticket.StatoDiAvanzamento + '</span></td>';
+    record += '<td id="statodiavanzamentoTicket>' + ticket.IdTicket + '<" data-statodiavanzamentoTicket="' + ticket.StatoDiAvanzamento + '">'+ cutString(ticket.StatoDiAvanzamento, 10);
 
     // inserisco la PRIORITA'
-    record += '<td>' + ticket.Priorita + '</td>';
+	 record += '<td id="prioritaTicket>' + ticket.IdTicket + '<" data-prioritaTicket="' + ticket.Priorità + '">'+ cutString(ticket.Priorità, 10);
 
     // inserisco la DATA
-    record += '<td>' + ticket.Data + '</td>';
+    record += '<td id="dataTicket>' + ticket.IdTicket + '<" data-dataTicket="' + ticket.Data + '">'+ cutString(ticket.Data, 10);
 
 	// inserisco ORA
-    record += '<td>' + ticket.Ora + '</td>';
+    record += '<td id="oraTicket>' + ticket.IdTicket + '<" data-oraTicket="' + ticket.Ora + '">'+ cutString(ticket.Ora, 10);
 
 	// inserisco IDMACROAREA
-    record += '<td data-macroarea="' + ticket.Macroarea.IdMacroarea + '">' + cutString(ticket.Macroarea.Nome, 10); // + ' - ' + cutString(ticket.Macroarea.Descrizione, 10) + '</td>';
+    record += '<td id="macroareaTicket' + ticket.IdTicket + '" data-macroarea="' + ticket.Macroarea.IdMacroarea + '">' + cutString(ticket.Macroarea.Nome, 10); // + ' - ' + cutString(ticket.Macroarea.Descrizione, 10) + '</td>';
 
 	// inserisco IDUTENTE
-    record += '<td>' + ticket.Utente.Email + '</td>';
+    record += '<td id="utenteTicket>' + ticket.IdTicket + '<" data-utente="'+ ticket.Utente.IdUtente + '">'+ cutString(ticket.Utente.Email, 10);
 
 	// inserisco IDAULA
-    record += '<td>' + ticket.Aula.Nome /*+ ' - ' + cutString(ticket.Aula.Descrizione, 10) */+ '</td>';
-
+    record += '<td id="aulaTicket>' + ticket.IdTicket + '<" data-utente="'+ ticket.Aula.IdAula + '">'+ cutString(ticket.Aula.Nome, 10);
+	
+	// inserisco IDUNIONE
+    record += '<td id="unioneTicket>' + ticket.IdTicket + '<" data-utente="'+ ticket.IdUnione + '">'+ cutString(ticket.IdUnione, 10);
+	 
+	 
 	// inserisco IDUNIONE
 		if(ticket.IdUnione == ""){
 			var y = "N/D";
@@ -128,7 +132,8 @@ function requestActionTicket(type, ID) {      // passo il tipo di richiesta che 
             break;
 
         case "edit":
-
+				
+				
             changeRecordTicketToForm(ID);
             break;
 
@@ -497,7 +502,7 @@ function createFormNewTicket() {
     record += '</td>';
 */
     // inserisco i bottoni per le diverse azioni
-    record += '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_ticket" onclick="addTicket()" style="margin-left: 0.5vw; border-radius: 5%" >' +   // aggiungo l'onclick per effettuare correttamente l'azione
+    record += '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_ticket" onclick="addTicket()" style="margin-left: 0.5vw; border-radius: 5%" disabled>' +   // aggiungo l'onclick per effettuare correttamente l'azione
         '<i class="far fa-check-circle"></i> Conferma' +
     '</button>' +
     '<button type="button" onclick="createTableTicket()" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%">' +
@@ -514,26 +519,6 @@ function createFormNewTicket() {
 }
 
 // imposto le funzioni per gli eventi del form
-function checkNewSurnameTicket(ID = "newSurnameTicket") {
-
-    // controllo che sia aggiunto almeno un valore per il cognome
-
-    if(document.getElementById(ID).value.trim() == "") {
-
-        document.getElementById(ID).style.borderColor = error_data;
-        check_new_surname_ticket = false;
-
-    } else {
-
-        check_new_surname_ticket = true;
-        document.getElementById(ID).style.borderColor = correct_data;
-
-    }
-
-    // controllo se posso abilitare il bottone di conferma
-    checkFormNewTicket();
-
-}
 
 function checkNewNameTicket(ID = "newNameTicket") {
 
@@ -556,19 +541,115 @@ function checkNewNameTicket(ID = "newNameTicket") {
 
 }
 
+function checkNewDescrizioneTicketTicket(ID = "newDescrizioneTicket") {
+    // controllo che sia aggiunto almeno un valore per il cognome
+    if(document.getElementById(ID).value.trim() == "") {
+
+      document.getElementById(ID).style.borderColor = error_data;
+      check_new_descrizione_ticket = false;
+
+    } else {
+      check_new_descrizione_ticket = true;
+      document.getElementById(ID).style.borderColor = correct_data;
+
+    }
+    // controllo se posso abilitare il bottone di conferma
+    checkFormNewTicket();
+}
+
+function checkNewImmagineTicket(ID = "newImmagineTicket") {
+    // controllo che sia aggiunto almeno un valore per il cognome
+    if(document.getElementById(ID).value.trim() == "") {
+
+      document.getElementById(ID).style.borderColor = error_data;
+      check_new_immagine_ticket = false;
+
+    } else {
+      check_new_immagine_ticket = true;
+      document.getElementById(ID).style.borderColor = correct_data;
+    }
+	 
+    // controllo se posso abilitare il bottone di conferma
+    checkFormNewTicket();
+}
+
+function checkNewStatoDiAvanzamentoTicket(ID = "newStatoTicket") {
+   // controllo che sia aggiunto almeno un valore per il cognome
+   if(document.getElementById(ID).value.trim() == "") 
+	{
+      document.getElementById(ID).style.borderColor = error_data;
+      check_new_stato_ticket = false;
+   } 
+	else
+	{
+      check_new_stato_ticket = true;
+      document.getElementById(ID).style.borderColor = correct_data;
+   }
+    // controllo se posso abilitare il bottone di conferma
+    checkFormNewTicket();
+}
+
+function checkNewPrioritaTicket(ID = "newPrioritaTicket") {
+   // controllo che sia aggiunto almeno un valore per il cognome
+   if(document.getElementById(ID).value.trim() == "") 
+	{
+      document.getElementById(ID).style.borderColor = error_data;
+      check_new_priorita_ticket = false;
+   }
+	else
+	{
+      check_new_priorita_ticket = true;
+      document.getElementById(ID).style.borderColor = correct_data;
+   }
+    // controllo se posso abilitare il bottone di conferma
+    checkFormNewTicket();
+}
+
+function checkNewDataTicket(ID = "newDataTicket") {
+   // controllo che sia aggiunto almeno un valore per il cognome
+   if(document.getElementById(ID).value.trim() == "") 
+	{
+      document.getElementById(ID).style.borderColor = error_data;
+      check_new_data_ticket = false;
+   }
+	else
+	{
+      check_new_data_ticket = true;
+      document.getElementById(ID).style.borderColor = correct_data;
+   }
+    // controllo se posso abilitare il bottone di conferma
+    checkFormNewTicket();
+}
+
+function checkNewOraTicket(ID = "newOraTicket") {
+   // controllo che sia aggiunto almeno un valore per il cognome
+   if(document.getElementById(ID).value.trim() == "") 
+	{
+      document.getElementById(ID).style.borderColor = error_data;
+      check_new_ora_ticket = false;
+   }
+	else
+	{
+      check_new_ora_ticket = true;
+      document.getElementById(ID).style.borderColor = correct_data;
+   }
+    // controllo se posso abilitare il bottone di conferma
+    checkFormNewTicket();
+}
+
 // imposto le funzioni per gli eventi del form
-function checkNewEmailTicket(ID = "newEmailTicket") {
+function checkNewMacroareaTicket(ID = "macroarea_add_ticket") {
 
     // controllo che sia aggiunto almeno un valore per il email
 
     if(document.getElementById(ID).value.trim() == "") {
 
         document.getElementById(ID).style.borderColor = error_data;
-        check_new_email_ticket = false;
+        check_new_macroarea_ticket = false;
 
     } else {
 
-        check_new_email_ticket = true;
+        check_new_macroarea_ticket = true;
         document.getElementById(ID).style.borderColor = correct_data;
 
     }
@@ -577,28 +658,6 @@ function checkNewEmailTicket(ID = "newEmailTicket") {
     checkFormNewTicket();
 
 }
-
-function checkNewPasswordTicket(ID = "newPasswordTicket") {
-
-    // controllo che sia aggiunto almeno un valore per il email
-
-    if(document.getElementById(ID).value.trim() == "") {
-
-        document.getElementById(ID).style.borderColor = error_data;
-        check_new_password_ticket = false;
-
-    } else {
-
-        check_new_password_ticket = true;
-        document.getElementById(ID).style.borderColor = correct_data;
-
-    }
-
-    // controllo se posso abilitare il bottone di conferma
-    checkFormNewTicket();
-
-}
-
 
 // controllo se posso abilitare il bottone per la conferma del nuovo utente
 function checkFormNewTicket(ID = "btn_confirm_new_ticket") {
@@ -611,10 +670,10 @@ function checkFormNewTicket(ID = "btn_confirm_new_ticket") {
         return false;
     }
 
-    //if(check_new_surname_ticket && check_new_name_ticket && check_new_password_ticket && check_new_email_ticket)
+    if(check_new_surname_ticket && check_new_name_ticket && check_new_password_ticket && check_new_email_ticket)
         btn_confirm_new_ticket.removeAttribute("disabled");
-    /*else
-        btn_confirm_new_ticket.setAttribute("disabled", "disabled");*/
+    else
+        btn_confirm_new_ticket.setAttribute("disabled", "disabled");
 
 }
 
@@ -625,50 +684,98 @@ function changeRecordTicketToForm(ID) {
     removeForm("form_new_ticket");
 
     // DEPRECATI
-    /*
-    // COGNOME
-    // recupero la referenza del cognome del record della tabella tramite ID
-    let td_surname = document.getElementById("surnameTicket" + ID);
-    surname = td_surname.innerText;     // recupero il valore del cognome
-
-    // modifico la label in un input:text
-    td_surname.innerHTML = '<input type="text" placeholder="Cognome" value="' + surname + '" oninput="checkNewSurnameTicket(\'editSurname\')" class="form-control" id="editSurname">'
-
+	 
     // NOME
     // recupero la referenza del cognome del record della tabella tramite ID
     let td_name = document.getElementById("nameTicket" + ID);
     name = td_name.innerText;     // recupero il valore del cognome
 
     // modifico la label in un input:text
-    td_name.innerHTML = '<input type="text" placeholder="Nome" value="' + name + '" oninput="checkNewNameTicket(\'editName\')" class="form-control" id="editName">'
+    td_name.innerHTML = '<input type="text" placeholder="Nome" value="' + name + '" oninput="checkNewNameTicket(\'editName\')" class="form-control" id="editName">';
 
-    // EMAIL
+	 // DESCRIZIONE
     // recupero la referenza del cognome del record della tabella tramite ID
-    let td_email = document.getElementById("emailTicket" + ID);
-    email = td_email.innerText;     // recupero il valore del cognome
+    let td_descrizione = document.getElementById("descrizioneTicket" + ID);
+    descrizione = td_descrizione.innerText;     // recupero il valore del cognome
 
     // modifico la label in un input:text
-    td_email.innerHTML = '<input type="email" placeholder="Email" value="' + email + '" oninput="checkNewEmailTicket(\'editEmail\')" class="form-control" id="editEmail">'
-    */
+    td_descrizione.innerHTML = '<input type="text" placeholder="Descrizione" value="' + descrizione + '" oninput="checkNewDescrizioneTicket(\'editDescrizione\')" class="form-control" id="editDescrizione">';
 
-    // CATEGORIA
-    // recupero la referenza della categoria del record della tabella tramite ID
-    let td_categoria = document.getElementById("categoriaTicket" + ID);
-    categoria = td_categoria.dataset.categoria;     // recupero il valore del cognome
+    // IMMAGINE
+    // recupero la referenza del cognome del record della tabella tramite ID
+    let td_immagine = document.getElementById("immagineTicket" + ID);
+    immagine = td_immagine.innerText;     // recupero il valore del cognome
 
-    td_categoria.innerHTML = '<select id="editCategoriaTicket" class="form-control"></select>';   // creo il select contenitore
-    addCategorie(document.getElementById("editCategoriaTicket"), feedback_table_management_ticket, 10);      // aggiungo le categorie
-    document.getElementById("editCategoriaTicket").value = categoria;     // imposto il valore corrente
+    // modifico la label in un input:text
+    td_immagine.innerHTML = '<input type="immagine" placeholder="Immagine" value="' + immagine + '" oninput="checkNewImmagineTicket(\'editImmagine\')" class="form-control" id="editImmagine">';
 
-    // PERMESSI
-    // recupero la referenza della categoria del record della tabella tramite ID
-    let td_permessi = document.getElementById("permessiTicket" + ID);
-    permessi = td_permessi.dataset.permessi;     // recupero il valore del cognome
+    // STATODIAVANZAMENTO
+    // recupero la referenza del cognome del record della tabella tramite ID
+    let td_statodiavanzamento = document.getElementById("statodiavanzamentoTicket" + ID);
+    statodiavanzamento = td_statodiavanzamento.innerText;     // recupero il valore del cognome
 
-    td_permessi.innerHTML = '<select id="editPermessiTicket" class="form-control"></select>';   // creo il select contenitore
-    addPermessi(document.getElementById("editPermessiTicket"), feedback_table_management_ticket, 10);      // aggiungo le categorie
-    document.getElementById("editPermessiTicket").value = permessi;       // imposto il valore corrente
+    // modifico la label in un input:text
+    td_statodiavanzamento.innerHTML = '<input type="text" placeholder="StatoDiAvanzamento" value="' + statodiavanzamento + '" oninput="checkNewStatoDiAvanzamentoTicket(\'editStatodiavanzamento\')" class="form-control" id="editStatodiavanzamento">';
 
+    // PRIORITA
+    // recupero la referenza del cognome del record della tabella tramite ID
+    let td_priorita = document.getElementById("prioritaTicket" + ID);
+    priorita = td_priorita.innerText;     // recupero il valore del cognome
+
+    // modifico la label in un input:text
+    td_priorita.innerHTML = '<input type="number" placeholder="Priorita" value="' + priorita + '" oninput="checkNewprioritaTicket(\'editPriorita\')" class="form-control" id="editPriorita">';
+
+	 // DATA
+    // recupero la referenza del cognome del record della tabella tramite ID
+    let td_data = document.getElementById("dataTicket" + ID);
+    data = td_data.innerText;     // recupero il valore del cognome
+
+    // modifico la label in un input:text
+    td_data.innerHTML = '<input type="date" placeholder="Data" value="' + data + '" oninput="checkNewDataTicket(\'editData\')" class="form-control" id="editData">';
+
+	 // ORA
+    // recupero la referenza del cognome del record della tabella tramite ID
+    let td_ora = document.getElementById("oraTicket" + ID);
+    ora = td_ora.innerText;     // recupero il valore del cognome
+
+    // modifico la label in un input:text
+    td_ora.innerHTML = '<input type="date" placeholder="Ora" value="' + ora + '" oninput="checkNewOraTicket(\'editOra\')" class="form-control" id="editOra">';
+	 
+    // MACROAREA
+    // recupero la referenza della macroarea del record della tabella tramite ID
+    let td_macroarea = document.getElementById("macroareaTicket" + ID);
+    macroarea = td_macroarea.dataset.macroarea;     // recupero il valore del cognome
+
+    td_macroarea.innerHTML = '<select id="editMacroareaTicket" class="form-control"></select>';   // creo il select contenitore
+    addMacroaree(document.getElementById("editMacroareaTicket"), feedback_table_management_ticket, 10);      // aggiungo le categorie
+    document.getElementById("editMacroareaTicket").value = macroarea;     // imposto il valore corrente
+
+    // UTENTE
+    // recupero la referenza dell'utente del record della tabella tramite ID
+    let td_utente = document.getElementById("utenteTicket" + ID);
+    utente = td_utente.dataset.utente;     // recupero il valore del cognome
+
+    td_utente.innerHTML = '<select id="editUtenteTicket" class="form-control"></select>';   // creo il select contenitore
+    addUtente(document.getElementById("editUtenteTicket"), feedback_table_management_ticket, 10);      // aggiungo le categorie
+    document.getElementById("editUtenteTicket").value = utente;       // imposto il valore corrente
+
+	 // AULA 
+    // recupero la referenza dell'aula del record della tabella tramite ID
+    let td_aula = document.getElementById("aulaTicket" + ID);
+    aula = td_aula.dataset.aula;     // recupero il valore del cognome
+
+    td_aula.innerHTML = '<select id="editAulaTicket" class="form-control"></select>';   // creo il select contenitore
+    addAula(document.getElementById("editAulaTicket"), feedback_table_management_ticket, 10);      // aggiungo le categorie
+    document.getElementById("editAulaTicket").value = aula;       // imposto il valore corrente
+	 
+	 // UNIONE 
+    // recupero la referenza dell'unione del record della tabella tramite ID
+    let td_unione = document.getElementById("aulaUnione" + ID);
+    unione = td_unione.dataset.unione;     // recupero il valore del cognome
+
+    td_unione.innerHTML = '<select id="editUnioneTicket" class="form-control"></select>';   // creo il select contenitore
+    addUnione(document.getElementById("editUnioneTicket"), feedback_table_management_ticket, 10);      // aggiungo le categorie
+    document.getElementById("editUnioneTicket").value = unione;       // imposto il valore corrente
 
 
     // ACTION
