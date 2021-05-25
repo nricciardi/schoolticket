@@ -451,6 +451,7 @@ function checkNewNomeAula(ID = "newNomeAula") {
 
 }
 
+/*
 function checkNewDescrizioneAula(ID = "newDescrizioneAula") {
     
     // controllo che sia aggiunto almeno un valore per la descrizione
@@ -471,7 +472,7 @@ function checkNewDescrizioneAula(ID = "newDescrizioneAula") {
     checkFormNewAula();
 
 }
-
+*/
 
 // controllo se posso abilitare il bottone per la conferma della nuova aula
 function checkFormNewAula(ID = "btn_confirm_new_aula") {
@@ -484,7 +485,7 @@ function checkFormNewAula(ID = "btn_confirm_new_aula") {
         return false;
     } 
 
-    if(check_new_nome_aula /*&& check_new_descrizione_aula*/)
+    if(check_new_nome_aula)
 		btn_confirm_new_aula.removeAttribute("disabled");
     else
 		btn_confirm_new_aula.setAttribute("disabled", "disabled");
@@ -525,7 +526,11 @@ function checkCheckboxAula() {
     if(array.length > 0) {
 
         btn_delete_checked_aula.removeAttribute("disabled");
-        btn_delete_checked_aula.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella ' + array.length + ' aula selezionati</font></font>';
+		
+		if(array.length == 1)
+			btn_delete_checked_aula.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella ' + array.length + ' aula selezionata</font></font>';
+		else
+			btn_delete_checked_aula.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella ' + array.length + ' aule selezionate</font></font>';
 
     } else {
 
@@ -545,7 +550,7 @@ function changeFormNewAula(ID) {
     // NOME
     // recupero la referenza del nome del record della tabella tramite ID
     let td_nome = document.getElementById("nomeAula" + ID);
-    name = td_nome.innerText;     // recupero il valore del cognome
+    name = td_nome.innerText;     // recupero il valore del nome
 
     // modifico la label in un input:text
     td_nome.innerHTML = '<input type="text" placeholder="Nome" value="' + name + '" oninput="checkNewNomeAula(\'editNomeAula\')" class="form-control" id="editNomeAula">'
@@ -638,6 +643,8 @@ btn_delete_checked_aula.addEventListener("click", () => {
 
     // richiamo al funzione per elimiare
     deleteAula(getArrayAulaChecked());
+	setCheckboxRecordAula(general_checkbox_aula.checked);
+	checkCheckboxAula();
 
 });
 
