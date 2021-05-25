@@ -74,9 +74,9 @@ public function insert($Nome, $Descrizione, $Immagine, $Stato, $Priorita, $IdAul
 			}
 		}
 
-			
-		
-			
+
+
+
       if(!filter_var($Stato, FILTER_SANITIZE_STRING)){
         $st = '{"result":false,"description":"Lo stato inserito non è valido"}';
         return $st;
@@ -88,7 +88,7 @@ public function insert($Nome, $Descrizione, $Immagine, $Stato, $Priorita, $IdAul
       }
 
 
-      
+
 
 
       //ESEGUO LA QUERY:
@@ -430,7 +430,7 @@ public function show($id = null) {
 		else
 			return false;
 	}
-	
+
 	private function controlIdUtn($IdUtn){
 
 		if(is_numeric($IdUtn))
@@ -845,7 +845,7 @@ public function show($id = null) {
 		return $st;
 	}
 
-	public function Update($IdTicket, $Nome = "", $Descrizione = "", $Stato = "", $Priorita = "", $Data = "", $Ora = "", $Macro = "", $Utente = "", $Aula = "", $Unione = "", $Visualizzato = ""){
+	public function Update($IdTicket, $Nome, $Descrizione, $Stato, $Priorita, $Data, $Ora, $Macro, $Utente, $Aula, $Unione, $Visualizzato){
 
 		$st = "";
 		$totDescr = "";
@@ -1192,14 +1192,14 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "Delete"){
 			 $ID_user = $_SESSION["logged"];
 	   else
 			$ID_user = null;
-		
+
   }//
-	
+
    if($control == false)
 	   echo '{"result":false,"description":"Non sono stati inviati correttamente i dati al server"}';
    else
 	   echo $ticket -> Delete($ID_user, $Id_ticket);
-  
+
 
 
 }
@@ -1290,7 +1290,20 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "ChangePriority"){
 }
 
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "Update"){
-  echo $ticket -> Update();
+  $IdTicket = $_POST[""];
+  $Nome = $_POST[""];
+  $Descrizione = $_POST[""];
+  $Stato = $_POST[""];
+  $Priorita = $_POST[""];
+  $Data = $_POST[""];
+  $Ora = $_POST[""];
+  $Macro = $_POST[""];
+  $Utente = $_POST[""];
+  $Aula = $_POST[""];
+  $Unione = $_POST[""];
+  $Visualizzato = $_POST[""];
+
+  echo $ticket -> Update($IdTicket, $Nome, $Descrizione, $Stato, $Priorita, $Data, $Ora, $Macro, $Utente, $Aula, $Unione, $Visualizzato);
 }
 
 ?>
