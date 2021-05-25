@@ -171,7 +171,6 @@ function createTableUser() {
     $.ajax({
         url: HOSTNAME + "/assets/php/authentication/Authentication.php",
         type: "GET",
-        data: data,
         dataType: "JSON",
         success: (res) => {
             console.log(res);
