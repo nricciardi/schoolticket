@@ -9,7 +9,7 @@ var body_table_aula = document.getElementById("body_table_aula");
 var foot_table_aula = document.getElementById("foot_table_aula");
 
 // checkbox generale della tabella
-var general_checkbox = document.getElementById("general_checkbox");
+var general_checkbox_aula = document.getElementById("general_checkbox_aula");
 
 // button per l'aggiunta del form per l'aggiunta della nuova aula
 var form_add_aula = document.getElementById("formAddAula");
@@ -169,7 +169,9 @@ function createTableAula() {
     $.ajax({
         url: HOSTNAME + "/api/aule.php",
         type: "GET",
-        data: data,
+        headers:{
+            'Authorization':'Basic ' + btoa(USER.Email + ":" + USER.Password)
+        },
         dataType: "json",
         success: (res) => {
             console.log(res);
@@ -573,10 +575,10 @@ function changeFormNewAula(ID) {
 // ----------------------------------------------------------------
 
 // al click del checkbox generale, verifico il suo stato e modifico tutti quelli presenti di conseguenza
-general_checkbox.addEventListener("change", () => {
+general_checkbox_aula.addEventListener("change", () => {
     
     // controllo lo stato del bottone e richiamo la funzione con il valore del checkbox giusta
-    setCheckboxRecordAula(general_checkbox.checked);
+    setCheckboxRecordAula(general_checkbox_aula.checked);
     checkCheckboxAula();
     
 });
