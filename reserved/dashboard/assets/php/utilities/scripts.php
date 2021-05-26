@@ -35,3 +35,5 @@
     <script src="assets/js/management-ticket.js"></script>
     <script src="assets/js/management-categoria.js"></script>
 	<script src="assets/js/management-aula.js"></script>
+	<script src="assets/js/management-macroarea.js"></script>
+    <script src="assets/js/management-permessi.js"></script>
