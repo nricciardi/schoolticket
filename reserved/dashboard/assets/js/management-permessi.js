@@ -670,7 +670,7 @@ function changeRecordPermessiToForm(ID) {
     document.getElementById("editCreareTicketPermessi").value = CreareTicket;     // imposto il valore corrente
 
     let td_ModificaTuttiTicket = document.getElementById("ModificaTuttiTicketPermessi" + ID);
-  ModificaTuttiTicket = td_ModificaTuttiTicket.dataset.ModificaTuttiTicket;     // recupero il valore del cognome
+	ModificaTuttiTicket = td_ModificaTuttiTicket.dataset.ModificaTuttiTicket;     // recupero il valore del cognome
 
     td_ModificaTuttiTicket.innerHTML = '<select id="editModificaTuttiTicketPermessi" class="form-control"><option value = "0">0</option><option value = "1">1</option></select>';   // creo il select contenitore
     document.getElementById("editModificaTuttiTicketPermessi").value = ModificaTuttiTicket;     // imposto il valore corrente
@@ -743,7 +743,6 @@ function changeRecordPermessiToForm(ID) {
 
 
 
-
     // ACTION
     let td_action_permessiId = document.getElementById("td_action_permessiId_" + ID);
     td_action_permessiId.innerHTML = '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_permessi" onclick="editPermessi(' + ID + ')" style="margin-left: 0.5vw; border-radius: 5%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
@@ -757,15 +756,15 @@ function changeRecordPermessiToForm(ID) {
 }
 
 // funzione che elimina tutti gli id selezionati
-function getArrayUsersChecked() {
+function getArrayPermessiChecked() {
 
     let array = Array();
 
     // per ogni record della tabella cerco l'input checkbox
-    for (let index = 0; index < body_table_users.childElementCount; index++) {
+    for (let index = 0; index < body_table_permessi.childElementCount; index++) {
 
         // verifico che non sia un record spacer verificando che esista un figlio
-        let tr = body_table_users.children[index];
+        let tr = body_table_permessi.children[index];
         if(tr.firstElementChild != null) {
             let checkbox = tr.firstElementChild.firstElementChild.firstElementChild;
             let checkbox_checked = checkbox.checked;
@@ -783,21 +782,21 @@ function getArrayUsersChecked() {
 }
 
 // controllo se abilitare il bottone
-function checkCheckboxUser() {
+function checkCheckboxPermessi() {
 
-    let array = getArrayUsersChecked();
+    let array = getArrayPermessiChecked();
 
     console.log(array);
 
     if(array.length > 0) {
 
-        btn_delete_checked_user.removeAttribute("disabled");
-        btn_delete_checked_user.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella ' + array.length + ' utenti selezionati</font></font>';
+        btn_delete_checked_permessi.removeAttribute("disabled");
+        btn_delete_checked_permessi.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella ' + array.length + ' permessi selezionati</font></font>';
 
     } else {
 
-        btn_delete_checked_user.setAttribute("disabled", "disabled");
-        btn_delete_checked_user.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella 0 utenti selezionati</font></font>';
+        btn_delete_checked_permessi.setAttribute("disabled", "disabled");
+        btn_delete_checked_permessi.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella 0 permessi selezionati</font></font>';
 
     }
 
@@ -808,61 +807,57 @@ function checkCheckboxUser() {
 // ----------------------------------------------------------------
 
 // al click del checkbox generale, verifico il suo stato e modifico tutti quelli presenti di conseguenza
-general_checkbox_users.addEventListener("change", () => {
+general_checkbox_permessi.addEventListener("change", () => {
 
     // controllo lo stato del bottone e richiamo la funzione con il valore del checkbox giusta
-    setCheckboxRecordUser(general_checkbox_users.checked);
-    checkCheckboxUser();
+    setCheckboxRecordPermessi(general_checkbox_permessi.checked);
+    checkCheckboxPermessi();
 
 });
 
 // aggiungo il form per l'aggiunta di un nuovo utente
-form_add_user.addEventListener("click", () => {
+form_add_permessi.addEventListener("click", () => {
 
     console.log("Aggiunto il form");
 
     // aggiungo il form all'inzio del codice già esistente
-    createTableUser();
-    let actual_body = body_table_users.innerHTML
-    body_table_users.innerHTML = createFormNewUser() + actual_body;
-
-    // richiamo le funzioni per aggiungere categorie e permessi
-    addCategorie(document.getElementById("categoria_add_user"), feedback_table_management_user, 10);
-    addPermessi(document.getElementById("permessi_add_user"), feedback_table_management_user, 10);
+    createTablePermessi();
+    let actual_body = body_table_permessi.innerHTML
+    body_table_permessi.innerHTML = createFormNewPermessi() + actual_body;
 });
 
 // ricarico la tabella riaggiungendola al click del bottone di refresh
-btn_refresh_management_user.addEventListener("click", () => {
+btn_refresh_management_permessi.addEventListener("click", () => {
 
 
 
     // disabilito il bottone per 3 secondi
 
     // creo la tabella
-    createTableUser();
+    createTablePermessi();
 
     // disabilito il bottone
-    btn_refresh_management_user.disabled = true;
+    btn_refresh_management_permessi.disabled = true;
 
     // cambio il colore per dare un feedback
-    btn_refresh_management_user.color = "#ededed";
+    btn_refresh_management_permessi.color = "#ededed";
 
     setTimeout(() => {
 
         // abilito il bottone
-        btn_refresh_management_user.disabled = false;
+        btn_refresh_management_permessi.disabled = false;
 
         // cambio il colore per dare un feedback
-        btn_refresh_management_user.color = "#6C757D";
+        btn_refresh_management_permessi.color = "#6C757D";
 
     }, 3000);
 });
 
 // al click elimino tutti gli utenti selezionati
-btn_delete_checked_user.addEventListener("click", () => {
+btn_delete_checked_permessi.addEventListener("click", () => {
 
     // richiamo al funzione per elimiare
-    deleteUser(getArrayUsersChecked());
+    deletePermessi(getArrayPermessiChecked());
 
 });
 
