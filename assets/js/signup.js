@@ -71,6 +71,17 @@ function validatePassword (password)
   }
 }
 
+function checkSubmitSignup() {
+    if(!name_validate || !surname_validate || !email_validate || !re_email_validate || !password_validate || !re_password_validate) {
+        document.getElementById("submit").disabled = true;
+        return false;
+    } else {
+        document.getElementById("submit").disabled = false;
+        return true;
+    }
+       
+
+}
 
 // ----------------------------------------------------------------
 // ----------------------- EVENTI --------------------------------- 
@@ -94,8 +105,9 @@ $("#submit").click(function () {
             "idPermessi": IdPermessi
         };
 
-    if(!name_validate || !surname_validate || !email_validate || !re_email_validate || !password_validate || !re_password_validate)
-        return;
+    if(!checkSubmitSignup())
+        return false;
+
 
     $.ajax({
         type: "POST",
@@ -155,6 +167,9 @@ email.addEventListener("input", () => {
         re_email.removeAttribute("disabled");
         email_validate = true;
 
+        // controllo se abilitare il bottone di conferma
+        checkSubmitSignup();
+
 
     } else {
         console.log("email NON valida");
@@ -169,6 +184,9 @@ email.addEventListener("input", () => {
         email_validate = false;
 
         re_email.setAttribute("disabled", "disabled");
+
+        // controllo se abilitare il bottone di conferma
+        checkSubmitSignup();
 		
     }
 
@@ -190,8 +208,11 @@ re_email.addEventListener("input", () => {
         re_email.style.borderColor = correct_data;
         //re_email.style.color = correct_data;
         re_email.style.boxShadow = "0 0 0 2px" + correct_data;
-
+                
         re_email_validate = true;
+
+        // controllo se abilitare il bottone di conferma
+        checkSubmitSignup();
 
     } else {
 
@@ -204,6 +225,9 @@ re_email.addEventListener("input", () => {
         re_email.style.boxShadow = "0 0 0 2px" + error_data;
 
         re_email_validate = false;
+
+        // controllo se abilitare il bottone di conferma
+        checkSubmitSignup();
     }
 
     console.log("--------------");
@@ -261,6 +285,9 @@ password.addEventListener("input", () => {
 
         password_validate = true;
 
+        // controllo se abilitare il bottone di conferma
+        checkSubmitSignup();
+
 
     } else {
         console.log("password NON valida");
@@ -276,6 +303,9 @@ password.addEventListener("input", () => {
         password_validate = false;
 
         re_password.setAttribute("disabled", "disabled");
+
+        // controllo se abilitare il bottone di conferma
+        checkSubmitSignup();
     }
 
     console.log("--------------");
@@ -285,7 +315,7 @@ password.addEventListener("input", () => {
 // verifico che le due password siano uguali
 re_password.addEventListener("input", () => {
 
-    console.log("controllo il re password");
+    console.log("controllo il re password: " + re_password.value);
     // se l'email è valida imposto i diversi colori
     if(re_password.value == password.value && re_password.value.trim() != "") {
 
@@ -296,8 +326,11 @@ re_password.addEventListener("input", () => {
         re_password.style.borderColor = correct_data;
         //re_password.style.color = correct_data;
         re_password.style.boxShadow = "0 0 0 2px" + correct_data;
-		document.getElementById("submit").disabled = false;
+
         re_password_validate = true;
+
+        // controllo se abilitare il bottone di conferma
+        checkSubmitSignup();
 
     } else {
 
@@ -308,7 +341,11 @@ re_password.addEventListener("input", () => {
         re_password.style.borderColor = error_data;
         //re_password.style.color = error_data;
         re_password.style.boxShadow = "0 0 0 2px" + error_data;
+
         re_password_validate = false;
+
+        // controllo se abilitare il bottone di conferma
+        checkSubmitSignup();
     }
 
     console.log("--------------");
@@ -368,6 +405,9 @@ document.getElementById("nome").addEventListener("input", () => {
 				document.getElementById("nome").removeAttribute("disabled");
 
 				name_validate = true;
+
+                // controllo se abilitare il bottone di conferma
+                checkSubmitSignup();
 			}
 
     } else {
@@ -381,6 +421,9 @@ document.getElementById("nome").addEventListener("input", () => {
         document.getElementById("nome").style.boxShadow = "0 0 0 2px" + error_data;
 
         name_validate = false;
+
+        // controllo se abilitare il bottone di conferma
+        checkSubmitSignup();
     }
 
     console.log("--------------");
@@ -408,6 +451,9 @@ document.getElementById("cognome").addEventListener("input", () => {
 			document.getElementById("cognome").removeAttribute("disabled");
 
 			surname_validate = true;
+
+            // controllo se abilitare il bottone di conferma
+            checkSubmitSignup();
 		}
 
     } else {
@@ -421,6 +467,9 @@ document.getElementById("cognome").addEventListener("input", () => {
         document.getElementById("cognome").style.boxShadow = "0 0 0 2px" + error_data;
 
         surname_validate = false;
+
+        // controllo se abilitare il bottone di conferma
+        checkSubmitSignup();
     }
 
     console.log("--------------");
