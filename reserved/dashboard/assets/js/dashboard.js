@@ -149,11 +149,11 @@ $(document).ready(() => {
 async function init() {
 
 	console.log("Initialized...");
-	
+
 	// Inserisco i link per il login e la registrazione
 	a_login.href = HOSTNAME + '/page/login.php';
 	a_signup.href = HOSTNAME + '/page/signup.php';
-	
+
 	// nascondo tutte le pagine dimaniche presenti
 	hideAllDynamicPage();
 
@@ -162,7 +162,7 @@ async function init() {
 
     // imposto le classi attraverso una chiamata ajax
 	await set_classrooms();
-	
+
     // imposto le macroaree attraverso una chiamata ajax
     await set_macroaree();
 
@@ -177,10 +177,10 @@ async function init() {
 
     // imposto il profilo in modo dinamico
     setProfile();
-	
+
 	// restituisce il numero di ticket non visualizzati
 	setNewTicketNumber();
-	
+
 	// Calcolo ticket con discostamento percentuale
 	setDeviationTicketNumber();
 
@@ -188,8 +188,8 @@ async function init() {
 
 // imposto il profilo in modo dinamico
 function setProfile() {
-    
-    // verifico che l'utente sia stato impostato    
+
+    // verifico che l'utente sia stato impostato
     if(USER != null) {
 
         // imposto il nome nell'utente nella dashboard
@@ -200,7 +200,7 @@ function setProfile() {
         if(USER.Categoria.IdCategoria == "1") {     // dirigenza
             user_img.src = HOSTNAME + "/reserved/dashboard/assets/images/users/Dirigente.jpg";
             user_img2.src = HOSTNAME + "/reserved/dashboard/assets/images/users/Dirigente.jpg";
-            
+
             user_img.alt = USER.Nome + " " + USER.Cognome;
             user_img2.alt = USER.Nome + " " + USER.Cognome;
         } else {
@@ -208,7 +208,7 @@ function setProfile() {
             if(USER.Categoria.IdCategoria == "2") {     // docenti
                 user_img.src = HOSTNAME + "/reserved/dashboard/assets/images/users/Docente.jpg";
                 user_img2.src = HOSTNAME + "/reserved/dashboard/assets/images/users/Docente.jpg";
-                
+
                 user_img.alt = USER.Nome + " " + USER.Cognome;
                 user_img2.alt = USER.Nome + " " + USER.Cognome;
 
@@ -218,56 +218,56 @@ function setProfile() {
 
                     user_img.src = HOSTNAME + "/reserved/dashboard/assets/images/users/Studente.jpg";
                     user_img2.src = HOSTNAME + "/reserved/dashboard/assets/images/users/Studente.jpg";
-                    
+
                     user_img.alt = USER.Nome + " " + USER.Cognome;
                     user_img2.alt = USER.Nome + " " + USER.Cognome;
 
                 } else {
-    
+
                     if(USER.Categoria.IdCategoria == "4") {     // tecnici
 
                         user_img.src = HOSTNAME + "/reserved/dashboard/assets/images/users/Tecnico.jpg";
                         user_img2.src = HOSTNAME + "/reserved/dashboard/assets/images/users/Tecnico.jpg";
-                        
+
                         user_img.alt = USER.Nome + " " + USER.Cognome;
                         user_img2.alt = USER.Nome + " " + USER.Cognome;
-    
+
                     } else {
-        
+
                         if(USER.Categoria.IdCategoria == "5") {     // amministrativi
 
                             user_img.src = HOSTNAME + "/reserved/dashboard/assets/images/users/Amministrativo.jpg";
                             user_img2.src = HOSTNAME + "/reserved/dashboard/assets/images/users/Amministrativo.jpg";
-                            
+
                             user_img.alt = USER.Nome + " " + USER.Cognome;
                             user_img2.alt = USER.Nome + " " + USER.Cognome;
-        
+
                         } else {
-            
+
                             if(USER.Categoria.IdCategoria == "6") {     // personale ata
 
                                 user_img.src = HOSTNAME + "/reserved/dashboard/assets/images/users/CollaboratoreScolastico.jpg";
                                 user_img2.src = HOSTNAME + "/reserved/dashboard/assets/images/users/CollaboratoreScolastico.jpg";
-                                
+
                                 user_img.alt = USER.Nome + " " + USER.Cognome;
                                 user_img2.alt = USER.Nome + " " + USER.Cognome;
-            
+
                             } else {
 
                                 user_img.src = HOSTNAME + "/reserved/dashboard/assets/images/users/base.png";
                                 user_img2.src = HOSTNAME + "/reserved/dashboard/assets/images/users/base.png";
 
                             }
-            
+
                         }
-        
+
                     }
-    
+
                 }
 
             }
         }
-        
+
 
     }
 
@@ -297,7 +297,7 @@ function addMacroaree(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
             option.text = text;
             // inserisco l'oggetto option
             input.appendChild(option);
-    
+
         });
     } else {
         // errore
@@ -330,7 +330,7 @@ function addAula(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
             option.text = text;
             // inserisco l'oggetto option
             input.appendChild(option);
-    
+
         });
     } else {
         // errore
@@ -363,7 +363,7 @@ function addPermessi(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
             option.text = text;
             // inserisco l'oggetto option
             input.appendChild(option);
-    
+
         });
     } else {
         // errore
@@ -396,7 +396,7 @@ function addCategorie(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
             option.text = text;
             // inserisco l'oggetto option
             input.appendChild(option);
-    
+
         });
     } else {
         // errore
@@ -429,7 +429,7 @@ function addClassroom(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
             option.text = text;
             // inserisco l'oggetto option
             input.appendChild(option);
-    
+
         });
     } else {
         // errore
@@ -464,7 +464,7 @@ function addCategorie(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
             option.text = text;
             // inserisco l'oggetto option
             input.appendChild(option);
-    
+
         });
     } else {
         // errore
@@ -488,7 +488,7 @@ function cutString(stringa, n_char_max_to_print = N_CHAR_TO_PRINT) {
 	catch(error){
 		return "N/D";
 	}
-    
+
 }
 
 
@@ -504,13 +504,13 @@ function createMenu() {
     } else {
         menu_gestione.style.display = "none";
         menu_gestione2.style.display = "none";
-    } 
+    }
 
 
 }
 
 // restituisce il codice HTML del menù funzionalità
-function settingMenuGestione() 
+function settingMenuGestione()
 {
 
     //console.log("settingMenuGestione");
@@ -522,7 +522,7 @@ function settingMenuGestione()
 
         // variabile da restituire true nel caso ci sia almeno un menu da visualizzare
         let show = false;
-        
+
         // per ogni permesso impostato su "1" elimino il display none al bottone
         //                                                                  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! inserire sezione incarichi
         if(permessi_utente.VisualizzaTuttiTicket == "1" || permessi_utente.ModificaTuttiTicket == "1" || permessi_utente.ModificaStatoAvanzamentoTicket == "1" || permessi_utente.UnireTicket == "1" || permessi_utente.CreaIncarico == "1" || permessi_utente.ModificaStatoAvanzamentoIncarico == "1") {
@@ -535,7 +535,7 @@ function settingMenuGestione()
             btn_show_ticket2.style.display = "";
 
             console.log("if1");
-            
+
         } else {
             // continuo a tener nascosto il bottone
             btn_show_ticket.style.display = "none";
@@ -553,7 +553,7 @@ function settingMenuGestione()
             btn_show_macroaree2.style.display = "";
 
             console.log("if2");
-            
+
         } else {
             // continuo a tener nascosto il bottone
             btn_show_macroaree.style.display = "none";
@@ -572,7 +572,7 @@ function settingMenuGestione()
 
 
             console.log("if3");
-            
+
         } else {
             // continuo a tener nascosto il bottone
             btn_show_competenze.style.display = "none";
@@ -591,7 +591,7 @@ function settingMenuGestione()
 
 
             console.log("if4");
-            
+
         } else {
             // continuo a tener nascosto il bottone
             btn_show_categorie.style.display = "none";
@@ -610,7 +610,7 @@ function settingMenuGestione()
 
 
             console.log("if5");
-            
+
         } else {
             // continuo a tener nascosto il bottone
             btn_show_aule.style.display = "none";
@@ -629,7 +629,7 @@ function settingMenuGestione()
 
 
             console.log("if6");
-            
+
         } else {
             // continuo a tener nascosto il bottone
             btn_show_user.style.display = "none";
@@ -649,7 +649,7 @@ function settingMenuGestione()
 
 
             console.log("if7");
-            
+
         } else {
             // continuo a tener nascosto il bottone
             btn_show_permessi.style.display = "none";
@@ -664,7 +664,7 @@ function settingMenuGestione()
 
             // tolgo il display none dal bottone associato
             btn_show_aule.display = "";
-            
+
         } else {
             // continuo a tener nascosto il bottone
             btn_show_aule.display = "none";
@@ -717,8 +717,8 @@ async function set_classrooms() {
             } else {
                 CLASSROOMS = JSON.parse(data).result;
             }
-            
-    
+
+
         }
     });
 
@@ -738,17 +738,17 @@ async function set_user() {
             //console.log("user setted");
             //console.log(data);
             //console.log(JSON.parse(data));
-            
+
             // controllo che nono abbia restituito errore
             if(JSON.parse(data).result == false) {
                 USER = null;
             } else {
-                USER = JSON.parse(data).result[0]; 
+                USER = JSON.parse(data).result[0];
             }
-            
-            
-                
-    
+
+
+
+
         }
     });
 
@@ -757,7 +757,7 @@ async function set_user() {
 }
 
 
-// funzione per inviare i dati tramite ajax 
+// funzione per inviare i dati tramite ajax
 async function set_macroaree() {
 
     MACROAREE = null;
@@ -780,13 +780,13 @@ async function set_macroaree() {
             } else {
                 MACROAREE = JSON.parse(data).result;
             }
-            
-    
+
+
         }
-    });					
+    });
 }
 
-// funzione per inviare i dati tramite ajax 
+// funzione per inviare i dati tramite ajax
 function set_permessi() {
 
     PERMESSI = null;
@@ -802,19 +802,19 @@ function set_permessi() {
             console.debug("set PERMESSI");
             //console.log(data);
             //console.log(JSON.parse(data));
-            
+
             // controllo che non abbia restituito errori
             if(JSON.parse(data).result == false) {
                 PERMESSI = null;
             } else {
                 PERMESSI = JSON.parse(data).result;
             }
-            
+
         }
-    });					
+    });
 }
 
-// funzione per inviare i dati tramite ajax 
+// funzione per inviare i dati tramite ajax
 async function set_categorie() {
 
     CATEGORIE = null;
@@ -830,17 +830,17 @@ async function set_categorie() {
             console.debug("set CATEGORIE");
             //console.log(data);
             //console.log(JSON.parse(data));
-            
+
             // controllo che non sia stato restituito false
             if(JSON.parse(data).result == false) {
                 CATEGORIE = null;
             } else {
                 CATEGORIE = JSON.parse(data).result;
             }
-            
-    
+
+
         }
-    });					
+    });
 }
 
 
@@ -867,7 +867,7 @@ async function setNewTicketNumber()
 			else
 			{
 				// In caso response.result == True --> restituisce il numero di ticket
-				newTicket.innerHTML = response.result;											// Restituisce all'utente il numero di ticket non visualizzati			
+				newTicket.innerHTML = response.result;											// Restituisce all'utente il numero di ticket non visualizzati
 			}
 		},
 		error: (response) => {
@@ -892,7 +892,7 @@ async function setDeviationTicketNumber()
 		dataType: "json",
 		success: function (response)
 		{
-			
+
 			if(response.result.TicketTotali === false && response.result.deviation === false)
 			{
 				// In caso response.result == False --> restituisce il messaggio di errore
@@ -904,7 +904,7 @@ async function setDeviationTicketNumber()
 			{
 				let string = "";
 				// In caso response.result == True --> restituisce il numero di ticket
-				
+
 				let deviation = "";
 				if(response.result.deviation < 0)
 					deviation += '<span class="number" style="color: ' + error_data + '; font-size: 0.6em; margin-left: 4px;" id="percentualeTicket">' + "-" + response.result.deviation + "%" + "</span>";
@@ -912,12 +912,12 @@ async function setDeviationTicketNumber()
 					deviation += '<span class="number" style="color: ' + default_text_color + '; font-size: 0.6em; margin-left: 4px;" id="percentualeTicket">' + response.result.deviation + "%" + "</span>";
 				if(response.result.deviation > 0)
 					deviation += '<span class="number" style="color: ' + correct_data + '; font-size: 0.6em;  margin-left: 4px;" id="percentualeTicket">' + "+" + response.result.deviation + "%" + "</span>";
-	
-				string += response.result.TicketTotali + deviation;	
-				
-				// Restituisce all'utente il numero di ticket non visualizzati				
+
+				string += response.result.TicketTotali + deviation;
+
+				// Restituisce all'utente il numero di ticket non visualizzati
 				ticketTotali.innerHTML = string;
-				
+
 			}
 		},
 		error: (response) => {
@@ -930,7 +930,7 @@ async function setDeviationTicketNumber()
 
 // funzione per eliminare il record per l'inserimento di un nuovo utente/aula
 function removeForm(ID) {
-    
+
     // recupero il form per l'inserimento
     let form = document.getElementById(ID);
 
@@ -951,12 +951,12 @@ function clickInput(ID) {
 }
 
 // ----------------------------------------------------------------
-// ----------------------- EVENTI --------------------------------- 
+// ----------------------- EVENTI ---------------------------------
 // ----------------------------------------------------------------
 
 // al click in Account mostro il relativo form
 btn_show_account.addEventListener("click", () => {
-    // nascondo tutti i form 
+    // nascondo tutti i form
     hideAllDynamicPage();
     // mostro il form selezionato
     console.debug("change psw");
@@ -970,8 +970,8 @@ btn_add_ticket.addEventListener("click", () => {
     addMacroaree(input_macroaree_ticket, submit_result);
     addClassroom(input_classroom_ticket, submit_result);
 
-    // nascondo tutti i form 
-    hideAllDynamicPage(); 
+    // nascondo tutti i form
+    hideAllDynamicPage();
     // mostro il form selezionato
     console.debug("add ticket");
     div_form_add_ticket.style.display = "";
@@ -979,7 +979,7 @@ btn_add_ticket.addEventListener("click", () => {
 
 // al click del cambio password mostro il relativo form
 btn_change_password.addEventListener("click", () => {
-    // nascondo tutti i form 
+    // nascondo tutti i form
     hideAllDynamicPage();
     // mostro il form selezionato
     console.debug("change psw");
@@ -988,8 +988,8 @@ btn_change_password.addEventListener("click", () => {
 
 /*
 btn_change_password2.addEventListener("click", () => {
-    // nascondo tutti i form 
-    hideAllDynamicPage();  
+    // nascondo tutti i form
+    hideAllDynamicPage();
     // mostro il form selezionato
     console.debug("change psw");
     div_form_change_password.style.display = "";
@@ -1135,7 +1135,7 @@ function settingMenuGestioneAccount()
 
         // variabile da restituire true nel caso ci sia almeno un menu da visualizzare
         let show = false;
-        
+
         // per ogni permesso impostato su "1" elimino il display none al bottone
         //                                                                  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! inserire sezione incarichi
         if(permessi_utente.VisualizzaTuttiTicket === "1" || permessi_utente.ModificaTuttiTicket === "1" || permessi_utente.ModificaStatoAvanzamentoTicket === "1" || permessi_utente.UnireTicket === "1" || permessi_utente.CreaIncarico === "1" || permessi_utente.ModificaStatoAvanzamentoIncarico === "1") {
@@ -1148,7 +1148,7 @@ function settingMenuGestioneAccount()
             btn_show_account2.style.display = "";
 
             console.log("if1");
-            
+
         } else {
             // continuo a tener nascosto il bottone
             btn_show_account.style.display = "none";
@@ -1166,7 +1166,7 @@ function settingMenuGestioneAccount()
             btn_show_macroaree2.style.display = "";
 
             console.log("if2");
-            
+
         } else {
             // continuo a tener nascosto il bottone
             btn_show_macroaree.style.display = "none";
@@ -1185,7 +1185,7 @@ function settingMenuGestioneAccount()
 
 
             console.log("if3");
-            
+
         } else {
             // continuo a tener nascosto il bottone
             btn_show_competenze.style.display = "none";
@@ -1204,7 +1204,7 @@ function settingMenuGestioneAccount()
 
 
             console.log("if4");
-            
+
         } else {
             // continuo a tener nascosto il bottone
             btn_show_categorie.style.display = "none";
@@ -1223,7 +1223,7 @@ function settingMenuGestioneAccount()
 
 
             console.log("if5");
-            
+
         } else {
             // continuo a tener nascosto il bottone
             btn_show_aule.style.display = "none";
@@ -1242,7 +1242,7 @@ function settingMenuGestioneAccount()
 
 
             console.log("if6");
-            
+
         } else {
             // continuo a tener nascosto il bottone
             btn_show_user.style.display = "none";
@@ -1261,7 +1261,7 @@ function settingMenuGestioneAccount()
 
 
             console.log("if7");
-            
+
         } else {
             // continuo a tener nascosto il bottone
             btn_show_permessi.style.display = "none";
@@ -1276,7 +1276,7 @@ function settingMenuGestioneAccount()
 
             // tolgo il display none dal bottone associato
             btn_show_aule.display = "";
-            
+
         } else {
             // continuo a tener nascosto il bottone
             btn_show_aule.display = "none";
@@ -1290,12 +1290,12 @@ function settingMenuGestioneAccount()
 }
 
 // ----------------------------------------------------------------
-// ----------------------- EVENTI --------------------------------- 
+// ----------------------- EVENTI ---------------------------------
 // ----------------------------------------------------------------
 
 // al click in Account mostro il relativo form
 btn_show_account.addEventListener("click", () => {
-    // nascondo tutti i form 
+    // nascondo tutti i form
     hideAllDynamicPage();
     // mostro il form selezionato
     console.debug("change psw");
@@ -1309,8 +1309,8 @@ btn_add_ticket.addEventListener("click", () => {
     addMacroaree(input_macroaree_ticket, submit_result);
     addClassroom(input_classroom_ticket, submit_result);
 
-    // nascondo tutti i form 
-    hideAllDynamicPage(); 
+    // nascondo tutti i form
+    hideAllDynamicPage();
     // mostro il form selezionato
     console.debug("add ticket");
     div_form_add_ticket.style.display = "";
@@ -1318,7 +1318,7 @@ btn_add_ticket.addEventListener("click", () => {
 
 // al click del cambio password mostro il relativo form
 btn_change_password.addEventListener("click", () => {
-    // nascondo tutti i form 
+    // nascondo tutti i form
     hideAllDynamicPage();
     // mostro il form selezionato
     console.debug("change psw");
@@ -1327,8 +1327,8 @@ btn_change_password.addEventListener("click", () => {
 
 /*
 btn_change_password2.addEventListener("click", () => {
-    // nascondo tutti i form 
-    hideAllDynamicPage();  
+    // nascondo tutti i form
+    hideAllDynamicPage();
     // mostro il form selezionato
     console.debug("change psw");
     div_form_change_password.style.display = "";
@@ -1423,6 +1423,21 @@ btn_show_categorie2.addEventListener("click", () => {
     createTableCategoria();
 
     div_management_categoria.style.display = "";
+
+    // chiudo il menù
+    $("#header-desktop-menu").removeClass("show-sidebar");
+    $("#header-desktop-menu2").removeClass("show-sidebar");
+
+});
+
+btn_show_permessi.addEventListener("click", () => {
+
+    hideAllDynamicPage();
+
+    // creo la tabella degli utenti
+    createTablePermessi();
+
+    div_management_permessi.style.display = "";
 
     // chiudo il menù
     $("#header-desktop-menu").removeClass("show-sidebar");
