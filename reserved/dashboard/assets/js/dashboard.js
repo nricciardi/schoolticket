@@ -57,7 +57,7 @@ var div_form_change_password = document.getElementById("div_form_change_password
 var div_management_users = document.getElementById("div_management_users");
 
 // div contenente la tabella per il controllo delle categorie
-div_management_categorie = document.getElementById("div_management_categoria");
+var div_management_categorie = document.getElementById("div_management_categoria");
 
 // menù con le funzionalità della pagina
 var menu_gestione = document.getElementById("menu_gestione");
@@ -144,6 +144,26 @@ $(document).ready(() => {
 	init();
 
 });
+
+function validateEmail (emailAdress)
+{
+  let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  if (emailAdress.match(regexEmail)) {
+    return true; 
+  } else {
+    return false; 
+  }
+}
+
+function validatePassword (password)
+{
+  let regexEmail = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+  if (password.match(regexEmail)) {
+    return true; 
+  } else {
+    return false; 
+  }
+}
 
 // funzione che viene richiamata all'inizio
 async function init() {
