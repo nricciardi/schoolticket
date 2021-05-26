@@ -199,7 +199,9 @@ function createTablePermessi() {
     $.ajax({
         url: HOSTNAME + "/api/permessi.php",
         type: "GET",
-        data: data,
+        headers: {
+            'Authorization': 'Basic ' + btoa(USER.Email + ':' + USER.Password)
+        },
         dataType: "JSON",
         success: (res) => {
             console.log(res);

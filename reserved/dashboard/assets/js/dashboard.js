@@ -1454,7 +1454,6 @@ btn_show_categorie2.addEventListener("click", () => {
 
 });
 
-<<<<<<< HEAD
 btn_show_macroaree.addEventListener("click", () => {
 
     hideAllDynamicPage();
@@ -1478,7 +1477,13 @@ btn_show_macroaree2.addEventListener("click", () => {
     createTableMacroarea();
 
     div_management_macroarea.style.display = "";
-=======
+
+    // chiudo il menù
+    $("#header-desktop-menu").removeClass("show-sidebar");
+    $("#header-desktop-menu2").removeClass("show-sidebar");
+
+});
+
 btn_show_permessi.addEventListener("click", () => {
 
     hideAllDynamicPage();
@@ -1487,7 +1492,21 @@ btn_show_permessi.addEventListener("click", () => {
     createTablePermessi();
 
     div_management_permessi.style.display = "";
->>>>>>> 9dad0a925188f17ef91735aa55bc4cb55735722a
+
+    // chiudo il menù
+    $("#header-desktop-menu").removeClass("show-sidebar");
+    $("#header-desktop-menu2").removeClass("show-sidebar");
+
+});
+
+btn_show_permessi2.addEventListener("click", () => {
+
+    hideAllDynamicPage();
+
+    // creo la tabella degli utenti
+    createTablePermessi();
+
+    div_management_permessi.style.display = "";
 
     // chiudo il menù
     $("#header-desktop-menu").removeClass("show-sidebar");

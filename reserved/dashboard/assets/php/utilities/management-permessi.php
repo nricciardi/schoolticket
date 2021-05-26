@@ -22,11 +22,11 @@
                 </div>
                 <button class="au-btn-filter">
                     <i class="zmdi zmdi-filter-list"></i>filters</button>
-                <button type="button" class="btn btn-link" style="color: #6C757D" id="btn_refresh_management_user">
+                <button type="button" class="btn btn-link" style="color: #6C757D" id="btn_refresh_management_permessi">
                     <i class="fa fa-refresh"></i>&nbsp; Ricarica</button>
             </div>
             <div class="table-data__tool-right">
-                <button class="au-btn au-btn-icon au-btn--green au-btn--small" id="formAddUser">
+                <button class="au-btn au-btn-icon au-btn--green au-btn--small" id="formAddPermessi">
                     <i class="zmdi zmdi-plus"></i>Nuovo permesso</button>
                 <!--<div class="rs-select2--dark rs-select2--sm rs-select2--dark2">
                     <select class="js-select2" name="type">
@@ -38,7 +38,7 @@
                 </div>-->
             </div>
         </div>
-        <span id="feedback_table_management_user">N / D</span>
+        <span id="feedback_table_management_permessi">N / D</span>
         <div class="table-responsive table-responsive-data2">
             <table class="table table-data2">
                 <thead>

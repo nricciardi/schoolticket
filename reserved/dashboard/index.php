@@ -120,8 +120,14 @@
                                    require_once("assets".DS."php".DS."utilities".DS."management-aula.php");     // includo il form per il new ticket
                                 ?>
                             </div>
-							              <!-- !!!!!!!!!!!!!!! PAGE MANAGEMENT PERMESSI   !!!!!!!!!!!!!!! -->
-                            <div class="col-md-12" style="//display: none;" id="div_management_permessi"> <!-- Di default è invisibile, viene visualizzato solo dopo il click di btn_add_ticket -->
+                            <!-- !!!!!!!!!!!!!!! PAGE MANAGEMENT MACROAREA   !!!!!!!!!!!!!!! -->
+                            <div class="col-md-12" style="display: none;" id="div_management_macroarea"> <!-- Di default è invisibile, viene visualizzato solo dopo il click di btn_add_ticket -->
+                                <?php
+                                   require_once("assets".DS."php".DS."utilities".DS."management-macroarea.php");     // includo il form per il new ticket
+                                ?>
+                            </div>
+							<!-- !!!!!!!!!!!!!!! PAGE MANAGEMENT PERMESSI   !!!!!!!!!!!!!!! -->
+                            <div class="col-md-12" style="display: none;" id="div_management_permessi"> <!-- Di default è invisibile, viene visualizzato solo dopo il click di btn_add_ticket -->
                                 <?php
                                    require_once("assets".DS."php".DS."utilities".DS."management-permessi.php");     // includo il form per il new ticket
                                 ?>

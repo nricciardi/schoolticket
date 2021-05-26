@@ -38,6 +38,7 @@
                 </div>-->
             </div>
         </div>
+        <span id="feedback_table_management_macroarea">N / D</span>
         <div class="table-responsive table-responsive-data2">
             <table class="table table-data2">
                 <thead>
@@ -195,7 +196,14 @@
                     </tr>-->
                 </tbody>
                 <tfoot id="foot_table_macroarea">
-                
+                    <tr class="spacer"></tr>
+                    <tr class="tr-shadow">
+                        <td>
+                            <button type="button" class="btn btn-danger" id="btn_delete_checked_macroarea" disabled>
+                                <i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella 0 aule selezionate</font></font>
+                            </button>
+                        </td>
+                    </tr>
                 </tfoot>
             </table>
         </div>
