@@ -59,6 +59,9 @@ var div_management_users = document.getElementById("div_management_users");
 // div contenente la tabella per il controllo delle categorie
 div_management_categorie = document.getElementById("div_management_categoria");
 
+// div contenente la tabella per il controllo delle categorie
+div_management_macroarea = document.getElementById("div_management_macroarea");
+
 // menù con le funzionalità della pagina
 var menu_gestione = document.getElementById("menu_gestione");
 var menu_gestione2 = document.getElementById("menu_gestione_2");
@@ -83,6 +86,7 @@ var btn_show_permessi2 = document.getElementById("btn_show_permessi_2");
 
 
 // bottone del sotto menù gestione: btn_show_macroaree
+var btn_show_macroaree = document.getElementById("btn_show_macroaree");
 var btn_show_macroaree2 = document.getElementById("btn_show_macroaree_2");
 
 // bottone del sotto menù gestione: btn_show_categorie
@@ -1423,6 +1427,36 @@ btn_show_categorie2.addEventListener("click", () => {
     createTableCategoria();
 
     div_management_categoria.style.display = "";
+
+    // chiudo il menù
+    $("#header-desktop-menu").removeClass("show-sidebar");
+    $("#header-desktop-menu2").removeClass("show-sidebar");
+
+});
+
+btn_show_macroaree.addEventListener("click", () => {
+
+    hideAllDynamicPage();
+
+    // creo la tabella per le macroaree
+    createTableMacroarea();
+
+    div_management_macroarea.style.display = "";
+
+    // chiudo il menù
+    $("#header-desktop-menu").removeClass("show-sidebar");
+    $("#header-desktop-menu2").removeClass("show-sidebar");
+
+});
+
+btn_show_macroaree2.addEventListener("click", () => {
+
+    hideAllDynamicPage();
+
+    // creo la tabella per le macroaree
+    createTableMacroarea();
+
+    div_management_macroarea.style.display = "";
 
     // chiudo il menù
     $("#header-desktop-menu").removeClass("show-sidebar");
