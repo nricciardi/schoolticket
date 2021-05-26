@@ -525,7 +525,7 @@ function settingMenuGestione()
         
         // per ogni permesso impostato su "1" elimino il display none al bottone
         //                                                                  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! inserire sezione incarichi
-        if(permessi_utente.VisualizzaTuttiTicket === "1" || permessi_utente.ModificaTuttiTicket === "1" || permessi_utente.ModificaStatoAvanzamentoTicket === "1" || permessi_utente.UnireTicket === "1" || permessi_utente.CreaIncarico === "1" || permessi_utente.ModificaStatoAvanzamentoIncarico === "1") {
+        if(permessi_utente.VisualizzaTuttiTicket == "1" || permessi_utente.ModificaTuttiTicket == "1" || permessi_utente.ModificaStatoAvanzamentoTicket == "1" || permessi_utente.UnireTicket == "1" || permessi_utente.CreaIncarico == "1" || permessi_utente.ModificaStatoAvanzamentoIncarico == "1") {
 
             // restituirò true
             show = true;
@@ -543,7 +543,7 @@ function settingMenuGestione()
 
         }
 
-        if(permessi_utente.CreaModificaEliminaMacroarea === "1") {
+        if(permessi_utente.CreaModificaEliminaMacroarea == "1") {
 
             // restituirò true
             show = true;
@@ -561,7 +561,7 @@ function settingMenuGestione()
 
         }
 
-        if(permessi_utente.CreaModificaEliminaCompetenza === "1") {
+        if(permessi_utente.CreaModificaEliminaCompetenza == "1") {
 
             // restituirò true
             show = true;
@@ -580,7 +580,7 @@ function settingMenuGestione()
 
         }
 
-        if(permessi_utente.CreaModificaEliminaCategoria === "1") {
+        if(permessi_utente.CreaModificaEliminaCategoria == "1") {
 
             // restituirò true
             show = true;
@@ -618,7 +618,7 @@ function settingMenuGestione()
 
         }
 
-        if(permessi_utente.ModificaVisualizzaTuttiUtenti === "1") {
+        if(permessi_utente.ModificaVisualizzaTuttiUtenti == "1") {
 
             // restituirò true
             show = true;
@@ -634,6 +634,26 @@ function settingMenuGestione()
             // continuo a tener nascosto il bottone
             btn_show_user.style.display = "none";
             btn_show_user2.style.display = "none";
+
+        }
+
+        console.log(permessi_utente.CreaModificaEliminaPermessi);
+        if(permessi_utente.CreaModificaEliminaPermessi == "1") {
+
+            // restituirò true
+            show = true;
+
+            // tolgo il display none dal bottone associato
+            btn_show_permessi.style.display = "";
+            btn_show_permessi2.style.display = "";
+
+
+            console.log("if7");
+            
+        } else {
+            // continuo a tener nascosto il bottone
+            btn_show_permessi.style.display = "none";
+            btn_show_permessi2.style.display = "none";
 
         }
 

@@ -89,14 +89,21 @@
                             //array_push($id_to_unset, $i)
                             array_push($array_to_return, $rows[$i]);
                     }
+
+                    $array_to_return = (json_encode($array_to_return));                   // trasformo l'array associativo restituito in una stringa in formato JSON
+
+                    // creo la stringa di output
+                    $r = '{"result":';
+                    $r .= $array_to_return;
+                    $r .= ', "description":"Sono state prelevate le categorie pubbliche"}';
+
+                } else {
+                    $r = '{"result":';
+                    $r .= json_encode($rows);
+                    $r .= ', "description":"Sono state prelevate le categorie"}';
                 }
 
-                $array_to_return = (json_encode($array_to_return));                   // trasformo l'array associativo restituito in una stringa in formato JSON
-
-                // creo la stringa di output
-                $r = '{"result":';
-                $r .= $array_to_return;
-                $r .= ', "description":"Sono state prelevate le categorie"}';
+                
 
             } else {        // in caso di errore della query
                 $r = '{"result":false, "description":"Riscontrato un problema nel recupero delle categorie"}';
