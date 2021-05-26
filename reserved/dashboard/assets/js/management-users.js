@@ -61,7 +61,7 @@ function createRecordUser(user) {   //User è un oggetto contenente le informazi
     record += '<td id="emailUser' + user.IdUtente + '"><span class="block-email">' + user.Email + '</span></td>';
 
     // inserisco la PASSWORD
-    //record += '<td id="passwordUser' + user.IdUtente + '"><span class="block-email">' + cutString(user.Password, 10) + '</span></td>';
+    record += '<td id="passwordUser' + user.IdUtente + '"><span class="block-password"> ********** </span></td>';
     
     // inserisco la CATEGORIA
     record += '<td id="categoriaUser' + user.IdUtente + '" data-categoria="' + user.Categoria.IdCategoria + '">' + user.Categoria.Nome + '</td>';
@@ -217,19 +217,19 @@ function addUser() {
     console.log("Aggiungo un utente");
 
     // controllo che tutti i controlli siano andati a buon fine
-    if(!check_form_new_user)
+    if(!checkFormNewUser())
         return false;
 
     // creo l'oggetto data da mandare in post
-    let data = {"Submit": "registration", "nome": document.getElementById("newNameUser").value, "email": document.getElementById("newEmailUser").value, "cognome": document.getElementById("newSurnameUser").value, "password": document.getElementById("newPasswordUser").value, "IdCategoria": document.getElementById("categoria_add_user").value, "IdPermessi": document.getElementById("permessi_add_user").value};
+    let data = {"nome": document.getElementById("newNameUser").value, "email": document.getElementById("newEmailUser").value, "cognome": document.getElementById("newSurnameUser").value, "password": document.getElementById("newPasswordUser").value, "idCategoria": document.getElementById("categoria_add_user").value, "idPermessi": document.getElementById("permessi_add_user").value};
 
     // effettuo la chiamata ajax
     $.ajax({
 
         url: HOSTNAME + "/assets/php/authentication/Authentication.php",
-        type: "post",
+        type: "POST",
         data: data,
-        dataType: "json",
+        dataType: "JSON",
         success: (res) => {
 
             console.log(res);
@@ -244,6 +244,10 @@ function addUser() {
 
                 // in caso positivo creo la tabella per gli utenti
                 createTableUser();
+
+                // in caso di successo stampo un messaggio nel box al posto della tabella
+                feedback_table_management_user.innerText = res.description;
+                feedback_table_management_user.style.color = correct_data;
                 
             }
 
@@ -480,13 +484,20 @@ function checkNewEmailUser(ID = "newEmailUser") {
     
     // controllo che sia aggiunto almeno un valore per il email
 
-    if(document.getElementById(ID).value.trim() == "") {
+    if(document.getElementById(ID).value.trim() == "" || validateEmail(document.getElementById(ID).value.trim()) == false) {
 
         document.getElementById(ID).style.borderColor = error_data;
+
+        // in caso di errore stampo un messaggio nel box al posto della tabella
+        feedback_table_management_user.innerText = "L'email non soddisfa i requisiti richiesti";
+        feedback_table_management_user.style.color = error_data;
+
         check_new_email_user = false;
 
     } else {
 
+        feedback_table_management_user.innerText = "";      // elimino il messaggio di errore
+        
         check_new_email_user = true;
         document.getElementById(ID).style.borderColor = correct_data;
 
@@ -501,12 +512,19 @@ function checkNewPasswordUser(ID = "newPasswordUser") {
     
     // controllo che sia aggiunto almeno un valore per il email
 
-    if(document.getElementById(ID).value.trim() == "") {
+    if(document.getElementById(ID).value.trim() == "" || validatePassword(document.getElementById(ID).value.trim()) == false) {
 
         document.getElementById(ID).style.borderColor = error_data;
+
+        // in caso di errore stampo un messaggio nel box al posto della tabella
+        feedback_table_management_user.innerText = "La password non soddisfa i requisiti richiesti";
+        feedback_table_management_user.style.color = error_data;
+
         check_new_password_user = false;
 
     } else {
+
+        feedback_table_management_user.innerText = "";      // elimino il messaggio di errore
 
         check_new_password_user = true;
         document.getElementById(ID).style.borderColor = correct_data;
@@ -530,10 +548,14 @@ function checkFormNewUser(ID = "btn_confirm_new_user") {
         return false;
     } 
 
-    if(check_new_surname_user && check_new_name_user && check_new_password_user && check_new_email_user)
+    if(check_new_surname_user && check_new_name_user && check_new_password_user && check_new_email_user) {
         btn_confirm_new_user.removeAttribute("disabled");
-    else
+        return true;
+    }
+    else {
         btn_confirm_new_user.setAttribute("disabled", "disabled");
+        return false;
+    }
         
 }
 
