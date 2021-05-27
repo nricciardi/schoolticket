@@ -53,6 +53,7 @@
                         <th>Nome</th>
                         <th>Descrizione</th>
                         <th>Laboratorio</th>
+                        <th>Azioni</th>
                     </tr>
                 </thead>
                 <tbody id="body_table_aula">

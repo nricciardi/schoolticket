@@ -409,7 +409,7 @@ function createFormNewAula() {
     
     // inserisco LABORATORIO
     record += '<td>' + 
-    '<input type="checkbox" class="form-control" id="newLaboratorioAula">' + 
+    '<input type="checkbox" class="form-control" id="newLaboratorioAula" style="width: unset;">' + 
     '</td>';
 
     // inserisco i bottoni per le diverse azioni
@@ -570,7 +570,7 @@ function changeFormNewAula(ID) {
     let check = JSON.parse(td_laboratorio.dataset.check);               // recupero lo stato del laboratorio tramite dataset
 
     // modifico la label in un input:text
-    td_laboratorio.innerHTML = '<input type="checkbox" placeholder="Laboratorio" class="form-control" id="editLaboratorioAula">';
+    td_laboratorio.innerHTML = '<input type="checkbox" placeholder="Laboratorio" class="form-control" id="editLaboratorioAula" style="width: unset;">';
 
     // controllo se abilitare il checkbox
     if(check)
