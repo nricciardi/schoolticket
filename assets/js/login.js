@@ -34,6 +34,14 @@ $(document).ready(function() {
 
       });//end click function
 
+      $(document).keypress(function (e) {
+        var key = e.which;
+        if(key == 13)  {  // the enter key code
+          $("input[type=button]").click();
+          return false;  
+        }
+      });   
+
 
 });//end ready function
 		 
