@@ -151,9 +151,6 @@ function createTableCategoria() {
     feedback_table_management_categoria.innerText = "Sto caricando la tabella...";
     feedback_table_management_categoria.style.color = "#ededed";
 
-    // elimino gli elementi esistenti
-    body_table_categoria.innerHTML = "";
-
     // effettuo la chiamata
     $.ajax({
         url: HOSTNAME + "/api/categorie.php",
@@ -164,6 +161,9 @@ function createTableCategoria() {
         dataType: "json",
         success: (res) => {
             console.log(res);
+			
+			// elimino gli elementi esistenti
+			body_table_categoria.innerHTML = "";
             // verifico che la siano stati restituiti correttamente i dati
             if(res.result === false) {
 
