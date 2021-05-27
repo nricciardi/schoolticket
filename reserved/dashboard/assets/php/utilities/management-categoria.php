@@ -45,18 +45,14 @@
                     <tr>
                         <th>
                             <label class="au-checkbox">
-                                <input type="checkbox" id="general_checkbox">
+                                <input type="checkbox" id="general_checkbox_categoria">
                                 <span class="au-checkmark"></span>
                             </label>
                         </th>
-                        <!-- Predisposizione IdUtente: <th>Id utente</th> --> 
+                        <!-- Predisposizione IdCategoria: <th>Id categoria</th> --> 
                         <th>Nome</th>
                         <th>Descrizione</th>
-                        <!--<th>Email</th>
-                        <th>Password</th>
-                        <th>Categoria</th>
-                        <th>Permessi</th>-->
-                        <th>Azioni</th>
+                        <th>Registrabile</th>
                     </tr>
                 </thead>
                 <tbody id="body_table_categoria">

@@ -1089,7 +1089,7 @@ btn_show_categorie.addEventListener("click", () => {
 
     hideAllDynamicPage();
 
-    // creo la tabella degli utenti
+    // creo la tabella delle categorie
     createTableCategoria();
 
     div_management_categoria.style.display = "";
@@ -1104,7 +1104,7 @@ btn_show_categorie2.addEventListener("click", () => {
 
     hideAllDynamicPage();
 
-    // creo la tabella degli utenti
+    // creo la tabella delle categorie
     createTableCategoria();
 
     div_management_categoria.style.display = "";

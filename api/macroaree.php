@@ -39,7 +39,7 @@
             
             $query = "SELECT * FROM schoolticket.macroarea";     // creo la query per prelevare i tutti macroarea
             
-            if($idMacroarea === null) {      // se il parametro è null non viene richiesto un macroarea specifico, restituisco tutte le aule
+            if($idMacroarea === null) {      // se il parametro è null non viene richiesto un macroarea specifico, restituisco tutte le macroaree
 
                 $st = $this->PDOconn->prepare($query);
                 $result = $st->execute();
@@ -84,10 +84,10 @@
                 // creo la stringa di output
                 $r = '{"result":';
                 $r .= $temp;
-                $r .= ', "description":"Sono state prelevate le aule"}';
+                $r .= ', "description":"Sono state prelevate le macroaree"}';
 
             } else {        // in caso di errore della query
-                $r = '{"result":false, "description":"Riscontrato un problema nel recupero delle aule"}';
+                $r = '{"result":false, "description":"Riscontrato un problema nel recupero delle macroaree"}';
             }
 
             // restituisco il risultato
@@ -242,7 +242,7 @@
             if(!isset($macroarea->IdMacroarea) || $this->exist($macroarea->IdMacroarea) === false)   // se l'id passato non esiste, creo il macroarea
                 return $this->create($macroarea, $credenziali);
         
-            // creo la query per eliminare tutte le aule
+            // creo la query per eliminare tutte le macroree
             $query = "UPDATE schoolticket.macroarea SET";
             $array_values = array();
 
