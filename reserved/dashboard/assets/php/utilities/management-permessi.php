@@ -68,8 +68,6 @@
                     </tr>
                 </thead>
                 <tbody id="body_table_permessi">
-                   
-				   
                 </tbody>
                 <tfoot id="foot_table_permessi">
                     <tr class="spacer"></tr>
