@@ -39,7 +39,7 @@ function createRecordPermessi(permessi) {   //User è un oggetto contenente le i
 
     // record che sarà restituito
     let record = "";
-
+    console.log(permessi);
     // inserisco la parte del CHECKBOX del record (tr)
     record += '<tr class="tr-shadow" id="recordUser' + permessi.IdPermessi + '">'; // inserisco il tag di apertura
 
@@ -53,7 +53,7 @@ function createRecordPermessi(permessi) {   //User è un oggetto contenente le i
     // Predisposizione IdUtente: record += '<td>' + user.IdUtente + '</td>';
 
     // inserisco il descrizione
-    record += '<td id="descrizionePermessi' + permessi.IdPermessi + '">' + permessi.descrizione + '</td>';
+    record += '<td id="descrizionePermessi' + permessi.IdPermessi + '">' + permessi.Descrizione + '</td>';
 
     // inserisco il ModificaVisualizzaTuttiUtenti
     record += '<td id="ModificaVisualizzaTuttiUtentiPermessi' + permessi.IdPermessi + '" data-ModificaVisualizzaTuttiUtenti="' + permessi.ModificaVisualizzaTuttiUtenti + '">' + permessi.ModificaVisualizzaTuttiUtenti + '</td>';
@@ -99,10 +99,10 @@ function createRecordPermessi(permessi) {   //User è un oggetto contenente le i
 
     // inserisco i bottoni per le diverse azioni
     record += '<td id="td_action_permessiID_' + permessi.IdPermessi + '"> <div class="table-data-feature">';
-    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Send" id="sendPermessi' + permessi.IdPermessi + '" onclick="requestActionPermessi(\'send\', ' + permessi.IdPermessi + ')">    <i class="zmdi zmdi-mail-send"></i> </button>';        // tasto SEND
+    //record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Send" id="sendPermessi' + permessi.IdPermessi + '" onclick="requestActionPermessi(\'send\', ' + permessi.IdPermessi + ')">    <i class="zmdi zmdi-mail-send"></i> </button>';        // tasto SEND
     record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Edit" id="editPermessi' + permessi.IdPermessi + '" onclick="requestActionPermessi(\'edit\', ' + permessi.IdPermessi+ ')">    <i class="zmdi zmdi-edit"></i>  </button>';            // tasto EDIT
     record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Delete" id="deletePermessi' + permessi.IdPermessi + '" onclick="requestActionPermessi(\'delete\', ' + permessi.IdPermessi + ')">  <i class="zmdi zmdi-delete"></i>    </button>';    // tasto DELETE
-    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="More" id="morePermessi' + permessi.IdPermessi + '" onclick="requestActionPermessi(\'more\', ' + permessi.IdPermessi + ')">    <i class="zmdi zmdi-more"></i>  </button>';       // tasto MORE
+    //record += '<button class="item" data-toggle="tooltip" data-placement="top" title="More" id="morePermessi' + permessi.IdPermessi + '" onclick="requestActionPermessi(\'more\', ' + permessi.IdPermessi + ')">    <i class="zmdi zmdi-more"></i>  </button>';       // tasto MORE
     record += '</div>   </td>   </tr>';
 
     // inserisco il record di spaziatura
@@ -248,8 +248,8 @@ function addPermessi() {
     console.log("Aggiungo un permesso");
 
     // controllo che tutti i controlli siano andati a buon fine
-    if(!check_form_new_permessi)
-        return false;
+    /*if(!check_form_new_permessi)
+        return false;*/
 
     // creo l'oggetto data da mandare in post
     let data = {"Submit": "create",
@@ -277,6 +277,9 @@ function addPermessi() {
         type: "post",
         data: data,
         dataType: "json",
+		      headers:{
+					'Authorization':'Basic ' + btoa(USER.Email + ":" + USER.Password)
+				},
         success: (res) => {
 
             console.log(res);
@@ -336,9 +339,12 @@ function editPermessi(ID) {   // può anche essere passato un array
     $.ajax({
 
         url: HOSTNAME + "/api/permessi.php",
-        type: "post",
-        data: data,
+        type: "PUT",
+        data: JSON.stringify(data),
         dataType: "json",
+		    headers:{
+					'Authorization':'Basic ' + btoa(USER.Email + ":" + USER.Password)
+				    },
         success: (res) => {
 
             console.log(res);
@@ -376,20 +382,23 @@ function deletePermessi(ID) {   // può anche essere passato un array
     console.log("Elimino: " + ID);
 
     // creo l'oggetto data da mandare in post
-    let data = {"Submit": "delete", "Data": ID};
+    let data = {"id": ID};
 
     // effettuo la chiamata ajax
     $.ajax({
 
         url: HOSTNAME + "/api/permessi.php",
-        type: "post",
-        data: data,
+        type: "DELETE",
+        data: JSON.stringify(data),
+        headers: {
+          'Authorization': 'Basic ' + btoa(USER.Email + ':' + USER.Password)
+         },
         dataType: "json",
         success: (res) => {
 
             console.log(res);
             // verifico che la siano stati restituiti correttamente i dati
-            if(res.result === false) {
+            if(res.result === false){
 
                 // in caso di errore stampo un messaggio nel box al posto della tabella
                 feedback_table_management_permessi.innerText = res.description;
@@ -521,7 +530,7 @@ function createFormNewPermessi() {
     record += '</td>';
 
     // inserisco i bottoni per le diverse azioni
-    record += '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_permessi" onclick="addPermessi()" style="margin-left: 0.5vw; border-radius: 5%" disabled>' +   // aggiungo l'onclick per effettuare correttamente l'azione
+    record += '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_permessi" onclick="addPermessi()" style="margin-left: 0.5vw; border-radius: 5%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
         '<i class="far fa-check-circle"></i> Conferma' +
     '</button>' +
     '<button type="button" onclick="createTablePermessi()" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%">' +
@@ -653,7 +662,9 @@ function changeRecordPermessiToForm(ID) {
     descrizione = td_descrizione.innerText;     // recupero il valore del cognome
 
     // modifico la label in un input:text
-    td_descrizione.innerHTML = '<input type="text" placeholder="Descrizione" value="' + descrizione + 'class="form-control" id="editDescrizionePermessi">'
+    td_descrizione.innerHTML = '<input type="text" placeholder="Descrizione" value="' + descrizione + '" class="form-control" id="editDescrizionePermessi">'
+    // modifico la label in un input:text
+  //  td_nome.innerHTML = '<input type="text" placeholder="Nome" value="' + name + '" oninput="checkNewNomeAula(\'editNomeAula\')" class="form-control" id="editNomeAula">'
 
 
     // ModificaVisualizzaTuttiUtenti
@@ -705,7 +716,7 @@ function changeRecordPermessiToForm(ID) {
     CreaIncarico = td_CreaIncarico.dataset.CreaIncarico;     // recupero il valore del cognome
 
     td_CreaIncarico.innerHTML = '<select id="CreaIncarico" class="form-control"><option value = "0">0</option><option value = "1">1</option></select>';   // creo il select contenitore
-    document.getElementById("editCreaIncaricoPermessi").value = CreaIncarico;     // imposto il valore corrente
+    //document.getElementById("editCreaIncaricoPermessi").value = CreaIncarico;     // imposto il valore corrente
 
     let td_CreaModificaEliminaAula = document.getElementById("CreaModificaEliminaAulaPermessi" + ID);
     CreaModificaEliminaAula = td_CreaModificaEliminaAula.dataset.CreaModificaEliminaAula;     // recupero il valore del cognome
