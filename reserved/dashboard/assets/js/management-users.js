@@ -80,7 +80,6 @@ function createRecordUser(user) {   //User è un oggetto contenente le informazi
     // inserisco il record di spaziatura
     record += '<tr class="spacer"></tr>'
 
-
     // restituisco la stringa
     return record;
 }
@@ -164,8 +163,6 @@ function createTableUser() {
     feedback_table_management_user.innerText = "Sto caricando la tabella...";
     feedback_table_management_user.style.color = "#ededed";
     
-    // elimino gli elementi esistenti
-    body_table_users.innerHTML = "";
 
     // effettuo la chiamata
     $.ajax({
@@ -187,6 +184,9 @@ function createTableUser() {
                 let users = res.result;
 
                 console.log(res.description);
+
+                // elimino gli elementi esistenti
+                body_table_users.innerHTML = "";
 
                 // per ogni utente in users creo il codice HTML per il record
                 users.forEach((element) => {
