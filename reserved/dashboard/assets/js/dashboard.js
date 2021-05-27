@@ -78,6 +78,7 @@ var btn_show_account2 = document.getElementById("btn_show_account2");
 var div_form_show_account = document.getElementById("div_form_show_account");
 
 // bottone del sotto menù gestione: btn_show_user
+var btn_show_user = document.getElementById("btn_show_user");
 var btn_show_user2 = document.getElementById("btn_show_user_2");
 
 // bottone del sotto menù gestione: btn_show_permessi
