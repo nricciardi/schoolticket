@@ -58,39 +58,40 @@ function createRecordTicket(ticket) {   //ticket è un oggetto contenente le inf
     // Predisposizione IdTicket: record += '<td>' + ticket.IdTicket + '</td>';
 
     // inserisco il NOME
-    record += '<td id="nomeTicket>' + ticket.IdTicket + '<" data-nome="' + ticket.Nome + '">'+ cutString(ticket.Nome, 10);
+    record += '<td id="nomeTicket' + ticket.IdTicket + '" data-nome="' + ticket.Nome + '">'+ cutString(ticket.Nome, 10);
 
     // inserisco la DESCRIZIONE
-    record += '<td id="descrizioneTicket>' + ticket.IdTicket + '<" data-descrizioneTicket="' + ticket.Descrizione + '">'+ cutString(ticket.Descrizione, 10);
+    record += '<td id="descrizioneTicket' + ticket.IdTicket + '" data-descrizioneTicket="' + ticket.Descrizione + '">'+ cutString(ticket.Descrizione, 10);
 
     // inserisco l'IMMAGINE
-    record += '<td id="immagineTicket>' + ticket.IdTicket + '<" data-immagineTicket="' + ticket.Immagine + '">'+ cutString(ticket.Immagine, 10);
+    record += '<td id="immagineTicket' + ticket.IdTicket + '" data-immagineTicket="' + ticket.Immagine + '">'+ cutString(ticket.Immagine, 10);
 
     // inserisco la STATO DI AVANZAMENTO
-    record += '<td id="statodiavanzamentoTicket>' + ticket.IdTicket + '<" data-statodiavanzamentoTicket="' + ticket.StatoDiAvanzamento + '">'+ cutString(ticket.StatoDiAvanzamento, 10);
+    record += '<td id="statodiavanzamentoTicket' + ticket.IdTicket + '" data-statodiavanzamentoTicket="' + ticket.StatoDiAvanzamento + '">'+ cutString(ticket.StatoDiAvanzamento, 10);
 
     // inserisco la PRIORITA'
-	 record += '<td id="prioritaTicket>' + ticket.IdTicket + '<" data-prioritaTicket="' + ticket.Priorità + '">'+ cutString(ticket.Priorità, 10);
+	 record += '<td id="prioritaTicket' + ticket.IdTicket + '" data-prioritaTicket="' + ticket.Priorità + '">'+ cutString(ticket.Priorità, 10);
 
     // inserisco la DATA
-    record += '<td id="dataTicket>' + ticket.IdTicket + '<" data-dataTicket="' + ticket.Data + '">'+ cutString(ticket.Data, 10);
+    record += '<td id="dataTicket' + ticket.IdTicket + '" data-dataTicket="' + ticket.Data + '">'+ cutString(ticket.Data, 10);
 
 	// inserisco ORA
-    record += '<td id="oraTicket>' + ticket.IdTicket + '<" data-oraTicket="' + ticket.Ora + '">'+ cutString(ticket.Ora, 10);
+    record += '<td id="oraTicket' + ticket.IdTicket + '" data-oraTicket="' + ticket.Ora + '">'+ cutString(ticket.Ora, 10);
 
 	// inserisco IDMACROAREA
     record += '<td id="macroareaTicket' + ticket.IdTicket + '" data-macroarea="' + ticket.Macroarea.IdMacroarea + '">' + cutString(ticket.Macroarea.Nome, 10); // + ' - ' + cutString(ticket.Macroarea.Descrizione, 10) + '</td>';
 
 	// inserisco IDUTENTE
-    record += '<td id="utenteTicket>' + ticket.IdTicket + '<" data-utente="'+ ticket.Utente.IdUtente + '">'+ cutString(ticket.Utente.Email, 10);
+    record += '<td id="utenteTicket' + ticket.IdTicket + '" data-utente="'+ ticket.Utente.IdUtente + '">'+ cutString(ticket.Utente.Email, 10);
 
 	// inserisco IDAULA
-    record += '<td id="aulaTicket>' + ticket.IdTicket + '<" data-utente="'+ ticket.Aula.IdAula + '">'+ cutString(ticket.Aula.Nome, 10);
-	
+    record += '<td id="aulaTicket' + ticket.IdTicket + '" data-utente="'+ ticket.Aula.IdAula + '">'+ cutString(ticket.Aula.Nome, 10);
+
 	// inserisco IDUNIONE
-    record += '<td id="unioneTicket>' + ticket.IdTicket + '<" data-utente="'+ ticket.IdUnione + '">'+ cutString(ticket.IdUnione, 10);
-	 
-	 
+    record += '<td id="unioneTicket' + ticket.IdTicket + '" data-utente="'+ ticket.IdUnione + '">'+ cutString(ticket.IdUnione, 10);
+
+		// inserisco VISUALIZZATO
+      record += '<td id="visualizzatoTicket' + ticket.IdTicket + '" data-visualizzato="'+ ticket.Visualizzato + '">'+ cutString(ticket.IdUnione, 10);
 	// inserisco IDUNIONE
 		if(ticket.IdUnione == ""){
 			var y = "N/D";
@@ -110,7 +111,7 @@ function createRecordTicket(ticket) {   //ticket è un oggetto contenente le inf
     // inserisco i bottoni per le diverse azioni
     record += '<td id="td_action_ticketId_' + ticket.IdTicket + '"> <div class="table-data-feature">';
     record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Send" id="send' + ticket.IdTicket + '" onclick="requestActionTicket(\'send\', ' + ticket.IdTicket + ')">    <i class="zmdi zmdi-mail-send"></i> </button>';        // tasto SEND
-    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Edit" id="edit' + ticket.IdTicket + '" onclick="requestActionTicket(\'edit\', ' + ticket.IdTicket + ')">    <i class="zmdi zmdi-edit"></i>  </button>';            // tasto EDIT
+		record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Edit" id="edit' + ticket.IdTicket + '" onclick="requestActionTicket(\'edit\', ' + ticket.IdTicket + ')">    <i class="zmdi zmdi-edit"></i>  </button>';            // tasto EDIT
     record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Delete" id="delete' + ticket.IdTicket + '" onclick="requestActionTicket(\'delete\', ' + ticket.IdTicket + ')">  <i class="zmdi zmdi-delete"></i>    </button>';    // tasto DELETE
     record += '<button class="item" data-toggle="tooltip" data-placement="top" title="More" id="more' + ticket.IdTicket + '" onclick="requestActionTicket(\'more\', ' + ticket.IdTicket + ')">    <i class="zmdi zmdi-more"></i>  </button>';       // tasto MORE
     record += '</div>   </td>   </tr>';
@@ -132,8 +133,8 @@ function requestActionTicket(type, ID) {      // passo il tipo di richiesta che 
             break;
 
         case "edit":
-				
-				
+
+
             changeRecordTicketToForm(ID);
             break;
 
@@ -313,13 +314,13 @@ function editTicket(ID) {   // può anche essere passato un array
     console.log("Modifico: " + ID);
 
     // creo l'oggetto data da mandare in post
-    let data = {"Submit": "Update", "IdCategoria": document.getElementById("editCategoriaTicket").value, "IdPermessi": document.getElementById("editCategoriaTicket").value};
-
+    //let data = {"Submit": "Update", "IdCategoria": document.getElementById("editCategoriaTicket").value, "IdPermessi": document.getElementById("editCategoriaTicket").value};
+		let data = {"IdTicket": ID, "Nome": document.getElementById("editName").value, "Descrizione": document.getElementById("editDescrizione").value, "Immagine": document.getElementById("editImmagine").value, "StatoDiAvanzamento": document.getElementById("editStatodiavanzamento").value, "Priorita": document.getElementById("editPriorita").value, "Data": document.getElementById("editData").value, "Ora": document.getElementById("editOra").value, "IdMacroarea": document.getElementById("editMacroareaTicket").value, "IdUtente": document.getElementById("editUtenteTicket").value, "IdAula": document.getElementById("editAula").value, "IdUnione": document.getElementById("editUnioneTicket").value, "Visualizzato": document.getElementById("editV").value};
     // effettuo la chiamata ajax
     $.ajax({
 
-        url: HOSTNAME + "/assets/php/authentication/Authentication.php",
-        type: "post",
+        url: HOSTNAME + "/assets/php/issues/Ticket.php",
+        type: "PUT",
         data: data,
         dataType: "json",
         success: (res) => {
@@ -568,18 +569,18 @@ function checkNewImmagineTicket(ID = "newImmagineTicket") {
       check_new_immagine_ticket = true;
       document.getElementById(ID).style.borderColor = correct_data;
     }
-	 
+
     // controllo se posso abilitare il bottone di conferma
     checkFormNewTicket();
 }
 
 function checkNewStatoDiAvanzamentoTicket(ID = "newStatoTicket") {
    // controllo che sia aggiunto almeno un valore per il cognome
-   if(document.getElementById(ID).value.trim() == "") 
+   if(document.getElementById(ID).value.trim() == "")
 	{
       document.getElementById(ID).style.borderColor = error_data;
       check_new_stato_ticket = false;
-   } 
+   }
 	else
 	{
       check_new_stato_ticket = true;
@@ -591,7 +592,7 @@ function checkNewStatoDiAvanzamentoTicket(ID = "newStatoTicket") {
 
 function checkNewPrioritaTicket(ID = "newPrioritaTicket") {
    // controllo che sia aggiunto almeno un valore per il cognome
-   if(document.getElementById(ID).value.trim() == "") 
+   if(document.getElementById(ID).value.trim() == "")
 	{
       document.getElementById(ID).style.borderColor = error_data;
       check_new_priorita_ticket = false;
@@ -607,7 +608,7 @@ function checkNewPrioritaTicket(ID = "newPrioritaTicket") {
 
 function checkNewDataTicket(ID = "newDataTicket") {
    // controllo che sia aggiunto almeno un valore per il cognome
-   if(document.getElementById(ID).value.trim() == "") 
+   if(document.getElementById(ID).value.trim() == "")
 	{
       document.getElementById(ID).style.borderColor = error_data;
       check_new_data_ticket = false;
@@ -623,7 +624,7 @@ function checkNewDataTicket(ID = "newDataTicket") {
 
 function checkNewOraTicket(ID = "newOraTicket") {
    // controllo che sia aggiunto almeno un valore per il cognome
-   if(document.getElementById(ID).value.trim() == "") 
+   if(document.getElementById(ID).value.trim() == "")
 	{
       document.getElementById(ID).style.borderColor = error_data;
       check_new_ora_ticket = false;
@@ -631,6 +632,22 @@ function checkNewOraTicket(ID = "newOraTicket") {
 	else
 	{
       check_new_ora_ticket = true;
+      document.getElementById(ID).style.borderColor = correct_data;
+   }
+    // controllo se posso abilitare il bottone di conferma
+    checkFormNewTicket();
+}
+
+function checkNewVisualizzatoTicket(ID = "newVisualizzatoTicket") {
+   // controllo che sia aggiunto almeno un valore per il cognome
+   if(document.getElementById(ID).value.trim() == "")
+	{
+      document.getElementById(ID).style.borderColor = error_data;
+      check_new_visualizzato_ticket = false;
+   }
+	else
+	{
+      check_new_visualizzato_ticket = true;
       document.getElementById(ID).style.borderColor = correct_data;
    }
     // controllo se posso abilitare il bottone di conferma
@@ -684,10 +701,10 @@ function changeRecordTicketToForm(ID) {
     removeForm("form_new_ticket");
 
     // DEPRECATI
-	 
+
     // NOME
     // recupero la referenza del cognome del record della tabella tramite ID
-    let td_name = document.getElementById("nameTicket" + ID);
+    let td_name = document.getElementById("nomeTicket" + ID);
     name = td_name.innerText;     // recupero il valore del cognome
 
     // modifico la label in un input:text
@@ -740,7 +757,7 @@ function changeRecordTicketToForm(ID) {
 
     // modifico la label in un input:text
     td_ora.innerHTML = '<input type="date" placeholder="Ora" value="' + ora + '" oninput="checkNewOraTicket(\'editOra\')" class="form-control" id="editOra">';
-	 
+
     // MACROAREA
     // recupero la referenza della macroarea del record della tabella tramite ID
     let td_macroarea = document.getElementById("macroareaTicket" + ID);
@@ -759,7 +776,7 @@ function changeRecordTicketToForm(ID) {
     addUtente(document.getElementById("editUtenteTicket"), feedback_table_management_ticket, 10);      // aggiungo le categorie
     document.getElementById("editUtenteTicket").value = utente;       // imposto il valore corrente
 
-	 // AULA 
+	 // AULA
     // recupero la referenza dell'aula del record della tabella tramite ID
     let td_aula = document.getElementById("aulaTicket" + ID);
     aula = td_aula.dataset.aula;     // recupero il valore del cognome
@@ -767,17 +784,21 @@ function changeRecordTicketToForm(ID) {
     td_aula.innerHTML = '<select id="editAulaTicket" class="form-control"></select>';   // creo il select contenitore
     addAula(document.getElementById("editAulaTicket"), feedback_table_management_ticket, 10);      // aggiungo le categorie
     document.getElementById("editAulaTicket").value = aula;       // imposto il valore corrente
-	 
-	 // UNIONE 
+
+	 // UNIONE
     // recupero la referenza dell'unione del record della tabella tramite ID
-    let td_unione = document.getElementById("aulaUnione" + ID);
+    let td_unione = document.getElementById("unioneTicket" + ID);
     unione = td_unione.dataset.unione;     // recupero il valore del cognome
 
     td_unione.innerHTML = '<select id="editUnioneTicket" class="form-control"></select>';   // creo il select contenitore
     addUnione(document.getElementById("editUnioneTicket"), feedback_table_management_ticket, 10);      // aggiungo le categorie
     document.getElementById("editUnioneTicket").value = unione;       // imposto il valore corrente
 
+		let td_visualizzato = document.getElementById("visualizzatoTicket" + ID);
+    visualizzato = td_visualizzato.innerText;     // recupero il valore del cognome
 
+    // modifico la label in un input:text
+    td_visualizzato.innerHTML = '<input type="number" placeholder="Visualizzato" value="' + visualizzato + '" oninput="checkNewVisualizzatoTicket(\'editVisualizzato\')" class="form-control" id="editVisualizzato">';
     // ACTION
     let td_action_ticketId = document.getElementById("td_action_ticketId_" + ID);
     td_action_ticketId.innerHTML = '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_ticket" onclick="editTicket(' + ID + ')" style="margin-left: 0.5vw; border-radius: 5%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
