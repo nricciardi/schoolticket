@@ -214,7 +214,7 @@ function createTableAula() {
 }
 
 // in base all'id passato cerco di creare una nuova aula
-async function addAula() {
+function addAula() {
     console.log("Aggiungo un'aula");
 
     // controllo che tutti i controlli siano andati a buon fine
@@ -257,7 +257,7 @@ async function addAula() {
             } else {
 
                 // in caso positivo creo la tabella per gli aula
-                await createTableAula();
+                createTableAula();
                 
             }
 
@@ -273,7 +273,7 @@ async function addAula() {
 }
 
 // in base all'id passato elimino l'aula
-async function editAula(ID) {   // può anche essere passato un array
+function editAula(ID) {   // può anche essere passato un array
     
     console.log("Modifico: " + ID);
 
@@ -308,7 +308,7 @@ async function editAula(ID) {   // può anche essere passato un array
             } else {
 
                 // in caso positivo creo la tabella per gli aula
-                await createTableAula();
+                createTableAula();
 
             }
 
@@ -324,7 +324,7 @@ async function editAula(ID) {   // può anche essere passato un array
 }
 
 // in base all'id passato elimino l'aula
-async function deleteAula(ID) {   // può anche essere passato un array
+function deleteAula(ID) {   // può anche essere passato un array
     
     console.log("Elimino: " + ID);
 
@@ -339,7 +339,7 @@ async function deleteAula(ID) {   // può anche essere passato un array
         data: JSON.stringify(data),
 		headers: {
 					'Authorization': 'Basic ' + btoa(USER.Email + ':' + USER.Password)
-				 },
+				},
         dataType: "json",
         success: (res) => {
 
@@ -354,7 +354,7 @@ async function deleteAula(ID) {   // può anche essere passato un array
             } else {
 
                 // in caso positivo creo la tabella per le aule
-                await createTableAula();
+                createTableAula();
 
             }
 
@@ -600,26 +600,26 @@ general_checkbox_aula.addEventListener("change", () => {
 });
 
 // aggiungo il form per l'aggiunta di una nuova aula
-form_add_aula.addEventListener("click", async () => {
+form_add_aula.addEventListener("click", () => {
 
     console.log("Aggiunto il form");
 
     // aggiungo il form all'inzio del codice già esistente
-    await createTableAula();
+    createTableAula();
     let actual_body = body_table_aula.innerHTML
     body_table_aula.innerHTML = createFormNewAula() + actual_body; 
 
 });
 
 // ricarico la tabella riaggiungendola al click del bottone di refresh
-btn_refresh_management_aula.addEventListener("click", async () => {
+btn_refresh_management_aula.addEventListener("click", () => {
 
     
 
     // disabilito il bottone per 3 secondi
     
     // creo la tabella
-    await createTableAula();
+    createTableAula();
 
     // disabilito il bottone
     btn_refresh_management_aula.disabled = true;

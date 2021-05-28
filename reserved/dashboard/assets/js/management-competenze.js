@@ -197,7 +197,7 @@ function createTableCompetenza() {
 }
 
 // in base all'id passato cerco di creare una nuova competenza
-async function addCompetenza() {
+function addCompetenza() {
     console.log("Aggiungo un'competenza");
 
     // controllo che tutti i controlli siano andati a buon fine
@@ -240,7 +240,7 @@ async function addCompetenza() {
             } else {
 
                 // in caso positivo creo la tabella per gli competenza
-                await createTableCompetenza();
+                createTableCompetenza();
                 
             }
 
@@ -256,7 +256,7 @@ async function addCompetenza() {
 }
 
 // in base all'id passato elimino l'competenza
-async function editCompetenza(ID) {   // può anche essere passato un array
+function editCompetenza(ID) {   // può anche essere passato un array
     
     console.log("Modifico: " + ID);
 
@@ -291,7 +291,7 @@ async function editCompetenza(ID) {   // può anche essere passato un array
             } else {
 
                 // in caso positivo creo la tabella per gli competenza
-                await createTableCompetenza();
+                createTableCompetenza();
 
             }
 
@@ -307,7 +307,7 @@ async function editCompetenza(ID) {   // può anche essere passato un array
 }
 
 // in base all'id passato elimino l'competenza
-async function deleteCompetenza(ID) {   // può anche essere passato un array
+function deleteCompetenza(ID) {   // può anche essere passato un array
     
     console.log("Elimino: " + ID);
 
@@ -322,7 +322,7 @@ async function deleteCompetenza(ID) {   // può anche essere passato un array
         data: JSON.stringify(data),
 		headers: {
 					'Authorization': 'Basic ' + btoa(USER.Email + ':' + USER.Password)
-				 },
+				},
         dataType: "json",
         success: (res) => {
 
@@ -337,7 +337,7 @@ async function deleteCompetenza(ID) {   // può anche essere passato un array
             } else {
 
                 // in caso positivo creo la tabella per le aule
-                await createTableCompetenza();
+                createTableCompetenza();
 
             }
 
@@ -560,26 +560,26 @@ general_checkbox_competenza.addEventListener("change", () => {
 });
 
 // aggiungo il form per l'aggiunta di una nuova aula
-form_add_competenza.addEventListener("click", async () => {
+form_add_competenza.addEventListener("click", () => {
 
     console.log("Aggiunto il form");
 
     // aggiungo il form all'inzio del codice già esistente
-    await createTableCompetenza();
+    createTableCompetenza();
     let actual_body = body_table_competenza.innerHTML
     body_table_competenza.innerHTML = createFormNewCompetenza() + actual_body; 
 
 });
 
 // ricarico la tabella riaggiungendola al click del bottone di refresh
-btn_refresh_management_competenza.addEventListener("click", async () => {
+btn_refresh_management_competenza.addEventListener("click", () => {
 
     
 
     // disabilito il bottone per 3 secondi
     
     // creo la tabella
-    await createTableCompetenza();
+    createTableCompetenza();
 
     // disabilito il bottone
     btn_refresh_management_competenza.disabled = true;

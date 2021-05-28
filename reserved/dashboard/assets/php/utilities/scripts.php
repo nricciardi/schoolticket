@@ -36,9 +36,5 @@
     <script src="assets/js/management-categoria.js"></script>
 	<script src="assets/js/management-aula.js"></script>
 	<script src="assets/js/management-macroarea.js"></script>
-<<<<<<< HEAD
-    <!--<script src="assets/js/management-permessi.js"></script> -->
-=======
     <script src="assets/js/management-permessi.js"></script>
 	<script src="assets/js/management-competenze.js"></script>
->>>>>>> 2147f0f4e3d26dfde14d8337f5cb54b610301b38

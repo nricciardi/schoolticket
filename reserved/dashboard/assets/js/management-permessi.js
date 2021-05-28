@@ -244,7 +244,7 @@ function createTablePermessi() {
 }
 
 // in base all'id passato cerco di creare un nuovo utente
-async function addPermessi() {
+function addPermesso() {
     console.log("Aggiungo un permesso");
 
     // controllo che tutti i controlli siano andati a buon fine
@@ -277,9 +277,9 @@ async function addPermessi() {
         type: "post",
         data: data,
         dataType: "json",
-		      headers:{
-					'Authorization':'Basic ' + btoa(USER.Email + ":" + USER.Password)
-				},
+        headers:{
+            'Authorization':'Basic ' + btoa(USER.Email + ":" + USER.Password)
+        },
         success: (res) => {
 
             console.log(res);
@@ -293,7 +293,7 @@ async function addPermessi() {
             } else {
 
                 // in caso positivo creo la tabella per gli utenti
-                await createTablePermessi();
+                createTablePermessi();
 
             }
 
@@ -312,7 +312,7 @@ async function addPermessi() {
 }
 
 // in base all'id passato elimino l'utente
-async function editPermessi(ID) {   // può anche essere passato un array
+function editPermessi(ID) {   // può anche essere passato un array
 
     console.log("Modifico: " + ID);
 
@@ -342,9 +342,9 @@ async function editPermessi(ID) {   // può anche essere passato un array
         type: "PUT",
         data: JSON.stringify(data),
         dataType: "json",
-		    headers:{
-					'Authorization':'Basic ' + btoa(USER.Email + ":" + USER.Password)
-				    },
+        headers:{
+                'Authorization':'Basic ' + btoa(USER.Email + ":" + USER.Password)
+                },
         success: (res) => {
 
             console.log(res);
@@ -358,7 +358,7 @@ async function editPermessi(ID) {   // può anche essere passato un array
             } else {
 
                 // in caso positivo creo la tabella per gli utenti
-                await createTablePermessi();
+                createTablePermessi();
 
             }
 
@@ -377,7 +377,7 @@ async function editPermessi(ID) {   // può anche essere passato un array
 }
 
 // in base all'id passato elimino l'utente
-async function deletePermessi(ID) {   // può anche essere passato un array
+function deletePermessi(ID) {   // può anche essere passato un array
 
     console.log("Elimino: " + ID);
 
@@ -391,8 +391,8 @@ async function deletePermessi(ID) {   // può anche essere passato un array
         type: "DELETE",
         data: JSON.stringify(data),
         headers: {
-          'Authorization': 'Basic ' + btoa(USER.Email + ':' + USER.Password)
-         },
+                    'Authorization': 'Basic ' + btoa(USER.Email + ':' + USER.Password)
+                },
         dataType: "json",
         success: (res) => {
 
@@ -407,7 +407,7 @@ async function deletePermessi(ID) {   // può anche essere passato un array
             } else {
 
                 // in caso positivo creo la tabella per gli utenti
-                await createTablePermessi();
+                createTablePermessi();
 
             }
 
@@ -530,7 +530,7 @@ function createFormNewPermessi() {
     record += '</td>';
 
     // inserisco i bottoni per le diverse azioni
-    record += '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_permessi" onclick="addPermessi()" style="margin-left: 0.5vw; border-radius: 5%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
+    record += '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_permessi" onclick="addPermesso()" style="margin-left: 0.5vw; border-radius: 5%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
         '<i class="far fa-check-circle"></i> Conferma' +
     '</button>' +
     '<button type="button" onclick="createTablePermessi()" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%">' +
@@ -840,14 +840,14 @@ form_add_permessi.addEventListener("click", async () => {
 });
 
 // ricarico la tabella riaggiungendola al click del bottone di refresh
-btn_refresh_management_permessi.addEventListener("click", async () => {
+btn_refresh_management_permessi.addEventListener("click", () => {
 
 
 
     // disabilito il bottone per 3 secondi
 
     // creo la tabella
-    await createTablePermessi();
+    createTablePermessi();
 
     // disabilito il bottone
     btn_refresh_management_permessi.disabled = true;

@@ -203,7 +203,7 @@ function createTableCategoria() {
 }
 
 // in base all'id passato cerco di creare una nuova categoria
-async function addCategoria() {
+function addCategoria() {
     console.log("Aggiungo una categoria");
 
     // controllo che tutti i controlli siano andati a buon fine
@@ -246,7 +246,7 @@ async function addCategoria() {
             } else {
 
                 // in caso positivo creo la tabella per gli categoria
-                await createTableCategoria();
+                createTableCategoria();
                 
             }
 
@@ -262,7 +262,7 @@ async function addCategoria() {
 }
 
 // in base all'id passato elimino l'categoria
-async function editCategoria(ID) {   // può anche essere passato un array
+function editCategoria(ID) {   // può anche essere passato un array
     
     console.log("Modifico: " + ID);
 
@@ -297,7 +297,7 @@ async function editCategoria(ID) {   // può anche essere passato un array
             } else {
 
                 // in caso positivo creo la tabella per gli categoria
-                await createTableCategoria();
+                createTableCategoria();
 
             }
 
@@ -313,7 +313,7 @@ async function editCategoria(ID) {   // può anche essere passato un array
 }
 
 // in base all'id passato elimino l'categoria
-async function deleteCategoria(ID) {   // può anche essere passato un array
+function deleteCategoria(ID) {   // può anche essere passato un array
     
     console.log("Elimino: " + ID);
 
@@ -328,7 +328,7 @@ async function deleteCategoria(ID) {   // può anche essere passato un array
         data: JSON.stringify(data),
 		headers: {
 					'Authorization': 'Basic ' + btoa(USER.Email + ':' + USER.Password)
-				 },
+				},
         dataType: "json",
         success: (res) => {
 
@@ -343,7 +343,7 @@ async function deleteCategoria(ID) {   // può anche essere passato un array
             } else {
 
                 // in caso positivo creo la tabella per le categorie
-                await createTableCategoria();
+                createTableCategoria();
 
             }
 
@@ -566,26 +566,26 @@ general_checkbox_categoria.addEventListener("change", () => {
 });
 
 // aggiungo il form per l'aggiunta di una nuova categoria
-form_add_categoria.addEventListener("click", async () => {
+form_add_categoria.addEventListener("click", () => {
 
     console.log("Aggiunto il form");
 
     // aggiungo il form all'inzio del codice già esistente
-    await createTableCategoria();
+    createTableCategoria();
     let actual_body = body_table_categoria.innerHTML
     body_table_categoria.innerHTML = createFormNewCategoria() + actual_body; 
 
 });
 
 // ricarico la tabella riaggiungendola al click del bottone di refresh
-btn_refresh_management_categoria.addEventListener("click", async () => {
+btn_refresh_management_categoria.addEventListener("click", () => {
 
     
 
     // disabilito il bottone per 3 secondi
     
     // creo la tabella
-    await createTableCategoria();
+    createTableCategoria();
 
     // disabilito il bottone
     btn_refresh_management_categoria.disabled = true;

@@ -277,7 +277,7 @@ function addTicket() {
         type: "post",
         data: data,
         dataType: "json",
-        success: async(res) => {
+        success: (res) => {
 
             console.log(res);
             // verifico che la siano stati restituiti correttamente i dati
@@ -290,7 +290,7 @@ function addTicket() {
             } else {
 
                 // in caso positivo creo la tabella per i ticket
-                await createTableTicket();
+                createTableTicket();
 
             }
 
@@ -323,7 +323,7 @@ function editTicket(ID) {   // può anche essere passato un array
         type: "PUT",
         data: data,
         dataType: "json",
-        success: async(res) => {
+        success: (res) => {
 
             console.log(res);
             // verifico che la siano stati restituiti correttamente i dati
@@ -336,7 +336,7 @@ function editTicket(ID) {   // può anche essere passato un array
             } else {
 
                 // in caso positivo creo la tabella per gli utenti
-                await createTableTicket();
+                createTableTicket();
 
             }
 
@@ -369,7 +369,7 @@ function deleteTicket(ID) {   // può anche essere passato un array
         type: "post",
         data: data,
         dataType: "json",
-        success: async(res) => {
+        success: (res) => {
 
             console.log(res);
             // verifico che la siano stati restituiti correttamente i dati
@@ -382,7 +382,7 @@ function deleteTicket(ID) {   // può anche essere passato un array
             } else {
 
                 // in caso positivo creo la tabella per gli utenti
-                await createTableTicket();
+                createTableTicket();
 
             }
 
@@ -894,12 +894,12 @@ general_checkbox_ticket.addEventListener("change", () => {
 });
 
 // aggiungo il form per l'aggiunta di un nuovo utente
-form_add_ticket.addEventListener("click", async() => {
+form_add_ticket.addEventListener("click", () => {
 
     console.log("Aggiunto il form");
 
     // aggiungo il form all'inzio del codice già esistente
-    await createTableTicket();
+    createTableTicket();
     let actual_body = body_table_tickets.innerHTML
     body_table_tickets.innerHTML = createFormNewTicket() + actual_body;
 
@@ -910,14 +910,14 @@ form_add_ticket.addEventListener("click", async() => {
 });
 
 // ricarico la tabella riaggiungendola al click del bottone di refresh
-btn_refresh_management_ticket.addEventListener("click", async() => {
+btn_refresh_management_ticket.addEventListener("click", () => {
 
 
 
     // disabilito il bottone per 3 secondi
 
     // creo la tabella
-    await createTableTicket();
+    createTableTicket();
 
     // disabilito il bottone
     btn_refresh_management_ticket.disabled = true;

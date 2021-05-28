@@ -213,7 +213,7 @@ async function createTableUser() {
 }
 
 // in base all'id passato cerco di creare un nuovo utente
-async function addUser() {
+function addUser() {
     console.log("Aggiungo un utente");
 
     // controllo che tutti i controlli siano andati a buon fine
@@ -243,7 +243,7 @@ async function addUser() {
             } else {
 
                 // in caso positivo creo la tabella per gli utenti
-                await createTableUser();
+                createTableUser();
 
                 // in caso di successo stampo un messaggio nel box al posto della tabella
                 feedback_table_management_user.innerText = res.description;
@@ -266,17 +266,14 @@ async function addUser() {
 }
 
 // in base all'id passato elimino l'utente
-<<<<<<< HEAD
 function editUser(ID) {   // può anche essere passato un array
-
-=======
-async function editUser(ID) {   // può anche essere passato un array
     
->>>>>>> d2be821f517990dc5e975a9aaeb983f24b8d935d
     console.log("Modifico: " + ID);
 
     // creo l'oggetto data da mandare in post
-    let data = {"IdUtente": ID, "IdCategoria": document.getElementById("editCategoriaUser").value, "IdPermessi": document.getElementById("editCategoriaUser").value};
+    let data = {"IdUtente": ID, "IdCategoria": document.getElementById("editCategoriaUser").value, "IdPermessi": document.getElementById("editPermessiUser").value};
+
+    //console.log(data);
 
     // effettuo la chiamata ajax
     $.ajax({
@@ -285,11 +282,11 @@ async function editUser(ID) {   // può anche essere passato un array
         type: "PUT",
         data: JSON.stringify(data),
         dataType: "json",
-        success: async (res) => {
+        success: (res) => {
 
             console.log(res);
             // verifico che la siano stati restituiti correttamente i dati
-            if(res.result === false) {
+            if(res.result == false) {
 
                 // in caso di errore stampo un messaggio nel box al posto della tabella
                 feedback_table_management_user.innerText = res.description;
@@ -298,7 +295,10 @@ async function editUser(ID) {   // può anche essere passato un array
             } else {
 
                 // in caso positivo creo la tabella per gli utenti
-                await createTableUser();
+                createTableUser();
+
+                feedback_table_management_user.innerText = res.description;
+                feedback_table_management_user.style.color = correct_data;
 
             }
 
@@ -317,13 +317,8 @@ async function editUser(ID) {   // può anche essere passato un array
 }
 
 // in base all'id passato elimino l'utente
-<<<<<<< HEAD
 function deleteUser(ID) {   // può anche essere passato un array
-
-=======
-async function deleteUser(ID) {   // può anche essere passato un array
     
->>>>>>> d2be821f517990dc5e975a9aaeb983f24b8d935d
     console.log("Elimino: " + ID);
 
     // creo l'oggetto data da mandare in post
@@ -349,7 +344,10 @@ async function deleteUser(ID) {   // può anche essere passato un array
             } else {
 
                 // in caso positivo creo la tabella per gli utenti
-                await createTableUser();
+                createTableUser();
+
+                feedback_table_management_user.innerText = res.description;
+                feedback_table_management_user.style.color = correct_data;
 
             }
 
@@ -709,14 +707,14 @@ form_add_user.addEventListener("click", async () => {
 });
 
 // ricarico la tabella riaggiungendola al click del bottone di refresh
-btn_refresh_management_user.addEventListener("click", async () => {
+btn_refresh_management_user.addEventListener("click", () => {
 
 
 
     // disabilito il bottone per 3 secondi
 
     // creo la tabella
-    await createTableUser();
+    createTableUser();
 
     // disabilito il bottone
     btn_refresh_management_user.disabled = true;
