@@ -203,7 +203,7 @@ function createTableCategoria() {
 }
 
 // in base all'id passato cerco di creare una nuova categoria
-function addCategoria() {
+async function addCategoria() {
     console.log("Aggiungo una categoria");
 
     // controllo che tutti i controlli siano andati a buon fine
@@ -246,7 +246,7 @@ function addCategoria() {
             } else {
 
                 // in caso positivo creo la tabella per gli categoria
-                createTableCategoria();
+                await createTableCategoria();
                 
             }
 
@@ -262,7 +262,7 @@ function addCategoria() {
 }
 
 // in base all'id passato elimino l'categoria
-function editCategoria(ID) {   // può anche essere passato un array
+async function editCategoria(ID) {   // può anche essere passato un array
     
     console.log("Modifico: " + ID);
 
@@ -297,7 +297,7 @@ function editCategoria(ID) {   // può anche essere passato un array
             } else {
 
                 // in caso positivo creo la tabella per gli categoria
-                createTableCategoria();
+                await createTableCategoria();
 
             }
 
@@ -313,7 +313,7 @@ function editCategoria(ID) {   // può anche essere passato un array
 }
 
 // in base all'id passato elimino l'categoria
-function deleteCategoria(ID) {   // può anche essere passato un array
+async function deleteCategoria(ID) {   // può anche essere passato un array
     
     console.log("Elimino: " + ID);
 
@@ -343,7 +343,7 @@ function deleteCategoria(ID) {   // può anche essere passato un array
             } else {
 
                 // in caso positivo creo la tabella per le categorie
-                createTableCategoria();
+                await createTableCategoria();
 
             }
 
@@ -566,26 +566,26 @@ general_checkbox_categoria.addEventListener("change", () => {
 });
 
 // aggiungo il form per l'aggiunta di una nuova categoria
-form_add_categoria.addEventListener("click", () => {
+form_add_categoria.addEventListener("click", async () => {
 
     console.log("Aggiunto il form");
 
     // aggiungo il form all'inzio del codice già esistente
-    createTableCategoria();
+    await createTableCategoria();
     let actual_body = body_table_categoria.innerHTML
     body_table_categoria.innerHTML = createFormNewCategoria() + actual_body; 
 
 });
 
 // ricarico la tabella riaggiungendola al click del bottone di refresh
-btn_refresh_management_categoria.addEventListener("click", () => {
+btn_refresh_management_categoria.addEventListener("click", async () => {
 
     
 
     // disabilito il bottone per 3 secondi
     
     // creo la tabella
-    createTableCategoria();
+    await createTableCategoria();
 
     // disabilito il bottone
     btn_refresh_management_categoria.disabled = true;

@@ -214,7 +214,7 @@ function createTableAula() {
 }
 
 // in base all'id passato cerco di creare una nuova aula
-function addAula() {
+async function addAula() {
     console.log("Aggiungo un'aula");
 
     // controllo che tutti i controlli siano andati a buon fine
@@ -257,7 +257,7 @@ function addAula() {
             } else {
 
                 // in caso positivo creo la tabella per gli aula
-                createTableAula();
+                await createTableAula();
                 
             }
 
@@ -273,7 +273,7 @@ function addAula() {
 }
 
 // in base all'id passato elimino l'aula
-function editAula(ID) {   // può anche essere passato un array
+async function editAula(ID) {   // può anche essere passato un array
     
     console.log("Modifico: " + ID);
 
@@ -308,7 +308,7 @@ function editAula(ID) {   // può anche essere passato un array
             } else {
 
                 // in caso positivo creo la tabella per gli aula
-                createTableAula();
+                await createTableAula();
 
             }
 
@@ -324,7 +324,7 @@ function editAula(ID) {   // può anche essere passato un array
 }
 
 // in base all'id passato elimino l'aula
-function deleteAula(ID) {   // può anche essere passato un array
+async function deleteAula(ID) {   // può anche essere passato un array
     
     console.log("Elimino: " + ID);
 
@@ -354,7 +354,7 @@ function deleteAula(ID) {   // può anche essere passato un array
             } else {
 
                 // in caso positivo creo la tabella per le aule
-                createTableAula();
+                await createTableAula();
 
             }
 
@@ -600,26 +600,26 @@ general_checkbox_aula.addEventListener("change", () => {
 });
 
 // aggiungo il form per l'aggiunta di una nuova aula
-form_add_aula.addEventListener("click", () => {
+form_add_aula.addEventListener("click", async () => {
 
     console.log("Aggiunto il form");
 
     // aggiungo il form all'inzio del codice già esistente
-    createTableAula();
+    await createTableAula();
     let actual_body = body_table_aula.innerHTML
     body_table_aula.innerHTML = createFormNewAula() + actual_body; 
 
 });
 
 // ricarico la tabella riaggiungendola al click del bottone di refresh
-btn_refresh_management_aula.addEventListener("click", () => {
+btn_refresh_management_aula.addEventListener("click", async () => {
 
     
 
     // disabilito il bottone per 3 secondi
     
     // creo la tabella
-    createTableAula();
+    await createTableAula();
 
     // disabilito il bottone
     btn_refresh_management_aula.disabled = true;

@@ -213,7 +213,7 @@ function createTableUser() {
 }
 
 // in base all'id passato cerco di creare un nuovo utente
-function addUser() {
+async function addUser() {
     console.log("Aggiungo un utente");
 
     // controllo che tutti i controlli siano andati a buon fine
@@ -243,7 +243,7 @@ function addUser() {
             } else {
 
                 // in caso positivo creo la tabella per gli utenti
-                createTableUser();
+                await createTableUser();
 
                 // in caso di successo stampo un messaggio nel box al posto della tabella
                 feedback_table_management_user.innerText = res.description;
@@ -266,8 +266,13 @@ function addUser() {
 }
 
 // in base all'id passato elimino l'utente
+<<<<<<< HEAD
 function editUser(ID) {   // può anche essere passato un array
 
+=======
+async function editUser(ID) {   // può anche essere passato un array
+    
+>>>>>>> d2be821f517990dc5e975a9aaeb983f24b8d935d
     console.log("Modifico: " + ID);
 
     // creo l'oggetto data da mandare in post
@@ -293,7 +298,7 @@ function editUser(ID) {   // può anche essere passato un array
             } else {
 
                 // in caso positivo creo la tabella per gli utenti
-                createTableUser();
+                await createTableUser();
 
             }
 
@@ -312,8 +317,13 @@ function editUser(ID) {   // può anche essere passato un array
 }
 
 // in base all'id passato elimino l'utente
+<<<<<<< HEAD
 function deleteUser(ID) {   // può anche essere passato un array
 
+=======
+async function deleteUser(ID) {   // può anche essere passato un array
+    
+>>>>>>> d2be821f517990dc5e975a9aaeb983f24b8d935d
     console.log("Elimino: " + ID);
 
     // creo l'oggetto data da mandare in post
@@ -339,7 +349,7 @@ function deleteUser(ID) {   // può anche essere passato un array
             } else {
 
                 // in caso positivo creo la tabella per gli utenti
-                createTableUser();
+                await createTableUser();
 
             }
 
@@ -684,12 +694,12 @@ general_checkbox_users.addEventListener("change", () => {
 });
 
 // aggiungo il form per l'aggiunta di un nuovo utente
-form_add_user.addEventListener("click", () => {
+form_add_user.addEventListener("click", async () => {
 
     console.log("Aggiunto il form");
 
     // aggiungo il form all'inzio del codice già esistente
-    createTableUser();
+    await createTableUser();
     let actual_body = body_table_users.innerHTML
     body_table_users.innerHTML = createFormNewUser() + actual_body;
 
@@ -699,14 +709,14 @@ form_add_user.addEventListener("click", () => {
 });
 
 // ricarico la tabella riaggiungendola al click del bottone di refresh
-btn_refresh_management_user.addEventListener("click", () => {
+btn_refresh_management_user.addEventListener("click", async () => {
 
 
 
     // disabilito il bottone per 3 secondi
 
     // creo la tabella
-    createTableUser();
+    await createTableUser();
 
     // disabilito il bottone
     btn_refresh_management_user.disabled = true;
