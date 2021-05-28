@@ -50,14 +50,19 @@
 		$headers .= "MIME-Version: 1.0\r\n";
 		$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 
-		
-		//se email corretto echo True altrimenti echo false
-		if(mail($emailTo, $subject, $message, $headers))
-			$msg = '{"result":true, "description":"Email inviata correttamente"}';
-		else
-			$msg = '{"result":false, "description":"Email non inviata correttamente"}';
+		try {
+			//se email corretto echo True altrimenti echo false
+			if(mail($emailTo, $subject, $message, $headers))
+				$msg = '{"result":true, "description":"Email inviata correttamente"}';
+			else
+				$msg = '{"result":false, "description":"Email non inviata correttamente"}';
 
-		return $msg;
+			return $msg;
+		} catch(Exception $error) {
+
+			return '{"result":false, "description":"Email non inviata correttamente"}';
+
+		}
 
 		
 		//var_dump($_POST);
