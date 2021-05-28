@@ -23,6 +23,9 @@ var AULE = null;
 // variabile contenente l'utente loggato
 var USER = null;
 
+// variabile contenente tutti gli utenti
+var ALL_USERS = null
+
 // - Dato errato
 var error_data = "#ff5757";
 var error_background = "#ffeded";
@@ -184,6 +187,9 @@ async function init() {
 
     // imposto l'utente loggato attraverso una chiamata ajax
     await set_user();
+
+    // imposto gli utenti prelevati dal database attraverso una chiamata ajax
+    await set_allUsers();
 
     // imposto le classi attraverso una chiamata ajax
 	await set_classrooms();
@@ -464,6 +470,37 @@ function addClassroom(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
     }
 }
 
+// aggiungo gli utenti al form
+function addAllUsers(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
+    input.innerHTML = "";
+
+    // recupero le classi attraverso una chiamata ajax
+    //console.log("macroaree: ");
+    //console.log(MACROAREE);
+
+    // per ogni macroarea creo un option e la aggiungo alla select-box
+    if(ALL_USERS !== null) {
+        ALL_USERS.forEach(element => {
+            //console.log(element);
+            // creo l'elemento option
+            let option = document.createElement("option");
+            // inserisco il value nell'option
+            option.value = element.IdAula;
+            // inserisco il testo nell'option
+            let text = cutString(element.Email, n_char_max_to_print);
+            if (element.Descrizione !== null)       // se è presente una descrizione la inserisco
+                text += " - " + cutString(element.Nome, n_char_max_to_print);
+            option.text = text;
+            // inserisco l'oggetto option
+            input.appendChild(option);
+
+        });
+    } else {
+        // errore
+        result.style.color = error_data;
+        result.innerHTML = "Errore nella richiesta delle aule, riprovare più tardi o contattare l'assistenza.";
+    }
+}
 
 /*
 // aggiungo le categorie al form
@@ -781,6 +818,37 @@ async function set_user() {
 
 }
 
+// imposto l'utente loggato come oggetto
+async function set_allUsers() {
+
+    ALL_USERS = null;
+
+    await $.ajax({
+        url: HOSTNAME + '/assets/php/authentication/Authentication.php',
+        type: 'GET',
+        dataType: "text",
+        success: function( data, textStatus, jQxhr ){
+            console.debug("set ALL_USERS");
+            //console.log("user setted");
+            //console.log(data);
+            //console.log(JSON.parse(data));
+
+            // controllo che nono abbia restituito errore
+            if(JSON.parse(data).result == false) {
+                ALL_USERS = null;
+            } else {
+                ALL_USERS = JSON.parse(data).result;
+            }
+
+
+
+
+        }
+    });
+
+    //console.debug("end set user");
+
+}
 
 // funzione per inviare i dati tramite ajax
 async function set_macroaree() {
