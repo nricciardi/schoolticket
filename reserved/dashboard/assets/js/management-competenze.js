@@ -2,77 +2,60 @@
 // ----------------------- VARIABILI ------------------------------
 // ----------------------------------------------------------------
 
-// tbody della tabella aula
-var body_table_aula = document.getElementById("body_table_aula");
+// tbody della tabella competenza
+var body_table_competenza = document.getElementById("body_table_competenza");
 
-// tfoot della tabella aula
-var foot_table_aula = document.getElementById("foot_table_aula");
+// tfoot della tabella competenza
+var foot_table_competenza = document.getElementById("foot_table_competenza");
 
 // checkbox generale della tabella
-var general_checkbox_aula = document.getElementById("general_checkbox_aula");
+var general_checkbox_competenza = document.getElementById("general_checkbox_competenza");
 
-// button per l'aggiunta del form per l'aggiunta della nuova aula
-var form_add_aula = document.getElementById("formAddAula");
+// button per l'aggiunta del form per l'aggiunta della nuova competenza
+var form_add_competenza = document.getElementById("formAddCompetenza");
 
 // bottone per il refresh della schermata
-var btn_refresh_management_aula = document.getElementById("btn_refresh_management_aula");
+var btn_refresh_management_competenza = document.getElementById("btn_refresh_management_competenza");
 
-// span di risposta per la tabella management aula
-var feedback_table_management_aula = document.getElementById("feedback_table_management_aula");
-
-// variabile di controllo per il form new aula
-var check_new_nome_aula = false;
-var check_new_descrizione_aula = false;
+// span di risposta per la tabella management competenza
+var feedback_table_management_competenza = document.getElementById("feedback_table_management_competenza");
 
 
-// btn per eliminare gli aula selezionati
-var btn_delete_checked_aula = document.getElementById("btn_delete_checked_aula");
+// btn per eliminare gli competenza selezionati
+var btn_delete_checked_competenza = document.getElementById("btn_delete_checked_competenza");
 
 // -------------------------------------------------------------------------------
 // ---------------------- FUNZIONI GENERICHE -------------------------------------
 // -------------------------------------------------------------------------------
 
 // restituisce il codice html in formato stringa da inserire nella tabella dato un oggetto ordinato in base all'intestazione della tabella
-function createRecordAula(aula) {   //aula è un oggetto contenente le informazioni del record IdAula, Cognome, Nome, Email, Password, IdCategoria, IdPermessi
+function createRecordCompetenza(competenza) {   //competenza è un oggetto contenente le informazioni del record IdCompetenza, Cognome, Nome, Email, Password, IdCategoria, IdPermessi
 
     // record che sarà restituito
     let record = "";
 
     // inserisco la parte del CHECKBOX del record (tr)
-    record += '<tr class="tr-shadow" id="recordAula' + aula.IdAula + '">'; // inserisco il tag di apertura
+    record += '<tr class="tr-shadow" id="recordCompetenza' + competenza.IdCompetenza + '">'; // inserisco il tag di apertura
 
     record += '<td>';       // creo il primo campo
     record += '<label class="au-checkbox">';
-    record += '<input type="checkbox" onclick="checkCheckboxAula()" name="checkRecord[]" value="' + aula.IdAula + '" id="checkbox' + aula.IdAula + '">';    // inserisco il checkbox con valore l'ID dell'aula
+    record += '<input type="checkbox" onclick="checkCheckboxCompetenza()" name="checkRecord[]" value="' + competenza.IdCompetenza + '" id="checkbox' + competenza.IdCompetenza + '">';    // inserisco il checkbox con valore l'ID dell'competenza
     record += '<span class="au-checkmark"></span>';
     record += '</label>    </td>';
 
     // inserisco l'ID
-    // Predisposizione IdAula: record += '<td>' + aula.IdAula + '</td>';
+    // Predisposizione IdCompetenza: record += '<td>' + competenza.IdCompetenza + '</td>';
     
-    // inserisco il NOME
-    record += '<td id="nomeAula' + aula.IdAula + '">' + aula.Nome + '</td>';
+    // inserisco IdCategoria
+    record += '<td id="IdCategoria' + competenza.IdCompetenza + '">' + competenza.IdCategoria + '</td>';
     
-    // inserisco la DESCRIZIONE
-	if(aula.Descrizione == null)
-		record += '<td id="descrizioneAula' + aula.IdAula + '">' + 'N/D' + '</td>';
-	else
-		record += '<td id="descrizioneAula' + aula.IdAula + '">' + aula.Descrizione + '</td>';
-    
-    // inserisco LABORATORIO
-	if(aula.Laboratorio == 1)
-		record += '<td id="laboratorioAula' + aula.IdAula + '" data-check="true">' + 'Sì' + '</td>';
-	else
-		record += '<td id="laboratorioAula' + aula.IdAula + '" data-check="false">' + 'No' + '</td>';
-	
-    // record += '<td id="laboratorioAula' + aula.IdAula + '">' + aula.Laboratorio + '</td>';
+    // inserisco la IdMacroarea
+	record += '<td id="IdMacroarea' + competenza.IdCompetenza + '">' + competenza.IdMacroarea + '</td>';
 
     // inserisco i bottoni per le diverse azioni
-    record += '<td id="td_action_aulaId_' + aula.IdAula + '"> <div class="table-data-feature">';
- // record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Send" id="sendAula' + aula.IdAula + '" onclick="requestActionAula(\'send\', ' + aula.IdAula + ')">    <i class="zmdi zmdi-mail-send"></i> </button>';        // tasto SEND
-    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Edit" id="editAula' + aula.IdAula + '" onclick="requestActionAula(\'edit\', ' + aula.IdAula + ')">    <i class="zmdi zmdi-edit"></i>  </button>';            // tasto EDIT
-    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Delete" id="deleteAula' + aula.IdAula + '" onclick="requestActionAula(\'delete\', ' + aula.IdAula + ')">  <i class="zmdi zmdi-delete"></i>    </button>';    // tasto DELETE                                    
- // record += '<button class="item" data-toggle="tooltip" data-placement="top" title="More" id="moreAula' + aula.IdAula + '" onclick="requestActionAula(\'more\', ' + aula.IdAula + ')">    <i class="zmdi zmdi-more"></i>  </button>';       // tasto MORE       
+    record += '<td id="td_action_competenzaId_' + competenza.IdCompetenza + '"> <div class="table-data-feature">';
+    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Edit" id="editCompetenza' + competenza.IdCompetenza + '" onclick="requestActionCompetenza(\'edit\', ' + competenza.IdCompetenza + ')">    <i class="zmdi zmdi-edit"></i>  </button>';            // tasto EDIT
+    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Delete" id="deleteCompetenza' + competenza.IdCompetenza + '" onclick="requestActionCompetenza(\'delete\', ' + competenza.IdCompetenza + ')">  <i class="zmdi zmdi-delete"></i>    </button>';    // tasto DELETE                                    
     record += '</div>   </td>   </tr>';
 
     // inserisco il record di spaziatura
@@ -84,7 +67,7 @@ function createRecordAula(aula) {   //aula è un oggetto contenente le informazi
 }
 
 // funzione che crea un box per la conferma prima di eseguire effettivamente "send", "edit", "delete" o "more"
-function requestActionAula(type, ID) {      // passo il tipo di richiesta che viene chiesta 
+function requestActionCompetenza(type, ID) {      // passo il tipo di richiesta che viene chiesta 
     switch (type) {
         case "send":
             
@@ -92,15 +75,15 @@ function requestActionAula(type, ID) {      // passo il tipo di richiesta che vi
     
         case "edit":
             
-            changeFormNewAula(ID);
+            changeFormNewCompetenza(ID);
             break;
 
         case "delete":
             // creo il form per la conferma
-            form_html = createRequestActionAula(type, ID);
+            form_html = createrequestActionCompetenza(type, ID);
 
-            // ricavo il td dell'aula passato per inserire la richiesta
-            document.getElementById("td_action_aulaId_" + ID).innerHTML = form_html;
+            // ricavo il td della competenza passato per inserire la richiesta
+            document.getElementById("td_action_competenzaId_" + ID).innerHTML = form_html;
 
             break;
         case "more":
@@ -113,7 +96,7 @@ function requestActionAula(type, ID) {      // passo il tipo di richiesta che vi
 }
 
 // crea il codice HTML per la richiesta da aggiungere sopra il bottone cliccato
-function createRequestActionAula(type, ID) {
+function createrequestActionCompetenza(type, ID) {
     
     let question = "Sei sicuro ";
 
@@ -145,10 +128,10 @@ function createRequestActionAula(type, ID) {
     // inserisco il form dimanico
     request +=
         '<strong>' + question + '</strong>' +
-        '<button type="button" class="btn btn-primary btn-sm" onclick="' + type + 'Aula(' + ID + ')" style="margin-left: 0.5vw; border-radius: 5%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
+        '<button type="button" class="btn btn-primary btn-sm" onclick="' + type + 'Competenza(' + ID + ')" style="margin-left: 0.5vw; border-radius: 5%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
             '<i class="far fa-check-circle"></i> Sì' +
         '</button>' + // nel caso di click su annulla viene ricreata la tabella
-        '<button type="button" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%" onclick="createTableAula()">' + 
+        '<button type="button" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%" onclick="createTableCompetenza()">' + 
             '<!--<i class="fas fa-minus-circle"></i>--> Annulla' + 
         '</button>';
 
@@ -156,14 +139,14 @@ function createRequestActionAula(type, ID) {
     return request;
 }
 
-// richiama l' aula dal database tramite chiamata AJAX e successivamente crea la tabella
-function createTableAula() {
+// richiama l' competenza dal database tramite chiamata AJAX e successivamente crea la tabella
+function createTableCompetenza() {
 
-    feedback_table_management_aula.innerText = "Sto caricando la tabella...";
-    feedback_table_management_aula.style.color = "#ededed";
+    feedback_table_management_competenza.innerText = "Sto caricando la tabella...";
+    feedback_table_management_competenza.style.color = "#ededed";
 
     // elimino gli elementi esistenti
-    body_table_aula.innerHTML = "";
+    body_table_competenza.innerHTML = "";
 
     // effettuo la chiamata
     $.ajax({
@@ -179,21 +162,21 @@ function createTableAula() {
             if(res.result === false) {
 
                 // in caso di errore stampo un messaggio nel box al posto della tabella
-                feedback_table_management_aula.innerText = res.description;
-                feedback_table_management_aula.style.color = error_data;
+                feedback_table_management_competenza.innerText = res.description;
+                feedback_table_management_competenza.style.color = error_data;
 
-            } else {    // in caso positivo creo la tabella per l'aula
+            } else {    // in caso positivo creo la tabella per l'competenza
 
                 // recupero le aule passate da "result"
-                let aula = res.result;
+                let competenza = res.result;
 
                 console.log(res.description);
 
-                // per ogni aula in aula creo il codice HTML per il record
-                aula.forEach((element) => {
+                // per ogni competenza in competenza creo il codice HTML per il record
+                competenza.forEach((element) => {
 
                     // aggiungo il record alla tabella
-                    body_table_aula.innerHTML += createRecordAula(element);
+                    body_table_competenza.innerHTML += createRecordCompetenza(element);
 
                 });
                 
@@ -206,22 +189,22 @@ function createTableAula() {
             console.error("Errore durante la chiamata per la creazione della tabella, il server non risponde o il risultato non è in formato JSON");
 
             // in caso di errore stampo un messaggio nel box al posto della tabella
-            feedback_table_management_aula.innerText = "Errore durante la connessione con il server, riprovare più tardi o contattare l'assistenza.";
-            feedback_table_management_aula.style.color = error_data;
+            feedback_table_management_competenza.innerText = "Errore durante la connessione con il server, riprovare più tardi o contattare l'assistenza.";
+            feedback_table_management_competenza.style.color = error_data;
 
         }
     });
 }
 
-// in base all'id passato cerco di creare una nuova aula
-async function addAula() {
-    console.log("Aggiungo un'aula");
+// in base all'id passato cerco di creare una nuova competenza
+async function addCompetenza() {
+    console.log("Aggiungo un'competenza");
 
     // controllo che tutti i controlli siano andati a buon fine
-    if(!check_new_nome_aula)
+    if(!check_new_nome_competenza)
         return false;
 	
-	// variabile per laboratoria aula
+	// variabile per laboratoria competenza
 	let laboratorio = document.getElementById("newLaboratorioAula");
 
 	let temp = null;
@@ -251,29 +234,29 @@ async function addAula() {
             if(res.result === false) {
 
                 // in caso di errore stampo un messaggio nel box al posto della tabella
-                feedback_table_management_aula.innerText = res.description;
-                feedback_table_management_aula.style.color = error_data;
+                feedback_table_management_competenza.innerText = res.description;
+                feedback_table_management_competenza.style.color = error_data;
 
             } else {
 
-                // in caso positivo creo la tabella per gli aula
-                await createTableAula();
+                // in caso positivo creo la tabella per gli competenza
+                await createTableCompetenza();
                 
             }
 
         },
         error: (res) => {
 
-            feedback_table_management_aula.innerText = "Errore durante la connessione con il server, riprovare più tardi o contattare l'assistenza.";
-            feedback_table_management_aula.style.color = error_data;
+            feedback_table_management_competenza.innerText = "Errore durante la connessione con il server, riprovare più tardi o contattare l'assistenza.";
+            feedback_table_management_competenza.style.color = error_data;
         }
 
     });
 
 }
 
-// in base all'id passato elimino l'aula
-async function editAula(ID) {   // può anche essere passato un array
+// in base all'id passato elimino l'competenza
+async function editCompetenza(ID) {   // può anche essere passato un array
     
     console.log("Modifico: " + ID);
 
@@ -282,7 +265,7 @@ async function editAula(ID) {   // può anche essere passato un array
         checkbox_edit_mode = 1; 
 
     // creo l'oggetto data da mandare in post
-    let data = {"IdAula": ID, "Nome": document.getElementById("editNomeAula").value, "Descrizione": document.getElementById("editDescrizioneAula").value, "Laboratorio": checkbox_edit_mode};
+    let data = {"IdCompetenza": ID, "Nome": document.getElementById("editNomeAula").value, "Descrizione": document.getElementById("editDescrizioneAula").value, "Laboratorio": checkbox_edit_mode};
 
     console.log(data);
     // effettuo la chiamata ajax
@@ -302,29 +285,29 @@ async function editAula(ID) {   // può anche essere passato un array
             if(res.result === false) {
 
                 // in caso di errore stampo un messaggio nel box al posto della tabella
-                feedback_table_management_aula.innerText = res.description;
-                feedback_table_management_aula.style.color = error_data;
+                feedback_table_management_competenza.innerText = res.description;
+                feedback_table_management_competenza.style.color = error_data;
 
             } else {
 
-                // in caso positivo creo la tabella per gli aula
-                await createTableAula();
+                // in caso positivo creo la tabella per gli competenza
+                await createTableCompetenza();
 
             }
 
         },
         error: (res) => {
 
-            feedback_table_management_aula.innerText = "Errore durante la connessione con il server, riprovare più tardi o contattare l'assistenza.";
-            feedback_table_management_aula.style.color = error_data;
+            feedback_table_management_competenza.innerText = "Errore durante la connessione con il server, riprovare più tardi o contattare l'assistenza.";
+            feedback_table_management_competenza.style.color = error_data;
         }
 
     });
 
 }
 
-// in base all'id passato elimino l'aula
-async function deleteAula(ID) {   // può anche essere passato un array
+// in base all'id passato elimino l'competenza
+async function deleteCompetenza(ID) {   // può anche essere passato un array
     
     console.log("Elimino: " + ID);
 
@@ -348,13 +331,13 @@ async function deleteAula(ID) {   // può anche essere passato un array
             if(res.result === false) {
 
                 // in caso di errore stampo un messaggio nel box al posto della tabella
-                feedback_table_management_aula.innerText = res.description;
-                feedback_table_management_aula.style.color = error_data;
+                feedback_table_management_competenza.innerText = res.description;
+                feedback_table_management_competenza.style.color = error_data;
 
             } else {
 
                 // in caso positivo creo la tabella per le aule
-                await createTableAula();
+                await createTableCompetenza();
 
             }
 
@@ -362,27 +345,27 @@ async function deleteAula(ID) {   // può anche essere passato un array
         error: (res) => {
 
             // in caso di errore stampo un messaggio nel box al posto della tabella
-            feedback_table_management_aula.innerText = "Errore durante la connessione con il server, riprovare più tardi o contattare l'assistenza.";
-            feedback_table_management_aula.style.color = error_data;
+            feedback_table_management_competenza.innerText = "Errore durante la connessione con il server, riprovare più tardi o contattare l'assistenza.";
+            feedback_table_management_competenza.style.color = error_data;
         }
 
     });
 
 }
 
-// imposta tutti i checkbox dei record della tabella aula con la modalità passata
-function setCheckboxRecordAula(mode) {
+// imposta tutti i checkbox dei record della tabella competenza con la modalità passata
+function setCheckboxRecordCompetenza(mode) {
     
     // per ogni id checkboxN, imposto su true il checked
-    for (let index = 0; index < body_table_aula.childElementCount; index += 2) {
+    for (let index = 0; index < body_table_competenza.childElementCount; index += 2) {
         
         // tramite il body della tabella, richiamo i suoi elementi figli e recupero l'input checkbox impostandolo con mode
-        body_table_aula.children.item(index).getElementsByTagName("input")[0].checked = mode;
+        body_table_competenza.children.item(index).getElementsByTagName("input")[0].checked = mode;
     }       
 }
 
-// crea il codice HTML del form da inserire in formato record per creare una nuova aula
-function createFormNewAula() {
+// crea il codice HTML del form da inserire in formato record per creare una nuova competenza
+function createFormNewCompetenza() {
     
     // record che sarà restituito
     let record = "";
@@ -395,11 +378,11 @@ function createFormNewAula() {
     record += '</td>';
 
     // inserisco l'ID
-    // Predisposizione IdAula: record += '<td>' + aula.IdAula + '</td>';
+    // Predisposizione IdCompetenza: record += '<td>' + competenza.IdCompetenza + '</td>';
     
     // inserisco il NOME
     record += '<td>' + 
-    '<input type="text" placeholder="Nome" oninput="checkNewNomeAula()" class="form-control" id="newNomeAula">' + 
+    '<input type="text" placeholder="Nome" oninput="checkNewNomeCompetenza()" class="form-control" id="newNomeAula">' + 
     '</td>';
     
     // inserisco la DESCRIZIONE
@@ -413,10 +396,10 @@ function createFormNewAula() {
     '</td>';
 
     // inserisco i bottoni per le diverse azioni
-    record += '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_aula" onclick="addAula()" style="margin-left: 0.5vw; border-radius: 5%" disabled>' +   // aggiungo l'onclick per effettuare correttamente l'azione
+    record += '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_aula" onclick="addCompetenza()" style="margin-left: 0.5vw; border-radius: 5%" disabled>' +   // aggiungo l'onclick per effettuare correttamente l'azione
         '<i class="far fa-check-circle"></i> Conferma' +
     '</button>' + 
-    '<button type="button" onclick="createTableAula()" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%">' + 
+    '<button type="button" onclick="createTableCompetenza()" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%">' + 
         '<!--<i class="fas fa-minus-circle"></i>--> Annulla' + 
     '</button></td>';
 
@@ -430,52 +413,29 @@ function createFormNewAula() {
 }
 
 // imposto le funzioni per gli eventi del form 
-function checkNewNomeAula(ID = "newNomeAula") {
+function checkNewNomeCompetenza(ID = "newNomeAula") {
     
     // controllo che sia aggiunto almeno un valore per il nome
 
     if(document.getElementById(ID).value.trim() == "") {
 
         document.getElementById(ID).style.borderColor = error_data;
-        check_new_nome_aula = false;
+        check_new_nome_competenza = false;
 
     } else {
 
-        check_new_nome_aula = true;
+        check_new_nome_competenza = true;
         document.getElementById(ID).style.borderColor = correct_data;
 
     }
 
     // controllo se posso abilitare il bottone di conferma
-    checkFormNewAula();
+    checkFormNewCompetenza();
 
 }
 
-/*
-function checkNewDescrizioneAula(ID = "newDescrizioneAula") {
-    
-    // controllo che sia aggiunto almeno un valore per la descrizione
-
-    if(document.getElementById(ID).value.trim() == "") {
-
-        document.getElementById(ID).style.borderColor = error_data;
-        check_new_descrizione_aula = false;
-
-    } else {
-
-        check_new_descrizione_aula = true;
-        document.getElementById(ID).style.borderColor = correct_data;
-
-    }
-
-    // controllo se posso abilitare il bottone di conferma
-    checkFormNewAula();
-
-}
-*/
-
-// controllo se posso abilitare il bottone per la conferma della nuova aula
-function checkFormNewAula(ID = "btn_confirm_new_aula") {
+// controllo se posso abilitare il bottone per la conferma della nuova competenza
+function checkFormNewCompetenza(ID = "btn_confirm_new_aula") {
     
     let btn_confirm_new_aula = document.getElementById(ID);
 
@@ -485,7 +445,7 @@ function checkFormNewAula(ID = "btn_confirm_new_aula") {
         return false;
     } 
 
-    if(check_new_nome_aula)
+    if(check_new_nome_competenza)
 		btn_confirm_new_aula.removeAttribute("disabled");
     else
 		btn_confirm_new_aula.setAttribute("disabled", "disabled");
@@ -493,15 +453,15 @@ function checkFormNewAula(ID = "btn_confirm_new_aula") {
 }
 
 // funzione che elimina tutti gli id selezionati 
-function getArrayAulaChecked() {
+function getArrayCompetenzaChecked() {
 
     let array = Array();
     
     // per ogni record della tabella cerco l'input checkbox
-    for (let index = 0; index < body_table_aula.childElementCount; index++) {
+    for (let index = 0; index < body_table_competenza.childElementCount; index++) {
         
         // verifico che non sia un record spacer verificando che esista un figlio
-        let tr = body_table_aula.children[index];
+        let tr = body_table_competenza.children[index];
         if(tr.firstElementChild != null) {
             let checkbox = tr.firstElementChild.firstElementChild.firstElementChild;
             let checkbox_checked = checkbox.checked;
@@ -517,34 +477,34 @@ function getArrayAulaChecked() {
 }
 
 // controllo se abilitare il bottone
-function checkCheckboxAula() {
+function checkCheckboxCompetenza() {
     
-    let array = getArrayAulaChecked();
+    let array = getArrayCompetenzaChecked();
 
     console.log(array);
 
     if(array.length > 0) {
 
-        btn_delete_checked_aula.removeAttribute("disabled");
+        btn_delete_checked_competenza.removeAttribute("disabled");
 		
 		if(array.length == 1)
-			btn_delete_checked_aula.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella ' + array.length + ' aula selezionata</font></font>';
+			btn_delete_checked_competenza.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella ' + array.length + ' competenza selezionata</font></font>';
 		else
-			btn_delete_checked_aula.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella ' + array.length + ' aule selezionate</font></font>';
+			btn_delete_checked_competenza.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella ' + array.length + ' aule selezionate</font></font>';
 
     } else {
 
-        btn_delete_checked_aula.setAttribute("disabled", "disabled");
-        btn_delete_checked_aula.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella 0 aula selezionati</font></font>';
+        btn_delete_checked_competenza.setAttribute("disabled", "disabled");
+        btn_delete_checked_competenza.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella 0 competenza selezionati</font></font>';
 
     }
 
 }
 
 // funzione che modifica il record della tabella con id passato, predisponendolo come form
-function changeFormNewAula(ID) {
+function changeFormNewCompetenza(ID) {
     
-    // elimino il form per l'inserimento di una nuova aula
+    // elimino il form per l'inserimento di una nuova competenza
     removeForm("form_new_aula");
 
     // NOME
@@ -553,7 +513,7 @@ function changeFormNewAula(ID) {
     name = td_nome.innerText;     // recupero il valore del nome
 
     // modifico la label in un input:text
-    td_nome.innerHTML = '<input type="text" placeholder="Nome" value="' + name + '" oninput="checkNewNomeAula(\'editNomeAula\')" class="form-control" id="editNomeAula">'
+    td_nome.innerHTML = '<input type="text" placeholder="Nome" value="' + name + '" oninput="checkNewNomeCompetenza(\'editNomeAula\')" class="form-control" id="editNomeAula">'
 
     // DESCRIZIONE
     // recupero la referenza della descrizione del record della tabella tramite ID
@@ -577,11 +537,11 @@ function changeFormNewAula(ID) {
         document.getElementById("editLaboratorioAula").checked = true
 
 	// ACTION
-    let td_action_aulaId = document.getElementById("td_action_aulaId_" + ID);
-    td_action_aulaId.innerHTML = '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_aula" onclick="editAula(' + ID + ')" style="margin-left: 0.5vw; border-radius: 5%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
+    let td_action_aulaId = document.getElementById("td_action_competenzaId_" + ID);
+    td_action_aulaId.innerHTML = '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_aula" onclick="editCompetenza(' + ID + ')" style="margin-left: 0.5vw; border-radius: 5%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
         '<i class="far fa-check-circle"></i> Conferma' +
     '</button>' + 
-    '<button type="button" onclick="createTableAula()" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%">' + 
+    '<button type="button" onclick="createTableCompetenza()" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%">' + 
         '<!--<i class="fas fa-minus-circle"></i>--> Annulla' + 
     '</button></td>';
 }
@@ -591,60 +551,60 @@ function changeFormNewAula(ID) {
 // ----------------------------------------------------------------
 
 // al click del checkbox generale, verifico il suo stato e modifico tutti quelli presenti di conseguenza
-general_checkbox_aula.addEventListener("change", () => {
+general_checkbox_competenza.addEventListener("change", () => {
     
     // controllo lo stato del bottone e richiamo la funzione con il valore del checkbox giusta
-    setCheckboxRecordAula(general_checkbox_aula.checked);
-    checkCheckboxAula();
+    setCheckboxRecordCompetenza(general_checkbox_competenza.checked);
+    checkCheckboxCompetenza();
     
 });
 
 // aggiungo il form per l'aggiunta di una nuova aula
-form_add_aula.addEventListener("click", async () => {
+form_add_competenza.addEventListener("click", async () => {
 
     console.log("Aggiunto il form");
 
     // aggiungo il form all'inzio del codice già esistente
-    await createTableAula();
-    let actual_body = body_table_aula.innerHTML
-    body_table_aula.innerHTML = createFormNewAula() + actual_body; 
+    await createTableCompetenza();
+    let actual_body = body_table_competenza.innerHTML
+    body_table_competenza.innerHTML = createFormNewCompetenza() + actual_body; 
 
 });
 
 // ricarico la tabella riaggiungendola al click del bottone di refresh
-btn_refresh_management_aula.addEventListener("click", async () => {
+btn_refresh_management_competenza.addEventListener("click", async () => {
 
     
 
     // disabilito il bottone per 3 secondi
     
     // creo la tabella
-    await createTableAula();
+    await createTableCompetenza();
 
     // disabilito il bottone
-    btn_refresh_management_aula.disabled = true;
+    btn_refresh_management_competenza.disabled = true;
 
     // cambio il colore per dare un feedback
-    btn_refresh_management_aula.color = "#ededed";
+    btn_refresh_management_competenza.color = "#ededed";
 
     setTimeout(() => {
         
         // abilito il bottone
-        btn_refresh_management_aula.disabled = false;
+        btn_refresh_management_competenza.disabled = false;
 
         // cambio il colore per dare un feedback
-        btn_refresh_management_aula.color = "#6C757D";
+        btn_refresh_management_competenza.color = "#6C757D";
 
     }, 3000);
 });
 
 // al click elimino tutte le aule selezionate
-btn_delete_checked_aula.addEventListener("click", () => {
+btn_delete_checked_competenza.addEventListener("click", () => {
 
     // richiamo al funzione per elimiare
-    deleteAula(getArrayAulaChecked());
-	setCheckboxRecordAula(general_checkbox_aula.checked);
-	checkCheckboxAula();
+    deleteCompetenza(getArrayCompetenzaChecked());
+	setCheckboxRecordCompetenza(general_checkbox_competenza.checked);
+	checkCheckboxCompetenza();
 
 });
 

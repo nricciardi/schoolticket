@@ -213,7 +213,7 @@ async function createTableUser() {
 }
 
 // in base all'id passato cerco di creare un nuovo utente
-function addUser() {
+async function addUser() {
     console.log("Aggiungo un utente");
 
     // controllo che tutti i controlli siano andati a buon fine
@@ -243,7 +243,7 @@ function addUser() {
             } else {
 
                 // in caso positivo creo la tabella per gli utenti
-                createTableUser();
+                await createTableUser();
 
                 // in caso di successo stampo un messaggio nel box al posto della tabella
                 feedback_table_management_user.innerText = res.description;
@@ -266,7 +266,7 @@ function addUser() {
 }
 
 // in base all'id passato elimino l'utente
-function editUser(ID) {   // può anche essere passato un array
+async function editUser(ID) {   // può anche essere passato un array
     
     console.log("Modifico: " + ID);
 
@@ -312,7 +312,7 @@ function editUser(ID) {   // può anche essere passato un array
 }
 
 // in base all'id passato elimino l'utente
-function deleteUser(ID) {   // può anche essere passato un array
+async function deleteUser(ID) {   // può anche essere passato un array
     
     console.log("Elimino: " + ID);
 
@@ -339,7 +339,7 @@ function deleteUser(ID) {   // può anche essere passato un array
             } else {
 
                 // in caso positivo creo la tabella per gli utenti
-                createTableUser();
+                await createTableUser();
 
             }
 

@@ -193,7 +193,7 @@ function createTableMacroarea() {
 }
 
 // in base all'id passato cerco di creare una nuova macroarea
-function addMacroarea() {
+async function addMacroarea() {
     console.log("Aggiungo una macroarea");
 
     // controllo che tutti i controlli siano andati a buon fine
@@ -226,7 +226,7 @@ function addMacroarea() {
             } else {
 
                 // in caso positivo creo la tabella per le macroaree
-                createTableMacroarea();
+                await createTableMacroarea();
             }
 
         },
@@ -241,7 +241,7 @@ function addMacroarea() {
 }
 
 // in base all'id passato elimino la macroarea
-function editMacroarea(ID) {   // può anche essere passato un array
+async function editMacroarea(ID) {   // può anche essere passato un array
     
     console.log("Modifico: " + ID);
 
@@ -271,7 +271,7 @@ function editMacroarea(ID) {   // può anche essere passato un array
             } else {
 
                 // in caso positivo creo la tabella per le macroaree
-                createTableMacroarea();
+                await createTableMacroarea();
 
             }
 
@@ -287,7 +287,7 @@ function editMacroarea(ID) {   // può anche essere passato un array
 }
 
 // in base all'id passato elimino la macroarea
-function deleteMacroarea(ID) {   // può anche essere passato un array
+async function deleteMacroarea(ID) {   // può anche essere passato un array
     
     console.log("Elimino: " + ID);
 
@@ -317,7 +317,7 @@ function deleteMacroarea(ID) {   // può anche essere passato un array
             } else {
 
                 // in caso positivo creo la tabella per le macroaree
-                createTableMacroarea();
+                await createTableMacroarea();
 
             }
 
@@ -522,22 +522,22 @@ general_checkbox_macroarea.addEventListener("change", () => {
 });
 
 // aggiungo il form per l'aggiunta di una nuova macroarea
-form_add_macroarea.addEventListener("click", () => {
+form_add_macroarea.addEventListener("click", async () => {
 
     console.log("Aggiunto il form");
 
     // aggiungo il form all'inzio del codice già esistente
-    createTableMacroarea();
+    await createTableMacroarea();
     let actual_body = body_table_macroarea.innerHTML
     body_table_macroarea.innerHTML = createFormNewMacroarea() + actual_body; 
 
 });
 
 // ricarico la tabella riaggiungendola al click del bottone di refresh
-btn_refresh_management_macroarea.addEventListener("click", () => {
+btn_refresh_management_macroarea.addEventListener("click", async () => {
     
     // creo la tabella
-    createTableMacroarea();
+    await createTableMacroarea();
 
     // disabilito il bottone
     btn_refresh_management_macroarea.disabled = true;

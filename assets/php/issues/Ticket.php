@@ -152,8 +152,25 @@ public function show($id = null) {
 
 			if($risultatoquery[0]["VisualizzaTuttiTicket"] == 1)	//Verifichiamo se ha permesso 1 o 0 nel visualizzare i ticket
 			{
+
+        //CAMBIO IN 1 IL VISUALIZZATO:
+        $st2 = $this->PDOconn->prepare("UPDATE schoolticket.Ticket SET schoolticket.Ticket.Visualizzato = 1 WHERE 1 ");
+				$raga = $st2->execute();
+
+        if($raga == false){
+          $r = '{"result":false, "description":"Abbiamo riscontrato dei problemi, riprova più tardi"}';
+    			return $r;
+        }
+
+
+
 				$st = $this->PDOconn->prepare("SELECT schoolticket.Ticket.* FROM schoolticket.Ticket");		// Se è 1 visualizza tutti i ticket
 				$result = $st->execute();	//Result contiene 1 o 0 in base al corretto funzionamento della query
+
+
+
+
+
 
 				if($result == 0)	//Verifica la corretta connessione al Database
 				{
