@@ -1,0 +1,18 @@
+[
+    {
+        "title": "Rilasciata nuova versione",
+        "date": "28/05/2021",
+        "description": "Nuova versione"
+    },
+    {
+        "title": "Novità presto in arrivo!",
+        "date": "29/05/2021",
+        "description": "Arriveranno presto nuove features",
+        "classList": [
+                        "zmdi", 
+                        "zmdi-plus-square"
+                    ],
+        "color": "bg-c3"
+
+    }
+]

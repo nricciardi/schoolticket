@@ -266,14 +266,10 @@ btn_conferma.addEventListener("click", () => {
 // Button invio codice
 btn_inviaCodice.addEventListener("click", () => {
 
-    console.log("click");
-
-    let data = {"Submit": "sendCode"};
-
     $.ajax({
         type: "SENDCODE",
         url: HOSTNAME + "/assets/php/authentication/Authentication.php",
-        data: data,
+        data: JSON.stringify(data),
         dataType: "json",
         success: function (response)
 		{

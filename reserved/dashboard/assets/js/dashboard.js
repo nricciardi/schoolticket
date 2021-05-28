@@ -23,6 +23,9 @@ var AULE = null;
 // variabile contenente l'utente loggato
 var USER = null;
 
+// variabile contenente tutti gli utenti
+var ALL_USERS = null
+
 // - Dato errato
 var error_data = "#ff5757";
 var error_background = "#ffeded";
@@ -188,6 +191,9 @@ async function init() {
     // imposto l'utente loggato attraverso una chiamata ajax
     await set_user();
 
+    // imposto gli utenti prelevati dal database attraverso una chiamata ajax
+    await set_allUsers();
+
     // imposto le classi attraverso una chiamata ajax
 	await set_classrooms();
 
@@ -210,7 +216,10 @@ async function init() {
 	setNewTicketNumber();
 
 	// Calcolo ticket con discostamento percentuale
-	setDeviationTicketNumber();
+    setDeviationTicketNumber();
+    
+    // imposto le notifiche nella dashboard
+    set_notifications_dropdown();
 
 }
 
@@ -467,6 +476,37 @@ function addClassroom(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
     }
 }
 
+// aggiungo gli utenti al form
+function addAllUsers(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
+    input.innerHTML = "";
+
+    // recupero le classi attraverso una chiamata ajax
+    //console.log("macroaree: ");
+    //console.log(MACROAREE);
+
+    // per ogni macroarea creo un option e la aggiungo alla select-box
+    if(ALL_USERS !== null) {
+        ALL_USERS.forEach(element => {
+            //console.log(element);
+            // creo l'elemento option
+            let option = document.createElement("option");
+            // inserisco il value nell'option
+            option.value = element.IdAula;
+            // inserisco il testo nell'option
+            let text = cutString(element.Email, n_char_max_to_print);
+            if (element.Descrizione !== null)       // se è presente una descrizione la inserisco
+                text += " - " + cutString(element.Nome, n_char_max_to_print);
+            option.text = text;
+            // inserisco l'oggetto option
+            input.appendChild(option);
+
+        });
+    } else {
+        // errore
+        result.style.color = error_data;
+        result.innerHTML = "Errore nella richiesta delle aule, riprovare più tardi o contattare l'assistenza.";
+    }
+}
 
 /*
 // aggiungo le categorie al form
@@ -784,6 +824,37 @@ async function set_user() {
 
 }
 
+// imposto l'utente loggato come oggetto
+async function set_allUsers() {
+
+    ALL_USERS = null;
+
+    await $.ajax({
+        url: HOSTNAME + '/assets/php/authentication/Authentication.php',
+        type: 'GET',
+        dataType: "text",
+        success: function( data, textStatus, jQxhr ){
+            console.debug("set ALL_USERS");
+            //console.log("user setted");
+            //console.log(data);
+            //console.log(JSON.parse(data));
+
+            // controllo che nono abbia restituito errore
+            if(JSON.parse(data).result == false) {
+                ALL_USERS = null;
+            } else {
+                ALL_USERS = JSON.parse(data).result;
+            }
+
+
+
+
+        }
+    });
+
+    //console.debug("end set user");
+
+}
 
 // funzione per inviare i dati tramite ajax
 async function set_macroaree() {
@@ -1141,6 +1212,67 @@ function settingMenuGestioneAccount()
         // restituisco true se ho almeno un permesso valido
         return show;
     }
+
+}
+
+// funzione per il setting delle notifiche
+function set_notifications_dropdown() {
+    
+    // recupero i dati delle notifiche dal file notifications.json
+    $.ajax({
+		type: "GET",
+		url: HOSTNAME + "/reserved/dashboard/assets/json/notifications.json",
+		dataType: "JSON",
+		success: function (response) {
+            console.debug("Imposto le notifiche");
+            //console.log(response);      // stampo il risultato della chiamata
+            let notifications_dropdown = document.getElementById("notifications_dropdown");     // recupero il div contenitore delle notifiche
+            let notifications = response;       // recupero le notifiche recuperate
+            
+            // sovrascrivo il titolo delle notifiche
+            notifications_dropdown.firstElementChild.getElementsByTagName("p")[0].innerText = "Hai " + notifications.length + " notifiche!";
+
+            // inserisco le diverse notifiche recuperati
+            for (let index = 0; index < notifications.length; index++){
+
+                let string_class = "";  // stringa contente le classi da inserire come icona
+                if(notifications[index].classList != undefined)
+                    notifications[index].classList.forEach((element) => {
+                        string_class += element + " ";  // inserisco la classe
+                    });
+                else    // inserisco le classi dell'icona default
+                    string_class = "zmdi zmdi-info-outline";
+
+                // inserisco le diverse notifiche recuperati
+                let string_color = ""
+                if(notifications[index].color != undefined)     // controllo che sia stato settato un colore
+                    string_color = notifications[index].color
+                else    // inserisco le classi dell'icona default
+                    string_color = "bg-c1";
+            
+                let notification_element = '<div class="notifi__item">';
+                notification_element +=         '<div class="' + string_color + ' img-cir img-40">';
+                notification_element +=             '<i class="' + string_class + '"></i>';
+                notification_element +=         '</div>';
+                notification_element +=         '<div class="content">';
+                notification_element +=             '<p>' + notifications[index].title + '</p>';
+                notification_element +=             '<span class="date">' + notifications[index].date + '</span>';
+                notification_element +=         '</div>';
+                notification_element +=     '</div>';
+
+                // inserisco l'elemento
+                notifications_dropdown.innerHTML += notification_element;
+
+            }
+
+            //notifications_dropdown.innerHTML += '<div class="notifi__footer"><a href="#">Tutte le notifiche</a></div>';
+
+        },
+		error: (response) => {
+			// Errore in caso di problemi al server												// Messaggio restituito all'utente
+			console.error("Impossibile recuperare le notifiche");									// Messaggio restituito su console
+		}
+	});
 
 }
 

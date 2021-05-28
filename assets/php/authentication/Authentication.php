@@ -1196,18 +1196,9 @@ function SENDCODE_request($auth = null, $json_error = '{"result":false,"descript
 	if($auth === null)
 		return $json_error;
 
-		$sencode_data = json_decode(urldecode(file_get_contents("php://input")));	// recupero dallo stream di input del server le informazioni passate in LOGIN
-
-		if(isset($sencode_data) && $sencode_data != null && !empty($sencode_data)) {
-
-			// controllo che sia stato passato un id
-			if(isset($sencode_data->id) && $sencode_data->id != "") {
-
-				return $auth -> delete($sencode_data->id);
-
-			} else {	// altrimenti stampo un errore
-				return $json_error;
-			}
+		if(isset($_SESSION["logged"]) && $_SESSION["logged"] != null && $_SESSION["logged"] != false) {
+				
+				return $auth->sendCode($_SESSION["logged"]);
 
 		} else {
 			return $json_error;
