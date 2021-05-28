@@ -213,7 +213,10 @@ async function init() {
 	setNewTicketNumber();
 
 	// Calcolo ticket con discostamento percentuale
-	setDeviationTicketNumber();
+    setDeviationTicketNumber();
+    
+    // imposto le notifiche nella dashboard
+    set_notifications_dropdown();
 
 }
 
@@ -1206,6 +1209,67 @@ function settingMenuGestioneAccount()
         // restituisco true se ho almeno un permesso valido
         return show;
     }
+
+}
+
+// funzione per il setting delle notifiche
+function set_notifications_dropdown() {
+    
+    // recupero i dati delle notifiche dal file notifications.json
+    $.ajax({
+		type: "GET",
+		url: HOSTNAME + "/reserved/dashboard/assets/json/notifications.json",
+		dataType: "JSON",
+		success: function (response) {
+            console.debug("Imposto le notifiche");
+            //console.log(response);      // stampo il risultato della chiamata
+            let notifications_dropdown = document.getElementById("notifications_dropdown");     // recupero il div contenitore delle notifiche
+            let notifications = response;       // recupero le notifiche recuperate
+            
+            // sovrascrivo il titolo delle notifiche
+            notifications_dropdown.firstElementChild.getElementsByTagName("p")[0].innerText = "Hai " + notifications.length + " notifiche!";
+
+            // inserisco le diverse notifiche recuperati
+            for (let index = 0; index < notifications.length; index++){
+
+                let string_class = "";  // stringa contente le classi da inserire come icona
+                if(notifications[index].classList != undefined)
+                    notifications[index].classList.forEach((element) => {
+                        string_class += element + " ";  // inserisco la classe
+                    });
+                else    // inserisco le classi dell'icona default
+                    string_class = "zmdi zmdi-info-outline";
+
+                // inserisco le diverse notifiche recuperati
+                let string_color = ""
+                if(notifications[index].color != undefined)     // controllo che sia stato settato un colore
+                    string_color = notifications[index].color
+                else    // inserisco le classi dell'icona default
+                    string_color = "bg-c1";
+            
+                let notification_element = '<div class="notifi__item">';
+                notification_element +=         '<div class="' + string_color + ' img-cir img-40">';
+                notification_element +=             '<i class="' + string_class + '"></i>';
+                notification_element +=         '</div>';
+                notification_element +=         '<div class="content">';
+                notification_element +=             '<p>' + notifications[index].title + '</p>';
+                notification_element +=             '<span class="date">' + notifications[index].date + '</span>';
+                notification_element +=         '</div>';
+                notification_element +=     '</div>';
+
+                // inserisco l'elemento
+                notifications_dropdown.innerHTML += notification_element;
+
+            }
+
+            //notifications_dropdown.innerHTML += '<div class="notifi__footer"><a href="#">Tutte le notifiche</a></div>';
+
+        },
+		error: (response) => {
+			// Errore in caso di problemi al server												// Messaggio restituito all'utente
+			console.error("Impossibile recuperare le notifiche");									// Messaggio restituito su console
+		}
+	});
 
 }
 
