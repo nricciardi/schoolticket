@@ -158,14 +158,14 @@ function createRequestActionUser(type, ID) {
 }
 
 // richiama gli utenti dal database tramite chiamata AJAX e successivamente crea la tabella
-function createTableUser() {
+async function createTableUser() {
 
     feedback_table_management_user.innerText = "Sto caricando la tabella...";
     feedback_table_management_user.style.color = "#ededed";
     
 
     // effettuo la chiamata
-    $.ajax({
+    await $.ajax({
         url: HOSTNAME + "/assets/php/authentication/Authentication.php",
         type: "GET",
         dataType: "JSON",
@@ -271,16 +271,16 @@ function editUser(ID) {   // può anche essere passato un array
     console.log("Modifico: " + ID);
 
     // creo l'oggetto data da mandare in post
-    let data = {"Submit": "Update", "IdCategoria": document.getElementById("editCategoriaUser").value, "IdPermessi": document.getElementById("editCategoriaUser").value};
+    let data = {"IdUtente": ID, "IdCategoria": document.getElementById("editCategoriaUser").value, "IdPermessi": document.getElementById("editCategoriaUser").value};
 
     // effettuo la chiamata ajax
     $.ajax({
 
         url: HOSTNAME + "/assets/php/authentication/Authentication.php",
-        type: "post",
-        data: data,
+        type: "PUT",
+        data: JSON.stringify(data),
         dataType: "json",
-        success: (res) => {
+        success: async (res) => {
 
             console.log(res);
             // verifico che la siano stati restituiti correttamente i dati
@@ -293,7 +293,7 @@ function editUser(ID) {   // può anche essere passato un array
             } else {
 
                 // in caso positivo creo la tabella per gli utenti
-                createTableUser();
+                await createTableUser();
 
             }
 
@@ -317,14 +317,14 @@ function deleteUser(ID) {   // può anche essere passato un array
     console.log("Elimino: " + ID);
 
     // creo l'oggetto data da mandare in post
-    let data = {"Submit": "delete", "Data": ID};
+    let data = {"id": ID};
 
     // effettuo la chiamata ajax
     $.ajax({
 
         url: HOSTNAME + "/assets/php/authentication/Authentication.php",
-        type: "post",
-        data: data,
+        type: "DELETE",
+        data: JSON.stringify(data),
         dataType: "json",
         success: (res) => {
 
@@ -684,12 +684,12 @@ general_checkbox_users.addEventListener("change", () => {
 });
 
 // aggiungo il form per l'aggiunta di un nuovo utente
-form_add_user.addEventListener("click", () => {
+form_add_user.addEventListener("click", async () => {
 
     console.log("Aggiunto il form");
 
     // aggiungo il form all'inzio del codice già esistente
-    createTableUser();
+    await createTableUser();
     let actual_body = body_table_users.innerHTML
     body_table_users.innerHTML = createFormNewUser() + actual_body; 
 
@@ -699,14 +699,14 @@ form_add_user.addEventListener("click", () => {
 });
 
 // ricarico la tabella riaggiungendola al click del bottone di refresh
-btn_refresh_management_user.addEventListener("click", () => {
+btn_refresh_management_user.addEventListener("click", async () => {
 
     
 
     // disabilito il bottone per 3 secondi
     
     // creo la tabella
-    createTableUser();
+    await createTableUser();
 
     // disabilito il bottone
     btn_refresh_management_user.disabled = true;
