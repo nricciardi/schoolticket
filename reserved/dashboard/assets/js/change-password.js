@@ -273,7 +273,7 @@ btn_inviaCodice.addEventListener("click", () => {
     $.ajax({
         type: "SENDCODE",
         url: HOSTNAME + "/assets/php/authentication/Authentication.php",
-        data: data,
+        data: JSON.stringify(data),
         dataType: "json",
         success: function (response)
 		{
