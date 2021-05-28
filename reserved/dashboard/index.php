@@ -93,7 +93,7 @@
 							<!-- !!!!!!!!!!!!!!! FORM ACCOUNT !!!!!!!!!!!!!!! -->
                             <div class="col-md-12" style="display: none;" id="div_form_show_account"> <!-- Di default è invisibile, viene visualizzato solo dopo il click di btn_show_account -->
                                 <?php
-                                   //require_once("assets".DS."php".DS."utilities".DS."management-account.php");      // includo il form per account
+                                  // require_once("assets".DS."php".DS."utilities".DS."management-account.php");      // includo il form per account
                                 ?>
                             </div>
                             <!-- !!!!!!!!!!!!!!! PAGE MANAGEMENT USERS !!!!!!!!!!!!!!! -->
