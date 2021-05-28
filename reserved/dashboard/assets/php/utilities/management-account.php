@@ -4,7 +4,7 @@
         <h3 class="title-5 m-b-35">Account</h3>
         <div class="table-data__tool">
             <div class="table-data__tool-left">
-                <button type="button" class="btn btn-link" style="color: #6C757D" id="btn_refresh_management_user">
+                <button type="button" class="btn btn-link" style="color: #6C757D" id="btn_refresh_management_account">
                     <i class="fa fa-refresh"></i>&nbsp; Ricarica</button>
             </div>
             <div class="table-data__tool-right">
@@ -24,7 +24,7 @@
                     <tr>
                         <th>
                             <label class="au-checkbox">
-                                <input type="checkbox" id="general_checkbox_users">
+                                <input type="checkbox" id="general_checkbox_account">
                                 <span class="au-checkmark"></span>
                             </label>
                         </th>
@@ -36,7 +36,7 @@
 						<th>Categoria</th>
                     </tr>
                 </thead>
-                <tbody id="body_table_users">
+                <tbody id="body_table_account">
                     <!--<tr class="tr-shadow">
                         <td>
                             <label class="au-checkbox">
@@ -177,7 +177,7 @@
                         </td>
                     </tr>-->
                 </tbody>
-                <tfoot id="foot_table_users">
+                <tfoot id="foot_table_account">
                     <tr class="spacer"></tr>
                     <tr class="tr-shadow">
                         <td>
