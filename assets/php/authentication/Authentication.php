@@ -1003,8 +1003,13 @@ switch ($method) {
 		break;
 
 	case "SENDCODE":		// richiesta SEND CODE (invia il codice per il cambio della password)
-		//echo "LOGIN";
+		//echo "SENDCODE";
 		echo SENDCODE_request($auth);
+		break;
+
+	case "CHANGEPASSWORD":		// richiesta CHANGE PASSWORD (invia il codice per il cambio della password)
+		//echo "CHANGEPASSWORD";
+		echo CHANGEPASSWORD_request($auth);
 		break;
 
 }
@@ -1190,6 +1195,46 @@ function DELETE_request($auth = null, $json_error = '{"result":false,"descriptio
 				}
 			} else {	// altrimenti stampo un errore
 				return $json_error;
+			}
+
+		} else {
+			return $json_error;
+		}
+
+	// in caso non sia entrato in un CASE nello SWITCH, restituisco di default il codice di errore
+	return $json_error;
+
+
+}
+
+function CHANGEPASSWORD_request($auth = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
+
+	// controllo che venga passato l'oggetto della classe per la connessione con il database
+	if($auth === null)
+		return $json_error;
+
+		$data = json_decode(urldecode(file_get_contents("php://input")));	// recupero dallo stream di input del server le informazioni passate in LOGIN
+
+		if(isset($data) && $data != null && !empty($data)) {
+
+			// controllo che sia stato passato una password
+			if(isset($data->password) && $data->password != "") {
+
+				// controllo che sia stato passato un id
+				if(isset($data->code) && $data->code != "") {
+
+					if(isset($_SESSION["logged"]) && $_SESSION["logged"] != false && is_numeric($_SESSION["logged"])) {	// controllo che ci sia un utente loggato
+						$ID_utente_loggato = $_SESSION["logged"];		// inserisco l'id dell'utente loggato in una variabile
+
+						return $auth -> changePassword($ID_utente_loggato, $data->password, $data->code);
+					}
+
+				} else {
+					return '{"result":false,"description":"Necessario inserire un codice"}';
+				}
+
+			} else {	// altrimenti stampo un errore
+				return '{"result":false,"description":"Necessario inserire una password"}';
 			}
 
 		} else {
