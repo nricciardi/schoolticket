@@ -50,19 +50,19 @@ function createRecordUser(user) {   //User è un oggetto contenente le informazi
 
     // inserisco l'ID
     // Predisposizione IdUtente: record += '<td>' + user.IdUtente + '</td>';
-    
+
     // inserisco il COGNOME
     record += '<td id="surnameUser' + user.IdUtente + '">' + user.Cognome + '</td>';
-    
+
     // inserisco il NOME
     record += '<td id="nameUser' + user.IdUtente + '">' + user.Nome + '</td>';
-    
+
     // inserisco l'EMAIL
     record += '<td id="emailUser' + user.IdUtente + '"><span class="block-email">' + user.Email + '</span></td>';
 
     // inserisco la PASSWORD
     record += '<td id="passwordUser' + user.IdUtente + '"><span class="block-password"> ********** </span></td>';
-    
+
     // inserisco la CATEGORIA
     record += '<td id="categoriaUser' + user.IdUtente + '" data-categoria="' + user.Categoria.IdCategoria + '">' + user.Categoria.Nome + '</td>';
 
@@ -73,8 +73,8 @@ function createRecordUser(user) {   //User è un oggetto contenente le informazi
     record += '<td id="td_action_userId_' + user.IdUtente + '"> <div class="table-data-feature">';
     record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Send" id="sendUser' + user.IdUtente + '" onclick="requestActionUser(\'send\', ' + user.IdUtente + ')">    <i class="zmdi zmdi-mail-send"></i> </button>';        // tasto SEND
     record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Edit" id="editUser' + user.IdUtente + '" onclick="requestActionUser(\'edit\', ' + user.IdUtente + ')">    <i class="zmdi zmdi-edit"></i>  </button>';            // tasto EDIT
-    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Delete" id="deleteUser' + user.IdUtente + '" onclick="requestActionUser(\'delete\', ' + user.IdUtente + ')">  <i class="zmdi zmdi-delete"></i>    </button>';    // tasto DELETE                                    
-    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="More" id="moreUser' + user.IdUtente + '" onclick="requestActionUser(\'more\', ' + user.IdUtente + ')">    <i class="zmdi zmdi-more"></i>  </button>';       // tasto MORE       
+    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Delete" id="deleteUser' + user.IdUtente + '" onclick="requestActionUser(\'delete\', ' + user.IdUtente + ')">  <i class="zmdi zmdi-delete"></i>    </button>';    // tasto DELETE
+    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="More" id="moreUser' + user.IdUtente + '" onclick="requestActionUser(\'more\', ' + user.IdUtente + ')">    <i class="zmdi zmdi-more"></i>  </button>';       // tasto MORE
     record += '</div>   </td>   </tr>';
 
     // inserisco il record di spaziatura
@@ -85,14 +85,14 @@ function createRecordUser(user) {   //User è un oggetto contenente le informazi
 }
 
 // funzione che crea un box per la conferma prima di eseguire effettivamente "send", "edit", "delete" o "more"
-function requestActionUser(type, ID) {      // passo il tipo di richiesta che viene chiesta 
+function requestActionUser(type, ID) {      // passo il tipo di richiesta che viene chiesta
     switch (type) {
         case "send":
-            
+
             break;
-    
+
         case "edit":
-            
+
             changeRecordUserToForm(ID);
             break;
 
@@ -105,7 +105,7 @@ function requestActionUser(type, ID) {      // passo il tipo di richiesta che vi
 
             break;
         case "more":
-    
+
             break;
 
         default:
@@ -115,23 +115,23 @@ function requestActionUser(type, ID) {      // passo il tipo di richiesta che vi
 
 // crea il codice HTML per la richiesta da aggiungere sopra il bottone cliccato
 function createRequestActionUser(type, ID) {
-    
+
     let question = "Sei sicuro ";
 
-    // 
+    //
     switch (type) {
         case "send":
             question += "di voler inviare i dati?";
             break;
-        
+
         case "edit":
             question += "di voler modificare i dati?";
             break;
-        
+
         case "delete":
             question += "di voler eliminare i dati?";
             break;
-        
+
         case "more":
             question += "di voler inviare i dati?";
             break;
@@ -149,8 +149,8 @@ function createRequestActionUser(type, ID) {
         '<button type="button" class="btn btn-primary btn-sm" onclick="' + type + 'User(' + ID + ')" style="margin-left: 0.5vw; border-radius: 5%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
             '<i class="far fa-check-circle"></i> Sì' +
         '</button>' + // nel caso di click su annulla viene ricreata la tabella
-        '<button type="button" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%" onclick="createTableUser()">' + 
-            '<!--<i class="fas fa-minus-circle"></i>--> Annulla' + 
+        '<button type="button" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%" onclick="createTableUser()">' +
+            '<!--<i class="fas fa-minus-circle"></i>--> Annulla' +
         '</button>';
 
     // restituisco il form creato
@@ -162,7 +162,7 @@ function createTableUser() {
 
     feedback_table_management_user.innerText = "Sto caricando la tabella...";
     feedback_table_management_user.style.color = "#ededed";
-    
+
 
     // effettuo la chiamata
     $.ajax({
@@ -195,8 +195,8 @@ function createTableUser() {
                     body_table_users.innerHTML += createRecordUser(element);
 
                 });
-                
-                
+
+
             }
 
         },
@@ -248,7 +248,7 @@ function addUser() {
                 // in caso di successo stampo un messaggio nel box al posto della tabella
                 feedback_table_management_user.innerText = res.description;
                 feedback_table_management_user.style.color = correct_data;
-                
+
             }
 
         },
@@ -267,7 +267,7 @@ function addUser() {
 
 // in base all'id passato elimino l'utente
 function editUser(ID) {   // può anche essere passato un array
-    
+
     console.log("Modifico: " + ID);
 
     // creo l'oggetto data da mandare in post
@@ -313,7 +313,7 @@ function editUser(ID) {   // può anche essere passato un array
 
 // in base all'id passato elimino l'utente
 function deleteUser(ID) {   // può anche essere passato un array
-    
+
     console.log("Elimino: " + ID);
 
     // creo l'oggetto data da mandare in post
@@ -359,18 +359,18 @@ function deleteUser(ID) {   // può anche essere passato un array
 
 // imposta tutti i checkbox dei record della tabella utenti con la modalità passata
 function setCheckboxRecordUser(mode) {
-    
+
     // per ogni id checkboxN, imposto su true il checked
     for (let index = 0; index < body_table_users.childElementCount; index += 2) {
-        
+
         // tramite il body della tabella, richiamo i suoi elementi figli e recupero l'input checkbox impostandolo con mode
         body_table_users.children.item(index).getElementsByTagName("input")[0].checked = mode;
-    }       
+    }
 }
 
 // crea il codice HTML del form da inserire in formato record per creare un nuovo utente
 function createFormNewUser() {
-    
+
     // record che sarà restituito
     let record = "";
 
@@ -381,34 +381,34 @@ function createFormNewUser() {
     //record += '<label class="au-checkbox">';
     //record += '<input type="checkbox" name="checkRecord[]" value="checkboxAddUser" id="checkboxAddUser" disabled>';    // inserisco il checkbox con valore l'ID dell'utente
     //record += '<span class="au-checkmark"></span>';
-    //record += '</label>'; 
+    //record += '</label>';
     //record += '<i class="fas fa-user-plus"></i>';
     record += '</td>';
 
     // inserisco l'ID
     // Predisposizione IdUtente: record += '<td>' + user.IdUtente + '</td>';
-    
+
     // inserisco il COGNOME
-    record += '<td>' + 
-    '<input type="text" placeholder="Cognome" oninput="checkNewSurnameUser()" class="form-control" id="newSurnameUser">' + 
+    record += '<td>' +
+    '<input type="text" placeholder="Cognome" oninput="checkNewSurnameUser()" class="form-control" id="newSurnameUser">' +
     '</td>';
-    
+
     // inserisco il NOME
-    record += '<td>' + 
-    '<input type="text" placeholder="Nome" oninput="checkNewNameUser()" class="form-control" id="newNameUser">' + 
+    record += '<td>' +
+    '<input type="text" placeholder="Nome" oninput="checkNewNameUser()" class="form-control" id="newNameUser">' +
     '</td>';
-    
+
     // inserisco l'EMAIL
-    record += '<td>' + 
-    '<input type="email" placeholder="Email" oninput="checkNewEmailUser()" class="form-control" id="newEmailUser">' + 
+    record += '<td>' +
+    '<input type="email" placeholder="Email" oninput="checkNewEmailUser()" class="form-control" id="newEmailUser">' +
     '</td>';
 
     // inserisco la PASSWORD
-    record += '<td>' + 
-    '<input type="password" placeholder="Password" oninput="checkNewPasswordUser()" class="form-control" id="newPasswordUser">' + 
+    record += '<td>' +
+    '<input type="password" placeholder="Password" oninput="checkNewPasswordUser()" class="form-control" id="newPasswordUser">' +
     '</td>';
 
-    
+
     // inserisco la CATEGORIA
     record += '<td>';
     record += '<select name="select" class="form-control" id="categoria_add_user"></select>';
@@ -422,9 +422,9 @@ function createFormNewUser() {
     // inserisco i bottoni per le diverse azioni
     record += '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_user" onclick="addUser()" style="margin-left: 0.5vw; border-radius: 5%" disabled>' +   // aggiungo l'onclick per effettuare correttamente l'azione
         '<i class="far fa-check-circle"></i> Conferma' +
-    '</button>' + 
-    '<button type="button" onclick="createTableUser()" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%">' + 
-        '<!--<i class="fas fa-minus-circle"></i>--> Annulla' + 
+    '</button>' +
+    '<button type="button" onclick="createTableUser()" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%">' +
+        '<!--<i class="fas fa-minus-circle"></i>--> Annulla' +
     '</button></td>';
 
     // inserisco il record di spaziatura
@@ -436,9 +436,9 @@ function createFormNewUser() {
 
 }
 
-// imposto le funzioni per gli eventi del form 
+// imposto le funzioni per gli eventi del form
 function checkNewSurnameUser(ID = "newSurnameUser") {
-    
+
     // controllo che sia aggiunto almeno un valore per il cognome
 
     if(document.getElementById(ID).value.trim() == "") {
@@ -459,7 +459,7 @@ function checkNewSurnameUser(ID = "newSurnameUser") {
 }
 
 function checkNewNameUser(ID = "newNameUser") {
-    
+
     // controllo che sia aggiunto almeno un valore per il nome
 
     if(document.getElementById(ID).value.trim() == "") {
@@ -479,9 +479,9 @@ function checkNewNameUser(ID = "newNameUser") {
 
 }
 
-// imposto le funzioni per gli eventi del form 
+// imposto le funzioni per gli eventi del form
 function checkNewEmailUser(ID = "newEmailUser") {
-    
+
     // controllo che sia aggiunto almeno un valore per il email
 
     if(document.getElementById(ID).value.trim() == "" || validateEmail(document.getElementById(ID).value.trim()) == false) {
@@ -497,7 +497,7 @@ function checkNewEmailUser(ID = "newEmailUser") {
     } else {
 
         feedback_table_management_user.innerText = "";      // elimino il messaggio di errore
-        
+
         check_new_email_user = true;
         document.getElementById(ID).style.borderColor = correct_data;
 
@@ -509,7 +509,7 @@ function checkNewEmailUser(ID = "newEmailUser") {
 }
 
 function checkNewPasswordUser(ID = "newPasswordUser") {
-    
+
     // controllo che sia aggiunto almeno un valore per il email
 
     if(document.getElementById(ID).value.trim() == "" || validatePassword(document.getElementById(ID).value.trim()) == false) {
@@ -539,14 +539,14 @@ function checkNewPasswordUser(ID = "newPasswordUser") {
 
 // controllo se posso abilitare il bottone per la conferma del nuovo utente
 function checkFormNewUser(ID = "btn_confirm_new_user") {
-    
+
     let btn_confirm_new_user = document.getElementById(ID);
 
     if(btn_confirm_new_user == null) {
 
         console.error("Il button per la conferma non esiste");
         return false;
-    } 
+    }
 
     if(check_new_surname_user && check_new_name_user && check_new_password_user && check_new_email_user) {
         btn_confirm_new_user.removeAttribute("disabled");
@@ -556,15 +556,15 @@ function checkFormNewUser(ID = "btn_confirm_new_user") {
         btn_confirm_new_user.setAttribute("disabled", "disabled");
         return false;
     }
-        
+
 }
 
 // funzione che modifica il record della tabella con id passato, predisponendolo come form
 function changeRecordUserToForm(ID) {
-    
+
     // elimino il form per l'inserimento di un nuovo utente
     removeForm("form_new_user");
-    
+
     // DEPRECATI
     /*
     // COGNOME
@@ -616,21 +616,21 @@ function changeRecordUserToForm(ID) {
     let td_action_userId = document.getElementById("td_action_userId_" + ID);
     td_action_userId.innerHTML = '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_user" onclick="editUser(' + ID + ')" style="margin-left: 0.5vw; border-radius: 5%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
         '<i class="far fa-check-circle"></i> Conferma' +
-    '</button>' + 
-    '<button type="button" onclick="createTableUser()" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%">' + 
-        '<!--<i class="fas fa-minus-circle"></i>--> Annulla' + 
+    '</button>' +
+    '<button type="button" onclick="createTableUser()" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%">' +
+        '<!--<i class="fas fa-minus-circle"></i>--> Annulla' +
     '</button></td>';
 
-} 
+}
 
-// funzione che elimina tutti gli id selezionati 
+// funzione che elimina tutti gli id selezionati
 function getArrayUsersChecked() {
 
     let array = Array();
-    
+
     // per ogni record della tabella cerco l'input checkbox
     for (let index = 0; index < body_table_users.childElementCount; index++) {
-        
+
         // verifico che non sia un record spacer verificando che esista un figlio
         let tr = body_table_users.children[index];
         if(tr.firstElementChild != null) {
@@ -641,7 +641,7 @@ function getArrayUsersChecked() {
                 array.push(checkbox.value);
 
         }
-        
+
     }
 
 
@@ -651,7 +651,7 @@ function getArrayUsersChecked() {
 
 // controllo se abilitare il bottone
 function checkCheckboxUser() {
-    
+
     let array = getArrayUsersChecked();
 
     console.log(array);
@@ -671,16 +671,16 @@ function checkCheckboxUser() {
 }
 
 // ----------------------------------------------------------------
-// ----------------------- EVENTI --------------------------------- 
+// ----------------------- EVENTI ---------------------------------
 // ----------------------------------------------------------------
 
 // al click del checkbox generale, verifico il suo stato e modifico tutti quelli presenti di conseguenza
 general_checkbox_users.addEventListener("change", () => {
-    
+
     // controllo lo stato del bottone e richiamo la funzione con il valore del checkbox giusta
     setCheckboxRecordUser(general_checkbox_users.checked);
     checkCheckboxUser();
-    
+
 });
 
 // aggiungo il form per l'aggiunta di un nuovo utente
@@ -691,7 +691,7 @@ form_add_user.addEventListener("click", () => {
     // aggiungo il form all'inzio del codice già esistente
     createTableUser();
     let actual_body = body_table_users.innerHTML
-    body_table_users.innerHTML = createFormNewUser() + actual_body; 
+    body_table_users.innerHTML = createFormNewUser() + actual_body;
 
     // richiamo le funzioni per aggiungere categorie e permessi
     addCategorie(document.getElementById("categoria_add_user"), feedback_table_management_user, 10);
@@ -701,10 +701,10 @@ form_add_user.addEventListener("click", () => {
 // ricarico la tabella riaggiungendola al click del bottone di refresh
 btn_refresh_management_user.addEventListener("click", () => {
 
-    
+
 
     // disabilito il bottone per 3 secondi
-    
+
     // creo la tabella
     createTableUser();
 
@@ -715,7 +715,7 @@ btn_refresh_management_user.addEventListener("click", () => {
     btn_refresh_management_user.color = "#ededed";
 
     setTimeout(() => {
-        
+
         // abilito il bottone
         btn_refresh_management_user.disabled = false;
 

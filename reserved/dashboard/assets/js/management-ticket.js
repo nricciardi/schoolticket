@@ -277,7 +277,7 @@ function addTicket() {
         type: "post",
         data: data,
         dataType: "json",
-        success: (res) => {
+        success: async(res) => {
 
             console.log(res);
             // verifico che la siano stati restituiti correttamente i dati
@@ -290,7 +290,7 @@ function addTicket() {
             } else {
 
                 // in caso positivo creo la tabella per i ticket
-                createTableTicket();
+                await createTableTicket();
 
             }
 
@@ -323,7 +323,7 @@ function editTicket(ID) {   // può anche essere passato un array
         type: "PUT",
         data: data,
         dataType: "json",
-        success: (res) => {
+        success: async(res) => {
 
             console.log(res);
             // verifico che la siano stati restituiti correttamente i dati
@@ -336,7 +336,7 @@ function editTicket(ID) {   // può anche essere passato un array
             } else {
 
                 // in caso positivo creo la tabella per gli utenti
-                createTableTicket();
+                await createTableTicket();
 
             }
 
@@ -369,7 +369,7 @@ function deleteTicket(ID) {   // può anche essere passato un array
         type: "post",
         data: data,
         dataType: "json",
-        success: (res) => {
+        success: async(res) => {
 
             console.log(res);
             // verifico che la siano stati restituiti correttamente i dati
@@ -382,7 +382,7 @@ function deleteTicket(ID) {   // può anche essere passato un array
             } else {
 
                 // in caso positivo creo la tabella per gli utenti
-                createTableTicket();
+                await createTableTicket();
 
             }
 
@@ -773,7 +773,7 @@ function changeRecordTicketToForm(ID) {
     utente = td_utente.dataset.utente;     // recupero il valore del cognome
 
     td_utente.innerHTML = '<select id="editUtenteTicket" class="form-control"></select>';   // creo il select contenitore
-    addUtente(document.getElementById("editUtenteTicket"), feedback_table_management_ticket, 10);      // aggiungo le categorie
+    addUser(document.getElementById("editUtenteTicket"), feedback_table_management_ticket, 10);      // aggiungo le categorie
     document.getElementById("editUtenteTicket").value = utente;       // imposto il valore corrente
 
 	 // AULA
@@ -894,29 +894,30 @@ general_checkbox_ticket.addEventListener("change", () => {
 });
 
 // aggiungo il form per l'aggiunta di un nuovo utente
-form_add_ticket.addEventListener("click", () => {
+form_add_ticket.addEventListener("click", async() => {
 
     console.log("Aggiunto il form");
 
     // aggiungo il form all'inzio del codice già esistente
-    createTableTicket();
+    await createTableTicket();
     let actual_body = body_table_tickets.innerHTML
     body_table_tickets.innerHTML = createFormNewTicket() + actual_body;
 
     // richiamo le funzioni per aggiungere categorie e permessi
     addMacroaree(document.getElementById("macroarea_add_ticket"), feedback_table_management_ticket, 10);
+		addUser(document.getElementById("utente_add_ticket"), feedback_table_management_ticket, 10);
     addClassroom(document.getElementById("aula_add_ticket"), feedback_table_management_ticket, 10);
 });
 
 // ricarico la tabella riaggiungendola al click del bottone di refresh
-btn_refresh_management_ticket.addEventListener("click", () => {
+btn_refresh_management_ticket.addEventListener("click", async() => {
 
 
 
     // disabilito il bottone per 3 secondi
 
     // creo la tabella
-    createTableTicket();
+    await createTableTicket();
 
     // disabilito il bottone
     btn_refresh_management_ticket.disabled = true;
