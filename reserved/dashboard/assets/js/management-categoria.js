@@ -134,7 +134,7 @@ function createrequestActionCategoria(type, ID) {
     // inserisco il form dimanico
     request +=
         '<strong>' + question + '</strong>' +
-        '<button type="button" class="btn btn-primary btn-sm" onclick="' + type + 'categoria(' + ID + ')" style="margin-left: 0.5vw; border-radius: 5%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
+        '<button type="button" class="btn btn-primary btn-sm" onclick="' + type + 'Categoria(' + ID + ')" style="margin-left: 0.5vw; border-radius: 5%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
             '<i class="far fa-check-circle"></i> Sì' +
         '</button>' + // nel caso di click su annulla viene ricreata la tabella
         '<button type="button" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%" onclick="createTableCategoria()">' + 
@@ -151,9 +151,6 @@ function createTableCategoria() {
     feedback_table_management_categoria.innerText = "Sto caricando la tabella...";
     feedback_table_management_categoria.style.color = "#ededed";
 
-    // elimino gli elementi esistenti
-    body_table_categoria.innerHTML = "";
-
     // effettuo la chiamata
     $.ajax({
         url: HOSTNAME + "/api/categorie.php",
@@ -164,6 +161,9 @@ function createTableCategoria() {
         dataType: "json",
         success: (res) => {
             console.log(res);
+			
+			// elimino gli elementi esistenti
+			body_table_categoria.innerHTML = "";
             // verifico che la siano stati restituiti correttamente i dati
             if(res.result === false) {
 
