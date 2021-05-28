@@ -244,7 +244,7 @@ function createTablePermessi() {
 }
 
 // in base all'id passato cerco di creare un nuovo utente
-function addPermessi() {
+async function addPermessi() {
     console.log("Aggiungo un permesso");
 
     // controllo che tutti i controlli siano andati a buon fine
@@ -293,7 +293,7 @@ function addPermessi() {
             } else {
 
                 // in caso positivo creo la tabella per gli utenti
-                createTablePermessi();
+                await createTablePermessi();
 
             }
 
@@ -312,7 +312,7 @@ function addPermessi() {
 }
 
 // in base all'id passato elimino l'utente
-function editPermessi(ID) {   // può anche essere passato un array
+async function editPermessi(ID) {   // può anche essere passato un array
 
     console.log("Modifico: " + ID);
 
@@ -358,7 +358,7 @@ function editPermessi(ID) {   // può anche essere passato un array
             } else {
 
                 // in caso positivo creo la tabella per gli utenti
-                createTablePermessi();
+                await createTablePermessi();
 
             }
 
@@ -377,7 +377,7 @@ function editPermessi(ID) {   // può anche essere passato un array
 }
 
 // in base all'id passato elimino l'utente
-function deletePermessi(ID) {   // può anche essere passato un array
+async function deletePermessi(ID) {   // può anche essere passato un array
 
     console.log("Elimino: " + ID);
 
@@ -407,7 +407,7 @@ function deletePermessi(ID) {   // può anche essere passato un array
             } else {
 
                 // in caso positivo creo la tabella per gli utenti
-                createTablePermessi();
+                await createTablePermessi();
 
             }
 
@@ -829,25 +829,25 @@ general_checkbox_permessi.addEventListener("change", () => {
 });
 
 // aggiungo il form per l'aggiunta di un nuovo utente
-form_add_permessi.addEventListener("click", () => {
+form_add_permessi.addEventListener("click", async () => {
 
     console.log("Aggiunto il form");
 
     // aggiungo il form all'inzio del codice già esistente
-    createTablePermessi();
+    await createTablePermessi();
     let actual_body = body_table_permessi.innerHTML
     body_table_permessi.innerHTML = createFormNewPermessi() + actual_body;
 });
 
 // ricarico la tabella riaggiungendola al click del bottone di refresh
-btn_refresh_management_permessi.addEventListener("click", () => {
+btn_refresh_management_permessi.addEventListener("click", async () => {
 
 
 
     // disabilito il bottone per 3 secondi
 
     // creo la tabella
-    createTablePermessi();
+    await createTablePermessi();
 
     // disabilito il bottone
     btn_refresh_management_permessi.disabled = true;

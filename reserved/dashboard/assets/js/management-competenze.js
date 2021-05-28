@@ -197,7 +197,7 @@ function createTableCompetenza() {
 }
 
 // in base all'id passato cerco di creare una nuova competenza
-function addCompetenza() {
+async function addCompetenza() {
     console.log("Aggiungo un'competenza");
 
     // controllo che tutti i controlli siano andati a buon fine
@@ -240,7 +240,7 @@ function addCompetenza() {
             } else {
 
                 // in caso positivo creo la tabella per gli competenza
-                createTableCompetenza();
+                await createTableCompetenza();
                 
             }
 
@@ -256,7 +256,7 @@ function addCompetenza() {
 }
 
 // in base all'id passato elimino l'competenza
-function editCompetenza(ID) {   // può anche essere passato un array
+async function editCompetenza(ID) {   // può anche essere passato un array
     
     console.log("Modifico: " + ID);
 
@@ -291,7 +291,7 @@ function editCompetenza(ID) {   // può anche essere passato un array
             } else {
 
                 // in caso positivo creo la tabella per gli competenza
-                createTableCompetenza();
+                await createTableCompetenza();
 
             }
 
@@ -307,7 +307,7 @@ function editCompetenza(ID) {   // può anche essere passato un array
 }
 
 // in base all'id passato elimino l'competenza
-function deleteCompetenza(ID) {   // può anche essere passato un array
+async function deleteCompetenza(ID) {   // può anche essere passato un array
     
     console.log("Elimino: " + ID);
 
@@ -337,7 +337,7 @@ function deleteCompetenza(ID) {   // può anche essere passato un array
             } else {
 
                 // in caso positivo creo la tabella per le aule
-                createTableCompetenza();
+                await createTableCompetenza();
 
             }
 
@@ -560,26 +560,26 @@ general_checkbox_competenza.addEventListener("change", () => {
 });
 
 // aggiungo il form per l'aggiunta di una nuova aula
-form_add_competenza.addEventListener("click", () => {
+form_add_competenza.addEventListener("click", async () => {
 
     console.log("Aggiunto il form");
 
     // aggiungo il form all'inzio del codice già esistente
-    createTableCompetenza();
+    await createTableCompetenza();
     let actual_body = body_table_competenza.innerHTML
     body_table_competenza.innerHTML = createFormNewCompetenza() + actual_body; 
 
 });
 
 // ricarico la tabella riaggiungendola al click del bottone di refresh
-btn_refresh_management_competenza.addEventListener("click", () => {
+btn_refresh_management_competenza.addEventListener("click", async () => {
 
     
 
     // disabilito il bottone per 3 secondi
     
     // creo la tabella
-    createTableCompetenza();
+    await createTableCompetenza();
 
     // disabilito il bottone
     btn_refresh_management_competenza.disabled = true;
