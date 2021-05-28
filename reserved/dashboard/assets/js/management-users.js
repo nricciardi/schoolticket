@@ -158,14 +158,14 @@ function createRequestActionUser(type, ID) {
 }
 
 // richiama gli utenti dal database tramite chiamata AJAX e successivamente crea la tabella
-function createTableUser() {
+async function createTableUser() {
 
     feedback_table_management_user.innerText = "Sto caricando la tabella...";
     feedback_table_management_user.style.color = "#ededed";
 
 
     // effettuo la chiamata
-    $.ajax({
+    await $.ajax({
         url: HOSTNAME + "/assets/php/authentication/Authentication.php",
         type: "GET",
         dataType: "JSON",
@@ -276,16 +276,16 @@ async function editUser(ID) {   // può anche essere passato un array
     console.log("Modifico: " + ID);
 
     // creo l'oggetto data da mandare in post
-    let data = {"Submit": "Update", "IdCategoria": document.getElementById("editCategoriaUser").value, "IdPermessi": document.getElementById("editCategoriaUser").value};
+    let data = {"IdUtente": ID, "IdCategoria": document.getElementById("editCategoriaUser").value, "IdPermessi": document.getElementById("editCategoriaUser").value};
 
     // effettuo la chiamata ajax
     $.ajax({
 
         url: HOSTNAME + "/assets/php/authentication/Authentication.php",
-        type: "post",
-        data: data,
+        type: "PUT",
+        data: JSON.stringify(data),
         dataType: "json",
-        success: (res) => {
+        success: async (res) => {
 
             console.log(res);
             // verifico che la siano stati restituiti correttamente i dati
@@ -327,14 +327,14 @@ async function deleteUser(ID) {   // può anche essere passato un array
     console.log("Elimino: " + ID);
 
     // creo l'oggetto data da mandare in post
-    let data = {"Submit": "delete", "Data": ID};
+    let data = {"id": ID};
 
     // effettuo la chiamata ajax
     $.ajax({
 
         url: HOSTNAME + "/assets/php/authentication/Authentication.php",
-        type: "post",
-        data: data,
+        type: "DELETE",
+        data: JSON.stringify(data),
         dataType: "json",
         success: (res) => {
 

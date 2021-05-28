@@ -715,11 +715,14 @@
 			}
 		}
 
-	public function Update($IdUtente, $Cognome = "", $Nome = "", $Email = "", $Password = "", $Codice = "", $Categoria = "", $Permessi = ""){
+	public function Update($IdUtente = null, $Cognome = "", $Nome = "", $Email = "", $Password = "", $Codice = "", $Categoria = "", $Permessi = ""){
 
 		$st = "";
 		$totDescr = "";
 		$cont = 0;
+
+		if($IdUtente == null)
+			return '{"result":false,"description":"Idtente non esistente."}';
 
 		if($Cognome != "")
 		{
@@ -1109,7 +1112,7 @@ function PUT_request($auth = null, $json_error = '{"result":false,"description":
 
 			$control = true;
 
-			if(isset($put_data["nome"])) {
+			/*if(isset($put_data["nome"])) {
 				$nome = $put_data["nome"];
 			} else {
 				$nome = null;
@@ -1131,22 +1134,33 @@ function PUT_request($auth = null, $json_error = '{"result":false,"description":
 				$password = $put_data["password"];
 			} else {
 				$password = null;
+			}*/
+
+			if(isset($put_data->IdUtente)) {
+				$IdUtente = $put_data->IdUtente;
+			} else {
+				$IdUtente = null;
+				$control = false;
 			}
 
-			if(isset($put_data["idCategoria"])) {
-				$IdCategoria = $put_data["idCategoria"];
+			if(isset($put_data->IdCategoria)) {
+				$IdCategoria = $put_data->IdCategoria;
 			} else {
 				$IdCategoria = null;
+				$control = false;
 			}
 
-			if(isset($put_data["idPermessi"])) {
-				$IdPermessi = $put_data["idPermessi"];
+			if(isset($put_data->IdPermessi)) {
+				$IdPermessi = $put_data->IdPermessi;
 			} else {
 				$IdPermessi = null;
+				$control = false;
 			}
 
-			return $auth->update($nome, $cognome, $email, $password, $IdCategoria, $IdPermessi);	// Deprecato, l'id dell'utente è autoincrementale
-
+			if($control)
+				return $auth->Update($IdUtente, null, null, null, null, null, $IdCategoria, $IdPermessi);	// Deprecato, l'id dell'utente è autoincrementale
+			else
+				return $json_error;
 
 		} else {
 			return $json_error;

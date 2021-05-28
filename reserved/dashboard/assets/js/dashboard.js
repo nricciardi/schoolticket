@@ -1326,14 +1326,14 @@ btn_change_password2.addEventListener("click", () => {
 
 // show utenti
 
-btn_show_user.addEventListener("click", () => {
+btn_show_user.addEventListener("click", async () => {
 
     hideAllDynamicPage();
 
     console.debug("show management user");
 
     // creo la tabella degli utenti
-    createTableUser();
+    await createTableUser();
 
     div_management_users.style.display = "";
     // chiudo il menù
@@ -1342,14 +1342,14 @@ btn_show_user.addEventListener("click", () => {
 
 });
 
-btn_show_user2.addEventListener("click", () => {
+btn_show_user2.addEventListener("click", async () => {
 
     hideAllDynamicPage();
 
     console.debug("show management user");
 
     // creo la tabella degli utenti
-    createTableUser();
+    await createTableUser();
 
     div_management_users.style.display = "";
     // chiudo il menù
