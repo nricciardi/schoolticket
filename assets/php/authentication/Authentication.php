@@ -435,7 +435,7 @@
 		{
 			if($this->controlId($IdUtente))	//Se l'Id è presente allora possiamo andare a eliminare un ticket
 			{
-				$st = $this->PDOconn->prepare("SELECT schoolticket.Permessi.ModificaTuttiTicket FROM schoolticket.Utente JOIN schoolticket.Permessi ON schoolticket.Permessi.IdPermessi = schoolticket.Utente.IdPermessi WHERE schoolticket.Utente.IdUtente = ?");
+				$st = $this->PDOconn->prepare("SELECT schoolticket.Permessi.ModificaVisualizzaTuttiUtenti FROM schoolticket.Utente JOIN schoolticket.Permessi ON schoolticket.Permessi.IdPermessi = schoolticket.Utente.IdPermessi WHERE schoolticket.Utente.IdUtente = ?");
 				$result = $st->execute([$IdUtente]);
 
 				if($result == false) // Se la query è sbagliata
@@ -446,7 +446,7 @@
 				else
 				{
 					$risultatoquery = $st->fetchAll(PDO::FETCH_ASSOC);	//Contiene il risultato della query
-					if($risultatoquery[0]["ModificaTuttiTicket"] == 1)	//Verifichiamo se ha permesso 1 o 0 nel modificare i ticket
+					if($risultatoquery[0]["ModificaVisualizzaTuttiUtenti"] == 1)	//Verifichiamo se ha permesso 1 o 0 nel modificare i ticket
 					{
 						//ESEGUO LA QUERY:
 						if(is_array($id))
@@ -458,22 +458,22 @@
 							{
 								if(is_numeric($id[$i]) and $this->controlId($id[$i]))
 								{
-									$q = "DELETE FROM schoolticket.ticket WHERE IdUtente = $id[$i]";
+									$q = "DELETE FROM schoolticket.utente WHERE IdUtente = ?";
 									$st = $this->PDOconn->prepare($q);
-									$result = $st->execute();
+									$result = $st->execute([$id[$i]]);
 									if($result)
 									{
 										if($i == 0)
 											$totDescr .= "Utente " . $id[$i] . " eliminato correttamente";
 										else
-											$totDescr .= ";Utente " . $id[$i] . " eliminato correttamente";
+											$totDescr .= "; Utente " . $id[$i] . " eliminato correttamente";
 									}
 									else
 									{
 										if($i == 0)
 											$totDescr .= "Utente " . $id[$i] . " non eliminato";
 										else
-											$totDescr .= ";Utente " . $id[$i] . " non eliminato";
+											$totDescr .= "; Utente " . $id[$i] . " non eliminato";
 									}
 
 								}
@@ -483,20 +483,18 @@
 									if($i == 0)
 										$totDescr .= "Utente " . $id[$i] . " non eliminato";
 									else
-										$totDescr .= ";Utente " . $id[$i] . " non eliminato";
+										$totDescr .= "; Utente " . $id[$i] . " non eliminato";
 								}
 							}
 							if($ver == 0)
 							{
-								$st = '{"result":false,"description":"' . $totDescr . '"}';
-								return $st;
+								$st = '{"result":false, "description":"' . $totDescr . '"}';
 							}
 							else
 							{
-								$st = '{"result":false,"description":"' . $totDescr . '"}';
-								return $st;
+								$st = '{"result":true,"description":"' . $totDescr . '"}';
 							}
-
+							return $st;
 
 						}
 						else
