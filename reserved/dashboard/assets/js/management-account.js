@@ -1,4 +1,3 @@
-/*
 // ----------------------------------------------------------------
 // ----------------------- VARIABILI ------------------------------
 // ----------------------------------------------------------------
@@ -10,13 +9,12 @@ var body_table_account = document.getElementById("body_table_account");
 var btn_refresh_management_account = document.getElementById("btn_refresh_management_account");
 
 
-
 // -------------------------------------------------------------------------------
 // ---------------------- FUNZIONI GENERICHE -------------------------------------
 // -------------------------------------------------------------------------------
 
 // restituisce il codice html in formato stringa da inserire nella tabella dato un oggetto ordinato in base all'intestazione della tabella
-function createRecordAccount(account) 
+function createRecordAccount(account)
 {   //Account è un oggetto contenente le informazioni del record IdUtente, Cognome, Nome, Email, Password, IdCategoria, IdPermessi
 
     // record che sarà restituito
@@ -60,7 +58,7 @@ function createTableAccount() {
 
     // effettuo la chiamata
     $.ajax({
-        url: HOSTNAME + "/assets/php/authentication/Authentication.php",
+        url: HOSTNAME + "/assets/php/issues/Ticket.php",
         type: "GET",
         dataType: "JSON",
         success: (res) => 
@@ -77,7 +75,7 @@ function createTableAccount() {
             } 
 			else 
 			{    // in caso positivo creo la tabella per gli utenti
-
+				
                 // recupero gli utenti passati da "result"
                 let account = res.result;
 
@@ -141,5 +139,3 @@ btn_refresh_management_account.addEventListener("click", () => {
 // -------------------------------------------------------------------------------
 // ---------------------- RICHIAMO FUNZIONI --------------------------------------
 // -------------------------------------------------------------------------------
-
-*/
