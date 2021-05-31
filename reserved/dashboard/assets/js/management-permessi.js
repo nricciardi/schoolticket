@@ -62,7 +62,7 @@ function createRecordPermessi(permessi) {   //User è un oggetto contenente le i
     record += '<td id="CreareTicketPermessi' + permessi.IdPermessi + '" data-CreareTicket="' + permessi.CreareTicket + '">' + permessi.CreareTicket + '</td>';
 
     // inserisco la ModificaTuttiTicket
-    record += '<td id="ModificaTuttiTicketPermessi' + permessi.IdPermessi + '" data-ModificaTuttiTicket="' + permessi.ModificaTuttiTicket +'">' + permessi.ModificaTuttiTicket + '"></td>';
+    record += '<td id="ModificaTuttiTicketPermessi' + permessi.IdPermessi + '" data-ModificaTuttiTicket="' + permessi.ModificaTuttiTicket +'">' + permessi.ModificaTuttiTicket + '</td>';
 
 	// inserisco UnireTicket
     record += '<td id="UnireTicketPermessi' + permessi.IdPermessi + '" data-UnireTicket="' + permessi.UnireTicket + '">' + permessi.UnireTicket + '</td>';
@@ -460,73 +460,73 @@ function createFormNewPermessi() {
     '</td>';
 
     // inserisco il ModificaVisualizzaTuttiUtenti
-	record += '<td>';
-    record += '<select name="select" class="form-control" id="newModificaVisualizzaTuttiUtentiPermessi"><option value= "0">"0"</option><option value= "1">"1"</option></select>';
+	   record += '<td>';
+    record += '<select name="select" class="form-control" id="newModificaVisualizzaTuttiUtentiPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
     record += '</td>';
 
 	// inserisco il CreareTicket
 	record += '<td>';
-    record += '<select name="select" class="form-control" id="newCreareTicketPermessi"><option value= "0">"0"</option><option value= "1">"1"</option></select>';
+    record += '<select name="select" class="form-control" id="newCreareTicketPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
     record += '</td>';
 
 	 // inserisco il ModificaTuttiTicket
 	record += '<td>';
-    record += '<select name="select" class="form-control" id="newModificaTuttiTicketPermessi"><option value= "0">"0"</option><option value= "1">"1"</option></select>';
+    record += '<select name="select" class="form-control" id="newModificaTuttiTicketPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
     record += '</td>';
 
 	 // inserisco il UnireTicket
     record += '<td>';
-    record += '<select name="select" class="form-control" id="newUnireTicketPermessi"><option value= "0">"0"</option><option value= "1">"1"</option></select>';
+    record += '<select name="select" class="form-control" id="newUnireTicketPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
     record += '</td>';
 
 	 // inserisco il VisualizzaTuttiTicket
     record += '<td>';
-    record += '<select name="select" class="form-control" id="newVisualizzaTuttiTicketPermessi"><option value= "0">"0"</option><option value= "1">"1"</option></select>';
+    record += '<select name="select" class="form-control" id="newVisualizzaTuttiTicketPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
     record += '</td>';
 
 	 // inserisco il ModificaStatoAvanzamentoTicket
     record += '<td>';
-    record += '<select name="select" class="form-control" id="newModificaStatoAvanzamentoTicketPermessi"><option value= "0">"0"</option><option value= "1">"1"</option></select>';
+    record += '<select name="select" class="form-control" id="newModificaStatoAvanzamentoTicketPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
     record += '</td>';
 
 	 // inserisco il ModificaStatoAvanzamentoIncarico
     record += '<td>';
-    record += '<select name="select" class="form-control" id="newModificaStatoAvanzamentoIncaricoPermessi"><option value= "0">"0"</option><option value= "1">"1"</option></select>';
+    record += '<select name="select" class="form-control" id="newModificaStatoAvanzamentoIncaricoPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
     record += '</td>';
 
 	 // inserisco il CreaIncarico
     record += '<td>';
-    record += '<select name="select" class="form-control" id="newCreaIncaricoPermessi"><option value= "0">"0"</option><option value= "1">"1"</option></select>';
+    record += '<select name="select" class="form-control" id="newCreaIncaricoPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
     record += '</td>';
 
 	 // inserisco il CreaModificaEliminaAula
     record += '<td>';
-    record += '<select name="select" class="form-control" id="newCreaModificaEliminaAulaPermessi"><option value= "0">"0"</option><option value= "1">"1"</option></select>';
+    record += '<select name="select" class="form-control" id="newCreaModificaEliminaAulaPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
     record += '</td>';
 
 	 // inserisco il CreaModificaEliminaNote
     record += '<td>';
-    record += '<select name="select" class="form-control" id="newCreaModificaEliminaNotePermessi"><option value= "0">"0"</option><option value= "1">"1"</option></select>';
+    record += '<select name="select" class="form-control" id="newCreaModificaEliminaNotePermessi"><option value= "0">0</option><option value= "1">1</option></select>';
     record += '</td>';
 
 	 // inserisco il CreaModificaEliminaMacroarea
     record += '<td>';
-    record += '<select name="select" class="form-control" id="newCreaModificaEliminaMacroareaPermessi"><option value= "0">"0"</option><option value= "1">"1"</option></select>';
+    record += '<select name="select" class="form-control" id="newCreaModificaEliminaMacroareaPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
     record += '</td>';
 
 	 // inserisco il CreaModificaEliminaCompetenza
     record += '<td>';
-    record += '<select name="select" class="form-control" id="newCreaModificaEliminaCompetenzaPermessi"><option value= "0">"0"</option><option value= "1">"1"</option></select>';
+    record += '<select name="select" class="form-control" id="newCreaModificaEliminaCompetenzaPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
     record += '</td>';
 
 	 // inserisco il CreaModificaEliminaCategoria
     record += '<td>';
-    record += '<select name="select" class="form-control" id="newCreaModificaEliminaCategoriaPermessi"><option value= "0">"0"</option><option value= "1">"1"</option></select>';
+    record += '<select name="select" class="form-control" id="newCreaModificaEliminaCategoriaPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
     record += '</td>';
 
 	 // inserisco il CreaModificaEliminaPermessi
     record += '<td>';
-    record += '<select name="select" class="form-control" id="newCreaModificaEliminaPermessiPermessi"><option value= "0">"0"</option><option value= "1">"1"</option></select>';
+    record += '<select name="select" class="form-control" id="newCreaModificaEliminaPermessiPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
     record += '</td>';
 
     // inserisco i bottoni per le diverse azioni
