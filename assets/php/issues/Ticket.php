@@ -1322,5 +1322,4 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "Update"){
 
   echo $ticket -> Update($IdTicket, $Nome, $Descrizione, $Stato, $Priorita, $Data, $Ora, $Macro, $Utente, $Aula, $Unione, $Visualizzato);
 }
-
 ?>
