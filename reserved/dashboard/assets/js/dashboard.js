@@ -65,6 +65,9 @@ var div_management_categorie = document.getElementById("div_management_categoria
 // div contenente la tabella per il controllo delle categorie
 div_management_macroarea = document.getElementById("div_management_macroarea");
 
+// div contenente la tabella per il controllo dei ticket inseriti
+div_management_ticketinseriti = document.getElementById("div_management_ticketinseriti");
+
 // menù con le funzionalità della pagina
 var menu_gestione = document.getElementById("menu_gestione");
 var menu_gestione2 = document.getElementById("menu_gestione_2");
@@ -100,6 +103,10 @@ var btn_show_categorie2 = document.getElementById("btn_show_categorie_2");
 // bottone del sotto menù gestione: btn_show_aule
 var btn_show_aule = document.getElementById("btn_show_aule");
 var btn_show_aule2 = document.getElementById("btn_show_aule_2");
+btn_show_ticketinseriti
+// bottone del sotto menù gestione: btn_show_aule
+var btn_show_ticketinseriti = document.getElementById("btn_show_ticketinseriti");
+var btn_show_ticketinseriti2 = document.getElementById("btn_show_ticketinseriti_2");
 
 // div aula
 var div_management_aula = document.getElementById("div_management_aula");
@@ -1550,4 +1557,33 @@ btn_show_competenze2.addEventListener("click", () => {
 
 });
 
+btn_show_ticketinseriti.addEventListener("click", () => {
+
+    hideAllDynamicPage();
+
+    // creo la tabella delle aule
+    createTableTicketInseriti();
+
+    div_management_ticketinseriti.style.display = "";
+
+    // chiudo il menù
+    $("#header-desktop-menu").removeClass("show-sidebar");
+    $("#header-desktop-menu2").removeClass("show-sidebar");
+
+});
+
+btn_show_ticketinseriti2.addEventListener("click", () => {
+
+    hideAllDynamicPage();
+
+    // creo la tabella delle aule
+    createTableTicketInseriti();
+
+    div_management_ticketinseriti.style.display = "";
+
+    // chiudo il menù
+    $("#header-desktop-menu").removeClass("show-sidebar");
+    $("#header-desktop-menu2").removeClass("show-sidebar");
+
+});
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------

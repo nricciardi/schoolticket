@@ -139,6 +139,13 @@
                                 ?>
                             </div>
 
+                            <!-- !!!!!!!!!!!!!!! PAGE MANAGEMENT ticketinseriti   !!!!!!!!!!!!!!! -->
+                            <div class="col-md-12" style="display: none;" id="div_management_ticketinseriti"> <!-- Di default è invisibile, viene visualizzato solo dopo il click di btn_add_ticket -->
+                                <?php
+                                   require_once("assets".DS."php".DS."utilities".DS."management-ticket-inseriti.php");     // includo il form per il new ticket
+                                ?>
+                            </div>
+
                             <!-- !!!!!!!!!!!!!!!RECENT REPORT!!!!!!!!!!!!!!! -->
 
                             <!-- !!!!!!!!!!!!!!!TASK PROGRESS!!!!!!!!!!!!!!! -->
