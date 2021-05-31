@@ -16,12 +16,13 @@
 
         $.ajax({
 
-            url: "macroaree.php",
-            type: "GET",
-            data: JSON.stringify({"IdMacroarea": 7, "Nome": "nomsistente"}),
-            //data: {"IdMacroarea": 2, "Nome": "dsjlksjd"},
-            //data: JSON.stringify({"id": [8,9,10,11,12], "Nome": "stalin"}),
-            //data: {"id": 4},
+            url: "incarichi.php",
+            type: "PUT",
+            data: JSON.stringify({"IdIncarico": 1, "IdTicket": 8}),
+            //data: {"IdIncarico": 2, "Nome": "dsjlksjd"},
+            //data: {"IdUtente": 13, "IdTicket": 5},
+            //data: JSON.stringify({"id": 6}),
+            //data: {"id": 1},
             dataType: "JSON",
             headers: {
                         'Authorization': 'Basic ' + btoa('a@a.com:05be1ce3b695041f41341868251d8c0dcf6239be9e87b76f45471e9b5e23bde2a57d6b759ed81aca0329c794a654c785c666986841736cdc6b604d08ddfc83e1')

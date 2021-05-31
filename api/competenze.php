@@ -41,14 +41,22 @@
             
             if($idCompetenza === null) {      // se il parametro è null non viene richiesto un aula specifico, restituisco tutte le aule
 
-                $st = $this->PDOconn->prepare($query);
-                $result = $st->execute();
+                try {
+                    $st = $this->PDOconn->prepare($query);
+                    $result = $st->execute();
+                } catch (Exception $e) {
+                    return '{"result":false, "description":"I campi inseriti non sono corretti"}';
+                }
 
             } elseif (is_numeric($idCompetenza)){     // controllo che l'id passato sia un numero, quindi un possibile id
 
-                $query .= " WHERE schoolticket.aula.IdCompetenza = ?";    // aggiungo una condizione alla query di selezione
-                $st = $this->PDOconn->prepare($query);
-                $result = $st->execute([$idCompetenza]);
+                try {
+                    $query .= " WHERE schoolticket.aula.IdCompetenza = ?";    // aggiungo una condizione alla query di selezione
+                    $st = $this->PDOconn->prepare($query);
+                    $result = $st->execute([$idCompetenza]);
+                } catch (Exception $e) {
+                    return '{"result":false, "description":"I campi inseriti non sono corretti"}';
+                }
 
             } elseif (is_array($idCompetenza)) {  // controllo che l'id passato sia un array, quindi restituisco tutti i aula passati
 
@@ -66,9 +74,13 @@
                         $query .= " OR";
 
                 }
-                
-                $st = $this->PDOconn->prepare($query);
-                $result = $st->execute($array_id);
+
+                try {
+                    $st = $this->PDOconn->prepare($query);
+                    $result = $st->execute($array_id);
+                } catch (Exception $e) {
+                    return '{"result":false, "description":"I campi inseriti non sono corretti"}';
+                }
 
             } else {        // in tutti gli altri casi restituisco un errore
 
@@ -109,9 +121,13 @@
 
             } elseif (is_numeric($idCompetenza)){     // controllo che l'id passato sia un numero, quindi un possibile id
 
-                $query .= " WHERE schoolticket.aula.IdCompetenza = ?";    // aggiungo una condizione alla query di selezione
-                $st = $this->PDOconn->prepare($query);
-                $result = $st->execute([$idCompetenza]);
+                try {
+                    $query .= " WHERE schoolticket.aula.IdCompetenza = ?";    // aggiungo una condizione alla query di selezione
+                    $st = $this->PDOconn->prepare($query);
+                    $result = $st->execute([$idCompetenza]);
+                } catch (Exception $e) {
+                    return '{"result":false, "description":"I campi inseriti non sono corretti"}';
+                }
 
             } elseif (is_array($idCompetenza)) {  // controllo che l'id passato sia un array, quindi elimino tutti i aula passati
 
@@ -129,9 +145,12 @@
                         $query .= " OR";
 
                 }
-                
-                $st = $this->PDOconn->prepare($query);
-                $result = $st->execute($array_id);
+                try {
+                    $st = $this->PDOconn->prepare($query);
+                    $result = $st->execute($array_id);
+                } catch (Exception $e) {
+                    return '{"result":false, "description":"I campi inseriti non sono corretti"}';
+                }
 
             } else {        // in tutti gli altri casi restituisco un errore
 
@@ -222,9 +241,13 @@
                 // creo la query finale da usare 
                 $query .= $end_query . ")";
                 
-                // eseguo la query
-                $st = $this->PDOconn->prepare($query);  
-                $result = $st->execute($array_values);
+                try {
+                    // eseguo la query
+                    $st = $this->PDOconn->prepare($query);  
+                    $result = $st->execute($array_values);
+                } catch (Exception $e) {
+                    return '{"result":false, "description":"I campi inseriti non sono corretti"}';
+                }
 
             }
             
@@ -297,10 +320,13 @@
                     return '{"result":false, "description":"Aula non aggiornata correttamente: IdCompetenza mancante"}';
                 }
 
-                // eseguo la query
-                $st = $this->PDOconn->prepare($query);  
-                $result = $st->execute($array_values);
-
+                try {
+                    // eseguo la query
+                    $st = $this->PDOconn->prepare($query);  
+                    $result = $st->execute($array_values);
+                } catch (Exception $e) {
+                    return '{"result":false, "description":"I campi inseriti non sono corretti"}';
+                }
             }
             
             if($result != false) {       // controllo che la query abbia dato un risultato positivo
@@ -328,9 +354,13 @@
                         JOIN schoolticket.permessi ON schoolticket.permessi.IdPermessi = schoolticket.utente.IdPermessi 
                         WHERE schoolticket.utente.Email = ? AND schoolticket.utente.Password = ?";
 
-            // eseguo la query
-            $st = $this->PDOconn->prepare($query);  
-            $result = $st->execute([$username, $password]);
+            try {
+                // eseguo la query
+                $st = $this->PDOconn->prepare($query);  
+                $result = $st->execute([$username, $password]);
+            } catch (Exception $e) {
+                return '{"result":false, "description":"I campi inseriti non sono corretti"}';
+            }
 
             if($result != false) {       // controllo che la query abbia dato un risultato positivo
                 
@@ -360,9 +390,13 @@
             $query =    "SELECT schoolticket.aula.* FROM schoolticket.aula 
                         WHERE schoolticket.aula.IdCompetenza = ?";
 
-            // eseguo la query
-            $st = $this->PDOconn->prepare($query);  
-            $result = $st->execute([$idCompetenza]);
+            try {
+                // eseguo la query
+                $st = $this->PDOconn->prepare($query);  
+                $result = $st->execute([$idCompetenza]);
+            } catch (Exception $e) {
+                return '{"result":false, "description":"I campi inseriti non sono corretti"}';
+            }
 
             if($result != false) {       // controllo che la query abbia dato un risultato positivo
                 
