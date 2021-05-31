@@ -2,8 +2,13 @@
 // ----------------------- VARIABILI ------------------------------
 // ----------------------------------------------------------------
 
+
+
+
+
 // tbody della tabella utenti
 var body_table_account = document.getElementById("body_table_account");
+
 
 // bottone per il refresh della schermata
 var btn_refresh_management_account = document.getElementById("btn_refresh_management_account");
@@ -48,7 +53,7 @@ function createRecordAccount(account)
 }
 
 // richiama gli utenti dal database tramite chiamata AJAX e successivamente crea la tabella
-function createTableAccount() {
+async function createTableAccount() {
 
     feedback_table_management_account.innerText = "Sto caricando la tabella...";
     feedback_table_management_account.style.color = "#ededed";
@@ -57,8 +62,8 @@ function createTableAccount() {
     body_table_accouny.innerHTML = "";
 
     // effettuo la chiamata
-    $.ajax({
-        url: HOSTNAME + "/assets/php/issues/Ticket.php",
+   await $.ajax({
+        url: HOSTNAME + "/assets/php/authentication/Authentication.php",
         type: "GET",
         dataType: "JSON",
         success: (res) => 
@@ -135,6 +140,9 @@ btn_refresh_management_account.addEventListener("click", () => {
 
     }, 3000);
 });
+
+//Chiedere dove viene memorizzata la sessione con le variabili dell'utente loggato attualmente.
+// Posso utilizzare lo stesso schema della costruzione della tabella utenti? basta cambiare i riferimenti?
 
 // -------------------------------------------------------------------------------
 // ---------------------- RICHIAMO FUNZIONI --------------------------------------
