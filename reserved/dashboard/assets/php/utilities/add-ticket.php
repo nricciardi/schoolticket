@@ -3,7 +3,7 @@
     <div class="card">
         <div class="card-header">Crea un nuovo ticket</div>
         <div class="card-body card-block">
-            <form action="" method="post" class="">
+            <form action="" method="post" class="" id="form_add_ticket">
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">

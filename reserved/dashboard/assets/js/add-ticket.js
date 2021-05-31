@@ -96,6 +96,8 @@ function send_data_add_ticket(data) {
                     label.style.color = correct_data;
                     label.innerHTML = data.description + '<i class="far fa-check-circle"></i>';
                 
+                    // pulisco il form
+                    clearFormAddTicket()
         
                 } else {
                     label.style.color = error_data;
@@ -124,7 +126,23 @@ function send_data_add_ticket(data) {
 
 }
 
+function clearFormAddTicket() {
+    document.getElementById("form_add_ticket").reset(); // elimino i dati presenti
 
+    // elimino i colori da nome e descrizione
+    input_name_ticket.style.borderColor = "";
+    input_name_ticket.style.backgroundColor = "";
+
+    input_description_ticket.style.borderColor = "";
+    input_description_ticket.style.backgroundColor = "";
+
+    // elimino la spunta della foto
+    feedback_immagine.innerText = "";
+
+    // elimino il feedback
+    label.innerHTML = "";
+    submit_result.innerHTML = "";
+}
 
 // ----------------------------------------------------------------
 // ----------------------- EVENTI --------------------------------- 
