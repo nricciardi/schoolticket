@@ -32,7 +32,7 @@
         
         // metodo per la restituzione delle competenze
         public function get($idCompetenza = null, $credenziali = null) {      // opzionale: se viene passato un id, restituisco solo il competenzaa con l'id passato
-
+            
             // controllo che le credenziali dell'utente passato siano presenti nel database
             if($credenziali === null || $this->authorized($credenziali["email"], $credenziali["password"]) == null)
                 return '{"result":false, "description":"Azione non consentita per questo utente"}';
@@ -49,7 +49,7 @@
                 }
 
             } elseif (is_numeric($idCompetenza)){     // controllo che l'id passato sia un numero, quindi un possibile id
-
+                   
                 try {
                     $query .= " WHERE schoolticket.competenza.IdCompetenza = ?";    // aggiungo una condizione alla query di selezione
                     $st = $this->PDOconn->prepare($query);
@@ -465,7 +465,7 @@
     function GET_request($obj_competenza = null, $credenziali = null, $json_error = '{"result":false,"description":"Errore durante l\'elaborazione dei dati dal server, riprovare più tardi o contattare l\'assistenza"}') {
 
         // controllo che venga passato l'oggetto della classe per la connessione con il database
-        if($obj_competenze === null)	
+        if($obj_competenza === null)	
             return $json_error;	
         
         // istanzio il parametro del metodo su null di default
