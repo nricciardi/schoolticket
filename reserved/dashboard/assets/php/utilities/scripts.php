@@ -39,3 +39,4 @@
     <script src="assets/js/management-permessi.js"></script>
 	<script src="assets/js/management-competenze.js"></script>
     <script src="assets/js/management-ticket-inseriti.js"></script>
+	<script src="assets/js/management-incarichi.js"></script>

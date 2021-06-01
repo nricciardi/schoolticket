@@ -121,6 +121,9 @@ var btn_show_competenze2 = document.getElementById("btn_show_competenze_2");
 // div competenze
 var div_management_competenze = document.getElementById("div_management_competenze");
 
+// div incarichi
+var div_management_incarichi = document.getElementById("div_management_incarichi");
+
 // bottone del sotto menù gestione: btn_show_note
 var btn_show_note = document.getElementById("btn_show_note");
 var btn_show_note2 = document.getElementById("btn_show_note_2");
@@ -609,15 +612,33 @@ function settingMenuGestione()
             show = true;
 
             // tolgo il display none dal bottone associato
-            btn_show_ticket.style.display = "";
-            btn_show_ticket2.style.display = "";
+			try {
+				btn_show_ticket.style.display = "";
+			} catch (error) {
+				console.error("btn_show_ticket non esiste");
+			}
+			
+			try {
+				btn_show_ticket2.style.display = "";
+			} catch (error) {
+				console.error("btn_show_ticket2 non esiste");
+			}
 
             console.log("if1");
 
         } else {
             // continuo a tener nascosto il bottone
-            btn_show_ticket.style.display = "none";
-            btn_show_ticket2.style.display = "none";
+			try {
+				btn_show_ticket.style.display = "none";
+			} catch (error) {
+				console.error("btn_show_ticket non esiste");
+			}
+			
+			try {
+				btn_show_ticket2.style.display = "none";
+			} catch (error) {
+				console.error("btn_show_ticket2 non esiste");
+			}
 
         }
 
@@ -627,15 +648,33 @@ function settingMenuGestione()
             show = true;
 
             // tolgo il display none dal bottone associato
-            btn_show_macroaree.style.display = "";
-            btn_show_macroaree2.style.display = "";
+			try {
+				btn_show_macroaree.style.display = "";
+			} catch (error) {
+				console.error("btn_show_macroaree non esiste");
+			}
+			
+			try {
+				btn_show_macroaree2.style.display = "";
+			} catch (error) {
+				console.error("btn_show_macroaree2 non esiste");
+			}
 
             console.log("if2");
 
         } else {
-            // continuo a tener nascosto il bottone
-            btn_show_macroaree.style.display = "none";
-            btn_show_macroaree2.style.display = "none";
+            // continuo a tener nascosto il bottonetry {
+			try {
+				btn_show_macroaree.style.display = "none";
+			} catch (error) {
+				console.error("btn_show_macroaree non esiste");
+			}
+			
+			try {
+				btn_show_macroaree2.style.display = "none";
+			} catch (error) {
+				console.error("btn_show_macroaree2 non esiste");
+			}
 
         }
 
@@ -645,16 +684,33 @@ function settingMenuGestione()
             show = true;
 
             // tolgo il display none dal bottone associato
-            btn_show_competenze.style.display = "";
-            btn_show_competenze2.style.display = "";
-
+			try {
+				btn_show_competenze.style.display = "";
+			} catch (error) {
+				console.error("btn_show_competenze non esiste");
+			}
+			
+			try {
+				btn_show_competenze2.style.display = "";
+			} catch (error) {
+				console.error("btn_show_competenze2 non esiste");
+			}
 
             console.log("if3");
 
         } else {
             // continuo a tener nascosto il bottone
-            btn_show_competenze.style.display = "none";
-            btn_show_competenze2.style.display = "none";
+			try {
+				btn_show_competenze.style.display = "none";
+			} catch (error) {
+				console.error("btn_show_competenze non esiste");
+			}
+			
+			try {
+				btn_show_competenze2.style.display = "none";
+			} catch (error) {
+				console.error("btn_show_competenze2 non esiste");
+			}
 
         }
 
@@ -664,16 +720,33 @@ function settingMenuGestione()
             show = true;
 
             // tolgo il display none dal bottone associato
-            btn_show_categorie.style.display = "";
-            btn_show_categorie2.style.display = "";
-
+			try {
+				btn_show_categorie.style.display = "";
+			} catch (error) {
+				console.error("btn_show_categorie non esiste");
+			}
+			
+			try {
+				btn_show_categorie2.style.display = "";
+			} catch (error) {
+				console.error("btn_show_categorie2 non esiste");
+			}
 
             console.log("if4");
 
         } else {
             // continuo a tener nascosto il bottone
-            btn_show_categorie.style.display = "none";
-            btn_show_categorie2.style.display = "none";
+			try {
+				btn_show_categorie.style.display = "none";
+			} catch (error) {
+				console.error("btn_show_categorie non esiste");
+			}
+			
+			try {
+				btn_show_categorie2.style.display = "none";
+			} catch (error) {
+				console.error("btn_show_categorie2 non esiste");
+			}
 
         }
 
@@ -683,16 +756,33 @@ function settingMenuGestione()
             show = true;
 
             // tolgo il display none dal bottone associato
-            btn_show_aule.style.display = "";
-            btn_show_aule2.style.display = "";
-
+			try {
+				btn_show_aule.style.display = "";
+			} catch (error) {
+				console.error("btn_show_aule non esiste");
+			}
+			
+			try {
+				btn_show_aule2.style.display = "";
+			} catch (error) {
+				console.error("btn_show_aule2 non esiste");
+			}
 
             console.log("if5");
 
         } else {
             // continuo a tener nascosto il bottone
-            btn_show_aule.style.display = "none";
-            btn_show_aule2.style.display = "none";
+			try {
+				btn_show_aule.style.display = "none";
+			} catch (error) {
+				console.error("btn_show_aule non esiste");
+			}
+			
+			try {
+				btn_show_aule2.style.display = "none";
+			} catch (error) {
+				console.error("btn_show_aule2 non esiste");
+			}
 
         }
 
@@ -702,16 +792,33 @@ function settingMenuGestione()
             show = true;
 
             // tolgo il display none dal bottone associato
-            btn_show_user.style.display = "";
-            btn_show_user2.style.display = "";
-
+			try {
+				btn_show_user.style.display = "";
+			} catch (error) {
+				console.error("btn_show_user non esiste");
+			}
+			
+			try {
+				btn_show_user2.style.display = "";
+			} catch (error) {
+				console.error("btn_show_user2 non esiste");
+			}
 
             console.log("if6");
 
         } else {
             // continuo a tener nascosto il bottone
-            btn_show_user.style.display = "none";
-            btn_show_user2.style.display = "none";
+			try {
+				btn_show_user.style.display = "none";
+			} catch (error) {
+				console.error("btn_show_user non esiste");
+			}
+			
+			try {
+				btn_show_user2.style.display = "none";
+			} catch (error) {
+				console.error("btn_show_user2 non esiste");
+			}
 
         }
 
@@ -722,18 +829,75 @@ function settingMenuGestione()
             show = true;
 
             // tolgo il display none dal bottone associato
-            btn_show_permessi.style.display = "";
-            btn_show_permessi2.style.display = "";
+			try {
+				btn_show_permessi.style.display = "";
+			} catch (error) {
+				console.error("btn_show_permessi non esiste");
+			}
+			
+			try {
+				btn_show_permessi2.style.display = "";
+			} catch (error) {
+				console.error("btn_show_permessi2 non esiste");
+			}
 
 
             console.log("if7");
 
         } else {
             // continuo a tener nascosto il bottone
-            btn_show_permessi.style.display = "none";
-            btn_show_permessi2.style.display = "none";
+			try {
+				btn_show_permessi.style.display = "none";
+			} catch (error) {
+				console.error("btn_show_permessi non esiste");
+			}
+			
+			try {
+				btn_show_permessi2.style.display = "none";
+			} catch (error) {
+				console.error("btn_show_permessi2 non esiste");
+			}
 
         }
+		
+		if(permessi_utente.CreaIncarico == "1") {
+
+            // restituirò true
+            show = true;
+
+            // tolgo il display none dal bottone associato
+			try {
+				btn_show_incarichi.style.display = "";
+			} catch (error) {
+				console.error("btn_show_incarichi non esiste");
+			}
+			
+			try {
+				btn_show_incarichi2.style.display = "";
+			} catch (error) {
+				console.error("btn_show_incarichi2 non esiste");
+			}
+			
+            console.log("if8");
+
+		} else {
+			
+			// continuo a tener nascosto il bottone
+			try {
+				btn_show_incarichi.style.display = "none";
+			} catch (error) {
+				console.error("btn_show_incarichi non esiste");
+			}
+			
+			try {
+				btn_show_incarichi2.style.display = "none";
+			} catch (error) {
+				console.error("btn_show_incarichi2 non esiste");
+			}
+		}
+			
+		
+		
 
         /*if(permessi_utente.CreaIncarico === "1" || permessi_utente.ModificaStatoAvanzamentoIncarico === "1") {
 
@@ -1570,6 +1734,38 @@ btn_show_competenze2.addEventListener("click", () => {
     createTableCompetenza();
 
     div_management_competenze.style.display = "";
+
+    // chiudo il menù
+    $("#header-desktop-menu").removeClass("show-sidebar");
+    $("#header-desktop-menu2").removeClass("show-sidebar");
+
+});
+
+// show incarichi
+
+btn_show_incarichi.addEventListener("click", () => {
+
+    hideAllDynamicPage();
+
+    // creo la tabella delle aule
+    createTableIncarico();
+
+    div_management_incarichi.style.display = "";
+
+    // chiudo il menù
+    $("#header-desktop-menu").removeClass("show-sidebar");
+    $("#header-desktop-menu2").removeClass("show-sidebar");
+
+});
+
+btn_show_incarichi2.addEventListener("click", () => {
+
+    hideAllDynamicPage();
+
+    // creo la tabella delle aule
+    createTableIncarico();
+
+    div_management_incarichi.style.display = "";
 
     // chiudo il menù
     $("#header-desktop-menu").removeClass("show-sidebar");
