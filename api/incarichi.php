@@ -36,14 +36,23 @@
             
             if($idIncarico === null) {      // se il parametro è null non viene richiesto un incarico specifico, restituisco tutte le aule
 
-                $st = $this->PDOconn->prepare($query);
-                $result = $st->execute();
+                try {
+                    $st = $this->PDOconn->prepare($query);
+                    $result = $st->execute();
+                } catch (Exception $e) {
+                    return '{"result":' . 'false' . ', "description":"I dati passati al server non sono corretti"}';
+                }
 
             } elseif (is_numeric($idIncarico)) {     // controllo che l'id passato sia un numero, quindi un possibile id
 
                 $query .= " WHERE schoolticket.incarico.IdIncarico = ?";    // aggiungo una condizione alla query di selezione
-                $st = $this->PDOconn->prepare($query);
-                $result = $st->execute([$idIncarico]);
+                
+                try {
+                    $st = $this->PDOconn->prepare($query);
+                    $result = $st->execute([$idIncarico]);
+                } catch (Exception $e) {
+                    return '{"result":' . 'false' . ', "description":"I dati passati al server non sono corretti"}';
+                }
 
             } elseif (is_array($idIncarico)) {  // controllo che l'id passato sia un array, quindi restituisco tutti i incarico passati
 
@@ -61,9 +70,12 @@
                         $query .= " OR";
 
                 }
-                
-                $st = $this->PDOconn->prepare($query);
-                $result = $st->execute($array_id);
+                try {
+                    $st = $this->PDOconn->prepare($query);
+                    $result = $st->execute($array_id);
+                } catch (Exception $e) {
+                    return '{"result":' . 'false' . ', "description":"I dati passati al server non sono corretti"}';
+                }
 
             } else {        // in tutti gli altri casi restituisco un errore
 
@@ -105,8 +117,12 @@
             } elseif (is_numeric($idIncarico)){     // controllo che l'id passato sia un numero, quindi un possibile id
 
                 $query .= " WHERE schoolticket.incarico.IdIncarico = ?";    // aggiungo una condizione alla query di selezione
-                $st = $this->PDOconn->prepare($query);
-                $result = $st->execute([$idIncarico]);
+                try {
+                    $st = $this->PDOconn->prepare($query);
+                    $result = $st->execute([$idIncarico]);
+                } catch (Exception $e) {
+                    return '{"result":' . 'false' . ', "description":"I dati passati al server non sono corretti"}';
+                }
 
             } elseif (is_array($idIncarico)) {  // controllo che l'id passato sia un array, quindi elimino tutti i incarico passati
 
@@ -124,9 +140,12 @@
                         $query .= " OR";
 
                 }
-                
-                $st = $this->PDOconn->prepare($query);
-                $result = $st->execute($array_id);
+                try {
+                    $st = $this->PDOconn->prepare($query);
+                    $result = $st->execute($array_id);
+                } catch (Exception $e) {
+                    return '{"result":' . 'false' . ', "description":"I dati passati al server non sono corretti"}';
+                }
 
             } else {        // in tutti gli altri casi restituisco un errore
 
@@ -212,8 +231,9 @@
                 $query .= $end_query . ")";
                 
                 // eseguo la query
-                $st = $this->PDOconn->prepare($query);  
+                  
                 try {
+                    $st = $this->PDOconn->prepare($query);
                     $result = $st->execute($array_values);
                 } catch (Exception $e) {
                     return '{"result":false, "description":"I campi inseriti non sono corretti"}';
@@ -324,8 +344,12 @@
                         WHERE schoolticket.utente.Email = ? AND schoolticket.utente.Password = ?";
 
             // eseguo la query
-            $st = $this->PDOconn->prepare($query);  
-            $result = $st->execute([$username, $password]);
+            try {
+                $st = $this->PDOconn->prepare($query);  
+                $result = $st->execute([$username, $password]);
+            } catch (Exception $e) {
+                return '{"result":' . 'false' . ', "description":"I dati passati al server non sono corretti"}';
+            }
 
             if($result != false) {       // controllo che la query abbia dato un risultato positivo
                 
@@ -356,8 +380,12 @@
                         WHERE schoolticket.incarico.IdIncarico = ?";
 
             // eseguo la query
-            $st = $this->PDOconn->prepare($query);  
-            $result = $st->execute([$idIncarico]);
+            try {
+                $st = $this->PDOconn->prepare($query);  
+                $result = $st->execute([$idIncarico]);
+            } catch (Exception $e) {
+                return '{"result":' . 'false' . ', "description":"I dati passati al server non sono corretti"}';
+            }
 
             if($result != false) {       // controllo che la query abbia dato un risultato positivo
                 
