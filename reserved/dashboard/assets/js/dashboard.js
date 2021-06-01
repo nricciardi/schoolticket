@@ -1572,6 +1572,7 @@ btn_show_ticketinseriti.addEventListener("click", () => {
 
 });
 
+/*
 btn_show_ticketinseriti2.addEventListener("click", () => {
 
     hideAllDynamicPage();
@@ -1586,4 +1587,5 @@ btn_show_ticketinseriti2.addEventListener("click", () => {
     $("#header-desktop-menu2").removeClass("show-sidebar");
 
 });
+*/
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------
