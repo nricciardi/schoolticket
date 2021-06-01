@@ -363,18 +363,18 @@ function createFormNewIncarico() {
     // Predisposizione IdIncarico: record += '<td>' + incarico.IdIncarico + '</td>';
     
     // inserisco StatodiAvanzamento
-    record += '<td>' + 
-    '<input type="text" placeholder="StatodiAvanzamento" class="form-control" id="newStatodiAvanzamento">' + 
+	record += '<td>' + 
+    "Nuovo" + 
     '</td>';
     
     // inserisco IdUtente
     record += '<td>' + 
-    '<input type="text" placeholder="IdUtente" class="form-control" id="newIdUtente">' + 
+    '<select placeholder="IdUtente" class="form-control" id="newIdUtente">' + 
     '</td>';
 	
 	// inserisco IdTicket
     record += '<td>' + 
-    '<input type="text" placeholder="IdTicket" class="form-control" id="newIdTicket">' + 
+    '<select placeholder="IdTicket" class="form-control" id="newIdTicket">' + 
     '</td>';
 
     // inserisco i bottoni per le diverse azioni
@@ -473,7 +473,7 @@ function changeFormNewIncarico(ID) {
     stato = td_stato.innerText;     // recupero il valore del StatodiAvanzamento
 
     // modifico la label in un input:text
-    td_stato.innerHTML = '<input type="text" placeholder="StatodiAvanzamento" value="' + stato + '" class="form-control" id="editStatodiAvanzamento">'
+    td_stato.innerHTML = '<select placeholder="StatodiAvanzamento" value="' + stato + '" class="form-control" id="editStatodiAvanzamento">'
 
     // IdUtente
     // recupero la referenza del IdUtente del record della tabella tramite ID
@@ -481,15 +481,15 @@ function changeFormNewIncarico(ID) {
     IdUtente = td_IdUtente.innerText;     // recupero il valore del IdUtente
 
     // modifico la label in un input:text
-    td_IdUtente.innerHTML = '<input type="text" placeholder="IdUtente" value="' + IdUtente + '" class="form-control" id="editIdUtente">'
+    td_IdUtente.innerHTML = '<select placeholder="IdUtente" value="' + IdUtente + '" class="form-control" id="editIdUtente">'
 	
 	// IdTicket
     // recupero la referenza del IdTicket del record della tabella tramite ID
-    let td_IdTicket = document.getElementById("idUtenteIncarico" + ID);
+    let td_IdTicket = document.getElementById("idTicketIncarico" + ID);
     IdTicket = td_IdTicket.innerText;     // recupero il valore del IdTicket
 
     // modifico la label in un input:text
-    td_IdTicket.innerHTML = '<input type="text" placeholder="IdTicket" value="' + IdTicket + '" class="form-control" id="editIdTicket">'
+    td_IdTicket.innerHTML = '<select placeholder="IdTicket" value="' + IdTicket + '" class="form-control" id="editIdTicket">'
 	
 
 	// ACTION
