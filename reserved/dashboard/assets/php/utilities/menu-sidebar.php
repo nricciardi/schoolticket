@@ -24,7 +24,7 @@
                             </a>
                             <ul class="list-unstyled navbar__sub-list js-sub-list">
                                 <li>
-                                    <button id="" style="/*display: none;*/">
+                                    <button id="btn_show_ticketinseriti" style="/*display: none;*/">
                                         <i class="far fa-share-square"></i>Ticket inseriti</button>
                                 </li>
                                 <li>
