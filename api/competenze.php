@@ -198,7 +198,7 @@
                 }
 
                 if(isset($competenza["IdCategoria"]) && trim($competenza["IdCategoria"]) != "" && $competenza["IdCategoria"] != null) {
-                    $Laboratorio = $competenza["IdCategoria"];
+                    $IdCategoria = $competenza["IdCategoria"];
                     $query .= "`IdCategoria`,";
                     $end_query .= "?,";
                     array_push($array_values, $IdCategoria);
@@ -208,7 +208,7 @@
                 }
 
                 if(isset($competenza["IdMacroarea"]) && trim($competenza["IdMacroarea"]) != "" && $competenza["IdMacroarea"] != null) {
-                    $Laboratorio = $competenza["IdMacroarea"];
+                    $IdMacroarea = $competenza["IdMacroarea"];
                     $query .= "`IdMacroarea`,";
                     $end_query .= "?,";
                     array_push($array_values, $IdCategoria);
@@ -487,9 +487,13 @@
             if(isset($_POST) && $_POST != null && !empty($_POST)) {
             
                 $data_new_competenza = $_POST; 
-    
-                if(!isset($data_new_competenza["Nome"])) {     // controllo sia stata passata la descrizone, obbligatoria per il permesso
-                    return '{"result":false,"description":"Il Nome è un campo obbligatorio"}';
+               var_dump($data_new_competenza);
+                if(!isset($data_new_competenza["IdMacroarea"])) {     // controllo sia stata passata la descrizone, obbligatoria per il permesso
+                    return '{"result":false,"description":"la Macroarea è un campo obbligatorio"}';
+                }
+
+                if(!isset($data_new_competenza["IdCategoria"])) {     // controllo sia stata passata la descrizone, obbligatoria per il permesso
+                    return '{"result":false,"description":"la Categoria è un campo obbligatorio"}';
                 }
             
                 return $obj_competenza->create($data_new_competenza, $credenziali);	// passo come parametro le informazioni del nuovo permesso
