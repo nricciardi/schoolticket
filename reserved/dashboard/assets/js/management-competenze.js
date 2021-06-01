@@ -68,26 +68,16 @@ function createRecordCompetenza(competenza) {   //competenza è un oggetto conte
 
 // funzione che crea un box per la conferma prima di eseguire effettivamente "send", "edit", "delete" o "more"
 function requestActionCompetenza(type, ID) {      // passo il tipo di richiesta che viene chiesta 
-    switch (type) {
-        case "send":
-            
-            break;
-    
+    switch (type) {    
         case "edit":
-            
-            changeFormNewCompetenza(ID);
+			changeFormNewCompetenza(ID);
             break;
-
-        case "delete":
+		case "delete":
             // creo il form per la conferma
             form_html = createrequestActionCompetenza(type, ID);
 
             // ricavo il td della competenza passato per inserire la richiesta
             document.getElementById("td_action_competenzaId_" + ID).innerHTML = form_html;
-
-            break;
-        case "more":
-    
             break;
 
         default:
@@ -139,7 +129,7 @@ function createrequestActionCompetenza(type, ID) {
     return request;
 }
 
-// richiama l' competenza dal database tramite chiamata AJAX e successivamente crea la tabella
+// richiama la competenza dal database tramite chiamata AJAX e successivamente crea la tabella
 function createTableCompetenza() {
 
     feedback_table_management_competenza.innerText = "Sto caricando la tabella...";
@@ -150,7 +140,7 @@ function createTableCompetenza() {
 
     // effettuo la chiamata
     $.ajax({
-        url: HOSTNAME + "/api/aule.php",
+        url: HOSTNAME + "/api/competenze.php",
         type: "GET",
         headers:{
             'Authorization':'Basic ' + btoa(USER.Email + ":" + USER.Password)
@@ -165,9 +155,9 @@ function createTableCompetenza() {
                 feedback_table_management_competenza.innerText = res.description;
                 feedback_table_management_competenza.style.color = error_data;
 
-            } else {    // in caso positivo creo la tabella per l'competenza
+            } else {    // in caso positivo creo la tabella per la competenza
 
-                // recupero le aule passate da "result"
+                // recupero le competenze passate da "result"
                 let competenza = res.result;
 
                 console.log(res.description);
@@ -179,7 +169,6 @@ function createTableCompetenza() {
                     body_table_competenza.innerHTML += createRecordCompetenza(element);
 
                 });
-                
                 
             }
 
@@ -204,23 +193,13 @@ function addCompetenza() {
     if(!check_new_nome_competenza)
         return false;
 	
-	// variabile per laboratoria competenza
-	let laboratorio = document.getElementById("newLaboratorioAula");
-
-	let temp = null;
-	
-	if(laboratorio.checked == false)
-		temp = 0;
-	else
-		temp = 1;
-
     // creo l'oggetto data da mandare in post
-    let data = {"Nome": document.getElementById("newNomeAula").value, "Descrizione": document.getElementById("newDescrizioneAula").value, "Laboratorio": temp};
+    let data = {"IdCategoria": document.getElementById("IdCategoria").value, "IdMacroarea": document.getElementById("IdMacroarea").value};
 
     // effettuo la chiamata ajax
     $.ajax({
 
-        url: HOSTNAME + "/api/aule.php",
+        url: HOSTNAME + "/api/competenze.php",
         type: "post",
         data: data,
         dataType: "json",
@@ -255,23 +234,19 @@ function addCompetenza() {
 
 }
 
-// in base all'id passato elimino l'competenza
+// in base all'id passato elimino la competenza
 function editCompetenza(ID) {   // può anche essere passato un array
     
     console.log("Modifico: " + ID);
 
-    let checkbox_edit_mode = 0;
-    if(document.getElementById("editLaboratorioAula").checked)
-        checkbox_edit_mode = 1; 
-
     // creo l'oggetto data da mandare in post
-    let data = {"IdCompetenza": ID, "Nome": document.getElementById("editNomeAula").value, "Descrizione": document.getElementById("editDescrizioneAula").value, "Laboratorio": checkbox_edit_mode};
+    let data = {"IdCompetenza": ID, "IdCategoria": document.getElementById("editIdCategoria").value, "IdMacroarea": document.getElementById("editIdMacroarea").value};
 
     console.log(data);
     // effettuo la chiamata ajax
     $.ajax({
 
-        url: HOSTNAME + "/api/aule.php",
+        url: HOSTNAME + "/api/competenze.php",
         type: "PUT",
         data: JSON.stringify(data),
         dataType: "json",
@@ -290,7 +265,7 @@ function editCompetenza(ID) {   // può anche essere passato un array
 
             } else {
 
-                // in caso positivo creo la tabella per gli competenza
+                // in caso positivo creo la tabella per la competenza
                 createTableCompetenza();
 
             }
@@ -306,7 +281,7 @@ function editCompetenza(ID) {   // può anche essere passato un array
 
 }
 
-// in base all'id passato elimino l'competenza
+// in base all'id passato elimino la competenza
 function deleteCompetenza(ID) {   // può anche essere passato un array
     
     console.log("Elimino: " + ID);
@@ -317,7 +292,7 @@ function deleteCompetenza(ID) {   // può anche essere passato un array
     // effettuo la chiamata ajax
     $.ajax({
 
-        url: HOSTNAME + "/api/aule.php",
+        url: HOSTNAME + "/api/competenze.php",
         type: "DELETE",
         data: JSON.stringify(data),
 		headers: {
@@ -327,7 +302,7 @@ function deleteCompetenza(ID) {   // può anche essere passato un array
         success: (res) => {
 
             console.log(res);
-            // verifico che la siano stati restituiti correttamente i dati
+            // verifico che siano stati restituiti correttamente i dati
             if(res.result === false) {
 
                 // in caso di errore stampo un messaggio nel box al posto della tabella
@@ -336,7 +311,7 @@ function deleteCompetenza(ID) {   // può anche essere passato un array
 
             } else {
 
-                // in caso positivo creo la tabella per le aule
+                // in caso positivo creo la tabella per le competenze
                 createTableCompetenza();
 
             }
@@ -371,7 +346,7 @@ function createFormNewCompetenza() {
     let record = "";
 
     // inserisco la parte del CHECKBOX del record (tr)
-    record += '<tr class="tr-shadow" id="form_new_aula">'; // inserisco il tag di apertura
+    record += '<tr class="tr-shadow" id="form_new_competenza">'; // inserisco il tag di apertura
 
     record += '<td>';       // creo il primo campo
 
@@ -380,23 +355,18 @@ function createFormNewCompetenza() {
     // inserisco l'ID
     // Predisposizione IdCompetenza: record += '<td>' + competenza.IdCompetenza + '</td>';
     
-    // inserisco il NOME
+    // inserisco IdCategoria
     record += '<td>' + 
-    '<input type="text" placeholder="Nome" oninput="checkNewNomeCompetenza()" class="form-control" id="newNomeAula">' + 
+    '<input type="text" placeholder="IdCategoria" class="form-control" id="newIdCategoria">' + 
     '</td>';
     
-    // inserisco la DESCRIZIONE
+    // inserisco la IdMacroarea
     record += '<td>' + 
-    '<input type="text" placeholder="Descrizione" oninput="checkNewDescrizioneAula()" class="form-control" id="newDescrizioneAula">' + 
-    '</td>';
-    
-    // inserisco LABORATORIO
-    record += '<td>' + 
-    '<input type="checkbox" class="form-control" id="newLaboratorioAula" style="width: unset;">' + 
+    '<input type="text" placeholder="IdMacroarea" class="form-control" id="newIdMacroarea">' + 
     '</td>';
 
     // inserisco i bottoni per le diverse azioni
-    record += '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_aula" onclick="addCompetenza()" style="margin-left: 0.5vw; border-radius: 5%" disabled>' +   // aggiungo l'onclick per effettuare correttamente l'azione
+    record += '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_competenza" onclick="addCompetenza()" style="margin-left: 0.5vw; border-radius: 5%" disabled>' +   // aggiungo l'onclick per effettuare correttamente l'azione
         '<i class="far fa-check-circle"></i> Conferma' +
     '</button>' + 
     '<button type="button" onclick="createTableCompetenza()" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%">' + 
@@ -412,43 +382,21 @@ function createFormNewCompetenza() {
 
 }
 
-// imposto le funzioni per gli eventi del form 
-function checkNewNomeCompetenza(ID = "newNomeAula") {
-    
-    // controllo che sia aggiunto almeno un valore per il nome
-
-    if(document.getElementById(ID).value.trim() == "") {
-
-        document.getElementById(ID).style.borderColor = error_data;
-        check_new_nome_competenza = false;
-
-    } else {
-
-        check_new_nome_competenza = true;
-        document.getElementById(ID).style.borderColor = correct_data;
-
-    }
-
-    // controllo se posso abilitare il bottone di conferma
-    checkFormNewCompetenza();
-
-}
-
 // controllo se posso abilitare il bottone per la conferma della nuova competenza
-function checkFormNewCompetenza(ID = "btn_confirm_new_aula") {
+function checkFormNewCompetenza(ID = "btn_confirm_new_competenza") {
     
-    let btn_confirm_new_aula = document.getElementById(ID);
+    let btn_confirm_new_competenza = document.getElementById(ID);
 
-    if(btn_confirm_new_aula == null) {
+    if(btn_confirm_new_competenza == null) {
 
         console.error("Il button per la conferma non esiste");
         return false;
     } 
 
     if(check_new_nome_competenza)
-		btn_confirm_new_aula.removeAttribute("disabled");
+		btn_confirm_new_competenza.removeAttribute("disabled");
     else
-		btn_confirm_new_aula.setAttribute("disabled", "disabled");
+		btn_confirm_new_competenza.setAttribute("disabled", "disabled");
         
 }
 
@@ -470,10 +418,8 @@ function getArrayCompetenzaChecked() {
                 array.push(checkbox.value);
         }
     }
-
-
+	
     return array;
-
 }
 
 // controllo se abilitare il bottone
@@ -490,7 +436,7 @@ function checkCheckboxCompetenza() {
 		if(array.length == 1)
 			btn_delete_checked_competenza.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella ' + array.length + ' competenza selezionata</font></font>';
 		else
-			btn_delete_checked_competenza.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella ' + array.length + ' aule selezionate</font></font>';
+			btn_delete_checked_competenza.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella ' + array.length + ' competenze selezionate</font></font>';
 
     } else {
 
@@ -505,40 +451,27 @@ function checkCheckboxCompetenza() {
 function changeFormNewCompetenza(ID) {
     
     // elimino il form per l'inserimento di una nuova competenza
-    removeForm("form_new_aula");
+    removeForm("form_new_competenza");
 
-    // NOME
-    // recupero la referenza del nome del record della tabella tramite ID
-    let td_nome = document.getElementById("nomeAula" + ID);
-    name = td_nome.innerText;     // recupero il valore del nome
-
-    // modifico la label in un input:text
-    td_nome.innerHTML = '<input type="text" placeholder="Nome" value="' + name + '" oninput="checkNewNomeCompetenza(\'editNomeAula\')" class="form-control" id="editNomeAula">'
-
-    // DESCRIZIONE
-    // recupero la referenza della descrizione del record della tabella tramite ID
-    let td_descrizione = document.getElementById("descrizioneAula" + ID);
-    descrizione = td_descrizione.innerText;     // recupero il valore del cognome
+    // IdCategoria
+    // recupero la referenza del categoria del record della tabella tramite ID
+    let td_categoria = document.getElementById("IdCategoria" + ID);
+    categoria = td_categoria.innerText;     // recupero il valore del id
 
     // modifico la label in un input:text
-    td_descrizione.innerHTML = '<input type="text" placeholder="Descrizione" value="' + descrizione + '" oninput="checkNewDescrizioneAula(\'editDescrizioneAula\')" class="form-control" id="editDescrizioneAula">'
-	
-	
-	// LABORATORIO
-    // recupero la referenza del visualizzato del record della tabella tramite ID
-    let td_laboratorio = document.getElementById("laboratorioAula" + ID);
-    let check = JSON.parse(td_laboratorio.dataset.check);               // recupero lo stato del laboratorio tramite dataset
+    td_categoria.innerHTML = '<input type="text" placeholder="Categoria" value="' + categoria + '" class="form-control" id="editIdCategoria">'
+
+    // IdMacroarea
+    // recupero la referenza della macroarea del record della tabella tramite ID
+    let td_macroarea = document.getElementById("IdMacroarea" + ID);
+    macroarea = td_macroarea.innerText;     // recupero il valore del cognome
 
     // modifico la label in un input:text
-    td_laboratorio.innerHTML = '<input type="checkbox" placeholder="Laboratorio" class="form-control" id="editLaboratorioAula" style="width: unset;">';
-
-    // controllo se abilitare il checkbox
-    if(check)
-        document.getElementById("editLaboratorioAula").checked = true
+    td_macroarea.innerHTML = '<input type="text" placeholder="Macroarea" value="' + macroarea + '" class="form-control" id="editIdMacroarea">'
 
 	// ACTION
-    let td_action_aulaId = document.getElementById("td_action_competenzaId_" + ID);
-    td_action_aulaId.innerHTML = '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_aula" onclick="editCompetenza(' + ID + ')" style="margin-left: 0.5vw; border-radius: 5%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
+    let td_action_competenzaId = document.getElementById("td_action_competenzaId_" + ID);
+    td_action_competenzaId.innerHTML = '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_competenza" onclick="editCompetenza(' + ID + ')" style="margin-left: 0.5vw; border-radius: 5%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
         '<i class="far fa-check-circle"></i> Conferma' +
     '</button>' + 
     '<button type="button" onclick="createTableCompetenza()" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%">' + 
@@ -559,7 +492,7 @@ general_checkbox_competenza.addEventListener("change", () => {
     
 });
 
-// aggiungo il form per l'aggiunta di una nuova aula
+// aggiungo il form per l'aggiunta di una nuova competenza
 form_add_competenza.addEventListener("click", () => {
 
     console.log("Aggiunto il form");
@@ -573,8 +506,6 @@ form_add_competenza.addEventListener("click", () => {
 
 // ricarico la tabella riaggiungendola al click del bottone di refresh
 btn_refresh_management_competenza.addEventListener("click", () => {
-
-    
 
     // disabilito il bottone per 3 secondi
     
@@ -598,7 +529,7 @@ btn_refresh_management_competenza.addEventListener("click", () => {
     }, 3000);
 });
 
-// al click elimino tutte le aule selezionate
+// al click elimino tutte le competenze selezionate
 btn_delete_checked_competenza.addEventListener("click", () => {
 
     // richiamo al funzione per elimiare

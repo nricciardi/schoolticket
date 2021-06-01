@@ -402,7 +402,7 @@
 			$verifyEmail = $st->execute(['emailPl' => $email]); //CONTROLlO se email esiste
 
 			if($verifyEmail == false and $check = false){
-				$msg .= 'Non esiste questa categoria.';
+				$msg .= 'Errore, riprovare.';
 				$check = false;
 			}
 			else{
@@ -411,7 +411,7 @@
 				//echo VAR_DUMP($rows);
 
 				if(!empty($rows)){
-					$msg .= 'Non esiste questa categoria; ';
+					$msg .= 'Esiste già questa email ';
 					$check = false;
 				}
 				else{
@@ -895,7 +895,7 @@
 //MANDA IL CODICE DI VERIFICA:
 		public function sendCode($ID){	// $ID andrà preso nella sessione
 			//CONTROLLO CON IL CODICE:
-			$q = "SELECT Email FROM schoolticket.utente WHERE IdUtente = ? ";
+			$q = "SELECT schoolticket.utente.Email FROM schoolticket.utente WHERE schoolticket.utente.IdUtente = ? ";
 			$st = $this->PDOconn->prepare($q);
 			$result = $st->execute([$ID]);
 

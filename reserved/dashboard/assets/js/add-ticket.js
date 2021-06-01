@@ -86,30 +86,25 @@ function send_data_add_ticket(data) {
                 //console.log(JSON.parse(data));
                 data = JSON.parse(data);
                 
-                // scrivo il messaggio che mi è stato restituito all'utente
-                let label = document.getElementById("submit_result");
-                
-        
                 // in base al tipo di messaggio imposto i colori
                 if(data.result) {
-                
-                    label.style.color = correct_data;
-                    label.innerHTML = data.description + '<i class="far fa-check-circle"></i>';
+                    console.debug("Ticket inserito correttamente");
+                    submit_result.style.color = correct_data;
+                    submit_result.innerHTML = data.description + '<i class="far fa-check-circle"></i>';
                 
                     // pulisco il form
                     clearFormAddTicket()
         
                 } else {
-                    label.style.color = error_data;
-                    label.innerHTML = /*"<h1>" + */data.description + '<i class="far fa-exclamation-triangle"></i>';
+                    submit_result.style.color = error_data;
+                    submit_result.innerHTML = /*"<h1>" + */data.description + '<i class="far fa-exclamation-triangle"></i>';
                 }
     
 
             } catch(err) {
 
-                let label = document.getElementById("submit_result");
-                label.style.color = error_data;
-                label.innerHTML = /*"<h1>" + */"Errore durante l'invio dei dati, riprovare più tardi oppure contattare l'assistenza" + '<i class="far fa-exclamation-triangle"></i>';
+                submit_result.style.color = error_data;
+                submit_result.innerHTML = /*"<h1>" + */"Errore durante l'invio dei dati, riprovare più tardi oppure contattare l'assistenza" + '<i class="far fa-exclamation-triangle"></i>';
                 console.error("ERRORE DURANTE L'INVIO DEI DATI DEL TICKET");
                 console.error(err);
             }
@@ -140,8 +135,10 @@ function clearFormAddTicket() {
     feedback_immagine.innerText = "";
 
     // elimino il feedback
-    label.innerHTML = "";
-    submit_result.innerHTML = "";
+    setTimeout(() => {
+        submit_result.innerHTML = "";
+    }, 3000);
+    
 }
 
 // ----------------------------------------------------------------

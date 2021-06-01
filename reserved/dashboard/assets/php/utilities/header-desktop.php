@@ -134,6 +134,10 @@
                                     <button id="btn_show_ticket_2" style="display: none;">
                                         <i class="fas fa-ticket-alt"></i>Ticket</button>
                                 </li>
+								<li>
+                                    <button id="btn_show_incarichi_2" style="display: none;">
+                                        <i class="fas fa-ticket-alt"></i>Incarichi</button>
+                                </li>
                                 <li>
                                     <button id="btn_show_user_2" style="display: none;">
                                         <i class="fas fa-users"></i>Utenti</button>
