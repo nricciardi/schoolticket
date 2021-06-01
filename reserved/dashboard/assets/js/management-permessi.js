@@ -98,7 +98,7 @@ function createRecordPermessi(permessi) {   //User è un oggetto contenente le i
     record += '<td id="CreaModificaEliminaPermessiPermessi' + permessi.IdPermessi + '" data-CreareTicket="' + permessi.CreareTicket + '">' + permessi.CreaModificaEliminaPermessi + '</td>';
 
     // inserisco i bottoni per le diverse azioni
-    record += '<td id="td_action_permessiID_' + permessi.IdPermessi + '"> <div class="table-data-feature">';
+    record += '<td id="td_action_permessiId_' + permessi.IdPermessi + '"> <div class="table-data-feature">';
     //record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Send" id="sendPermessi' + permessi.IdPermessi + '" onclick="requestActionPermessi(\'send\', ' + permessi.IdPermessi + ')">    <i class="zmdi zmdi-mail-send"></i> </button>';        // tasto SEND
     record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Edit" id="editPermessi' + permessi.IdPermessi + '" onclick="requestActionPermessi(\'edit\', ' + permessi.IdPermessi+ ')">    <i class="zmdi zmdi-edit"></i>  </button>';            // tasto EDIT
     record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Delete" id="deletePermessi' + permessi.IdPermessi + '" onclick="requestActionPermessi(\'delete\', ' + permessi.IdPermessi + ')">  <i class="zmdi zmdi-delete"></i>    </button>';    // tasto DELETE
@@ -252,22 +252,67 @@ function addPermesso() {
         return false;*/
 
     // creo l'oggetto data da mandare in post
+	let ModificaVisualizzaTuttiUtentiPermessiVariable = '0';
+	ModificaVisualizzaTuttiUtentiPermessiVariable = (document.getElementById("newModificaVisualizzaTuttiUtentiPermessi").checked? '0' : '1');
+	
+	let CreareTicketVariable = '0';
+	CreareTicketVariable = (document.getElementById("newCreareTicketPermessi").checked? '0' : '1');
+	
+	let ModificaTuttiTicketVariable = '0';
+	ModificaTuttiTicketVariable = (document.getElementById("newModificaTuttiTicketPermessi").checked? '0' : '1');
+	
+	let UnireTicketVariable = '0';
+	UnireTicketVariable = (document.getElementById("newUnireTicketPermessi").checked? '0' : '1');
+	
+	let VisualizzaTuttiTicketVariable = '0';
+	VisualizzaTuttiTicketVariable = (document.getElementById("newVisualizzaTuttiTicketPermessi").checked? '0' : '1');
+	
+	let ModificaStatoAvanzamentoTicketVariable = '0';
+	ModificaStatoAvanzamentoTicketVariable = (document.getElementById("newModificaStatoAvanzamentoTicketPermessi").checked? '0' : '1');
+	
+	let ModificaStatoAvanzamentoIncaricoVariable = '0';
+	ModificaStatoAvanzamentoIncaricoVariable = (document.getElementById("newModificaStatoAvanzamentoIncaricoPermessi").checked? '0' : '1');
+	
+	let CreaIncaricoVariable = '0';
+	CreaIncaricoVariable = (document.getElementById("newCreaIncaricoPermessi").checked? '0' : '1');
+	
+	let CreaModificaEliminaAulaVariable = '0';
+	CreaModificaEliminaAulaVariable = (document.getElementById("newCreaModificaEliminaAulaPermessi").checked? '0' : '1');
+	
+	let CreaModificaEliminaNoteVariable = '0';
+	CreaModificaEliminaNoteVariable = (document.getElementById("newCreaModificaEliminaNotePermessi").checked? '0' : '1');
+	
+	let CreaModificaEliminaMacroareaVariable = '0';
+	CreaModificaEliminaMacroareaVariable = (document.getElementById("newCreaModificaEliminaMacroareaPermessi").checked? '0' : '1');
+	
+	let CreaModificaEliminaCompetenzaVariable = '0';
+	CreaModificaEliminaCompetenzaVariable = (document.getElementById("newModificaVisualizzaTuttiUtentiPermessi").checked? '0' : '1');
+	
+	let CreaModificaEliminaCategoriaVariable = '0';
+	CreaModificaEliminaCategoriaVariable = (document.getElementById("newCreaModificaEliminaCategoriaPermessi").checked? '0' : '1');
+	
+	let CreaModificaEliminaPermessiVariable = '0';
+	CreaModificaEliminaPermessiVariable = (document.getElementById("CreaModificaEliminaPermessiPermessi").checked? '0' : '1');
+		
+
+	
     let data = {"Submit": "create",
 				"Descrizione": document.getElementById("newDescrizionePermessi").value,
-				"ModificaVisualizzaTuttiUtenti": document.getElementById("newModificaVisualizzaTuttiUtentiPermessi").value,
-				"CreareTicket": document.getElementById("newCreareTicketPermessi").value,
-				"ModificaTuttiTicket": document.getElementById("newModificaTuttiTicketPermessi").value,
-				"UnireTicket": document.getElementById("newUnireTicketPermessi").value,
-				"VisualizzaTuttiTicket": document.getElementById("newVisualizzaTuttiTicketPermessi").value,
-				"ModificaStatoAvanzamentoTicket": document.getElementById("newModificaStatoAvanzamentoTicketPermessi").value,
-				"ModificaStatoAvanzamentoIncarico": document.getElementById("newModificaStatoAvanzamentoIncaricoPermessi").value,
-				"CreaIncarico": document.getElementById("newCreaIncaricoPermessi").value,
-				"CreaModificaEliminaAula": document.getElementById("newCreaModificaEliminaAulaPermessi").value,
-				"CreaModificaEliminaNote": document.getElementById("newCreaModificaEliminaNotePermessi").value,
-				"CreaModificaEliminaMacroarea": document.getElementById("newCreaModificaEliminaMacroareaPermessi").value,
-				"CreaModificaEliminaCompetenza": document.getElementById("newCreaModificaEliminaCompetenzaPermessi").value,
-				"CreaModificaEliminaCategoria": document.getElementById("newCreaModificaEliminaCategoriaPermessi").value,
-				"CreaModificaEliminaPermessi": document.getElementById("newCreaModificaEliminaPermessiPermessi").value,
+				//"ModificaVisualizzaTuttiUtenti": document.getElementById("newModificaVisualizzaTuttiUtentiPermessi").value,
+				"ModificaVisualizzaTuttiUtenti": ModificaVisualizzaTuttiUtentiPermessiVariable,
+				"CreareTicket": CreareTicketVariable,
+				"ModificaTuttiTicket": ModificaTuttiTicketVariable,
+				"UnireTicket": UnireTicketVariable,
+				"VisualizzaTuttiTicket": VisualizzaTuttiTicketVariable,
+				"ModificaStatoAvanzamentoTicket": ModificaStatoAvanzamentoTicketVariable,
+				"ModificaStatoAvanzamentoIncarico": ModificaStatoAvanzamentoIncaricoVariable,
+				"CreaIncarico": CreaIncaricoVariable,
+				"CreaModificaEliminaAula": CreaModificaEliminaAulaVariable,
+				"CreaModificaEliminaNote": CreaModificaEliminaNoteVariable,
+				"CreaModificaEliminaMacroarea": CreaModificaEliminaMacroareaVariable,
+				"CreaModificaEliminaCompetenza": CreaModificaEliminaCompetenzaVariable,
+				"CreaModificaEliminaCategoria": CreaModificaEliminaCategoriaVariable,
+				"CreaModificaEliminaPermessi": CreaModificaEliminaPermessiVariable,
 				};
 
     // effettuo la chiamata ajax
@@ -316,23 +361,66 @@ function editPermessi(ID) {   // può anche essere passato un array
 
     console.log("Modifico: " + ID);
 
+	let ModificaVisualizzaTuttiUtentiPermessiVariable = '0';
+	ModificaVisualizzaTuttiUtentiPermessiVariable = (document.getElementById("editModificaVisualizzaTuttiUtentiPermessi").checked? '0' : '1');
+	
+	let CreareTicketVariable = '0';
+	CreareTicketVariable = (document.getElementById("editCreareTicketPermessi").checked? '0' : '1');
+	
+	let ModificaTuttiTicketVariable = '0';
+	ModificaTuttiTicketVariable = (document.getElementById("editModificaTuttiTicketPermessi").checked? '0' : '1');
+	
+	let UnireTicketVariable = '0';
+	UnireTicketVariable = (document.getElementById("editUnireTicketPermessi").checked? '0' : '1');
+	
+	let VisualizzaTuttiTicketVariable = '0';
+	VisualizzaTuttiTicketVariable = (document.getElementById("editVisualizzaTuttiTicketPermessi").checked? '0' : '1');
+	
+	let ModificaStatoAvanzamentoTicketVariable = '0';
+	ModificaStatoAvanzamentoTicketVariable = (document.getElementById("editModificaStatoAvanzamentoTicketPermessi").checked? '0' : '1');
+	
+	let ModificaStatoAvanzamentoIncaricoVariable = '0';
+	ModificaStatoAvanzamentoIncaricoVariable = (document.getElementById("editModificaStatoAvanzamentoIncaricoPermessi").checked? '0' : '1');
+	
+	let CreaIncaricoVariable = '0';
+	CreaIncaricoVariable = (document.getElementById("editCreaIncaricoPermessi").checked? '0' : '1');
+	
+	let CreaModificaEliminaAulaVariable = '0';
+	CreaModificaEliminaAulaVariable = (document.getElementById("editCreaModificaEliminaAulaPermessi").checked? '0' : '1');
+	
+	let CreaModificaEliminaNoteVariable = '0';
+	CreaModificaEliminaNoteVariable = (document.getElementById("editCreaModificaEliminaNotePermessi").checked? '0' : '1');
+	
+	let CreaModificaEliminaMacroareaVariable = '0';
+	CreaModificaEliminaMacroareaVariable = (document.getElementById("editCreaModificaEliminaMacroareaPermessi").checked? '0' : '1');
+	
+	let CreaModificaEliminaCompetenzaVariable = '0';
+	CreaModificaEliminaCompetenzaVariable = (document.getElementById("editModificaVisualizzaTuttiUtentiPermessi").checked? '0' : '1');
+	
+	let CreaModificaEliminaCategoriaVariable = '0';
+	CreaModificaEliminaCategoriaVariable = (document.getElementById("editCreaModificaEliminaCategoriaPermessi").checked? '0' : '1');
+	
+	let CreaModificaEliminaPermessiVariable = '0';
+	CreaModificaEliminaPermessiVariable = (document.getElementById("editCreaModificaEliminaPermessiPermessi").checked? '0' : '1');
+		
+
     // creo l'oggetto data da mandare in post
     let data = {"Submit": "update",
 				"Descrizione": document.getElementById("editDescrizionePermessi").value,
-				"ModificaVisualizzaTuttiUtenti": document.getElementById("editModificaVisualizzaTuttiUtentiPermessi").value,
-				"CreareTicket": document.getElementById("editCreareTicketPermessi").value,
-				"ModificaTuttiTicket": document.getElementById("editModificaTuttiTicketPermessi").value,
-				"UnireTicket": document.getElementById("editUnireTicketPermessi").value,
-				"VisualizzaTuttiTicket": document.getElementById("editVisualizzaTuttiTicketPermessi").value,
-				"ModificaStatoAvanzamentoTicket": document.getElementById("editModificaStatoAvanzamentoTicketPermessi").value,
-				"ModificaStatoAvanzamentoIncarico": document.getElementById("editModificaStatoAvanzamentoIncaricoPermessi").value,
-				"CreaIncarico": document.getElementById("editCreaIncaricoPermessi").value,
-				"CreaModificaEliminaAula": document.getElementById("editCreaModificaEliminaAulaPermessi").value,
-				"CreaModificaEliminaNote": document.getElementById("editCreaModificaEliminaNotePermessi").value,
-				"CreaModificaEliminaMacroarea": document.getElementById("editCreaModificaEliminaMacroareaPermessi").value,
-				"CreaModificaEliminaCompetenza": document.getElementById("editCreaModificaEliminaCompetenzaPermessi").value,
-				"CreaModificaEliminaCategoria": document.getElementById("editCreaModificaEliminaCategoriaPermessi").value,
-				"CreaModificaEliminaPermessi": document.getElementById("editCreaModificaEliminaPermessiPermessi").value,
+				"ModificaVisualizzaTuttiUtenti": editModificaVisualizzaTuttiUtentiPermessi,
+				"CreareTicket": editCreareTicketPermessi,
+				"ModificaTuttiTicket": editModificaTuttiTicketPermessi,
+				"UnireTicket": editUnireTicketPermessi,
+				"VisualizzaTuttiTicket": editVisualizzaTuttiTicketPermessi,
+				"ModificaStatoAvanzamentoTicket": editModificaStatoAvanzamentoTicketPermessi,
+				"ModificaStatoAvanzamentoIncarico": editModificaStatoAvanzamentoIncaricoPermessi,
+				"CreaIncarico": editCreaIncaricoPermessi,
+				"CreaModificaEliminaAula": editCreaModificaEliminaAulaPermessi,
+				"CreaModificaEliminaNote": editCreaModificaEliminaNotePermessi,
+				"CreaModificaEliminaMacroarea": editCreaModificaEliminaMacroareaPermessi,
+				"CreaModificaEliminaCompetenza": editCreaModificaEliminaCompetenzaPermessi,
+				"CreaModificaEliminaCategoria": editCreaModificaEliminaCategoriaPermessi,
+				"CreaModificaEliminaPermessi": editCreaModificaEliminaPermessiPermessi,
 				};
 
     // effettuo la chiamata ajax
@@ -461,73 +549,87 @@ function createFormNewPermessi() {
 
     // inserisco il ModificaVisualizzaTuttiUtenti
 	   record += '<td>';
-    record += '<select name="select" class="form-control" id="newModificaVisualizzaTuttiUtentiPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
-    record += '</td>';
+    /*record += '<select name="select" class="form-control" id="newModificaVisualizzaTuttiUtentiPermessi"><option value= "0">0</option><option value= "1">1</option></select>';*/
+    record += '<input type="checkbox"  id="newModificaVisualizzaTuttiUtentiPermessi">'+
+	'</td>';
 
 	// inserisco il CreareTicket
 	record += '<td>';
-    record += '<select name="select" class="form-control" id="newCreareTicketPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
-    record += '</td>';
+    //record += '<select name="select" class="form-control" id="newCreareTicketPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
+    record += '<input type="checkbox"  id="newCreareTicketPermessi">'+
+	 '</td>';
 
 	 // inserisco il ModificaTuttiTicket
 	record += '<td>';
-    record += '<select name="select" class="form-control" id="newModificaTuttiTicketPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
-    record += '</td>';
+    //record += '<select name="select" class="form-control" id="newModificaTuttiTicketPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
+    record += '<input type="checkbox"  id="newModificaTuttiTicketPermessi">'+ 
+	 '</td>';
 
 	 // inserisco il UnireTicket
     record += '<td>';
-    record += '<select name="select" class="form-control" id="newUnireTicketPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
-    record += '</td>';
+    //record += '<select name="select" class="form-control" id="newUnireTicketPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
+    record += '<input type="checkbox"  id="newUnireTicketPermessi">'+
+	 '</td>';
 
 	 // inserisco il VisualizzaTuttiTicket
     record += '<td>';
-    record += '<select name="select" class="form-control" id="newVisualizzaTuttiTicketPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
-    record += '</td>';
+    //record += '<select name="select" class="form-control" id="newVisualizzaTuttiTicketPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
+    record += '<input type="checkbox"  id="newVisualizzaTuttiTicketPermessi">'+   
+	 '</td>';
 
 	 // inserisco il ModificaStatoAvanzamentoTicket
     record += '<td>';
-    record += '<select name="select" class="form-control" id="newModificaStatoAvanzamentoTicketPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
-    record += '</td>';
+    //record += '<select name="select" class="form-control" id="newModificaStatoAvanzamentoTicketPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
+    record += '<input type="checkbox"  id="newModificaStatoAvanzamentoTicketPermessi">'+
+	 '</td>';
 
 	 // inserisco il ModificaStatoAvanzamentoIncarico
     record += '<td>';
-    record += '<select name="select" class="form-control" id="newModificaStatoAvanzamentoIncaricoPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
-    record += '</td>';
+    //record += '<select name="select" class="form-control" id="newModificaStatoAvanzamentoIncaricoPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
+    record += '<input type="checkbox"  id="newModificaStatoAvanzamentoIncaricoPermessi">'+
+	 '</td>';
 
 	 // inserisco il CreaIncarico
     record += '<td>';
-    record += '<select name="select" class="form-control" id="newCreaIncaricoPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
-    record += '</td>';
+    //record += '<select name="select" class="form-control" id="newCreaIncaricoPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
+    record += '<input type="checkbox"  id="newCreaIncaricoPermessi">'+
+	 '</td>';
 
 	 // inserisco il CreaModificaEliminaAula
     record += '<td>';
-    record += '<select name="select" class="form-control" id="newCreaModificaEliminaAulaPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
-    record += '</td>';
+    //record += '<select name="select" class="form-control" id="newCreaModificaEliminaAulaPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
+    record += '<input type="checkbox"  id="newCreaModificaEliminaAulaPermessi">'+
+	 '</td>';
 
 	 // inserisco il CreaModificaEliminaNote
     record += '<td>';
-    record += '<select name="select" class="form-control" id="newCreaModificaEliminaNotePermessi"><option value= "0">0</option><option value= "1">1</option></select>';
-    record += '</td>';
+    //record += '<select name="select" class="form-control" id="newCreaModificaEliminaNotePermessi"><option value= "0">0</option><option value= "1">1</option></select>';
+    record += '<input type="checkbox"  id="newCreaModificaEliminaNotePermessi">'+
+	 '</td>';
 
 	 // inserisco il CreaModificaEliminaMacroarea
     record += '<td>';
-    record += '<select name="select" class="form-control" id="newCreaModificaEliminaMacroareaPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
-    record += '</td>';
+    //record += '<select name="select" class="form-control" id="newCreaModificaEliminaMacroareaPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
+    record += '<input type="checkbox"  id="newCreaModificaEliminaMacroareaPermessi">'+
+	 '</td>';
 
 	 // inserisco il CreaModificaEliminaCompetenza
     record += '<td>';
-    record += '<select name="select" class="form-control" id="newCreaModificaEliminaCompetenzaPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
-    record += '</td>';
+    //record += '<select name="select" class="form-control" id="newCreaModificaEliminaCompetenzaPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
+    record += '<input type="checkbox"  id="newCreaModificaEliminaCompetenzaPermessi">'+
+	'</td>';
 
 	 // inserisco il CreaModificaEliminaCategoria
     record += '<td>';
-    record += '<select name="select" class="form-control" id="newCreaModificaEliminaCategoriaPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
-    record += '</td>';
+    //record += '<select name="select" class="form-control" id="newCreaModificaEliminaCategoriaPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
+    record += '<input type="checkbox"  id="newCreaModificaEliminaCategoriaPermessi">'+
+	 '</td>';
 
 	 // inserisco il CreaModificaEliminaPermessi
     record += '<td>';
-    record += '<select name="select" class="form-control" id="newCreaModificaEliminaPermessiPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
-    record += '</td>';
+    //record += '<select name="select" class="form-control" id="newCreaModificaEliminaPermessiPermessi"><option value= "0">0</option><option value= "1">1</option></select>';
+    record += '<input type="checkbox"  id="newCreaModificaEliminaPermessiPermessi">'+
+	 '</td>';
 
     // inserisco i bottoni per le diverse azioni
     record += '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_permessi" onclick="addPermesso()" style="margin-left: 0.5vw; border-radius: 5%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
@@ -670,91 +772,104 @@ function changeRecordPermessiToForm(ID) {
     // ModificaVisualizzaTuttiUtenti
     // recupero la referenza della ModificaVisualizzaTuttiUtenti del record della tabella tramite ID
     let td_ModificaVisualizzaTuttiUtenti = document.getElementById("ModificaVisualizzaTuttiUtentiPermessi" + ID);
-    ModificaVisualizzaTuttiUtenti = td_ModificaVisualizzaTuttiUtenti.dataset.ModificaVisualizzaTuttiUtenti;     // recupero il valore del cognome
+    ModificaVisualizzaTuttiUtenti = td_ModificaVisualizzaTuttiUtenti.dataset.modificavisualizzatuttiutenti;     // recupero il valore
 
-    td_ModificaVisualizzaTuttiUtenti.innerHTML = '<select id="editModificaVisualizzaTuttiUtentiPermessi" class="form-control"><option value = "0">0</option><option value = "1">1</option></select>';   // creo il select contenitore
-    document.getElementById("editModificaVisualizzaTuttiUtentiPermessi").value = ModificaVisualizzaTuttiUtenti;     // imposto il valore corrente
+    td_ModificaVisualizzaTuttiUtenti.innerHTML = '<input type="checkbox" id="editModificaVisualizzaTuttiUtentiPermessi' + ID + '">';;   // creo il select contenitore
+    document.getElementById("editModificaVisualizzaTuttiUtentiPermessi" + ID).checked = ModificaVisualizzaTuttiUtenti == "1" ? true : false;     // imposto il valore corrente
+
+	
+	let td_CreareTicket = document.getElementById("CreareTicketPermessi" + ID);
+    CreareTicket = td_CreareTicket.dataset.creareticket;     // recupero il valore
+
+    td_CreareTicket.innerHTML = '<input type="checkbox" id="editCreareTicketPermessi' + ID + '">';;   // creo il select contenitore
+    document.getElementById("editCreareTicketPermessi" + ID).checked = CreareTicket == "1" ? true : false;     // imposto il valore corrente
+    
+	
+	let td_ModificaTuttiTicket = document.getElementById("ModificaTuttiTicketPermessi" + ID);
+    ModificaTuttiTicket = td_ModificaTuttiTicket.dataset.modificatuttiticket;     // recupero il valore
+
+    td_ModificaTuttiTicket.innerHTML = '<input type="checkbox" id="editModificaTuttiTicketPermessi' + ID + '">';;   // creo il select contenitore
+    document.getElementById("editModificaTuttiTicketPermessi" + ID).checked = ModificaTuttiTicket == "1" ? true : false;     // imposto il valore corrente
+	
+	
+	let td_UnireTicket = document.getElementById("UnireTicketPermessi" + ID);
+    UnireTicket = td_UnireTicket.dataset.unireticket;     // recupero il valore
+
+    td_UnireTicket.innerHTML = '<input type="checkbox" id="editUnireTicketPermessi' + ID + '">';;   // creo il select contenitore
+    document.getElementById("editUnireTicketPermessi" + ID).checked = UnireTicket == "1" ? true : false;     // imposto il valore corrente
+	
+	
+	let td_VisualizzaTuttiTicket = document.getElementById("VisualizzaTuttiTicketPermessi" + ID);
+    VisualizzaTuttiTicket = td_UnireTicket.dataset.visualizzatuttiticket;     // recupero il valore
+
+    td_VisualizzaTuttiTicket.innerHTML = '<input type="checkbox" id="editVisualizzaTuttiTicketPermessi' + ID + '">';;   // creo il select contenitore
+    document.getElementById("editVisualizzaTuttiTicketPermessi" + ID).checked = VisualizzaTuttiTicket == "1" ? true : false;     // imposto il valore corrente
+	
+	
+	let td_ModificaStatoAvanzamentoTicket = document.getElementById("ModificaStatoAvanzamentoTicketPermessi" + ID);
+    ModificaStatoAvanzamentoTicket = td_UnireTicket.dataset.modificastatoavanzamentoticket;     // recupero il valore
+
+    td_ModificaStatoAvanzamentoTicket.innerHTML = '<input type="checkbox" id="editModificaStatoAvanzamentoTicketPermessi' + ID + '">';;   // creo il select contenitore
+    document.getElementById("editModificaStatoAvanzamentoTicketPermessi" + ID).checked = ModificaStatoAvanzamentoTicket == "1" ? true : false;     // imposto il valore corrente
+	
+	
+	let td_ModificaStatoAvanzamentoIncarico = document.getElementById("ModificaStatoAvanzamentoIncaricoPermessi" + ID);
+    ModificaStatoAvanzamentoIncarico = td_UnireTicket.dataset.modificastatoavanzamentoincarico;     // recupero il valore
+
+    td_ModificaStatoAvanzamentoIncarico.innerHTML = '<input type="checkbox" id="editModificaStatoAvanzamentoIncaricoPermessi' + ID + '">';;   // creo il select contenitore
+    document.getElementById("editModificaStatoAvanzamentoIncaricoPermessi" + ID).checked = ModificaStatoAvanzamentoIncarico == "1" ? true : false;     // imposto il valore corrente
+	
+
+	let td_CreaIncarico = document.getElementById("CreaIncaricoPermessi" + ID);
+    CreaIncarico = td_UnireTicket.dataset.creaincarico;     // recupero il valore
+
+    td_CreaIncarico.innerHTML = '<input type="checkbox" id="editCreaIncaricoPermessi' + ID + '">';;   // creo il select contenitore
+    document.getElementById("editCreaIncaricoPermessi" + ID).checked = CreaIncarico == "1" ? true : false;     // imposto il valore corrente
+	
+	
+	let td_CreaModificaEliminaAula = document.getElementById("CreaModificaEliminaAulaPermessi" + ID);
+    CreaModificaEliminaAula = td_UnireTicket.dataset.creamodificaeliminaaula;     // recupero il valore
+
+    td_CreaModificaEliminaAula.innerHTML = '<input type="checkbox" id="editCreaModificaEliminaAulaPermessi' + ID + '">';;   // creo il select contenitore
+    document.getElementById("editCreaModificaEliminaAulaPermessi" + ID).checked = CreaModificaEliminaAula == "1" ? true : false;     // imposto il valore corrente
+	
+	
+	let td_CreaModificaEliminaNote = document.getElementById("CreaModificaEliminaNotePermessi" + ID);
+    CreaModificaEliminaAula = td_UnireTicket.dataset.creamodificaeliminanote;     // recupero il valore
+
+    td_CreaModificaEliminaNote.innerHTML = '<input type="checkbox" id="editCreaModificaEliminaNotePermessiPermessi' + ID + '">';;   // creo il select contenitore
+    document.getElementById("editCreaModificaEliminaNotePermessiPermessi" + ID).checked = CreaModificaEliminaAula == "1" ? true : false;     // imposto il valore corrente
+	
+
+	let td_CreaModificaEliminaMacroarea = document.getElementById("CreaModificaEliminaMacroareaPermessi" + ID);
+    CreaModificaEliminaMacroarea = td_UnireTicket.dataset.creamodificaeliminamacroarea;     // recupero il valore
+
+    td_CreaModificaEliminaMacroarea.innerHTML = '<input type="checkbox" id="editCreaModificaEliminaMacroareaPermessi' + ID + '">';;   // creo il select contenitore
+    document.getElementById("editCreaModificaEliminaMacroareaPermessi" + ID).checked = CreaModificaEliminaMacroarea == "1" ? true : false;     // imposto il valore corrente
+	
+	
+	let td_CreaModificaEliminaCompetenza = document.getElementById("CreaModificaEliminaCompetenzaPermessi" + ID);
+    CreaModificaEliminaCompetenza = td_UnireTicket.dataset.creamodificaeliminacompetenza;     // recupero il valore
+
+    td_CreaModificaEliminaCompetenza.innerHTML = '<input type="checkbox" id="editCreaModificaEliminaCompetenzaPermessi' + ID + '">';;   // creo il select contenitore
+    document.getElementById("editCreaModificaEliminaCompetenzaPermessi" + ID).checked = CreaModificaEliminaCompetenza == "1" ? true : false;     // imposto il valore corrente
+	
+	
+	let td_CreaModificaEliminaCategoria = document.getElementById("CreaModificaEliminaCategoriaPermessi" + ID);
+    CreaModificaEliminaCategoria = td_UnireTicket.dataset.creamodificaeliminacategoria;     // recupero il valore
+
+    td_CreaModificaEliminaCategoria.innerHTML = '<input type="checkbox" id="editCreaModificaEliminaCategoriaPermessi' + ID + '">';;   // creo il select contenitore
+    document.getElementById("editCreaModificaEliminaCategoriaPermessi" + ID).checked = CreaModificaEliminaCategoria == "1" ? true : false;     // imposto il valore corrente
+	
+	
+	let td_CreaModificaEliminaPermessi = document.getElementById("CreaModificaEliminaPermessiPermessi" + ID);
+    CreaModificaEliminaPermessi = td_UnireTicket.dataset.creamodificaeliminapermessi;     // recupero il valore
+
+    td_CreaModificaEliminaPermessi.innerHTML = '<input type="checkbox" id="editCreaModificaEliminaPermessiPermessi' + ID + '">';;   // creo il select contenitore
+    document.getElementById("editCreaModificaEliminaPermessiPermessi" + ID).checked = CreaModificaEliminaPermessi == "1" ? true : false;     // imposto il valore corrente
 
 
-    let td_CreareTicket = document.getElementById("CreareTicketPermessi" + ID);
-    CreareTicket = td_CreareTicket.dataset.CreareTicket;     // recupero il valore del cognome
-
-    td_CreareTicket.innerHTML = '<select id="editCreareTicketPermessi" class="form-control"><option value = "0">0</option><option value = "1">1</option></select>';   // creo il select contenitore
-    document.getElementById("editCreareTicketPermessi").value = CreareTicket;     // imposto il valore corrente
-
-    let td_ModificaTuttiTicket = document.getElementById("ModificaTuttiTicketPermessi" + ID);
-	ModificaTuttiTicket = td_ModificaTuttiTicket.dataset.ModificaTuttiTicket;     // recupero il valore del cognome
-
-    td_ModificaTuttiTicket.innerHTML = '<select id="editModificaTuttiTicketPermessi" class="form-control"><option value = "0">0</option><option value = "1">1</option></select>';   // creo il select contenitore
-    document.getElementById("editModificaTuttiTicketPermessi").value = ModificaTuttiTicket;     // imposto il valore corrente
-
-    let td_UnireTicket = document.getElementById("UnireTicketPermessi" + ID);
-    UnireTicket = td_UnireTicket.dataset.UnireTicket;     // recupero il valore del cognome
-
-    td_UnireTicket.innerHTML = '<select id="editUnireTicketPermessi" class="form-control"><option value = "0">0</option><option value = "1">1</option></select>';   // creo il select contenitore
-    document.getElementById("editModificaVisualizzaTuttiUtentiPermessi").value = UnireTicket;     // imposto il valore corrente
-
-    let td_VisualizzaTuttiTicket= document.getElementById("VisualizzaTuttiTicketPermessi" + ID);
-    VisualizzaTuttiTicket = td_VisualizzaTuttiTicket.dataset.VisualizzaTuttiTicket;     // recupero il valore del cognome
-
-    td_VisualizzaTuttiTicket.innerHTML = '<select id="editVisualizzaTuttiTicketPermessi" class="form-control"><option value = "0">0</option><option value = "1">1</option></select>';   // creo il select contenitore
-    document.getElementById("editVisualizzaTuttiTicketPermessi").value = VisualizzaTuttiTicket;     // imposto il valore corrente
-
-    let td_ModificaStatoAvanzamentoTicket = document.getElementById("ModificaStatoAvanzamentoTicketPermessi" + ID);
-    ModificaStatoAvanzamentoTicket = td_ModificaStatoAvanzamentoTicket.dataset.ModificaStatoAvanzamentoTicket;     // recupero il valore del cognome
-
-    td_ModificaStatoAvanzamentoTicket.innerHTML = '<select id="editModificaStatoAvanzamentoTicketPermessi" class="form-control"><option value = "0">0</option><option value = "1">1</option></select>';   // creo il select contenitore
-    document.getElementById("editModificaStatoAvanzamentoTicketPermessi").value = ModificaStatoAvanzamentoTicket;     // imposto il valore corrente
-
-    let td_ModificaStatoAvanzamentoIncarico = document.getElementById("ModificaStatoAvanzamentoIncaricoPermessi" + ID);
-    ModificaStatoAvanzamentoIncarico = td_ModificaStatoAvanzamentoIncarico.dataset.ModificaStatoAvanzamentoIncarico;     // recupero il valore del cognome
-
-    td_ModificaStatoAvanzamentoIncarico.innerHTML = '<select id="editModificaStatoAvanzamentoIncaricoPermessi" class="form-control"><option value = "0">0</option><option value = "1">1</option></select>';   // creo il select contenitore
-    document.getElementById("editModificaStatoAvanzamentoIncaricoPermessi").value = ModificaStatoAvanzamentoIncarico;     // imposto il valore corrente
-
-    let td_CreaIncarico = document.getElementById("CreaIncaricoPermessi" + ID);
-    CreaIncarico = td_CreaIncarico.dataset.CreaIncarico;     // recupero il valore del cognome
-
-    td_CreaIncarico.innerHTML = '<select id="CreaIncarico" class="form-control"><option value = "0">0</option><option value = "1">1</option></select>';   // creo il select contenitore
-    //document.getElementById("editCreaIncaricoPermessi").value = CreaIncarico;     // imposto il valore corrente
-
-    let td_CreaModificaEliminaAula = document.getElementById("CreaModificaEliminaAulaPermessi" + ID);
-    CreaModificaEliminaAula = td_CreaModificaEliminaAula.dataset.CreaModificaEliminaAula;     // recupero il valore del cognome
-
-    td_CreaModificaEliminaAula.innerHTML = '<select id="editCreaModificaEliminaAulaPermessi" class="form-control"><option value = "0">0</option><option value = "1">1</option></select>';   // creo il select contenitore
-    document.getElementById("editCreaModificaEliminaAulaPermessi").value = CreaModificaEliminaAula;     // imposto il valore corrente
-
-    let td_CreaModificaEliminaNote = document.getElementById("CreaModificaEliminaNotePermessi" + ID);
-    CreaModificaEliminaNote = td_CreaModificaEliminaNote.dataset.CreaModificaEliminaNote;     // recupero il valore del cognome
-
-    td_CreaModificaEliminaNote.innerHTML = '<select id="editCreaModificaEliminaNotePermessi" class="form-control"><option value = "0">0</option><option value = "1">1</option></select>';   // creo il select contenitore
-    document.getElementById("editCreaModificaEliminaNotePermessi").value = CreaModificaEliminaNote;     // imposto il valore corrente
-
-    let td_CreaModificaEliminaMacroarea = document.getElementById("CreaModificaEliminaMacroareaPermessi" + ID);
-    CreaModificaEliminaMacroarea = td_CreaModificaEliminaMacroarea.dataset.CreaModificaEliminaMacroarea;     // recupero il valore del cognome
-
-    td_CreaModificaEliminaMacroarea.innerHTML = '<select id="editCreaModificaEliminaMacroareaPermessi" class="form-control"><option value = "0">0</option><option value = "1">1</option></select>';   // creo il select contenitore
-    document.getElementById("editCreaModificaEliminaMacroareaPermessi").value = CreaModificaEliminaMacroarea;     // imposto il valore corrente
-
-    let td_CreaModificaEliminaCompetenza = document.getElementById("CreaModificaEliminaCompetenzaPermessi" + ID);
-    CreaModificaEliminaCompetenza = td_CreaModificaEliminaCompetenza.dataset.CreaModificaEliminaCompetenza;     // recupero il valore del cognome
-
-    td_CreaModificaEliminaCompetenza.innerHTML = '<select id="editCreaModificaEliminaCompetenzaPermessi" class="form-control"><option value = "0">0</option><option value = "1">1</option></select>';   // creo il select contenitore
-    document.getElementById("editCreaModificaEliminaCompetenzaPermessi").value = CreaModificaEliminaCompetenza;     // imposto il valore corrente
-
-    let td_CreaModificaEliminaCategoria = document.getElementById("CreaModificaEliminaCategoriaPermessi" + ID);
-    CreaModificaEliminaCategoria = td_CreaModificaEliminaCategoria.dataset.CreaModificaEliminaCategoria;     // recupero il valore del cognome
-
-    td_CreaModificaEliminaCategoria.innerHTML = '<select id="editCreaModificaEliminaCategoriaPermessi" class="form-control"><option value = "0">0</option><option value = "1">1</option></select>';   // creo il select contenitore
-    document.getElementById("editCreaModificaEliminaCategoriaPermessi").value = CreaModificaEliminaCategoria;     // imposto il valore corrente
-
-    let td_CreaModificaEliminaPermessi = document.getElementById("CreaModificaEliminaPermessiPermessi" + ID);
-    CreaModificaEliminaPermessi = td_CreaModificaEliminaPermessi.dataset.CreaModificaEliminaPermessi;     // recupero il valore del cognome
-
-    td_CreaModificaEliminaPermessi.innerHTML = '<select id="editCreaModificaEliminaPermessiPermessi" class="form-control"><option value = "0">0</option><option value = "1">1</option></select>';   // creo il select contenitore
-    document.getElementById("editCreaModificaEliminaPermessiPermessi").value = CreaModificaEliminaPermessi;     // imposto il valore corrente
-
-
+	console.log(ID);
 
     // ACTION
     let td_action_permessiId = document.getElementById("td_action_permessiId_" + ID);
