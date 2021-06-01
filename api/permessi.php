@@ -40,15 +40,22 @@
             $query = "SELECT * FROM schoolticket.permessi";     // creo la query per prelevare i tutti permessi
             
             if($idPermesso === null) {      // se il parametro è null non viene richiesto un permessso specifico, restituisco tutti i permessi
-
-                $st = $this->PDOconn->prepare($query);
-                $result = $st->execute();
+                try {
+                    $st = $this->PDOconn->prepare($query);
+                    $result = $st->execute();
+                } catch (Exception $e) {
+                    return '{"result":' . 'false' . ', "description":"I dati passati al server non sono corretti"}';
+                }
 
             } elseif (is_numeric($idPermesso)){     // controllo che l'id passato sia un numero, quindi un possibile id
 
                 $query .= " WHERE schoolticket.permessi.IdPermessi = ?";    // aggiungo una condizione alla query di selezione
-                $st = $this->PDOconn->prepare($query);
-                $result = $st->execute([$idPermesso]);
+                try {
+                    $st = $this->PDOconn->prepare($query);
+                    $result = $st->execute([$idPermesso]);
+                } catch (Exception $e) {
+                    return '{"result":' . 'false' . ', "description":"I dati passati al server non sono corretti"}';
+                }
 
             } elseif (is_array($idPermesso)) {  // controllo che l'id passato sia un array, quindi restituisco tutti i permessi passati
 
@@ -66,9 +73,12 @@
                         $query .= " OR";
 
                 }
-                
-                $st = $this->PDOconn->prepare($query);
-                $result = $st->execute($array_id);
+                try {
+                    $st = $this->PDOconn->prepare($query);
+                    $result = $st->execute($array_id);
+                } catch (Exception $e) {
+                    return '{"result":' . 'false' . ', "description":"I dati passati al server non sono corretti"}';
+                }
 
             } else {        // in tutti gli altri casi restituisco un errore
 
@@ -110,8 +120,12 @@
             } elseif (is_numeric($idPermesso)){     // controllo che l'id passato sia un numero, quindi un possibile id
 
                 $query .= " WHERE schoolticket.permessi.IdPermessi = ?";    // aggiungo una condizione alla query di selezione
-                $st = $this->PDOconn->prepare($query);
-                $result = $st->execute([$idPermesso]);
+                try {
+                    $st = $this->PDOconn->prepare($query);
+                    $result = $st->execute([$idPermesso]);
+                } catch (Exception $e) {
+                    return '{"result":' . 'false' . ', "description":"I dati passati al server non sono corretti"}';
+                }
 
             } elseif (is_array($idPermesso)) {  // controllo che l'id passato sia un array, quindi elimino tutti i permessi passati
 
@@ -130,8 +144,12 @@
 
                 }
                 
-                $st = $this->PDOconn->prepare($query);
-                $result = $st->execute($array_id);
+                try{
+                    $st = $this->PDOconn->prepare($query);
+                    $result = $st->execute($array_id);
+                } catch (Exception $e) {
+                    return '{"result":' . 'false' . ', "description":"I dati passati al server non sono corretti"}';
+                }
 
             } else {        // in tutti gli altri casi restituisco un errore
 
@@ -324,8 +342,12 @@
                 $query .= $end_query . ")";
                 
                 // eseguo la query
-                $st = $this->PDOconn->prepare($query);  
-                $result = $st->execute($array_values);
+                try {
+                    $st = $this->PDOconn->prepare($query);  
+                    $result = $st->execute($array_values);
+                } catch (Exception $e) {
+                    return '{"result":' . 'false' . ', "description":"I dati passati al server non sono corretti"}';
+                }
 
             }
             
@@ -470,8 +492,12 @@
                 }
 
                 // eseguo la query
-                $st = $this->PDOconn->prepare($query);  
-                $result = $st->execute($array_values);
+                try {
+                    $st = $this->PDOconn->prepare($query);  
+                    $result = $st->execute($array_values);
+                } catch (Exception $e) {
+                    return '{"result":' . 'false' . ', "description":"I dati passati al server non sono corretti"}';
+                }
 
             }
             
@@ -501,8 +527,12 @@
                         WHERE schoolticket.utente.Email = ? AND schoolticket.utente.Password = ?";
 
             // eseguo la query
-            $st = $this->PDOconn->prepare($query);  
-            $result = $st->execute([$username, $password]);
+            try {
+                $st = $this->PDOconn->prepare($query);  
+                $result = $st->execute([$username, $password]);
+            } catch (Exception $e) {
+                return '{"result":' . 'false' . ', "description":"I dati passati al server non sono corretti"}';
+            }
 
             if($result != false) {       // controllo che la query abbia dato un risultato positivo
                 
@@ -533,8 +563,12 @@
                         WHERE schoolticket.permessi.IdPermessi = ?";
 
             // eseguo la query
-            $st = $this->PDOconn->prepare($query);  
-            $result = $st->execute([$idPermesso]);
+            try {
+                $st = $this->PDOconn->prepare($query);  
+                $result = $st->execute([$idPermesso]);
+            } catch (Exception $e) {
+                return '{"result":' . 'false' . ', "description":"I dati passati al server non sono corretti"}';
+            }
 
             if($result != false) {       // controllo che la query abbia dato un risultato positivo
                 

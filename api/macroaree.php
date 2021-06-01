@@ -40,15 +40,22 @@
             $query = "SELECT * FROM schoolticket.macroarea";     // creo la query per prelevare i tutti macroarea
             
             if($idMacroarea === null) {      // se il parametro è null non viene richiesto un macroarea specifico, restituisco tutte le macroaree
-
-                $st = $this->PDOconn->prepare($query);
-                $result = $st->execute();
+                try{
+                    $st = $this->PDOconn->prepare($query);
+                    $result = $st->execute();
+                } catch (Exception $e) {
+                    return '{"result":' . 'false' . ', "description":"I dati passati al server non sono corretti"}';
+                }
 
             } elseif (is_numeric($idMacroarea)){     // controllo che l'id passato sia un numero, quindi un possibile id
 
                 $query .= " WHERE schoolticket.macroarea.IdMacroarea = ?";    // aggiungo una condizione alla query di selezione
-                $st = $this->PDOconn->prepare($query);
-                $result = $st->execute([$idMacroarea]);
+                try {
+                    $st = $this->PDOconn->prepare($query);
+                    $result = $st->execute([$idMacroarea]);
+                } catch (Exception $e) {
+                    return '{"result":' . 'false' . ', "description":"I dati passati al server non sono corretti"}';
+                }
 
             } elseif (is_array($idMacroarea)) {  // controllo che l'id passato sia un array, quindi restituisco tutte le macroaree passate
 
@@ -66,9 +73,12 @@
                         $query .= " OR";
 
                 }
-                
-                $st = $this->PDOconn->prepare($query);
-                $result = $st->execute($array_id);
+                try {
+                    $st = $this->PDOconn->prepare($query);
+                    $result = $st->execute($array_id);
+                } catch (Exception $e) {
+                    return '{"result":' . 'false' . ', "description":"I dati passati al server non sono corretti"}';
+                }
 
             } else {        // in tutti gli altri casi restituisco un errore
 
@@ -110,8 +120,12 @@
             } elseif (is_numeric($idMacroarea)){     // controllo che l'id passato sia un numero, quindi un possibile id
 
                 $query .= " WHERE schoolticket.macroarea.IdMacroarea = ?";    // aggiungo una condizione alla query di selezione
-                $st = $this->PDOconn->prepare($query);
-                $result = $st->execute([$idMacroarea]);
+                try {
+                    $st = $this->PDOconn->prepare($query);
+                    $result = $st->execute([$idMacroarea]);
+                } catch (Exception $e) {
+                    return '{"result":' . 'false' . ', "description":"I dati passati al server non sono corretti"}';
+                }
 
             } elseif (is_array($idMacroarea)) {  // controllo che l'id passato sia un array, quindi elimino tutti i macroarea passati
 
@@ -129,9 +143,12 @@
                         $query .= " OR";
 
                 }
-                
-                $st = $this->PDOconn->prepare($query);
-                $result = $st->execute($array_id);
+                try {
+                    $st = $this->PDOconn->prepare($query);
+                    $result = $st->execute($array_id);
+                } catch (Exception $e) {
+                    return '{"result":' . 'false' . ', "description":"I dati passati al server non sono corretti"}';
+                }
 
             } else {        // in tutti gli altri casi restituisco un errore
 
@@ -214,8 +231,12 @@
                 $query .= $end_query . ")";
                 
                 // eseguo la query
-                $st = $this->PDOconn->prepare($query);  
-                $result = $st->execute($array_values);
+                try {
+                    $st = $this->PDOconn->prepare($query);  
+                    $result = $st->execute($array_values);
+                } catch (Exception $e) {
+                    return '{"result":' . 'false' . ', "description":"I dati passati al server non sono corretti"}';
+                }
 
             }
             
@@ -283,8 +304,12 @@
                 }
 
                 // eseguo la query
-                $st = $this->PDOconn->prepare($query);  
-                $result = $st->execute($array_values);
+                try {
+                    $st = $this->PDOconn->prepare($query);  
+                    $result = $st->execute($array_values);
+                } catch (Exception $e) {
+                    return '{"result":' . 'false' . ', "description":"I dati passati al server non sono corretti"}';
+                }
 
             }
             
@@ -314,8 +339,12 @@
                         WHERE schoolticket.utente.Email = ? AND schoolticket.utente.Password = ?";
 
             // eseguo la query
-            $st = $this->PDOconn->prepare($query);  
-            $result = $st->execute([$username, $password]);
+            try {
+                $st = $this->PDOconn->prepare($query);  
+                $result = $st->execute([$username, $password]);
+            } catch (Exception $e) {
+                return '{"result":' . 'false' . ', "description":"I dati passati al server non sono corretti"}';
+            }
 
             if($result != false) {       // controllo che la query abbia dato un risultato positivo
                 
@@ -346,8 +375,12 @@
                         WHERE schoolticket.macroarea.IdMacroarea = ?";
 
             // eseguo la query
-            $st = $this->PDOconn->prepare($query);  
-            $result = $st->execute([$idMacroarea]);
+            try {
+                $st = $this->PDOconn->prepare($query);  
+                $result = $st->execute([$idMacroarea]);
+            } catch (Exception $e) {
+                return '{"result":' . 'false' . ', "description":"I dati passati al server non sono corretti"}';
+            }
 
             if($result != false) {       // controllo che la query abbia dato un risultato positivo
                 
