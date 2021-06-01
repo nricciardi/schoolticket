@@ -1307,19 +1307,77 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "ChangePriority"){
 }
 
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "Update"){
-  $IdTicket = $_POST[""];
-  $Nome = $_POST[""];
-  $Descrizione = $_POST[""];
-  $Stato = $_POST[""];
-  $Priorita = $_POST[""];
-  $Data = $_POST[""];
-  $Ora = $_POST[""];
-  $Macro = $_POST[""];
-  $Utente = $_POST[""];
-  $Aula = $_POST[""];
-  $Unione = $_POST[""];
-  $Visualizzato = $_POST[""];
 
-  echo $ticket -> Update($IdTicket, $Nome, $Descrizione, $Stato, $Priorita, $Data, $Ora, $Macro, $Utente, $Aula, $Unione, $Visualizzato);
+  $msg = "";
+  $control = true;
+
+  if(isset($_POST["IdTicket"]) && $_POST["IdTicket"] != null && trim($_POST["IdTicket"]) != "")
+    $IdTicket = $_POST["IdTicket"];
+  else {
+    $control = false;
+    $msg .= "IdTicket mancante; ";
+  }
+
+  if(isset($_POST["Nome"]) && $_POST["Nome"] != null && trim($_POST["Nome"]) != "")
+    $Nome = $_POST["Nome"];
+  else
+    $msg .= "";
+
+  if(isset($_POST["Descrizione"]) && $_POST["Descrizione"] != null && trim($_POST["Descrizione"]) != "")
+    $Descrizione = $_POST["Descrizione"];
+  else
+    $msg .= "";
+
+  if(isset($_POST["StatoDiAvanzamento"]) && $_POST["StatoDiAvanzamento"] != null && trim($_POST["StatoDiAvanzamento"]) != "")
+      $Stato = $_POST["StatoDiAvanzamento"];
+  else
+      $msg .= "";
+
+  if(isset($_POST["Priorita"]) && $_POST["Priorita"] != null && trim($_POST["Priorita"]) != "")
+      $Priorita = $_POST["Priorita"];
+  else
+      $msg .= "";
+
+  if(isset($_POST["Data"]) && $_POST["Data"] != null && trim($_POST["Data"]) != "")
+      $Data = $_POST["Data"];
+  else
+      $msg .= "";
+
+  if(isset($_POST["Ora"]) && $_POST["Ora"] != null && trim($_POST["Ora"]) != "")
+      $Ora = $_POST["Ora"];
+  else
+      $msg .= "";
+
+    if(isset($_POST["IdMacroarea"]) && $_POST["IdMacroarea"] != null && trim($_POST["IdMacroarea"]) != "")
+        $Macro = $_POST["IdMacroarea"];
+    else
+        $msg .= "";
+
+    if(isset($_POST["IdUtente"]) && $_POST["IdUtente"] != null && trim($_POST["IdUtente"]) != "")
+        $Utente = $_POST["IdUtente"];
+    else
+            $msg .= "";
+
+/*    if(isset($_POST["IdAula"]) && $_POST["IdAula"] != null && trim($_POST["IdAula"]) != "")
+        $Aula = $_POST["IdAula"];
+    else
+        $msg .= "";
+
+    if(isset($_POST[""]) && $_POST[""] != null && trim($_POST[""]) != "")
+        $Unione = $_POST[""];
+    else
+        $msg .= "";
+
+        if(isset($_POST[""]) && $_POST[""] != null && trim($_POST[""]) != "")
+            $Visualizzato = $_POST[""];
+        else
+            $msg .= "";
+*/
+
+  if($control)
+    echo $ticket -> Update($IdTicket, $Nome, $Descrizione, $Stato, $Priorita, $Data, $Ora, $Macro, $Utente, $Aula, $Unione, $Visualizzato);
+  else {
+    echo '{"result":false,"description":"' . $msg . '"}';
+  }
 }
 ?>
