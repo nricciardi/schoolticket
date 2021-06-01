@@ -402,7 +402,7 @@
 			$verifyEmail = $st->execute(['emailPl' => $email]); //CONTROLlO se email esiste
 
 			if($verifyEmail == false and $check = false){
-				$msg .= 'Non esiste questa categoria.';
+				$msg .= 'Errore, riprovare.';
 				$check = false;
 			}
 			else{
@@ -411,7 +411,7 @@
 				//echo VAR_DUMP($rows);
 
 				if(!empty($rows)){
-					$msg .= 'Non esiste questa categoria; ';
+					$msg .= 'Esiste già questa email ';
 					$check = false;
 				}
 				else{

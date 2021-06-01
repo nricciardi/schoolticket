@@ -28,7 +28,7 @@
                                         <i class="far fa-share-square"></i>Ticket inseriti</button>
                                 </li>
                                 <li>
-                                    <button id="" style="/*display: none;*/">
+                                    <button id="btn_show_ticketassegnati" style="/*display: none;*/">
                                         <i class="fas fa-briefcase"></i>Ticket assegnati</button>
                                 </li>
                                 <li>
