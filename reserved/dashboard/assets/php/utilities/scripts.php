@@ -32,6 +32,7 @@
     <script src="assets/js/add-ticket.js"></script>
     <script src="assets/js/change-password.js"></script>
     <script src="assets/js/management-users.js"></script>
+	<script src="assets/js/management-account.js"></script>
     <script src="assets/js/management-ticket.js"></script>
     <script src="assets/js/management-categoria.js"></script>
 	<script src="assets/js/management-aula.js"></script>
@@ -40,3 +41,4 @@
 	<script src="assets/js/management-competenze.js"></script>
     <script src="assets/js/management-ticket-inseriti.js"></script>
 	<script src="assets/js/management-ticket-assegnati.js"></script>
+	<script src="assets/js/management-incarichi.js"></script>
