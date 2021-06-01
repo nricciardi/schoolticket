@@ -1552,7 +1552,7 @@ btn_show_competenze.addEventListener("click", () => {
     hideAllDynamicPage();
 
     // creo la tabella delle aule
-    createTableCompetenze();
+    createTableCompetenza();
 
     div_management_competenze.style.display = "";
 
@@ -1567,7 +1567,7 @@ btn_show_competenze2.addEventListener("click", () => {
     hideAllDynamicPage();
 
     // creo la tabella delle aule
-    createTableCompetenze();
+    createTableCompetenza();
 
     div_management_competenze.style.display = "";
 
