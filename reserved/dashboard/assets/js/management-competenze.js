@@ -68,26 +68,16 @@ function createRecordCompetenza(competenza) {   //competenza è un oggetto conte
 
 // funzione che crea un box per la conferma prima di eseguire effettivamente "send", "edit", "delete" o "more"
 function requestActionCompetenza(type, ID) {      // passo il tipo di richiesta che viene chiesta 
-    switch (type) {
-        case "send":
-            
-            break;
-    
+    switch (type) {    
         case "edit":
-            
-            changeFormNewCompetenza(ID);
+			changeFormNewCompetenza(ID);
             break;
-
-        case "delete":
+		case "delete":
             // creo il form per la conferma
             form_html = createrequestActionCompetenza(type, ID);
 
             // ricavo il td della competenza passato per inserire la richiesta
             document.getElementById("td_action_competenzaId_" + ID).innerHTML = form_html;
-
-            break;
-        case "more":
-    
             break;
 
         default:
@@ -139,7 +129,7 @@ function createrequestActionCompetenza(type, ID) {
     return request;
 }
 
-// richiama l' competenza dal database tramite chiamata AJAX e successivamente crea la tabella
+// richiama la competenza dal database tramite chiamata AJAX e successivamente crea la tabella
 function createTableCompetenza() {
 
     feedback_table_management_competenza.innerText = "Sto caricando la tabella...";
@@ -150,7 +140,7 @@ function createTableCompetenza() {
 
     // effettuo la chiamata
     $.ajax({
-        url: HOSTNAME + "/api/aule.php",
+        url: HOSTNAME + "/api/competenze.php",
         type: "GET",
         headers:{
             'Authorization':'Basic ' + btoa(USER.Email + ":" + USER.Password)
@@ -165,9 +155,9 @@ function createTableCompetenza() {
                 feedback_table_management_competenza.innerText = res.description;
                 feedback_table_management_competenza.style.color = error_data;
 
-            } else {    // in caso positivo creo la tabella per l'competenza
+            } else {    // in caso positivo creo la tabella per la competenza
 
-                // recupero le aule passate da "result"
+                // recupero le competenze passate da "result"
                 let competenza = res.result;
 
                 console.log(res.description);
@@ -179,7 +169,6 @@ function createTableCompetenza() {
                     body_table_competenza.innerHTML += createRecordCompetenza(element);
 
                 });
-                
                 
             }
 
@@ -204,23 +193,13 @@ function addCompetenza() {
     if(!check_new_nome_competenza)
         return false;
 	
-	// variabile per laboratoria competenza
-	let laboratorio = document.getElementById("newLaboratorioAula");
-
-	let temp = null;
-	
-	if(laboratorio.checked == false)
-		temp = 0;
-	else
-		temp = 1;
-
     // creo l'oggetto data da mandare in post
-    let data = {"Nome": document.getElementById("newNomeAula").value, "Descrizione": document.getElementById("newDescrizioneAula").value, "Laboratorio": temp};
+    let data = {"IdCategoria": document.getElementById("IdCategoria").value, "IdMacroarea": document.getElementById("IdMacroarea").value};
 
     // effettuo la chiamata ajax
     $.ajax({
 
-        url: HOSTNAME + "/api/aule.php",
+        url: HOSTNAME + "/api/competenze.php",
         type: "post",
         data: data,
         dataType: "json",
@@ -255,23 +234,19 @@ function addCompetenza() {
 
 }
 
-// in base all'id passato elimino l'competenza
+// in base all'id passato elimino la competenza
 function editCompetenza(ID) {   // può anche essere passato un array
     
     console.log("Modifico: " + ID);
 
-    let checkbox_edit_mode = 0;
-    if(document.getElementById("editLaboratorioAula").checked)
-        checkbox_edit_mode = 1; 
-
     // creo l'oggetto data da mandare in post
-    let data = {"IdCompetenza": ID, "Nome": document.getElementById("editNomeAula").value, "Descrizione": document.getElementById("editDescrizioneAula").value, "Laboratorio": checkbox_edit_mode};
+    let data = {"IdCompetenza": ID, "IdCategoria": document.getElementById("editIdCategoria").value, "IdMacroarea": document.getElementById("editIdMacroarea").value};
 
     console.log(data);
     // effettuo la chiamata ajax
     $.ajax({
 
-        url: HOSTNAME + "/api/aule.php",
+        url: HOSTNAME + "/api/competenze.php",
         type: "PUT",
         data: JSON.stringify(data),
         dataType: "json",
@@ -290,7 +265,7 @@ function editCompetenza(ID) {   // può anche essere passato un array
 
             } else {
 
-                // in caso positivo creo la tabella per gli competenza
+                // in caso positivo creo la tabella per la competenza
                 createTableCompetenza();
 
             }
@@ -306,7 +281,7 @@ function editCompetenza(ID) {   // può anche essere passato un array
 
 }
 
-// in base all'id passato elimino l'competenza
+// in base all'id passato elimino la competenza
 function deleteCompetenza(ID) {   // può anche essere passato un array
     
     console.log("Elimino: " + ID);
@@ -317,7 +292,7 @@ function deleteCompetenza(ID) {   // può anche essere passato un array
     // effettuo la chiamata ajax
     $.ajax({
 
-        url: HOSTNAME + "/api/aule.php",
+        url: HOSTNAME + "/api/competenze.php",
         type: "DELETE",
         data: JSON.stringify(data),
 		headers: {
