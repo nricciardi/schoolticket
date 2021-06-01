@@ -61,7 +61,6 @@
                         <th>Utente</th>
                         <th>Aula</th>
                         <th>IdUnione</th>
-                        <th>Visualizzato</th>
                     </tr>
                 </thead>
                 <tbody id="body_table_tickets">
