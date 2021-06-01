@@ -265,7 +265,7 @@ btn_conferma.addEventListener("click", () => {
 
 // Button invio codice
 btn_inviaCodice.addEventListener("click", () => {
-
+	
     $.ajax({
         type: "SENDCODE",
         url: HOSTNAME + "/assets/php/authentication/Authentication.php",
