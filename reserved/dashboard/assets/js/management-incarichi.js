@@ -32,7 +32,7 @@ var btn_delete_checked_incarico = document.getElementById("btn_delete_checked_in
 // -------------------------------------------------------------------------------
 
 // restituisce il codice html in formato stringa da inserire nella tabella dato un oggetto ordinato in base all'intestazione della tabella
-function createRecordIncarico(incarico) {   //incarico è un oggetto contenente le informazioni del record IdIncarico, StatoDiAvanzamento, IdUtente, IdTicket
+function createRecordIncarico(incarico) {   //incarico è un oggetto contenente le informazioni del record IdIncarico, StatodiAvanzamento, IdUtente, IdTicket
 
     // record che sarà restituito
     let record = "";
@@ -49,8 +49,8 @@ function createRecordIncarico(incarico) {   //incarico è un oggetto contenente 
     // inserisco l'ID
     // Predisposizione IdIncarico: record += '<td>' + incarico.IdIncarico + '</td>';
     
-    // inserisco StatoDiAvanzamento
-    record += '<td id="statoIncarico' + incarico.IdIncarico + '">' + incarico.StatoDiAvanzamento + '</td>';
+    // inserisco StatodiAvanzamento
+    record += '<td id="statoIncarico' + incarico.IdIncarico + '">' + incarico.StatodiAvanzamento + '</td>';
     
 	// inserisco IdUtente
 	record += '<td id="idUtenteIncarico' + incarico.IdIncarico + '">' + incarico.IdUtente + '</td>';
@@ -201,7 +201,7 @@ function addIncarico() {
     console.log("Aggiungo un incarico");
 	
     // creo l'oggetto data da mandare in post
-    let data = {"StatoDiAvanzamento": document.getElementById("newStatoDiAvanzamento").value, "IdUtente": document.getElementById("newIdUtente").value, "IdTicket": document.getElementById("newIdTicket").value};
+    let data = {"StatodiAvanzamento": document.getElementById("newStatodiAvanzamento").value, "IdUtente": document.getElementById("newIdUtente").value, "IdTicket": document.getElementById("newIdTicket").value};
 
     // effettuo la chiamata ajax
     $.ajax({
@@ -247,7 +247,7 @@ function editIncarico(ID) {   // può anche essere passato un array
     console.log("Modifico: " + ID);
 
     // creo l'oggetto data da mandare in post
-    let data = {"IdIncarico": ID, "StatoDiAvanzamento": document.getElementById("editStatoDiAvanzamento").value, "IdUtente": document.getElementById("editIdUtente").value, "IdTicket": document.getElementById("editIdTicket").value};
+    let data = {"IdIncarico": ID, "StatodiAvanzamento": document.getElementById("editStatodiAvanzamento").value, "IdUtente": document.getElementById("editIdUtente").value, "IdTicket": document.getElementById("editIdTicket").value};
 
     console.log(data);
     // effettuo la chiamata ajax
@@ -362,9 +362,9 @@ function createFormNewIncarico() {
     // inserisco l'ID
     // Predisposizione IdIncarico: record += '<td>' + incarico.IdIncarico + '</td>';
     
-    // inserisco StatoDiAvanzamento
+    // inserisco StatodiAvanzamento
     record += '<td>' + 
-    '<input type="text" placeholder="StatoDiAvanzamento" class="form-control" id="newStatoDiAvanzamento">' + 
+    '<input type="text" placeholder="StatodiAvanzamento" class="form-control" id="newStatodiAvanzamento">' + 
     '</td>';
     
     // inserisco IdUtente
@@ -467,13 +467,13 @@ function changeFormNewIncarico(ID) {
     // elimino il form per l'inserimento di una nuova incarico
     removeForm("form_new_incarico");
 
-    // StatoDiAvanzamento
-    // recupero la referenza dello StatoDiAvanzamento del record della tabella tramite ID
+    // StatodiAvanzamento
+    // recupero la referenza dello StatodiAvanzamento del record della tabella tramite ID
     let td_stato = document.getElementById("statoIncarico" + ID);
-    stato = td_stato.innerText;     // recupero il valore del StatoDiAvanzamento
+    stato = td_stato.innerText;     // recupero il valore del StatodiAvanzamento
 
     // modifico la label in un input:text
-    td_stato.innerHTML = '<input type="text" placeholder="StatoDiAvanzamento" value="' + stato + '" class="form-control" id="editStatoDiAvanzamento">'
+    td_stato.innerHTML = '<input type="text" placeholder="StatodiAvanzamento" value="' + stato + '" class="form-control" id="editStatodiAvanzamento">'
 
     // IdUtente
     // recupero la referenza del IdUtente del record della tabella tramite ID

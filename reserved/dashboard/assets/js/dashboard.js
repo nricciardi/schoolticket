@@ -1754,7 +1754,7 @@ btn_show_incarichi.addEventListener("click", () => {
 
     hideAllDynamicPage();
 
-    // creo la tabella delle aule
+    // creo la tabella degli incarichi
     createTableIncarico();
 
     div_management_incarichi.style.display = "";
@@ -1769,7 +1769,7 @@ btn_show_incarichi2.addEventListener("click", () => {
 
     hideAllDynamicPage();
 
-    // creo la tabella delle aule
+    // creo la tabella degli incarichi
     createTableIncarico();
 
     div_management_incarichi.style.display = "";

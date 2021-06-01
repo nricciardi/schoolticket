@@ -150,6 +150,7 @@
                             <div class="col-md-12" style="display: none;" id="div_management_ticketassegnati"> <!-- Di default è invisibile, viene visualizzato solo dopo il click di btn_add_ticket -->
                                 <?php
                                    require_once("assets".DS."php".DS."utilities".DS."management-ticket-assegnati.php");     // includo il form per il new ticket
+								?>
 							<!-- !!!!!!!!!!!!!!! PAGE MANAGEMENT INCARICHI   !!!!!!!!!!!!!!! -->
                             <div class="col-md-12" style="display: none;" id="div_management_incarichi"> <!-- Di default è invisibile, viene visualizzato solo dopo il click di btn_add_ticket -->
                                 <?php
@@ -160,7 +161,7 @@
                             <!-- !!!!!!!!!!!!!!!RECENT REPORT!!!!!!!!!!!!!!! -->
 
                             <!-- !!!!!!!!!!!!!!!TASK PROGRESS!!!!!!!!!!!!!!! -->
-
+							</div>
                         </div>
                     </div>
                 </div>
