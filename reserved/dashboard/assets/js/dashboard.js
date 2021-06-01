@@ -91,6 +91,9 @@ var btn_show_user2 = document.getElementById("btn_show_user_2");
 var btn_show_permessi = document.getElementById("btn_show_permessi");
 var btn_show_permessi2 = document.getElementById("btn_show_permessi_2");
 
+// bottone del sotto menù gestione: btn_show_incarichi
+var btn_show_incarichi = document.getElementById("btn_show_incarichi");
+var btn_show_incarichi2 = document.getElementById("btn_show_incarichi_2");
 
 // bottone del sotto menù gestione: btn_show_macroaree
 var btn_show_macroaree = document.getElementById("btn_show_macroaree");
@@ -1200,6 +1203,23 @@ function settingMenuGestioneAccount()
             btn_show_permessi.style.display = "none";
             btn_show_permessi2.style.display = "none";
 
+        }
+
+        if(permessi_utente.CreaIncarico == "1") {
+
+            // restituirò true
+            show = true;
+
+            // tolgo il display none dal bottone associato
+            btn_show_incarichi.style.display = "";
+            btn_show_incarichi2.style.display = "";
+
+            console.log("if8");
+
+        } else {
+            // continuo a tener nascosto il bottone
+            btn_show_incarichi.style.display = "none";
+            btn_show_incarichi2.style.display = "none";
         }
 
         /*if(permessi_utente.CreaIncarico === "1" || permessi_utente.ModificaStatoAvanzamentoIncarico === "1") {
