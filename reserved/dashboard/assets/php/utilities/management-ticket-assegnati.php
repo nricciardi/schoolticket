@@ -33,13 +33,17 @@
             <table class="table table-data2">
                 <thead>
                     <tr>
-                        <!-- Predisposizione IdAula: <th>Id aula</th> --> 
-                        <th>Nome</th>
+                        <!-- Predisposizione IdAula: <th>Id aula</th> -->
+                        <th>ID Ticket</th>
+                        <th>Nome Ticket</th>
                         <th>Stato Di Avanzamento</th>
+                        <th>Descrizione</th>
+                        <th>Immagine</th>
+                        <th>Priorita</th>
                     </tr>
                 </thead>
                 <tbody id="body_table_ticketassegnati">
-                    
+
                 </tbody>
                 <tfoot id="foot_table_assegnati">
                     <tr class="spacer"></tr>

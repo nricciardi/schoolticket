@@ -34,21 +34,42 @@ function createRecordTicketAssegnati(ticketassegnati) {   //ticketassegnati è u
     // inserisco l'ID
     // Predisposizione IdIncarico: record += '<td>' + ticketassegnati.IdIncarico + '</td>';
 
+  //ID TICKET:
+  record += '<td id="IdTicketAssegnati' + ticketassegnati.IdIncarico + '">' + ticketassegnati.Ticket.IdTicket + '</td>';
+
+
     // inserisco il NOME
-    record += '<td id="nomeTicketAssegnati' + ticketassegnati.IdTicket + '">' + ticketassegnati.Nome + '</td>';
+    record += '<td id="nomeTicketAssegnati' + ticketassegnati.IdIncarico + '">' + ticketassegnati.Ticket.Nome + '</td>';
 
     // inserisco la STATO DI AVANZAMENTO
-	if(ticketassegnati.StatoDiAvanzamento == null)
-		record += '<td id="statoTicketAssegnati' + ticketassegnati.IdTicket + '">' + 'N/D' + '</td>';
-	else
-		record += '<td id="statoTicketAssegnati' + ticketassegnati.IdTicket + '">' + ticketassegnati.StatoDiAvanzamento + '</td>';
+	if(ticketassegnati.Ticket.StatoDiAvanzamento == null){
+    record += '<td id="statoTicketAssegnati' + ticketassegnati.IdIncarico + '">' + 'N/D' + '</td>';
+  }
+	else{
+    record += '<td id="statoTicketAssegnati' + ticketassegnati.IdIncarico + '">' + ticketassegnati.Ticket.StatoDiAvanzamento + '</td>';
+  }
 
+  //Descrizione:
+  record += '<td id="descrizioneTicketAssegnati' + ticketassegnati.IdIncarico + '">' + ticketassegnati.Ticket.Descrizione + '</td>';
 
-    // record += '<td id="laboratorioAula' + ticketassegnati.IdIncarico + '">' + ticketassegnati.Laboratorio + '</td>';
+  //Immagine:
+  if(ticketassegnati.Ticket.Immagine == null){
+    record += '<td id="immagineTicketAssegnati' + ticketassegnati.IdIncarico + '">' + 'N/D' + '</td>';
 
+  }else{
+    record += '<td id="immagineTicketAssegnati' + ticketassegnati.IdIncarico + '">' + ticketassegnati.Ticket.Immagine + '</td>';
+  }
+
+  //Priorita:
+  record += '<td id="prioritaTicketAssegnati' + ticketassegnati.IdIncarico + '">' + ticketassegnati.Ticket.Priorita + '</td>';
+
+//Aula:
+//record += '<td id="aulaTicketAssegnati' + ticketassegnati.Ticket.IdTicket + '">' + ticketassegnati.Ticket.Aula + '</td>';
+
+//console.log(ticketassegnati.IdIncarico);
     // inserisco i bottoni per le diverse azioni
-    record += '<td id="td_action_ticketassegnatiId_' + ticketassegnati.IdTicket + '"> <div class="table-data-feature">';
-    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Edit" id="editTicketAssegnati' + ticketassegnati.IdIncarico + '" onclick="requestActionTicketAssegnati(\'edit\', ' + ticketassegnati.IdIncarico + ')">    <i class="zmdi zmdi-edit"></i>  </button>';            // tasto EDIT
+    record += '<td id="td_action_ticketassegnatiId_' + ticketassegnati.IdIncarico + '"> <div class="table-data-feature">';
+    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Edit" id="completeTicketAssegnati' + ticketassegnati.IdIncarico + '" onclick="requestActionTicketAssegnati(\'edit\', ' + ticketassegnati.IdIncarico + ')">    <i class="zmdi zmdi-edit"></i>  </button>';            // tasto EDIT
     record += '</div>   </td>   </tr>';
 
     // inserisco il record di spaziatura
@@ -143,7 +164,7 @@ function createTableTicketAssegnati() {
 
                 // per ogni ticketassegnati in ticketassegnati creo il codice HTML per il record
                 ticketassegnati.forEach((element) => {
-                  
+
                   console.log(element);
                     if(USER.IdUtente == element.Utente.IdUtente ){
                       // aggiungo il record alla tabella
@@ -173,27 +194,19 @@ function createTableTicketAssegnati() {
 // in base all'id passato elimino l'ticketassegnati
 function editTicketAssegnati(ID) {   // può anche essere passato un array
 
-    console.log("Modifico: " + ID);
-
-    let checkbox_edit_mode = 0;
-    if(document.getElementById("editStatoTicketAssegnati").checked)
-        checkbox_edit_mode = 1;
+    console.log(ID);
 
     // creo l'oggetto data da mandare in post
-    let data = {"IdIncarico": ID, "Stato": document.getElementById("editStatoTicketAssegnati").value};
+    let data = {"Submit": "Update", "IdTicket": document.getElementById("editidticket").value, "StatoDiAvanzamento": document.getElementById("editstatoincarico").value};
 
     console.log(data);
     // effettuo la chiamata ajax
     $.ajax({
-
-        url: HOSTNAME + "/api/ticketassegnati.php",
-        type: "PUT",
-        data: JSON.stringify(data),
-        dataType: "json",
-		headers:{
-					'Authorization':'Basic ' + btoa(USER.Email + ":" + USER.Password)
-				},
-        success: (res) => {
+      url: HOSTNAME + "/assets/php/issues/Ticket.php",
+      type: "POST",
+      data: data,
+      dataType: "json",
+      success: (res) => {
 
             console.log(res);
             // verifico che la siano stati restituiti correttamente i dati
@@ -269,14 +282,24 @@ function changeFormNewTicketAssegnati(ID) {
     // elimino il form per l'inserimento di una nuova ticketassegnati
     removeForm("form_new_ticketassegnati");
 
-    // STATO
-    // recupero la referenza della stato del record della tabella tramite ID
-   /* let td_stato = document.getElementById("statoTicketAssegnati" + ID);
-    stato = td_stato.innerText;     // recupero il valore del cognome
+    //ID TICKET:
+        let td_ticket = document.getElementById("IdTicketAssegnati" + ID);
+        ticket = td_ticket.innerText;     // recupero il valore del nome
+
+        // modifico la label in un input:text
+        td_ticket.innerHTML = '<input type="text" id="editidticket" value="' + ticket + '"   >';
+
+
+
+//StatodiAvanzamento
+    let td_stato = document.getElementById("statoTicketAssegnati" + ID);
+    stato = "Completato";     // recupero il valore del nome
 
     // modifico la label in un input:text
-    td_stato.innerHTML = '<input type="text" placeholder="Stato" value="' + stato + '" oninput="checkNewStatoTicketAssegnati(\'ediStatoTicketAssegnati\')" class="form-control" id="ediStatoTicketAssegnati">'
-*/
+    td_stato.innerHTML = '<input type="text" placeholder="stato" value="' + stato + '" " class="form-control" id="editstatoincarico">'
+
+
+
 	console.log(ID);
 	// ACTION
     let td_action_ticketassegnatiId = document.getElementById("td_action_ticketassegnatiId_" + ID);
