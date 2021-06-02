@@ -694,7 +694,7 @@ function settingMenuGestione()
 
         }
 
-        if(permessi_utente.CreaModificaEliminaCompetenza == "1") {
+        /*if(permessi_utente.CreaModificaEliminaCompetenza == "1") {
 
             // restituirò true
             show = true;
@@ -728,7 +728,7 @@ function settingMenuGestione()
 				console.error("btn_show_competenze2 non esiste");
 			}
 
-        }
+        }*/
 
         if(permessi_utente.CreaModificaEliminaCategoria == "1") {
 
