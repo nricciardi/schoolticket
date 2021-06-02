@@ -93,7 +93,7 @@
     	$cont = 0;
 
 
-
+var_dump($query);
                 while($record = $st->fetch()){
                   //Utente:
                     $Utente = $record["IdUtente"];
