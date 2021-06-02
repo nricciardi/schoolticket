@@ -201,7 +201,7 @@ function addIncarico() {
     console.log("Aggiungo un incarico");
 
     // creo l'oggetto data da mandare in post
-    
+
     let data = {"IdUtente": document.getElementById("newIdUtente").value, "IdTicket": document.getElementById("newIdTicket").value};
 
     // effettuo la chiamata ajax
@@ -247,7 +247,7 @@ function editIncarico(ID) {   // può anche essere passato un array
     console.log("Modifico: " + ID);
 
     // creo l'oggetto data da mandare in post
-    let data = {"IdIncarico": ID, "StatodiAvanzamento": document.getElementById("editStatodiAvanzamento").value, "IdUtente": document.getElementById("editIdUtente").value, "IdTicket": document.getElementById("editIdTicket").value};
+    let data = {"IdIncarico": ID, "IdUtente": document.getElementById("editIdUtente").value, "IdTicket": document.getElementById("editIdTicket").value};
 
     console.log(data);
     // effettuo la chiamata ajax
@@ -467,14 +467,6 @@ function changeFormNewIncarico(ID) {
     // elimino il form per l'inserimento di una nuova incarico
     removeForm("form_new_incarico");
 
-    // StatodiAvanzamento
-    // recupero la referenza dello StatodiAvanzamento del record della tabella tramite ID
-    let td_stato = document.getElementById("statoIncarico" + ID);
-    stato = td_stato.innerText;     // recupero il valore del StatodiAvanzamento
-
-    // modifico la label in un input:text
-    td_stato.innerHTML = '<select placeholder="StatodiAvanzamento" value="' + stato + '" class="form-control" id="editStatodiAvanzamento">'
-
     // IdUtente
     // recupero la referenza del IdUtente del record della tabella tramite ID
     let td_IdUtente = document.getElementById("idUtenteIncarico" + ID);
@@ -491,7 +483,8 @@ function changeFormNewIncarico(ID) {
     IdTicket = td_IdTicket.innerText;     // recupero il valore del IdTicket
 
     // modifico la label in un input:text
-    td_IdTicket.innerHTML = '<select value="' + IdTicket + '" class="form-control" id="editIdTicket"></select>'
+    td_IdTicket.innerHTML = '<input type="text"  placeholder="IdTicket" ' + IdTicket + 'id = "editIdTicket" class="form-control">'
+    //td_IdTicket.innerHTML = '<select value="' + IdTicket + '" class="form-control" id="editIdTicket"></select>'
 
 
 	// ACTION
