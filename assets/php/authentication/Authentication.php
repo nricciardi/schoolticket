@@ -949,7 +949,7 @@
 
 			}else{
 			//QUERY PER CAMBIARE LA PASSWORD:
-					if($this->code == $codice){
+					if($this->Code == $codice){
 						$q = "UPDATE schoolticket.utente SET Password = ? WHERE ?";
 						$st = $this->PDOconn->prepare($q);
 						$st->execute([hash("sha512", $nuovaPassword),$ID_utente_da_modificare]);
@@ -1218,15 +1218,15 @@ function CHANGEPASSWORD_request($auth = null, $json_error = '{"result":false,"de
 		if(isset($data) && $data != null && !empty($data)) {
 
 			// controllo che sia stato passato una password
-			if(isset($data->password) && $data->password != "") {
+			if(isset($data->nuovaPassword) && $data->nuovaPassword != "") {
 
 				// controllo che sia stato passato un id
-				if(isset($data->code) && $data->code != "") {
+				if(isset($data->codice) && $data->codice != "") {
 
 					if(isset($_SESSION["logged"]) && $_SESSION["logged"] != false && is_numeric($_SESSION["logged"])) {	// controllo che ci sia un utente loggato
 						$ID_utente_loggato = $_SESSION["logged"];		// inserisco l'id dell'utente loggato in una variabile
 
-						return $auth -> changePassword($ID_utente_loggato, $data->password, $data->code);
+						return $auth -> changePassword($ID_utente_loggato, $data->nuovaPassword, $data->codice);
 					}
 
 				} else {
@@ -1402,13 +1402,13 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "changePassword"){
 	$control = true;
 
 	if(isset($_SESSION["logged"]) && $_SESSION["logged"] != false) {	// controllo che ci sia un utente loggato
-		$ID_utente_loggato = $_SESSION["logged"];
+		$ID_utente_da_modificare = $_SESSION["logged"];
 	} else {
 		$control = false;
 	}
 
 	if(isset($_POST["Data"]["nuovaPassword"]) && $_POST["Data"]["nuovaPassword"] != false && $_POST["Data"]["nuovaPassword"] != null) {	// controllo che ci sia una password
-		$ID_utente_da_modificare = $_POST["Data"]["nuovaPassword"];
+		$nuovaPassword = $_POST["Data"]["nuovaPassword"];
 	} else {
 		$control = false;
 	}
@@ -1427,8 +1427,13 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "changePassword"){
 
 //SendCode:
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "sendCode"){
-	$id_to_send_code = 5; // $_SESSION["logged"];
- 	echo $auth -> sendCode($id_to_send_code);
+	if(isset($_SESSION["logged"]) && $_SESSION["logged"] != false){
+		
+		$id_to_send_code = $_SESSION["logged"];
+		echo $auth -> sendCode($id_to_send_code);
+	}
+	else
+		echo '{"result":false,"description":"Utente non registrato nel database"}';
 }
 
 // getUser:
