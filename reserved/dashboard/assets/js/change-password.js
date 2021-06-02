@@ -240,7 +240,7 @@ btn_conferma.addEventListener("click", () => {
     $.ajax({
         type: "CHANGEPASSWORD",
         url: HOSTNAME + "/assets/php/authentication/Authentication.php",
-        data: data,
+        data: JSON.stringify(data),
         dataType: "json",
         success: function (response)
 		{

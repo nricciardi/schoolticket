@@ -4,7 +4,6 @@
 
 	Class Auth{
 		private $PDOconn;
-		private $Code;//Codice di verifica che viene mandato alla mail dell'utente nel caso voglia cambiare password;
 		private $permessoDefault;
 
 	//COSTRUTTORE indica il tipo di variabile nelle()
@@ -914,8 +913,9 @@
 				// in caso sia presente l'email dalla ricerca nel database:
 				$mail = $rows[0]["Email"];					// recupero l'email
 				$codice = rand(10000000,99999999);			// genero un numero causuale (codice) da inviare all'utente
-				$this->code = $codice;						// tengo in memoria il codice						!!!!!!!!!!!!!!!!!!! controllare che in caso di più utenti non sia necessario tenere in memoria il codice in una variabile di sessione
-				$result = send_mail(" ",$mail,"Codice",$this->code);		// richiamo la funzione per l'invio dell'email
+				$_SESSION["code"] = $codice;						// tengo in memoria il codice						!!!!!!!!!!!!!!!!!!! controllare che in caso di più utenti non sia necessario tenere in memoria il codice in una variabile di sessione
+				$body = "Il codice per il cambio della password è ".$_SESSION["code"];
+				$result = send_mail(" ",$mail,"Codice per il cambio password", $body);		// richiamo la funzione per l'invio dell'email
 
 				// DEBUG:
 				//var_dump(json_decode($result));
@@ -949,8 +949,8 @@
 
 			}else{
 			//QUERY PER CAMBIARE LA PASSWORD:
-					if($this->Code == $codice){
-						$q = "UPDATE schoolticket.utente SET Password = ? WHERE ?";
+					if($_SESSION["code"] == $codice){
+						$q = "UPDATE schoolticket.utente SET Password = ? WHERE schoolticket.utente.IdUtente = ?";
 						$st = $this->PDOconn->prepare($q);
 						$st->execute([hash("sha512", $nuovaPassword),$ID_utente_da_modificare]);
 						$msg = '{"result":true,"description":"Password cambiata correttamente"}';
@@ -1214,11 +1214,12 @@ function CHANGEPASSWORD_request($auth = null, $json_error = '{"result":false,"de
 		return $json_error;
 
 		$data = json_decode(urldecode(file_get_contents("php://input")));	// recupero dallo stream di input del server le informazioni passate in LOGIN
-
+		$data = $data->Data;
+		//var_dump($data);
 		if(isset($data) && $data != null && !empty($data)) {
 
 			// controllo che sia stato passato una password
-			if(isset($data->nuovaPassword) && $data->nuovaPassword != "") {
+			if(isset($data->nuovaPassword) && trim($data->nuovaPassword) != "") {
 
 				// controllo che sia stato passato un id
 				if(isset($data->codice) && $data->codice != "") {
