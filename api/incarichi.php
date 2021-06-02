@@ -87,63 +87,57 @@
 
             if($result != false) {       // controllo che la query abbia dato un risultato positivo
 
-    // stampo in formato JSON le classi
-    	//QUERY:
-    	$r = '{"result": [';
-    	$cont = 0;
+                // stampo in formato JSON le classi
+                    //QUERY:
+                    $r = '{"result": [';
+                    $cont = 0;
 
 
-var_dump($query);
+                //var_dump($st->fetchAll());
                 while($record = $st->fetch()){
+                    
                   //Utente:
                     $Utente = $record["IdUtente"];
                     $st2 = $this->PDOconn->prepare("SELECT schoolticket.utente.* FROM schoolticket.utente WHERE schoolticket.utente.IdUtente = ?");		// Se è 1 visualizza tutti gli utenti
                     $result = $st2->execute([$Utente]);	//Result contiene 1 o 0 in base al corretto funzionamento della query
                     if($result == false){
-                      $r = '{"result":false, "description":"Problemi durante l\'elaborazione dei dati del server"}';
-                      return $r;
+                        $r = '{"result":false, "description":"Problemi durante l\'elaborazione dei dati del server"}';
+                        return $r;
                     }
-                  $rows2 = $st2->fetch(PDO::FETCH_ASSOC);
-                  $utn = (json_encode($rows2));
+                    $rows2 = $st2->fetch(PDO::FETCH_ASSOC);
+                    $utn = (json_encode($rows2));
                   //echo $temp;
 
 
-                //Ticket:
-                $Ticket = $record["IdTicket"];
-                  $st3 = $this->PDOconn->prepare("SELECT schoolticket.ticket.* FROM schoolticket.ticket WHERE schoolticket.ticket.IdTicket = ?");		// Se è 1 visualizza tutti gli utenti
-                  $result = $st3->execute([$Ticket]);	//Result contiene 1 o 0 in base al corretto funzionamento della query
-                  if($result == false){
-                    $r = '{"result":false, "description":"Problemi durante l\'elaborazione dei dati del server"}';
-                    return $r;
-                  }
-                $rows3 = $st3->fetch(PDO::FETCH_ASSOC);
-                //var_dump($rows3);
-                $tick = (json_encode($rows3));
-                //echo '</br>' .$temp2;
+                    //Ticket:
+                    $Ticket = $record["IdTicket"];
+                    $st3 = $this->PDOconn->prepare("SELECT schoolticket.ticket.* FROM schoolticket.ticket WHERE schoolticket.ticket.IdTicket = ?");		// Se è 1 visualizza tutti gli utenti
+                    $result = $st3->execute([$Ticket]);	//Result contiene 1 o 0 in base al corretto funzionamento della query
+                    if($result == false){
+                        $r = '{"result":false, "description":"Problemi durante l\'elaborazione dei dati del server"}';
+                        return $r;
+                    }
+                    $rows3 = $st3->fetch(PDO::FETCH_ASSOC);
+                    //var_dump($rows3);
+                    $tick = (json_encode($rows3));
+                    //echo '</br>' .$temp2;
 
+                    if($cont == 0){
+                    $r .= ' {"IdIncarico": "';
+                    }
+                    else{
+                    $r .= ', {"IdIncarico": "';
+                    }
 
-                $rows = $st->fetchAll(PDO::FETCH_ASSOC);    // recupero tutti i incarico presi dal database
-                  //var_dump($rows);
-                $temp = (json_encode($rows));                   // trasformo l'array associativo restituito in una stringa in formato JSON
+                    $r .= $record["IdIncarico"];
 
-                // creo la stringa di output
+                    $r .= '", "Utente": ';
+                    $r .= $utn;
+                    $r .= ', "Ticket": ';
+                    $r .= $tick ;
+                    $r .=  '}';
 
-                if($cont == 0){
-                  $r .= ' {"IdIncarico": "';
-                }
-                else{
-                  $r .= ', {"IdIncarico": "';
-                  }
-
-                  $r .= $record["IdIncarico"];
-
-                  $r .= '", "Utente": ';
-                  $r .= $utn;
-                  $r .= ', "Ticket": ';
-            			$r .= $tick ;
-                  $r .=  '}';
-
-                  $cont++;
+                    $cont++;
 
 
                 }
