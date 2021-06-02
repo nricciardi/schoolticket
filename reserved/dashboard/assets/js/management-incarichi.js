@@ -369,12 +369,12 @@ function createFormNewIncarico() {
     
     // inserisco IdUtente
     record += '<td>' + 
-    '<select placeholder="IdUtente" class="form-control" id="newIdUtente"></select>' + 
+    '<select class="form-control" id="newIdUtente"></select>' + 
     '</td>';
 	
 	// inserisco IdTicket
     record += '<td>' + 
-    '<select placeholder="IdTicket" class="form-control" id="newIdTicket"></select>' + 
+    '<select class="form-control" id="newIdTicket"></select>' + 
     '</td>';
 
     // inserisco i bottoni per le diverse azioni
@@ -491,7 +491,7 @@ function changeFormNewIncarico(ID) {
     IdTicket = td_IdTicket.innerText;     // recupero il valore del IdTicket
 
     // modifico la label in un input:text
-    td_IdTicket.innerHTML = '<select placeholder="IdTicket" value="' + IdTicket + '" class="form-control" id="editIdTicket">'
+    td_IdTicket.innerHTML = '<select value="' + IdTicket + '" class="form-control" id="editIdTicket"></select>'
 	
 
 	// ACTION
