@@ -53,11 +53,16 @@ function createRecordIncarico(incarico) {   //incarico è un oggetto contenente 
     record += '<td id="idIncarico' + incarico.IdIncarico + '">' + incarico.IdIncarico + '</td>';
 
 	// inserisco IdUtente
-	record += '<td id="idUtenteIncarico' + incarico.IdIncarico + '">' + incarico.Utente.IdUtente + '</td>';
+
+	record += '<td id="idUtenteIncarico' + incarico.IdIncarico + '" data-utente="' + incarico.Utente.IdUtente + '">' + incarico.Utente.Email + ' - ' + incarico.Utente.Nome + ' ' + incarico.Utente.Cognome + '</td>';
 
 	// inserisco IdTicket
-	record += '<td id="idTicketIncarico' + incarico.IdIncarico + '">' + incarico.Ticket.IdTicket + '</td>';
+	record += '<td id="idTicketIncarico' + incarico.IdIncarico + '" data-ticket="' + incarico.Ticket.IdTicket + '">' + incarico.Ticket.Nome + '</td>';
 
+	///record += '<td id="idUtenteIncarico' + incarico.IdIncarico + '">' + incarico.Utente.IdUtente + '</td>';
+
+	// inserisco IdTicket
+	///record += '<td id="idTicketIncarico' + incarico.IdIncarico + '">' + incarico.Ticket.IdTicket + '</td>';
 
     // inserisco i bottoni per le diverse azioni
     record += '<td id="td_action_incaricoId_' + incarico.IdIncarico + '"> <div class="table-data-feature">';
@@ -369,7 +374,7 @@ function createFormNewIncarico() {
 
     // inserisco IdUtente
     record += '<td>' +
-    '<select class="form-control" id="newIdUtente"></select>' +
+    '<select name="select" class="form-control" id="newIdUtente"></select>' +
     '</td>';
 
 	// inserisco IdTicket
@@ -470,17 +475,17 @@ function changeFormNewIncarico(ID) {
     // IdUtente
     // recupero la referenza del IdUtente del record della tabella tramite ID
     let td_IdUtente = document.getElementById("idUtenteIncarico" + ID);
-    IdUtente = td_IdUtente.innerText;     // recupero il valore del IdUtente
+    IdUtente = td_IdUtente.dataset.utente;     // recupero il valore del IdUtente
 
     // modifico la label in un input:text
     td_IdUtente.innerHTML = '<select class="form-control" id="editIdUtente"></select>'
 	addAllUsers(document.getElementById("editIdUtente"), feedback_table_management_incarico, 10);
-    document.getElementById("editIdUtente").value = incarico;
+    document.getElementById("editIdUtente").value = IdUtente;
 
 	// IdTicket
     // recupero la referenza del IdTicket del record della tabella tramite ID
     let td_IdTicket = document.getElementById("idTicketIncarico" + ID);
-    IdTicket = td_IdTicket.innerText;     // recupero il valore del IdTicket
+    IdTicket = td_IdTicket.dataset.ticket;     // recupero il valore del IdTicket
 
     // modifico la label in un input:text
     td_IdTicket.innerHTML = '<input type="text"  placeholder="IdTicket" ' + IdTicket + 'id = "editIdTicket" class="form-control">'
@@ -522,7 +527,7 @@ form_add_incarico.addEventListener("click", () => {
 
 	// richiamo le funzioni per aggiungere categorie e permessi
     addAllUsers(document.getElementById("newIdUtente"), feedback_table_management_incarico, 10);
-
+    addAllTicket(document.getElementById("newIdTicket"), feedback_table_management_incarico, 10);
 });
 
 // ricarico la tabella riaggiungendola al click del bottone di refresh
