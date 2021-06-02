@@ -8,9 +8,6 @@ var body_table_ticketassegnati = document.getElementById("body_table_ticketasseg
 // tfoot della tabella ticketassegnati
 var foot_table_ticketassegnati = document.getElementById("foot_table_ticketassegnati");
 
-// checkbox generale della tabella
-var general_checkbox_ticketassegnati = document.getElementById("general_checkbox_ticketassegnati");
-
 // bottone per il refresh della schermata
 var btn_refresh_management_ticketassegnati = document.getElementById("btn_refresh_management_ticketassegnati");
 
@@ -32,32 +29,26 @@ function createRecordTicketAssegnati(ticketassegnati) {   //ticketassegnati è u
     let record = "";
 
     // inserisco la parte del CHECKBOX del record (tr)
-    record += '<tr class="tr-shadow" id="recordTicketAssegnati' + incarichi.IdIncarico + '">'; // inserisco il tag di apertura
-
-    record += '<td>';       // creo il primo campo
-    record += '<label class="au-checkbox">';
-    record += '<input type="checkbox" onclick="checkCheckboxTicketAssegnati()" name="checkRecord[]" value="' + incarichi.IdIncarico + '" id="checkbox' + incarichi.IdIncarico + '">';    // inserisco il checkbox con valore l'ID dell'ticketassegnati
-    record += '<span class="au-checkmark"></span>';
-    record += '</label>    </td>';
+    record += '<tr class="tr-shadow" id="recordTicketAssegnati' + ticketassegnati.IdIncarico + '">'; // inserisco il tag di apertura
 
     // inserisco l'ID
-    // Predisposizione IdIncarico: record += '<td>' + incarichi.IdIncarico + '</td>';
+    // Predisposizione IdIncarico: record += '<td>' + ticketassegnati.IdIncarico + '</td>';
     
     // inserisco il NOME
-    record += '<td id="nomeTicketAssegnati' + incarichi.IdIncarico + '">' + ticket.Nome + '</td>';
+    record += '<td id="nomeTicketAssegnati' + ticketassegnati.IdTicket + '">' + ticketassegnati.Nome + '</td>';
     
-    // inserisco la DESCRIZIONE
-	if(incarichi.StatoDiAvanzamento == null)
-		record += '<td id="statoTicketAssegnati' + incarichi.IdIncarico + '">' + 'N/D' + '</td>';
+    // inserisco la STATO DI AVANZAMENTO
+	if(ticketassegnati.StatoDiAvanzamento == null)
+		record += '<td id="statoTicketAssegnati' + ticketassegnati.IdTicket + '">' + 'N/D' + '</td>';
 	else
-		record += '<td id="statoTicketAssegnati' + incarichi.IdIncarico + '">' + incarichi.StatoDiAvanzamento + '</td>';
+		record += '<td id="statoTicketAssegnati' + ticketassegnati.IdTicket + '">' + ticketassegnati.StatoDiAvanzamento + '</td>';
     
 	
-    // record += '<td id="laboratorioAula' + incarichi.IdIncarico + '">' + ticketassegnati.Laboratorio + '</td>';
+    // record += '<td id="laboratorioAula' + ticketassegnati.IdIncarico + '">' + ticketassegnati.Laboratorio + '</td>';
 
     // inserisco i bottoni per le diverse azioni
-    record += '<td id="td_action_ticketassegnatiId_' + incarichi.IdIncarico + '"> <div class="table-data-feature">';
-    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Edit" id="editTicketAssegnati' + incarichi.IdIncarico + '" onclick="requestActionTicketAssegnati(\'edit\', ' + incarichi.IdIncarico + ')">    <i class="zmdi zmdi-edit"></i>  </button>';            // tasto EDIT
+    record += '<td id="td_action_ticketassegnatiId_' + ticketassegnati.IdTicket + '"> <div class="table-data-feature">';
+    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Edit" id="editTicketAssegnati' + ticketassegnati.IdIncarico + '" onclick="requestActionTicketAssegnati(\'edit\', ' + ticketassegnati.IdIncarico + ')">    <i class="zmdi zmdi-edit"></i>  </button>';            // tasto EDIT
     record += '</div>   </td>   </tr>';
 
     // inserisco il record di spaziatura
@@ -128,13 +119,12 @@ function createTableTicketAssegnati() {
     // elimino gli elementi esistenti
     body_table_ticketassegnati.innerHTML = "";
 
+	let data = {"Submit":"Show"};
     // effettuo la chiamata
     $.ajax({
-        url: HOSTNAME + "/api/incarichi.php",
-        type: "GET",
-        headers:{
-            'Authorization':'Basic ' + btoa(USER.Email + ":" + USER.Password)
-        },
+        url: HOSTNAME + "/assets/php/issues/Ticket.php",
+        type: "POST",
+        data: data,
         dataType: "json",
         success: (res) => {
             console.log(res);
@@ -182,17 +172,17 @@ function editTicketAssegnati(ID) {   // può anche essere passato un array
     console.log("Modifico: " + ID);
 
     let checkbox_edit_mode = 0;
-    if(document.getElementById("editLaboratorioAula").checked)
+    if(document.getElementById("editStatoTicketAssegnati").checked)
         checkbox_edit_mode = 1; 
 
     // creo l'oggetto data da mandare in post
-    let data = {"IdIncarico": ID, "Nome": document.getElementById("editNomeTicketAssegnati").value, "Descrizione": document.getElementById("ediStatoTicketAssegnati").value, "Laboratorio": checkbox_edit_mode};
+    let data = {"IdIncarico": ID, "Stato": document.getElementById("editStatoTicketAssegnati").value};
 
     console.log(data);
     // effettuo la chiamata ajax
     $.ajax({
 
-        url: HOSTNAME + "/api/incarichi.php",
+        url: HOSTNAME + "/api/ticketassegnati.php",
         type: "PUT",
         data: JSON.stringify(data),
         dataType: "json",
@@ -228,7 +218,7 @@ function editTicketAssegnati(ID) {   // può anche essere passato un array
 }
 
 // imposto le funzioni per gli eventi del form 
-function checkNewNomeTicketAssegnati(ID = "newNomeAula") {
+/*function checkNewNomeTicketAssegnati(ID = "newNomeTicketAssegnati") {
     
     // controllo che sia aggiunto almeno un valore per il nome
 
@@ -267,30 +257,23 @@ function checkNewStatoTicketAssegnati(ID = "newStatoTicketAssegnati") {
     // controllo se posso abilitare il bottone di conferma
     checkFormNewAula();
 
-}
+}*/
 
 // funzione che modifica il record della tabella con id passato, predisponendolo come form
 function changeFormNewTicketAssegnati(ID) {
     
     // elimino il form per l'inserimento di una nuova ticketassegnati
     removeForm("form_new_ticketassegnati");
-
-    // NOME
-    // recupero la referenza del nome del record della tabella tramite ID
-    let td_nome = document.getElementById("nomeTicketAssegnati" + ID);
-    name = td_nome.innerText;     // recupero il valore del nome
-
-    // modifico la label in un input:text
-    td_nome.innerHTML = '<input type="text" placeholder="Nome" value="' + name + '" oninput="checkNewNomeTicketAssegnati(\'editNomeTicketAssegnati\')" class="form-control" id="editNomeTicketAssegnati">'
-
-    // DESCRIZIONE
+   
+    // STATO
     // recupero la referenza della stato del record della tabella tramite ID
-    let td_stato = document.getElementById("statoTicketAssegnati" + ID);
+   /* let td_stato = document.getElementById("statoTicketAssegnati" + ID);
     stato = td_stato.innerText;     // recupero il valore del cognome
 
     // modifico la label in un input:text
-    td_stato.innerHTML = '<input type="text" placeholder="Descrizione" value="' + stato + '" oninput="checkNewStatoTicketAssegnati(\'ediStatoTicketAssegnati\')" class="form-control" id="ediStatoTicketAssegnati">'
-
+    td_stato.innerHTML = '<input type="text" placeholder="Stato" value="' + stato + '" oninput="checkNewStatoTicketAssegnati(\'ediStatoTicketAssegnati\')" class="form-control" id="ediStatoTicketAssegnati">'
+*/
+	console.log(ID);
 	// ACTION
     let td_action_ticketassegnatiId = document.getElementById("td_action_ticketassegnatiId_" + ID);
     td_action_ticketassegnatiId.innerHTML = '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_ticketassegnati" onclick="editTicketAssegnati(' + ID + ')" style="margin-left: 0.5vw; border-radius: 5%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
@@ -304,15 +287,6 @@ function changeFormNewTicketAssegnati(ID) {
 // ----------------------------------------------------------------
 // ----------------------- EVENTI --------------------------------- 
 // ----------------------------------------------------------------
-
-// al click del checkbox generale, verifico il suo stato e modifico tutti quelli presenti di conseguenza
-general_checkbox_ticketassegnati.addEventListener("change", () => {
-    
-    // controllo lo stato del bottone e richiamo la funzione con il valore del checkbox giusta
-    setCheckboxRecordTicketAssegnati(general_checkbox_ticketassegnati.checked);
-    checkCheckboxTicketAssegnati();
-    
-});
 
 // ricarico la tabella riaggiungendola al click del bottone di refresh
 btn_refresh_management_ticketassegnati.addEventListener("click", () => {
