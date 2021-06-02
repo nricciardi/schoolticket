@@ -51,8 +51,8 @@
                         </th>
                         <!-- Predisposizione IdIncarico: <th>Id incarico</th> --> 
                         <th>StatoDiAvanzamento</th>
-                        <th>IdUtente</th>
-                        <th>IdTicket</th>
+                        <th>Utente</th>
+                        <th>Ticket</th>
                     </tr>
                 </thead>
                 <tbody id="body_table_incarico">

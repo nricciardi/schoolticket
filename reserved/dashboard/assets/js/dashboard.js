@@ -1035,10 +1035,6 @@ async function set_allUsers() {
             } else {
                 ALL_USERS = JSON.parse(data).result;
             }
-
-
-
-
         }
     });
 

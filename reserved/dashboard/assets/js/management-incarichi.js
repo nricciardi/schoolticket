@@ -369,12 +369,12 @@ function createFormNewIncarico() {
     
     // inserisco IdUtente
     record += '<td>' + 
-    '<select placeholder="IdUtente" class="form-control" id="newIdUtente"></select>' + 
+    '<select class="form-control" id="newIdUtente"></select>' + 
     '</td>';
 	
 	// inserisco IdTicket
     record += '<td>' + 
-    '<select placeholder="IdTicket" class="form-control" id="newIdTicket"></select>' + 
+    '<select class="form-control" id="newIdTicket"></select>' + 
     '</td>';
 
     // inserisco i bottoni per le diverse azioni
