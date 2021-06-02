@@ -34,8 +34,8 @@ function createRecordTicketAssegnati(ticketassegnati) {   //ticketassegnati è u
     // inserisco l'ID
     // Predisposizione IdIncarico: record += '<td>' + ticketassegnati.IdIncarico + '</td>';
 
-  //ID TICKET:
-  record += '<td id="IdTicketAssegnati' + ticketassegnati.IdIncarico + '">' + ticketassegnati.Ticket.IdTicket + '</td>';
+    //ID TICKET:
+    record += '<td id="IdTicketAssegnati' + ticketassegnati.IdIncarico + '" style="display: none">' + ticketassegnati.Ticket.IdTicket + '</td>';
 
 
     // inserisco il NOME
@@ -44,24 +44,24 @@ function createRecordTicketAssegnati(ticketassegnati) {   //ticketassegnati è u
     // inserisco la STATO DI AVANZAMENTO
 	if(ticketassegnati.Ticket.StatoDiAvanzamento == null){
     record += '<td id="statoTicketAssegnati' + ticketassegnati.IdIncarico + '">' + 'N/D' + '</td>';
-  }
+    }
 	else{
     record += '<td id="statoTicketAssegnati' + ticketassegnati.IdIncarico + '">' + ticketassegnati.Ticket.StatoDiAvanzamento + '</td>';
-  }
+    }
 
-  //Descrizione:
-  record += '<td id="descrizioneTicketAssegnati' + ticketassegnati.IdIncarico + '">' + ticketassegnati.Ticket.Descrizione + '</td>';
+    //Descrizione:
+    record += '<td id="descrizioneTicketAssegnati' + ticketassegnati.IdIncarico + '">' + ticketassegnati.Ticket.Descrizione + '</td>';
 
   //Immagine:
-  if(ticketassegnati.Ticket.Immagine == null){
-    record += '<td id="immagineTicketAssegnati' + ticketassegnati.IdIncarico + '">' + 'N/D' + '</td>';
+    if(ticketassegnati.Ticket.Immagine == null){
+        record += '<td id="immagineTicketAssegnati' + ticketassegnati.IdIncarico + '">' + 'N/D' + '</td>';
 
-  }else{
-    record += '<td id="immagineTicketAssegnati' + ticketassegnati.IdIncarico + '">' + ticketassegnati.Ticket.Immagine + '</td>';
-  }
+    }else{
+        record += '<td id="immagineTicketAssegnati' + ticketassegnati.IdIncarico + '">' + ticketassegnati.Ticket.Immagine + '</td>';
+    }
 
   //Priorita:
-  record += '<td id="prioritaTicketAssegnati' + ticketassegnati.IdIncarico + '">' + ticketassegnati.Ticket.Priorita + '</td>';
+    record += '<td id="prioritaTicketAssegnati' + ticketassegnati.IdIncarico + '">' + ticketassegnati.Ticket.Priorita + '</td>';
 
 //Aula:
 //record += '<td id="aulaTicketAssegnati' + ticketassegnati.Ticket.IdTicket + '">' + ticketassegnati.Ticket.Aula + '</td>';
@@ -69,8 +69,14 @@ function createRecordTicketAssegnati(ticketassegnati) {   //ticketassegnati è u
 //console.log(ticketassegnati.IdIncarico);
     // inserisco i bottoni per le diverse azioni
     record += '<td id="td_action_ticketassegnatiId_' + ticketassegnati.IdIncarico + '"> <div class="table-data-feature">';
-    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Edit" id="completeTicketAssegnati' + ticketassegnati.IdIncarico + '" onclick="requestActionTicketAssegnati(\'edit\', ' + ticketassegnati.IdIncarico + ')">    <i class="zmdi zmdi-edit"></i>  </button>';            // tasto EDIT
-    record += '</div>   </td>   </tr>';
+    
+    // controllo che non sia già stato chiuso
+    if(ticketassegnati.Ticket.StatoDiAvanzamento != "Chiuso")
+        record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Completato" id="completeTicketAssegnati' + ticketassegnati.IdIncarico + '" onclick="requestActionTicketAssegnati(\'edit\', ' + ticketassegnati.IdIncarico + ')">    <i class="far fa-check-circle"></i>  </button>';            // tasto EDIT
+    else
+        record += "-";
+
+        record += '</div>   </td>   </tr>';
 
     // inserisco il record di spaziatura
     record += '<tr class="spacer"></tr>'
@@ -197,7 +203,7 @@ function editTicketAssegnati(ID) {   // può anche essere passato un array
     console.log(ID);
 
     // creo l'oggetto data da mandare in post
-    let data = {"Submit": "Update", "IdTicket": document.getElementById("editidticket").value, "StatoDiAvanzamento": document.getElementById("editstatoincarico").value};
+    let data = {"Submit": "Update", "IdTicket": document.getElementById("editidticket").value, "StatoDiAvanzamento": "Chiuso"};
 
     console.log(data);
     // effettuo la chiamata ajax
@@ -293,10 +299,9 @@ function changeFormNewTicketAssegnati(ID) {
 
 //StatodiAvanzamento
     let td_stato = document.getElementById("statoTicketAssegnati" + ID);
-    stato = "Completato";     // recupero il valore del nome
 
     // modifico la label in un input:text
-    td_stato.innerHTML = '<input type="text" placeholder="stato" value="' + stato + '" " class="form-control" id="editstatoincarico">'
+    td_stato.innerHTML = '<input type="text" placeholder="stato" value="Chiuso" " class="form-control" id="editstatoincarico" disabled>'
 
 
 
