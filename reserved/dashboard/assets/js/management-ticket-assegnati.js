@@ -43,10 +43,10 @@ function createRecordTicketAssegnati(ticketassegnati) {   //ticketassegnati è u
 
     // inserisco la STATO DI AVANZAMENTO
 	if(ticketassegnati.Ticket.StatoDiAvanzamento == null){
-    record += '<td id="statoTicketAssegnati' + ticketassegnati.IdIncarico + '">' + 'N/D' + '</td>';
+        record += '<td id="statoTicketAssegnati' + ticketassegnati.IdIncarico + '">' + '-' + '</td>';
     }
 	else{
-    record += '<td id="statoTicketAssegnati' + ticketassegnati.IdIncarico + '">' + ticketassegnati.Ticket.StatoDiAvanzamento + '</td>';
+        record += '<td id="statoTicketAssegnati' + ticketassegnati.IdIncarico + '"><span class="block-email" style="">' + ticketassegnati.Ticket.StatoDiAvanzamento + '</span></td>';
     }
 
     //Descrizione:
@@ -55,9 +55,9 @@ function createRecordTicketAssegnati(ticketassegnati) {   //ticketassegnati è u
   //Immagine:
 
   if(ticketassegnati.Ticket.Immagine != null && ticketassegnati.Ticket.Immagine != undefined && ticketassegnati.Ticket.Immagine.trim() != "")
-      record += '<td id="immagineTicket' + ticketassegnati.Ticket.IdTicket + '"><button type="button" onclick="showImage(\'' +ticketassegnati.Ticket.Immagine+ '\')" class="btn btn-outline-secondary btn-sm"><i class="fas fa-eye"></i></button></td>';
+    record += '<td id="immagineTicket' + ticketassegnati.Ticket.IdTicket + '"><button type="button" onclick="showImage(\'' +ticketassegnati.Ticket.Immagine+ '\')" class="btn btn-outline-secondary btn-sm"><i class="fas fa-eye"></i></button></td>';
   else
-      record += '<td id="immagineTicket' + ticketassegnati.Ticket.Immagine + '">N / D </td>';
+    record += '<td id="immagineTicket' + ticketassegnati.Ticket.Immagine + '">N / D </td>';
 
   
 

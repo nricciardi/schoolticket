@@ -36,7 +36,7 @@ console.log(ticketinseriti);
     
     // inserisco la DESCRIZIONE
 	if(ticketinseriti.Descrizione == null)
-		record += '<td id="descrizioneTicketInseriti' + ticketinseriti.IdTicket + '">' + 'N/D' + '</td>';
+		record += '<td id="descrizioneTicketInseriti' + ticketinseriti.IdTicket + '">' + '-' + '</td>';
 	else
 		record += '<td id="descrizioneTicketInseriti' + ticketinseriti.IdTicket + '">' + ticketinseriti.Descrizione + '</td>';
 

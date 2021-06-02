@@ -53,7 +53,7 @@ function createRecordCategoria(categoria) {   //categoria è un oggetto contenen
     
     // inserisco la DESCRIZIONE
 	if(categoria.Descrizione == null)
-		record += '<td id="descrizioneCategoria' + categoria.IdCategoria + '">' + 'N/D' + '</td>';
+		record += '<td id="descrizioneCategoria' + categoria.IdCategoria + '">' + '-' + '</td>';
 	else
 		record += '<td id="descrizioneCategoria' + categoria.IdCategoria + '">' + categoria.Descrizione + '</td>';
     

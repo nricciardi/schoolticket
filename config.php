@@ -42,6 +42,6 @@
 	define("DATABASE_PASSWORD", "");
 	
 	
-	define("PERMESSO_DEFAULT", 1);
+	define("PERMESSO_DEFAULT", 2);
 	
 ?>
