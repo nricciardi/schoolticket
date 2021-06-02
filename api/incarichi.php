@@ -39,6 +39,7 @@
                 try {
                     $st = $this->PDOconn->prepare($query);
                     $result = $st->execute();
+
                   //  var_dump($st);
                 } catch (Exception $e) {
                     return '{"result":' . 'false' . ', "description":"I dati passati al server non sono corretti"}';
@@ -135,7 +136,7 @@
                   }
 
                   $r .= $record["IdIncarico"];
-                  
+
                   $r .= '", "Utente": ';
                   $r .= $utn;
                   $r .= ', "Ticket": ';
