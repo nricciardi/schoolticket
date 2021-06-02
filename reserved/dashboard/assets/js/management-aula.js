@@ -55,7 +55,7 @@ function createRecordAula(aula) {   //aula è un oggetto contenente le informazi
     
     // inserisco la DESCRIZIONE
 	if(aula.Descrizione == null)
-		record += '<td id="descrizioneAula' + aula.IdAula + '">' + 'N/D' + '</td>';
+		record += '<td id="descrizioneAula' + aula.IdAula + '">' + '-' + '</td>';
 	else
 		record += '<td id="descrizioneAula' + aula.IdAula + '">' + aula.Descrizione + '</td>';
     

@@ -43,7 +43,7 @@ function createRecordTicketAssegnati(ticketassegnati) {   //ticketassegnati è u
 
     // inserisco la STATO DI AVANZAMENTO
 	if(ticketassegnati.Ticket.StatoDiAvanzamento == null){
-    record += '<td id="statoTicketAssegnati' + ticketassegnati.IdIncarico + '">' + 'N/D' + '</td>';
+    record += '<td id="statoTicketAssegnati' + ticketassegnati.IdIncarico + '">' + '-' + '</td>';
     }
 	else{
     record += '<td id="statoTicketAssegnati' + ticketassegnati.IdIncarico + '">' + ticketassegnati.Ticket.StatoDiAvanzamento + '</td>';
