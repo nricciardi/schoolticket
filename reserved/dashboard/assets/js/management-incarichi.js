@@ -54,10 +54,10 @@ function createRecordIncarico(incarico) {   //incarico è un oggetto contenente 
 
 	// inserisco IdUtente
 
-	record += '<td id="idUtenteIncarico' + incarico.IdIncarico + '" data-utente="' + incarico.Utente.IdUtente + '">' + incarico.Utente.Email + ' - ' + incarico.Utente.Nome + ' ' + incarico.Utente.Cognome + '</td>';
+	record += '<td id="idUtenteIncarico' + incarico.IdIncarico + '" data-utente="' + incarico.Utente.IdUtente + '">' + incarico.Utente.Email + '</td>';
 
 	// inserisco IdTicket
-	record += '<td id="idTicketIncarico' + incarico.IdIncarico + '" data-ticket="' + incarico.Ticket.IdTicket + '">' + incarico.Ticket.Nome + '</td>';
+	record += '<td id="idTicketIncarico' + incarico.IdIncarico + '" data-ticket="' + incarico.Ticket.IdTicket + '">' + incarico.Ticket.IdTicket + '</td>';
 
 	///record += '<td id="idUtenteIncarico' + incarico.IdIncarico + '">' + incarico.Utente.IdUtente + '</td>';
 
@@ -179,7 +179,7 @@ function createTableIncarico() {
 
                 // per ogni incarico in incarico creo il codice HTML per il record
                 incarico.forEach((element) => {
-
+                  console.log(element);
                     // aggiungo il record alla tabella
                     body_table_incarico.innerHTML += createRecordIncarico(element);
 
@@ -488,7 +488,7 @@ function changeFormNewIncarico(ID) {
     IdTicket = td_IdTicket.dataset.ticket;     // recupero il valore del IdTicket
 
     // modifico la label in un input:text
-    td_IdTicket.innerHTML = '<input type="text"  placeholder="IdTicket" ' + IdTicket + 'id = "editIdTicket" class="form-control">'
+    td_IdTicket.innerHTML = '<input type="text"  placeholder="IdTicket" id = "editIdTicket" class="form-control">'
     //td_IdTicket.innerHTML = '<select value="' + IdTicket + '" class="form-control" id="editIdTicket"></select>'
 
 
