@@ -303,7 +303,10 @@ function editTicket(ID) {   // può anche essere passato un array
 		"IdMacroarea": document.getElementById("editMacroareaTicket").value, "IdUtente": document.getElementById("editUtenteTicket").value, "IdAula": document.getElementById("editAulaTicket").value, "IdUnione": document.getElementById("unioneTicket").value, "Visualizzato": document.getElementById("editVisualizzato").value};*/
 		let data = {"Submit": "Update", "IdTicket": ID, "Nome": document.getElementById("editName").value, "Descrizione": document.getElementById("editDescrizione").value, "Immagine": document.getElementById("editImmagine").value, "StatoDiAvanzamento": document.getElementById("editStatodiavanzamento").value, "Priorita": document.getElementById("editPriorita").value, "Data": document.getElementById("editData").value, "Ora": document.getElementById("editOra").value,
 		"IdMacroarea": document.getElementById("editMacroareaTicket").value, "IdUtente": document.getElementById("editUtenteTicket").value, "IdAula": document.getElementById("editAulaTicket").value};
-    // effettuo la chiamata ajax
+    
+	console.log(data);
+	
+	// effettuo la chiamata ajax
     $.ajax({
 
         url: HOSTNAME + "/assets/php/issues/Ticket.php",
@@ -426,7 +429,7 @@ function createFormNewTicket() {
 
     // inserisco il Descrizione
     record += '<td>' +
-    '<input type="text" placeholder="Descrizione" oninput="checkNewDescrizioneTicketTicket()" class="form-control" id="newDescrizioneTicket">' +
+    '<input type="text" placeholder="Descrizione" oninput="checkNewDescrizioneTicket()" class="form-control" id="newDescrizioneTicket">' +
     '</td>';
 
     // inserisco l'Immagine
@@ -441,7 +444,7 @@ function createFormNewTicket() {
 
 		// inserisco la Priorità
 		record += '<td>' +
-		'<input type="number" placeholder="Priorità" oninput="checkNewPrioritaTicket()" class="form-control" id="newPrioritaTicket">' +
+		'<input type="number" placeholder="Priorità" oninput="checkNewPrioritaTicket()"  min = "0" class="form-control" id="newPrioritaTicket">' +
 		'</td>';
 
 		// inserisco la Data
@@ -946,7 +949,3 @@ btn_delete_checked_ticket.addEventListener("click", () => {
     deleteTicket(getArrayTicketsChecked());
 
 });
-
-// -------------------------------------------------------------------------------
-// ---------------------- RICHIAMO FUNZIONI --------------------------------------
-// -------------------------------------------------------------------------------
