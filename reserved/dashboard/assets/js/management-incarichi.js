@@ -53,10 +53,10 @@ function createRecordIncarico(incarico) {   //incarico è un oggetto contenente 
     record += '<td id="statoIncarico' + incarico.IdIncarico + '">' + incarico.StatodiAvanzamento + '</td>';
     
 	// inserisco IdUtente
-	record += '<td id="idUtenteIncarico' + incarico.IdIncarico + '">' + incarico.IdUtente + '</td>';
+	record += '<td id="idUtenteIncarico' + incarico.IdIncarico + '" data-utente="' + incarico.Utente.IdUtente + '">' + incarico.Utente.Email + ' - ' + incarico.Utente.Nome + ' ' + incarico.Utente.Cognome '</td>';
 	
 	// inserisco IdTicket
-	record += '<td id="idTicketIncarico' + incarico.IdIncarico + '">' + incarico.IdTicket + '</td>';
+	record += '<td id="idTicketIncarico' + incarico.IdIncarico + '" data-ticket="' + incarico.Ticket.IdTicket + '">' + incarico.Ticket.Nome + '</td>';
     
 
     // inserisco i bottoni per le diverse azioni
@@ -478,22 +478,22 @@ function changeFormNewIncarico(ID) {
     // IdUtente
     // recupero la referenza del IdUtente del record della tabella tramite ID
     let td_IdUtente = document.getElementById("idUtenteIncarico" + ID);
-    IdUtente = td_IdUtente.innerText;     // recupero il valore del IdUtente
+    IdUtente = td_IdUtente.dataset.utente;     // recupero il valore del IdUtente
 
     // modifico la label in un input:text
     td_IdUtente.innerHTML = '<select class="form-control" id="editIdUtente"></select>'
 	addAllUsers(document.getElementById("editIdUtente"), feedback_table_management_incarico, 10);
-    document.getElementById("editIdUtente").value = incarico;
+    document.getElementById("editIdUtente").value = IdUtente;
 	
 	// IdTicket
     // recupero la referenza del IdTicket del record della tabella tramite ID
     let td_IdTicket = document.getElementById("idTicketIncarico" + ID);
-    IdTicket = td_IdTicket.innerText;     // recupero il valore del IdTicket
+    IdTicket = td_IdTicket.dataset.ticket;     // recupero il valore del IdTicket
 
     // modifico la label in un input:text
     td_IdTicket.innerHTML = '<select class="form-control" id="editIdTicket"></select>'
 	addTicket(document.getElementById("editIdTicket"), feedback_table_management_incarico, 10);
-    document.getElementById("editIdTicket").value = incarico;
+    document.getElementById("editIdTicket").value = IdTicket;
 	
 
 	// ACTION

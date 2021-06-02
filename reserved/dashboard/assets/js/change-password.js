@@ -230,7 +230,7 @@ btn_conferma.addEventListener("click", () => {
 
     console.log("click");
 
-    let data = {"Submit": "changePassword", "Data": {
+    let data = {"Data": {
 			"codice": codice.value, 
 			"nuovaPassword": nuovaPassword.value
 		}
@@ -238,7 +238,7 @@ btn_conferma.addEventListener("click", () => {
 
 
     $.ajax({
-        type: "POST",
+        type: "CHANGEPASSWORD",
         url: HOSTNAME + "/assets/php/authentication/Authentication.php",
         data: data,
         dataType: "json",
