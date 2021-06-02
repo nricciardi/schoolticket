@@ -369,12 +369,12 @@ function createFormNewIncarico() {
     
     // inserisco IdUtente
     record += '<td>' + 
-    '<select placeholder="IdUtente" class="form-control" id="newIdUtente">' + 
+    '<select placeholder="IdUtente" class="form-control" id="newIdUtente"></select>' + 
     '</td>';
 	
 	// inserisco IdTicket
     record += '<td>' + 
-    '<select placeholder="IdTicket" class="form-control" id="newIdTicket">' + 
+    '<select placeholder="IdTicket" class="form-control" id="newIdTicket"></select>' + 
     '</td>';
 
     // inserisco i bottoni per le diverse azioni
@@ -481,7 +481,9 @@ function changeFormNewIncarico(ID) {
     IdUtente = td_IdUtente.innerText;     // recupero il valore del IdUtente
 
     // modifico la label in un input:text
-    td_IdUtente.innerHTML = '<select placeholder="IdUtente" value="' + IdUtente + '" class="form-control" id="editIdUtente">'
+    td_IdUtente.innerHTML = '<select class="form-control" id="editIdUtente"></select>'
+	addAllUsers(document.getElementById("editIdUtente"), feedback_table_management_incarico, 10);
+    document.getElementById("editIdUtente").value = incarico;
 	
 	// IdTicket
     // recupero la referenza del IdTicket del record della tabella tramite ID
@@ -523,8 +525,10 @@ form_add_incarico.addEventListener("click", () => {
     // aggiungo il form all'inzio del codice già esistente
     createTableIncarico();
     let actual_body = body_table_incarico.innerHTML
-    body_table_incarico.innerHTML = createFormNewIncarico() + actual_body; 
-
+    body_table_incarico.innerHTML = createFormNewIncarico() + actual_body;
+	
+	// richiamo le funzioni per aggiungere categorie e permessi
+    addAllUsers(document.getElementById("newIdUtente"), feedback_table_management_incarico, 10);
 });
 
 // ricarico la tabella riaggiungendola al click del bottone di refresh
