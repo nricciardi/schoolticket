@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-12">
         <!-- DATA TABLE -->
-        <h3 class="title-5 m-b-35">TicketAssegnati</h3>
+        <h3 class="title-5 m-b-35">Ticket Assegnati</h3>
         <div class="table-data__tool">
             <div class="table-data__tool-left">
                 <div class="rs-select2--light rs-select2--md">
@@ -34,12 +34,13 @@
                 <thead>
                     <tr>
                         <!-- Predisposizione IdAula: <th>Id aula</th> -->
-                        <th>ID Ticket</th>
+                        <!--<th>ID Ticket</th>-->
                         <th>Nome Ticket</th>
                         <th>Stato Di Avanzamento</th>
                         <th>Descrizione</th>
                         <th>Immagine</th>
                         <th>Priorita</th>
+                        <th>Completato?</th>
                     </tr>
                 </thead>
                 <tbody id="body_table_ticketassegnati">
