@@ -544,7 +544,7 @@ function addAllUsers(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
 }
 
 // aggiungo i ticket al form
-function addTicket(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
+function addAllTicket(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
     input.innerHTML = "";
 
     // per ogni ticket creo un option e la aggiungo alla select-box
@@ -1078,14 +1078,15 @@ async function set_allUsers() {
 async function set_ticket() {
 
     TICKET = null;
+	
+    // creo l'oggetto data da mandare in post
+    let data = {"Submit": "Show"};
 
     await $.ajax({
-        url: HOSTNAME + '/api/incarichi.php',
-        type: 'GET',
-        headers: {
-            'Authorization': 'Basic ' + btoa(USER.Email + ':' + USER.Password)
-        },
-        dataType: "text",
+        url: HOSTNAME + '/assets/php/issues/Ticket.php',
+        type: 'POST',
+        dataType: "json",
+		data: data,
         success: function( data, textStatus, jQxhr ){
             console.debug("set TICKET");
             //console.log(data);

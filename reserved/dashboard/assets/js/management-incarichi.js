@@ -53,7 +53,7 @@ function createRecordIncarico(incarico) {   //incarico è un oggetto contenente 
     record += '<td id="statoIncarico' + incarico.IdIncarico + '">' + incarico.StatodiAvanzamento + '</td>';
     
 	// inserisco IdUtente
-	record += '<td id="idUtenteIncarico' + incarico.IdIncarico + '" data-utente="' + incarico.Utente.IdUtente + '">' + incarico.Utente.Email + ' - ' + incarico.Utente.Nome + ' ' + incarico.Utente.Cognome '</td>';
+	record += '<td id="idUtenteIncarico' + incarico.IdIncarico + '" data-utente="' + incarico.Utente.IdUtente + '">' + incarico.Utente.Email + ' - ' + incarico.Utente.Nome + ' ' + incarico.Utente.Cognome + '</td>';
 	
 	// inserisco IdTicket
 	record += '<td id="idTicketIncarico' + incarico.IdIncarico + '" data-ticket="' + incarico.Ticket.IdTicket + '">' + incarico.Ticket.Nome + '</td>';
@@ -369,12 +369,12 @@ function createFormNewIncarico() {
     
     // inserisco IdUtente
     record += '<td>' + 
-    '<select class="form-control" id="newIdUtente"></select>' + 
+    '<select name="select" class="form-control" id="newIdUtente"></select>' + 
     '</td>';
 	
 	// inserisco IdTicket
     record += '<td>' + 
-    '<select class="form-control" id="newIdTicket"></select>' + 
+    '<select name="select" class="form-control" id="newIdTicket"></select>' + 
     '</td>';
 
     // inserisco i bottoni per le diverse azioni
@@ -492,7 +492,7 @@ function changeFormNewIncarico(ID) {
 
     // modifico la label in un input:text
     td_IdTicket.innerHTML = '<select class="form-control" id="editIdTicket"></select>'
-	addTicket(document.getElementById("editIdTicket"), feedback_table_management_incarico, 10);
+	addAllTicket(document.getElementById("editIdTicket"), feedback_table_management_incarico, 10);
     document.getElementById("editIdTicket").value = IdTicket;
 	
 
@@ -531,6 +531,7 @@ form_add_incarico.addEventListener("click", () => {
 	
 	// richiamo le funzioni per aggiungere categorie e permessi
     addAllUsers(document.getElementById("newIdUtente"), feedback_table_management_incarico, 10);
+    addAllTicket(document.getElementById("newIdTicket"), feedback_table_management_incarico, 10);
 });
 
 // ricarico la tabella riaggiungendola al click del bottone di refresh
