@@ -144,10 +144,10 @@ function createTableTicketAssegnati() {
 
                 // per ogni ticketassegnati in ticketassegnati creo il codice HTML per il record
                 ticketassegnati.forEach((element) => {
-                    if(){
+                    //if(){
                       // aggiungo il record alla tabella
                       body_table_ticketassegnati.innerHTML += createRecordTicketAssegnati(element);
-                    }
+                  //  }
 
 
 
