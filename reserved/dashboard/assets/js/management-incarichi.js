@@ -201,11 +201,11 @@ function addIncarico() {
     console.log("Aggiungo un incarico");
 
     // creo l'oggetto data da mandare in post
-    let data = {"StatodiAvanzamento": document.getElementById("newStatodiAvanzamento").value, "IdUtente": document.getElementById("newIdUtente").value, "IdTicket": document.getElementById("newIdTicket").value};
+    
+    let data = {"IdUtente": document.getElementById("newIdUtente").value, "IdTicket": document.getElementById("newIdTicket").value};
 
     // effettuo la chiamata ajax
     $.ajax({
-
         url: HOSTNAME + "/api/incarichi.php",
         type: "post",
         data: data,
@@ -374,7 +374,7 @@ function createFormNewIncarico() {
 
 	// inserisco IdTicket
     record += '<td>' +
-    '<select class="form-control" id="newIdTicket"></select>' +
+    '<input class="form-control" type="text"  placeholder = "IdTicket" id="newIdTicket">' +
     '</td>';
 
     // inserisco i bottoni per le diverse azioni
@@ -529,6 +529,7 @@ form_add_incarico.addEventListener("click", () => {
 
 	// richiamo le funzioni per aggiungere categorie e permessi
     addAllUsers(document.getElementById("newIdUtente"), feedback_table_management_incarico, 10);
+
 });
 
 // ricarico la tabella riaggiungendola al click del bottone di refresh

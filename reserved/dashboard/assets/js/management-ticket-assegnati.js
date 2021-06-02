@@ -53,12 +53,13 @@ function createRecordTicketAssegnati(ticketassegnati) {   //ticketassegnati è u
   record += '<td id="descrizioneTicketAssegnati' + ticketassegnati.IdIncarico + '">' + ticketassegnati.Ticket.Descrizione + '</td>';
 
   //Immagine:
-  if(ticketassegnati.Ticket.Immagine == null){
-    record += '<td id="immagineTicketAssegnati' + ticketassegnati.IdIncarico + '">' + 'N/D' + '</td>';
 
-  }else{
-    record += '<td id="immagineTicketAssegnati' + ticketassegnati.IdIncarico + '">' + ticketassegnati.Ticket.Immagine + '</td>';
-  }
+  if(ticketassegnati.Ticket.Immagine != null && ticketassegnati.Ticket.Immagine != undefined && ticketassegnati.Ticket.Immagine.trim() != "")
+      record += '<td id="immagineTicket' + ticketassegnati.Ticket.IdTicket + '"><button type="button" onclick="showImage(\'' +ticketassegnati.Ticket.Immagine+ '\')" class="btn btn-outline-secondary btn-sm"><i class="fas fa-eye"></i></button></td>';
+  else
+      record += '<td id="immagineTicket' + ticketassegnati.Ticket.Immagine + '">N / D </td>';
+
+  
 
   //Priorita:
   record += '<td id="prioritaTicketAssegnati' + ticketassegnati.IdIncarico + '">' + ticketassegnati.Ticket.Priorita + '</td>';
