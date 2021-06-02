@@ -1202,14 +1202,14 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "Delete"){
   //$ID_ticket = 1;//$_POST[""];
   $control = true;
 
-  if(isset($_POST["Data"]) && $_POST["Data"] != null && trim($_POST["Data"]) != ""){//controllo i dati passati
+  if(isset($_POST["Data"]) && $_POST["Data"] != null){//controllo i dati passati
     $Id_ticket = $_POST["Data"];
   }else{
 
     $control = false;
   }
 
-  if(isset($_POST["Data"]) && $_POST["Data"] != null && trim($_POST["Data"]) != "")
+  if(isset($_POST["Data"]) && $_POST["Data"] != null)
   {
 	   if(isset($_SESSION["logged"]) && $_SESSION["logged"] != false && trim($_SESSION["logged"]) != "")
 			 $ID_user = $_SESSION["logged"];
