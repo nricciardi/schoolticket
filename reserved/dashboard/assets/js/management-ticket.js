@@ -951,5 +951,10 @@ btn_delete_checked_ticket.addEventListener("click", () => {
 
     // richiamo al funzione per elimiare
     deleteTicket(getArrayTicketsChecked());
+    createTableTicket();
+
+     // controllo lo stato del bottone e richiamo la funzione con il valore del checkbox giusta
+    setCheckboxRecordTicket(general_checkbox_ticket.checked);
+    checkCheckboxTicket();
 
 });
