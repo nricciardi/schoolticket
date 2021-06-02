@@ -49,14 +49,14 @@
                                 <span class="au-checkmark"></span>
                             </label>
                         </th>
-                        <!-- Predisposizione IdIncarico: <th>Id incarico</th> --> 
-                        <th>StatoDiAvanzamento</th>
+                        <!-- Predisposizione IdIncarico: <th>Id incarico</th> -->
+                        <th>Incarico</th>
                         <th>Utente</th>
                         <th>Ticket</th>
                     </tr>
                 </thead>
                 <tbody id="body_table_incarico">
-                    
+
                 </tbody>
                 <tfoot id="foot_table_incarico">
                     <tr class="spacer"></tr>

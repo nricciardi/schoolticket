@@ -135,8 +135,7 @@
                   }
 
                   $r .= $record["IdIncarico"];
-                  $r .= '", "StatodiAvanzamento": "';
-                  $r .= $record["StatodiAvanzamento"];
+                  
                   $r .= '", "Utente": ';
                   $r .= $utn;
                   $r .= ', "Ticket": ';
