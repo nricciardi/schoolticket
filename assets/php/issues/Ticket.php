@@ -862,7 +862,10 @@ public function show($id = null) {
 		return $st;
 	}
 
-	public function Update($IdTicket, $Nome, $Descrizione, $Stato, $Priorita, $Data, $Ora, $Macro, $Utente, $Aula, $Unione, $Visualizzato){
+	public function Update($IdTicket, $Nome, $Descrizione, $Stato, $Priorita, $Data, $Ora, $Macro, $Utente, $Aula){
+		
+		echo $IdTicket. $Nome. $Data. $Utente;
+		
 
 		$st = "";
 		$totDescr = "";
@@ -951,7 +954,7 @@ public function show($id = null) {
 				$totDescr .= "; " . $retAula["description"];
 			$cont++;
 		}
-
+/*
 		if($Unione != "")
 		{
 			$retUnione = (array) json_decode($this->changeUnione($IdTicket, $Unione));
@@ -970,7 +973,7 @@ public function show($id = null) {
 				$totDescr .= "; " . $retVis["description"];
 			$cont++;
 		}
-
+*/
 		$control = true;
 
 		if(!empty($retName))
@@ -1000,13 +1003,14 @@ public function show($id = null) {
 		if(!empty($retAula))
 			if(!$retAula["result"])
 				$control = false;
+		/*
 		if(!empty($retUnione))
 			if(!$retUnione["result"])
 				$control = false;
 		if(!empty($retVis))
 			if(!$retVis["result"])
 				$control = false;
-
+		*/
 
 
 		if($control)
@@ -1358,11 +1362,11 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "Update"){
     else
             $msg .= "";
 
-/*    if(isset($_POST["IdAula"]) && $_POST["IdAula"] != null && trim($_POST["IdAula"]) != "")
+   if(isset($_POST["IdAula"]) && $_POST["IdAula"] != null && trim($_POST["IdAula"]) != "")
         $Aula = $_POST["IdAula"];
     else
         $msg .= "";
-
+/*
     if(isset($_POST[""]) && $_POST[""] != null && trim($_POST[""]) != "")
         $Unione = $_POST[""];
     else
@@ -1375,7 +1379,7 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "Update"){
 */
 
   if($control)
-    echo $ticket -> Update($IdTicket, $Nome, $Descrizione, $Stato, $Priorita, $Data, $Ora, $Macro, $Utente, $Aula, $Unione, $Visualizzato);
+    echo $ticket -> Update($IdTicket, $Nome, $Descrizione, $Stato, $Priorita, $Data, $Ora, $Macro, $Utente, $Aula);
   else {
     echo '{"result":false,"description":"' . $msg . '"}';
   }
