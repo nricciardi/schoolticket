@@ -491,7 +491,7 @@ function changeFormNewIncarico(ID) {
     IdTicket = td_IdTicket.innerText;     // recupero il valore del IdTicket
 
     // modifico la label in un input:text
-    td_IdTicket.innerHTML = '<select placeholder="IdTicket" value="' + IdTicket + '" class="form-control" id="editIdTicket">'
+    td_IdTicket.innerHTML = '<select value="' + IdTicket + '" class="form-control" id="editIdTicket"></select>'
 	
 
 	// ACTION
