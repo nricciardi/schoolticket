@@ -70,10 +70,10 @@ function createRecordTicket(ticket) {   //ticket è un oggetto contenente le inf
     record += '<td id="statodiavanzamentoTicket' + ticket.IdTicket + '" data-statodiavanzamentoTicket="' + ticket.StatoDiAvanzamento + '">'+ cutString(ticket.StatoDiAvanzamento, 10);
 
     // inserisco la PRIORITA'
-	 record += '<td id="prioritaTicket' + ticket.IdTicket + '" data-prioritaTicket="' + ticket.Priorità + '">'+ cutString(ticket.Priorità, 10);
+	 record += '<td id="prioritaTicket' + ticket.IdTicket + '" data-prioritaTicket="' + ticket.Priorita + '">'+ cutString(ticket.Priorita, 10);
 
     // inserisco la DATA
-    record += '<td id="dataTicket' + ticket.IdTicket + '" data-dataTicket="' + ticket.Data + '">'+ cutString(ticket.Data, 10);
+    record += '<td id="dataTicket' + ticket.IdTicket + '" data-dataTicket="' + ticket.Data + '">'+ ticket.Data;
 
 	// inserisco ORA
     record += '<td id="oraTicket' + ticket.IdTicket + '" data-oraTicket="' + ticket.Ora + '">'+ cutString(ticket.Ora, 10);
@@ -250,9 +250,9 @@ function addTicket() {
     // controllo che tutti i controlli siano andati a buon fine
 	/*	if(!checkNew)
         return false;*/
-
+								//	"Photo": document.getElementById("newImmagineTicket").value,
     // creo l'oggetto data da mandare in post
-    let data = {"Submit": "insert", "Name": document.getElementById("newNameTicket").value, "Description": document.getElementById("newDescrizioneTicket").value, "Photo": document.getElementById("newImmagineTicket").value, "State": document.getElementById("newStatoTicket").value, "Prt": document.getElementById("newPrioritaTicket").value,/* "data": document.getElementById("newDataTicket").value, "ora": document.getElementById("newDataTicket").value,*/ "IdMacroarea": document.getElementById("macroarea_add_ticket").value, /*"IdUtente": document.getElementById("utente_add_ticket").value, */"Classroom": document.getElementById("aula_add_ticket").value/*, "IdUnione": document.getElementById("newUnioneTicket").value, "visualizzato": document.getElementById("newVisualizzatoTicket").value */};
+    let data = {"Submit": "insert", "Name": document.getElementById("newNameTicket").value, "Description": document.getElementById("newDescrizioneTicket").value,  "State": document.getElementById("newStatoTicket").value, "Prt": document.getElementById("newPrioritaTicket").value,/* "data": document.getElementById("newDataTicket").value, "ora": document.getElementById("newDataTicket").value,*/ "IdMacroarea": document.getElementById("macroarea_add_ticket").value, /*"IdUtente": document.getElementById("utente_add_ticket").value, */"Classroom": document.getElementById("aula_add_ticket").value/*, "IdUnione": document.getElementById("newUnioneTicket").value, "visualizzato": document.getElementById("newVisualizzatoTicket").value */};
 
     // effettuo la chiamata ajax
     $.ajax({
@@ -298,14 +298,14 @@ function editTicket(ID) {   // può anche essere passato un array
     console.log("Modifico: " + ID);
 
     // creo l'oggetto data da mandare in post
-    //let data = {"Submit": "Update", "IdCategoria": document.getElementById("editCategoriaTicket").value, "IdPermessi": document.getElementById("editCategoriaTicket").value};
+    //let data = {"Submit": "Update", "IdCategoria": document.getElementById("editCategoriaTicket").value, "IdPermessi": document.getElementById("editCategoriaTicket").value};	/"Immagine": document.getElementById("editImmagine").value,/
 		/*let data = {"IdTicket": ID, "Nome": document.getElementById("editName").value, "Descrizione": document.getElementById("editDescrizione").value, "Immagine": document.getElementById("editImmagine").value, "StatoDiAvanzamento": document.getElementById("editStatodiavanzamento").value, "Priorita": document.getElementById("editPriorita").value, "Data": document.getElementById("editData").value, "Ora": document.getElementById("editOra").value,
 		"IdMacroarea": document.getElementById("editMacroareaTicket").value, "IdUtente": document.getElementById("editUtenteTicket").value, "IdAula": document.getElementById("editAulaTicket").value, "IdUnione": document.getElementById("unioneTicket").value, "Visualizzato": document.getElementById("editVisualizzato").value};*/
-		let data = {"Submit": "Update", "IdTicket": ID, "Nome": document.getElementById("editName").value, "Descrizione": document.getElementById("editDescrizione").value, "Immagine": document.getElementById("editImmagine").value, "StatoDiAvanzamento": document.getElementById("editStatodiavanzamento").value, "Priorita": document.getElementById("editPriorita").value, "Data": document.getElementById("editData").value, "Ora": document.getElementById("editOra").value,
+		let data = {"Submit": "Update", "IdTicket": ID, "Nome": document.getElementById("editName").value, "Descrizione": document.getElementById("editDescrizione").value,  "StatoDiAvanzamento": document.getElementById("editStatodiavanzamento").value, "Priorita": document.getElementById("editPriorita").value, "Data": document.getElementById("editData").value, "Ora": document.getElementById("editOra").value,
 		"IdMacroarea": document.getElementById("editMacroareaTicket").value, "IdUtente": document.getElementById("editUtenteTicket").value, "IdAula": document.getElementById("editAulaTicket").value};
-    
+
 	console.log(data);
-	
+
 	// effettuo la chiamata ajax
     $.ajax({
 
@@ -434,7 +434,7 @@ function createFormNewTicket() {
 
     // inserisco l'Immagine
     record += '<td>' +
-    '<input type="file" placeholder="Immagine" oninput="checkNewImmagineTicket()" class="form-control" id="newImmagineTicket">' +
+    //'<input type="file" placeholder="Immagine" oninput="checkNewImmagineTicket()" class="form-control" id="newImmagineTicket">' +
     '</td>';
 
     // inserisco la Stato
@@ -737,7 +737,7 @@ function changeRecordTicketToForm(ID) {
     immagine = td_immagine.innerText;     // recupero il valore del cognome
 
     // modifico la label in un input:text
-    td_immagine.innerHTML = '<input type="file" placeholder="Immagine" value="' + immagine + '" oninput="checkNewImmagineTicket(\'editImmagine\')" class="form-control" id="editImmagine">';
+    //td_immagine.innerHTML = '<input type="file" placeholder="Immagine" value="' + immagine + '" oninput="checkNewImmagineTicket(\'editImmagine\')" class="form-control" id="editImmagine">';
 
     // STATODIAVANZAMENTO
     // recupero la referenza del cognome del record della tabella tramite ID
