@@ -119,7 +119,6 @@ function createTableTicketAssegnati() {
     // elimino gli elementi esistenti
     body_table_ticketassegnati.innerHTML = "";
 
-	   //let data = {"Submit":"Show"};
     // effettuo la chiamata
     $.ajax({
         url: HOSTNAME + "/api/incarichi.php",
@@ -127,7 +126,7 @@ function createTableTicketAssegnati() {
         //data: data,
         dataType: "json",
         success: (res) => {
-            console.log(res);
+            //console.log(res);
             // verifico che la siano stati restituiti correttamente i dati
             if(res.result === false) {
 
@@ -140,14 +139,15 @@ function createTableTicketAssegnati() {
                 // recupero le aule passate da "result"
                 let ticketassegnati = res.result;
 
-                console.log(res.description);
+                //console.log(res.description);
 
                 // per ogni ticketassegnati in ticketassegnati creo il codice HTML per il record
                 ticketassegnati.forEach((element) => {
-                    //if(){
+                  console.log(element);
+                    if(USER.IdUtente == element.Utente.IdUtente ){
                       // aggiungo il record alla tabella
                       body_table_ticketassegnati.innerHTML += createRecordTicketAssegnati(element);
-                  //  }
+                    }
 
 
 

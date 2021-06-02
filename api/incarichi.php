@@ -32,15 +32,14 @@
         // metodo per la restituzione dei incarico
         public function get($idIncarico = null, $credenziali = null) {      // opzionale: se viene passato un id, restituisco solo il incarico con l'id passato
 
-            $query = "SELECT * FROM schoolticket.incarico
-                      JOIN schoolticket.utente ON schoolticket.incarico.IdUtente = schoolticket.utente.IdUtente
-                      JOIN  schoolticket.ticket ON schoolticket.ticket.IdTicket = schoolticket.incarico.IdTicket";     // creo la query per prelevare i tutti incarico
+            $query = "SELECT * FROM schoolticket.incarico";     // creo la query per prelevare i tutti incarico
 
             if($idIncarico === null) {      // se il parametro è null non viene richiesto un incarico specifico, restituisco tutte le aule
 
                 try {
                     $st = $this->PDOconn->prepare($query);
                     $result = $st->execute();
+                  //  var_dump($st);
                 } catch (Exception $e) {
                     return '{"result":' . 'false' . ', "description":"I dati passati al server non sono corretti"}';
                 }
@@ -87,13 +86,69 @@
 
             if($result != false) {       // controllo che la query abbia dato un risultato positivo
 
-                $rows = $st->fetchAll(PDO::FETCH_ASSOC);        // recupero tutti i incarico presi dal database
+    // stampo in formato JSON le classi
+    	//QUERY:
+    	$r = '{"result": [';
+    	$cont = 0;
+
+
+
+                while($record = $st->fetch()){
+                  //Utente:
+                    $Utente = $record["IdUtente"];
+                    $st2 = $this->PDOconn->prepare("SELECT schoolticket.utente.* FROM schoolticket.utente WHERE schoolticket.utente.IdUtente = ?");		// Se è 1 visualizza tutti gli utenti
+                    $result = $st2->execute([$Utente]);	//Result contiene 1 o 0 in base al corretto funzionamento della query
+                    if($result == false){
+                      $r = '{"result":false, "description":"Problemi durante l\'elaborazione dei dati del server"}';
+                      return $r;
+                    }
+                  $rows2 = $st2->fetch(PDO::FETCH_ASSOC);
+                  $utn = (json_encode($rows2));
+                  //echo $temp;
+
+
+                //Ticket:
+                $Ticket = $record["IdTicket"];
+                  $st3 = $this->PDOconn->prepare("SELECT schoolticket.ticket.* FROM schoolticket.ticket WHERE schoolticket.ticket.IdTicket = ?");		// Se è 1 visualizza tutti gli utenti
+                  $result = $st3->execute([$Ticket]);	//Result contiene 1 o 0 in base al corretto funzionamento della query
+                  if($result == false){
+                    $r = '{"result":false, "description":"Problemi durante l\'elaborazione dei dati del server"}';
+                    return $r;
+                  }
+                $rows3 = $st3->fetch(PDO::FETCH_ASSOC);
+                //var_dump($rows3);
+                $tick = (json_encode($rows3));
+                //echo '</br>' .$temp2;
+
+
+                $rows = $st->fetchAll(PDO::FETCH_ASSOC);    // recupero tutti i incarico presi dal database
+                  //var_dump($rows);
                 $temp = (json_encode($rows));                   // trasformo l'array associativo restituito in una stringa in formato JSON
 
                 // creo la stringa di output
-                $r = '{"result":';
-                $r .= $temp;
-                $r .= ', "description":"Sono stati prelevati gli incarichi"}';
+
+                if($cont == 0){
+                  $r .= ' {"IdIncarico": "';
+                }
+                else{
+                  $r .= ', {"IdIncarico": "';
+                  }
+
+                  $r .= $record["IdIncarico"];
+                  $r .= '", "StatodiAvanzamento": "';
+                  $r .= $record["StatodiAvanzamento"];
+                  $r .= '", "Utente": ';
+                  $r .= $utn;
+                  $r .= ', "Ticket": ';
+            			$r .= $tick ;
+                  $r .=  '}';
+
+                  $cont++;
+
+
+                }
+
+                $r .= '], "description":"Dati incarico correttamente restituiti"}';
 
             } else {        // in caso di errore della query
                 $r = '{"result":false, "description":"Riscontrato un problema nel recupero degli incarichi"}';
