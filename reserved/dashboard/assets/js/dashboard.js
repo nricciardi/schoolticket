@@ -248,6 +248,10 @@ function setProfile() {
 
     // verifico che l'utente sia stato impostato
     if(USER != null) {
+		// IMPOSTAZIONI PER SEZIONE ACCOUNT
+		document.getElementById("CgnmAccount").innerText = USER.Cognome; 
+		document.getElementById("NmAccount").innerText = USER.Nome;
+		document.getElementById("EmlAccount").innerText = USER.Email;
 
         // imposto il nome nell'utente nella dashboard
         user_name.innerText = USER.Nome + " " + USER.Cognome;
@@ -257,9 +261,9 @@ function setProfile() {
         if(USER.Categoria.IdCategoria == "1") {     // dirigenza
             user_img.src = HOSTNAME + "/reserved/dashboard/assets/images/users/Dirigente.jpg";
             user_img2.src = HOSTNAME + "/reserved/dashboard/assets/images/users/Dirigente.jpg";
-
             user_img.alt = USER.Nome + " " + USER.Cognome;
             user_img2.alt = USER.Nome + " " + USER.Cognome;
+			document.getElementById("CtgrAccount").innerText = "Dirigenza";
         } else {
 
             if(USER.Categoria.IdCategoria == "2") {     // docenti
@@ -268,6 +272,7 @@ function setProfile() {
 
                 user_img.alt = USER.Nome + " " + USER.Cognome;
                 user_img2.alt = USER.Nome + " " + USER.Cognome;
+				document.getElementById("CtgrAccount").innerText = "Docente";
 
             } else {
 
@@ -278,6 +283,7 @@ function setProfile() {
 
                     user_img.alt = USER.Nome + " " + USER.Cognome;
                     user_img2.alt = USER.Nome + " " + USER.Cognome;
+					document.getElementById("CtgrAccount").innerText = "Studente";
 
                 } else {
 
@@ -288,6 +294,7 @@ function setProfile() {
 
                         user_img.alt = USER.Nome + " " + USER.Cognome;
                         user_img2.alt = USER.Nome + " " + USER.Cognome;
+						document.getElementById("CtgrAccount").innerText = "Tecnico";
 
                     } else {
 
@@ -298,6 +305,7 @@ function setProfile() {
 
                             user_img.alt = USER.Nome + " " + USER.Cognome;
                             user_img2.alt = USER.Nome + " " + USER.Cognome;
+							document.getElementById("CtgrAccount").innerText = "Amministratore";
 
                         } else {
 
@@ -308,6 +316,7 @@ function setProfile() {
 
                                 user_img.alt = USER.Nome + " " + USER.Cognome;
                                 user_img2.alt = USER.Nome + " " + USER.Cognome;
+								document.getElementById("CtgrAccount").innerText = "Personale ATA";
 
                             } else {
 
