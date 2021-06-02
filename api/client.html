@@ -16,12 +16,12 @@
 
         $.ajax({
 
-            url: "competenze.php",
-            type: "DELETE", //get post put delete
-            //data: JSON.stringify({"IdCompetenza": 25, "IdMacroarea": 2}),
+            url: "incarichi.php",
+            type: "PUT", //get post put delete
+            data: JSON.stringify({"IdIncarico": 1, "StatodiAvanzamento": "In lavorazione"}),
             //data: {"IdCategoria": 2, "IdMacroarea": 1},
             //data: {"IdUtente": 13, "IdTicket": 5},
-            data: JSON.stringify({"id": 25}),
+            //data: JSON.stringify({"id": 25}),
             //data: {"id": 1},
             dataType: "JSON",
             headers: {

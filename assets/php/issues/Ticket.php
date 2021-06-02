@@ -864,9 +864,6 @@ public function show($id = null) {
 
 	public function Update($IdTicket, $Nome, $Descrizione, $Stato, $Priorita, $Data, $Ora, $Macro, $Utente, $Aula){
 		
-		echo $IdTicket. $Nome. $Data. $Utente;
-		
-
 		$st = "";
 		$totDescr = "";
 		$cont = 0;
@@ -976,7 +973,7 @@ public function show($id = null) {
 */
 		$control = true;
 
-		if(!empty($retName))
+		/*if(!empty($retName))
 			if(!$retName["result"])
 				$control = false;
 		if(!empty($retDescr))
@@ -1002,7 +999,7 @@ public function show($id = null) {
 				$control = false;
 		if(!empty($retAula))
 			if(!$retAula["result"])
-				$control = false;
+				$control = false;*/
 		/*
 		if(!empty($retUnione))
 			if(!$retUnione["result"])
@@ -1014,9 +1011,9 @@ public function show($id = null) {
 
 
 		if($control)
-			return $st = '{"result":true,"description":"' .$totDescr .'"}';
+			return '{"result":true,"description":"' . $totDescr .'"}';
 		else
-			return $st = '{"result":false,"description":"' .$totDescr .'"}';
+			return '{"result":false,"description":"' . $totDescr .'"}';
 	}
 
 public function Union($IdTicket1, $IdTicket2){
@@ -1062,14 +1059,19 @@ public function Union($IdTicket1, $IdTicket2){
 
 
 //ESEGUO LA QUERY (inserisce il nuovo ticket):
-            $q = "INSERT INTO schoolticket.ticket(Nome,Descrizione,Immagine,StatoDiAvanzamento,Priorita,IdAula,Data,Ora,IdMacroarea,IdUtente) VALUES (?,?,?,?,?,?,?,?,?,?)";
-            $st = $this->PDOconn->prepare($q);
-            $result = $st->execute([$Nome,$Descrizione,$Url,$Stato,$Priorit,$Aula,$Data,$Ora,$IdMacro,$IdUtn]);
-            if($result == false){
-              $st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
-              return $st;
-            }
+			try {
+				$q = "INSERT INTO schoolticket.ticket(Nome,Descrizione,Immagine,StatoDiAvanzamento,Priorita,IdAula,Data,Ora,IdMacroarea,IdUtente) VALUES (?,?,?,?,?,?,?,?,?,?)";
+				$st = $this->PDOconn->prepare($q);
+				$result = $st->execute([$Nome,$Descrizione,$Url,$Stato,$Priorit,$Aula,$Data,$Ora,$IdMacro,$IdUtn]);
+			} catch (Exception $e) {
+            	$st = '{"result":false,"description":"L\'unione non è stata eseguita con successo"}';
+            	return $st;
+			}
 
+            if($result == false){
+            	$st = '{"result":false,"description":"L\'unione non è stata eseguita con successo"}';
+				return $st;
+            }
 
 
 //PRENDO L ID DEL TICKET inserito
@@ -1312,57 +1314,67 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "ChangePriority"){
 
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "Update"){
 
-  $msg = "";
-  $control = true;
+	$msg = "";
+	$control = true;
 
-  if(isset($_POST["IdTicket"]) && $_POST["IdTicket"] != null && trim($_POST["IdTicket"]) != "")
-    $IdTicket = $_POST["IdTicket"];
-  else {
-    $control = false;
-    $msg .= "IdTicket mancante; ";
-  }
+	$IdTicket = null;
+	if(isset($_POST["IdTicket"]) && $_POST["IdTicket"] != null && trim($_POST["IdTicket"]) != "")
+		$IdTicket = $_POST["IdTicket"];
+	else {
+		$control = false;
+		$msg .= "IdTicket mancante; ";
+	}
 
-  if(isset($_POST["Nome"]) && $_POST["Nome"] != null && trim($_POST["Nome"]) != "")
-    $Nome = $_POST["Nome"];
-  else
-    $msg .= "";
+	$Nome = null;
+	if(isset($_POST["Nome"]) && $_POST["Nome"] != null && trim($_POST["Nome"]) != "")
+		$Nome = $_POST["Nome"];
+	else
+		$msg .= "";
 
-  if(isset($_POST["Descrizione"]) && $_POST["Descrizione"] != null && trim($_POST["Descrizione"]) != "")
-    $Descrizione = $_POST["Descrizione"];
-  else
-    $msg .= "";
+	$Descrizione = null;
+	if(isset($_POST["Descrizione"]) && $_POST["Descrizione"] != null && trim($_POST["Descrizione"]) != "")
+		$Descrizione = $_POST["Descrizione"];
+	else
+		$msg .= "";
 
-  if(isset($_POST["StatoDiAvanzamento"]) && $_POST["StatoDiAvanzamento"] != null && trim($_POST["StatoDiAvanzamento"]) != "")
-      $Stato = $_POST["StatoDiAvanzamento"];
-  else
-      $msg .= "";
+	$Stato = null;
+	if(isset($_POST["StatoDiAvanzamento"]) && $_POST["StatoDiAvanzamento"] != null && trim($_POST["StatoDiAvanzamento"]) != "")
+		$Stato = $_POST["StatoDiAvanzamento"];
+	else
+		$msg .= "";
 
-  if(isset($_POST["Priorita"]) && $_POST["Priorita"] != null && trim($_POST["Priorita"]) != "")
-      $Priorita = $_POST["Priorita"];
-  else
-      $msg .= "";
+	$Priorita = null;
+	if(isset($_POST["Priorita"]) && $_POST["Priorita"] != null && trim($_POST["Priorita"]) != "")
+		$Priorita = $_POST["Priorita"];
+	else
+		$msg .= "";
 
-  if(isset($_POST["Data"]) && $_POST["Data"] != null && trim($_POST["Data"]) != "")
-      $Data = $_POST["Data"];
-  else
-      $msg .= "";
+	$Data = null;
+	if(isset($_POST["Data"]) && $_POST["Data"] != null && trim($_POST["Data"]) != "")
+		$Data = $_POST["Data"];
+	else
+		$msg .= "";
 
-  if(isset($_POST["Ora"]) && $_POST["Ora"] != null && trim($_POST["Ora"]) != "")
-      $Ora = $_POST["Ora"];
-  else
-      $msg .= "";
+	$Ora = null; 
+	if(isset($_POST["Ora"]) && $_POST["Ora"] != null && trim($_POST["Ora"]) != "")
+		$Ora = $_POST["Ora"];
+	else
+		$msg .= "";
 
+	$Macro = null;
     if(isset($_POST["IdMacroarea"]) && $_POST["IdMacroarea"] != null && trim($_POST["IdMacroarea"]) != "")
         $Macro = $_POST["IdMacroarea"];
     else
         $msg .= "";
 
+	$Utente = null;
     if(isset($_POST["IdUtente"]) && $_POST["IdUtente"] != null && trim($_POST["IdUtente"]) != "")
         $Utente = $_POST["IdUtente"];
     else
-            $msg .= "";
+        $msg .= "";
 
-   if(isset($_POST["IdAula"]) && $_POST["IdAula"] != null && trim($_POST["IdAula"]) != "")
+	$Aula = null;
+	if(isset($_POST["IdAula"]) && $_POST["IdAula"] != null && trim($_POST["IdAula"]) != "")
         $Aula = $_POST["IdAula"];
     else
         $msg .= "";
@@ -1378,10 +1390,10 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "Update"){
             $msg .= "";
 */
 
-  if($control)
-    echo $ticket -> Update($IdTicket, $Nome, $Descrizione, $Stato, $Priorita, $Data, $Ora, $Macro, $Utente, $Aula);
-  else {
-    echo '{"result":false,"description":"' . $msg . '"}';
-  }
+	if($control)
+		echo $ticket->Update($IdTicket, $Nome, $Descrizione, $Stato, $Priorita, $Data, $Ora, $Macro, $Utente, $Aula);
+	else {
+		echo '{"result":false,"description":"' . $msg . '"}';
+	}
 }
 ?>
