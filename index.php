@@ -33,11 +33,9 @@
 
 					<section class="box special">
 						<header class="major">
-							<h2>Introducing the ultimate mobile app
-							<br />
-							for doing stuff with your phone</h2>
-							<p>Blandit varius ut praesent nascetur eu penatibus nisi risus faucibus nunc ornare<br />
-							adipiscing nunc adipiscing. Condimentum turpis massa.</p>
+							<h2>Segnala, gestisci e risolvi i problemi con un solo click
+							</h2>
+							<p>Registrati ed effettua l'accesso per iniziare subito</p>
 						</header>
 						<span class="image featured"><img src="images/pic01.jpg" alt="" /></span>
 					</section>
@@ -70,38 +68,14 @@
 					</section>
 
 					<div class="row">
-						<div class="col-6 col-12-narrower">
-
-							<section class="box special">
-								<span class="image featured"><img src="images/pic02.jpg" alt="" /></span>
-								<h3>Hai riscontrato un problema ? <br> Riportalo qui </h3>
-								<p>Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
-								<ul class="actions special">
-									<li><a href="#" class="button alt">Learn More</a></li>
-								</ul>
-							</section>
-
-						</div>
-						<div class="col-6 col-12-narrower">
-
-							<section class="box special">
-								<span class="image featured"><img src="images/pic03.jpg" alt="" /></span>
-								<h3>Prosegui la tua esperenzia tramite la nostra app</h3>
-								<p>Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
-								<ul class="actions special">
-									<li><a href="#" class="button alt">Learn More</a></li>
-								</ul>
-							</section>
-
-						</div>
 					</div>
 
 				</section>
 
-			<!-- CTA -->
+			<!-- CTA 
 				<?php
 					require_once(PATH_ROOT.DS."assets".DS."php".DS."utility".DS."root".DS."cta.php");
-				?>
+				?>-->
 
 			<!-- Footer -->
 				<?php
