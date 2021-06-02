@@ -726,7 +726,7 @@ function settingMenuGestione()
 
         }
 
-        if(permessi_utente.CreaModificaEliminaCompetenza == "1") {
+        /*if(permessi_utente.CreaModificaEliminaCompetenza == "1") {
 
             // restituirò true
             show = true;
@@ -760,7 +760,7 @@ function settingMenuGestione()
 				console.error("btn_show_competenze2 non esiste");
 			}
 
-        }
+        }*/
 
         if(permessi_utente.CreaModificaEliminaCategoria == "1") {
 
@@ -1358,6 +1358,43 @@ function set_notifications_dropdown() {
 	});
 
 }
+
+// funzione per visualizzare un immagine in un'altra finestra passando l'immagine in base64
+function showImage(image_base_64) {
+
+    console.log(image_base_64);
+
+    /*let image = new Image();
+    image.src = "data:image/jpg;base64," + image_base_64;
+
+    let w = window.open("");
+    w.document.write(image.outerHTML);*/
+
+    const base64ImageData = 'data:image/png;base64,' + image_base_64;
+    const contentType = 'image/png';
+
+    const byteCharacters = atob(base64ImageData.substr(`data:${contentType};base64,`.length));
+    const byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += 1024) {
+        const slice = byteCharacters.slice(offset, offset + 1024);
+
+        const byteNumbers = new Array(slice.length);
+        for (let i = 0; i < slice.length; i++) {
+            byteNumbers[i] = slice.charCodeAt(i);
+        }
+
+        const byteArray = new Uint8Array(byteNumbers);
+
+        byteArrays.push(byteArray);
+    }
+    const blob = new Blob(byteArrays, {type: contentType});
+    const blobUrl = URL.createObjectURL(blob);
+
+    window.open(blobUrl, '_blank');
+}
+
+
 
 // ----------------------------------------------------------------
 // ----------------------- EVENTI ---------------------------------

@@ -135,8 +135,7 @@
                   }
 
                   $r .= $record["IdIncarico"];
-                  $r .= '", "StatodiAvanzamento": "';
-                  $r .= $record["StatodiAvanzamento"];
+                  
                   $r .= '", "Utente": ';
                   $r .= $utn;
                   $r .= ', "Ticket": ';
@@ -269,10 +268,10 @@
                     $return_message .= "IdTicket mancante; ";
                 }
 
-                // aggiuinto lo stato di avanzamento
-                $query .= "`StatodiAvanzamento`";
+                // aggiuinto lo stato di avanzamento            DEPRECATO
+                /*$query .= "`StatodiAvanzamento`";
                 $end_query .= "?";
-                array_push($array_values, "Nuovo");
+                array_push($array_values, "Nuovo");*/
 
                 if($control === false)      // se non sono stati superati i controlli restituisco un errore
                     return '{"result":false, "description":"' . $return_message . '"}';

@@ -58,39 +58,43 @@ function createRecordTicket(ticket) {   //ticket è un oggetto contenente le inf
     // Predisposizione IdTicket: record += '<td>' + ticket.IdTicket + '</td>';
 
     // inserisco il NOME
-    record += '<td id="nomeTicket' + ticket.IdTicket + '" data-nome="' + ticket.Nome + '">'+ cutString(ticket.Nome, 10);
+    record += '<td id="nomeTicket' + ticket.IdTicket + '" data-nome="' + ticket.Nome + '">'+ cutString(ticket.Nome, 10) + "</td>";
 
     // inserisco la DESCRIZIONE
-    record += '<td id="descrizioneTicket' + ticket.IdTicket + '" data-descrizioneTicket="' + ticket.Descrizione + '">'+ cutString(ticket.Descrizione, 10);
+    record += '<td id="descrizioneTicket' + ticket.IdTicket + '" data-descrizioneTicket="' + ticket.Descrizione + '">'+ cutString(ticket.Descrizione, 50)  + "</td>";
 
     // inserisco l'IMMAGINE
-    record += '<td id="immagineTicket' + ticket.IdTicket + '" data-immagineTicket="' + ticket.Immagine + '">'+ cutString(ticket.Immagine, 10);
+    if(ticket.Immagine != null && ticket.Immagine != undefined && ticket.Immagine.trim() != "")
+        record += '<td id="immagineTicket' + ticket.IdTicket + '"><button type="button" onclick="showImage(\'' + ticket.Immagine + '\')" class="btn btn-outline-secondary btn-sm"><i class="fas fa-eye"></i></button></td>';
+    else
+        record += '<td id="immagineTicket' + ticket.IdTicket + '">N / D </td>';
+
 
     // inserisco la STATO DI AVANZAMENTO
-    record += '<td id="statodiavanzamentoTicket' + ticket.IdTicket + '" data-statodiavanzamentoTicket="' + ticket.StatoDiAvanzamento + '">'+ cutString(ticket.StatoDiAvanzamento, 10);
+    record += '<td id="statodiavanzamentoTicket' + ticket.IdTicket + '" data-statodiavanzamentoTicket="' + ticket.StatoDiAvanzamento + '">'+ cutString(ticket.StatoDiAvanzamento, 10)  + "</td>";
 
     // inserisco la PRIORITA'
-	 record += '<td id="prioritaTicket' + ticket.IdTicket + '" data-prioritaTicket="' + ticket.Priorita + '">'+ cutString(ticket.Priorita, 10);
+	record += '<td id="prioritaTicket' + ticket.IdTicket + '" data-prioritaTicket="' + ticket.Priorita + '">'+ cutString(ticket.Priorita, 10)  + "</td>";
 
     // inserisco la DATA
-    record += '<td id="dataTicket' + ticket.IdTicket + '" data-dataTicket="' + ticket.Data + '">'+ ticket.Data;
+    record += '<td id="dataTicket' + ticket.IdTicket + '" data-dataTicket="' + ticket.Data + '">'+ ticket.Data + "</td>";
 
 	// inserisco ORA
-    record += '<td id="oraTicket' + ticket.IdTicket + '" data-oraTicket="' + ticket.Ora + '">'+ cutString(ticket.Ora, 10);
+    record += '<td id="oraTicket' + ticket.IdTicket + '" data-oraTicket="' + ticket.Ora + '">'+ cutString(ticket.Ora, 10)  + "</td>";
 
 	// inserisco IDMACROAREA
-    record += '<td id="macroareaTicket' + ticket.IdTicket + '" data-macroarea="' + ticket.Macroarea.IdMacroarea + '">' + cutString(ticket.Macroarea.Nome, 10); // + ' - ' + cutString(ticket.Macroarea.Descrizione, 10) + '</td>';
+    record += '<td id="macroareaTicket' + ticket.IdTicket + '" data-macroarea="' + ticket.Macroarea.IdMacroarea + '">' + cutString(ticket.Macroarea.Nome, 10) + "</td>"; // + ' - ' + cutString(ticket.Macroarea.Descrizione, 10) + '</td>';
 
 	// inserisco IDUTENTE
-    record += '<td id="utenteTicket' + ticket.IdTicket + '" data-utente="'+ ticket.Utente.IdUtente + '">'+ cutString(ticket.Utente.Email, 10);
+    record += '<td id="utenteTicket' + ticket.IdTicket + '" data-utente="'+ ticket.Utente.IdUtente + '">'+ cutString(ticket.Utente.Email, 10)  + "</td>";
 
 	// inserisco IDAULA
-    record += '<td id="aulaTicket' + ticket.IdTicket + '" data-aula="'+ ticket.Aula.IdAula + '">'+ cutString(ticket.Aula.Nome, 10);
+    record += '<td id="aulaTicket' + ticket.IdTicket + '" data-aula="'+ ticket.Aula.IdAula + '">'+ cutString(ticket.Aula.Nome, 10)  + "</td>";
 
 	// inserisco IDUNIONE
 		let data_unione = ticket.IdUnione.trim() == "" ? "null" : ticket.IdUnione.trim();
 		let value_unione = ticket.IdUnione.trim() == "" ? "N / D" : ticket.IdUnione.trim();
-  	record += '<td id="unioneTicket' + ticket.IdTicket + '" data-unione="'+ data_unione + '">'+ cutString(value_unione, 10);
+  	record += '<td id="unioneTicket' + ticket.IdTicket + '" data-unione="'+ data_unione + '">'+ cutString(value_unione, 10)  + "</td>";
 
 
     // inserisco i bottoni per le diverse azioni
@@ -947,5 +951,10 @@ btn_delete_checked_ticket.addEventListener("click", () => {
 
     // richiamo al funzione per elimiare
     deleteTicket(getArrayTicketsChecked());
+    createTableTicket();
+
+     // controllo lo stato del bottone e richiamo la funzione con il valore del checkbox giusta
+    setCheckboxRecordTicket(general_checkbox_ticket.checked);
+    checkCheckboxTicket();
 
 });

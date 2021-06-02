@@ -345,16 +345,16 @@ public function show($id = null) {
 								if($result)
 								{
 									if($i == 0)
-										$totDescr .= "Utente " . $IdTicket[$i] . " eliminato correttamente";
+										$totDescr .= "Ticket " . $IdTicket[$i] . " eliminato correttamente";
 									else
-										$totDescr .= ";Utente " . $IdTicket[$i] . " eliminato correttamente";
+										$totDescr .= "; Ticket " . $IdTicket[$i] . " eliminato correttamente";
 								}
 								else
 								{
 									if($i == 0)
-										$totDescr .= "Utente " . $IdTicket[$i] . " non eliminato";
+										$totDescr .= "Ticket " . $IdTicket[$i] . " non eliminato";
 									else
-										$totDescr .= ";Utente " . $IdTicket[$i] . " non eliminato";
+										$totDescr .= "; Ticket " . $IdTicket[$i] . " non eliminato";
 								}
 
 							}
@@ -362,9 +362,9 @@ public function show($id = null) {
 							{
 								$ver = 0;
 								if($i == 0)
-									$totDescr .= "Utente " . $IdTicket[$i] . " non eliminato";
+									$totDescr .= "Ticket " . $IdTicket[$i] . " non eliminato";
 								else
-									$totDescr .= ";Utente " . $IdTicket[$i] . " non eliminato";
+									$totDescr .= "; Ticket " . $IdTicket[$i] . " non eliminato";
 							}
 						}
 						if($ver == 0)
@@ -374,7 +374,7 @@ public function show($id = null) {
 						}
 						else
 						{
-							$st = '{"result":false,"description":"' . $totDescr . '"}';
+							$st = '{"result":true,"description":"' . $totDescr . '"}';
 							return $st;
 						}
 
@@ -1202,14 +1202,14 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "Delete"){
   //$ID_ticket = 1;//$_POST[""];
   $control = true;
 
-  if(isset($_POST["Data"]) && $_POST["Data"] != null && trim($_POST["Data"]) != ""){//controllo i dati passati
+  if(isset($_POST["Data"]) && $_POST["Data"] != null){//controllo i dati passati
     $Id_ticket = $_POST["Data"];
   }else{
 
     $control = false;
   }
 
-  if(isset($_POST["Data"]) && $_POST["Data"] != null && trim($_POST["Data"]) != "")
+  if(isset($_POST["Data"]) && $_POST["Data"] != null)
   {
 	   if(isset($_SESSION["logged"]) && $_SESSION["logged"] != false && trim($_SESSION["logged"]) != "")
 			 $ID_user = $_SESSION["logged"];

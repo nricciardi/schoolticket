@@ -48,21 +48,26 @@ function createRecordIncarico(incarico) {   //incarico è un oggetto contenente 
 
     // inserisco l'ID
     // Predisposizione IdIncarico: record += '<td>' + incarico.IdIncarico + '</td>';
-    
-    // inserisco StatodiAvanzamento
-    record += '<td id="statoIncarico' + incarico.IdIncarico + '">' + incarico.StatodiAvanzamento + '</td>';
-    
+
+    // inserisco ID INCARICO:
+    record += '<td id="idIncarico' + incarico.IdIncarico + '">' + incarico.IdIncarico + '</td>';
+
 	// inserisco IdUtente
+
 	record += '<td id="idUtenteIncarico' + incarico.IdIncarico + '" data-utente="' + incarico.Utente.IdUtente + '">' + incarico.Utente.Email + ' - ' + incarico.Utente.Nome + ' ' + incarico.Utente.Cognome + '</td>';
 	
 	// inserisco IdTicket
 	record += '<td id="idTicketIncarico' + incarico.IdIncarico + '" data-ticket="' + incarico.Ticket.IdTicket + '">' + incarico.Ticket.Nome + '</td>';
     
+	///record += '<td id="idUtenteIncarico' + incarico.IdIncarico + '">' + incarico.Utente.IdUtente + '</td>';
+
+	// inserisco IdTicket
+	///record += '<td id="idTicketIncarico' + incarico.IdIncarico + '">' + incarico.Ticket.IdTicket + '</td>';
 
     // inserisco i bottoni per le diverse azioni
     record += '<td id="td_action_incaricoId_' + incarico.IdIncarico + '"> <div class="table-data-feature">';
     record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Edit" id="editIncarico' + incarico.IdIncarico + '" onclick="requestActionIncarico(\'edit\', ' + incarico.IdIncarico + ')">    <i class="zmdi zmdi-edit"></i>  </button>';            // tasto EDIT
-    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Delete" id="deleteIncarico' + incarico.IdIncarico + '" onclick="requestActionIncarico(\'delete\', ' + incarico.IdIncarico + ')">  <i class="zmdi zmdi-delete"></i>    </button>';    // tasto DELETE                                    
+    record += '<button class="item" data-toggle="tooltip" data-placement="top" title="Delete" id="deleteIncarico' + incarico.IdIncarico + '" onclick="requestActionIncarico(\'delete\', ' + incarico.IdIncarico + ')">  <i class="zmdi zmdi-delete"></i>    </button>';    // tasto DELETE
     record += '</div>   </td>   </tr>';
 
     // inserisco il record di spaziatura
@@ -74,10 +79,10 @@ function createRecordIncarico(incarico) {   //incarico è un oggetto contenente 
 }
 
 // funzione che crea un box per la conferma prima di eseguire effettivamente "send", "edit", "delete" o "more"
-function requestActionIncarico(type, ID) {      // passo il tipo di richiesta che viene chiesta 
+function requestActionIncarico(type, ID) {      // passo il tipo di richiesta che viene chiesta
     switch (type) {
         case "edit":
-            
+
             changeFormNewIncarico(ID);
             break;
 
@@ -97,23 +102,23 @@ function requestActionIncarico(type, ID) {      // passo il tipo di richiesta ch
 
 // crea il codice HTML per la richiesta da aggiungere sopra il bottone cliccato
 function createRequestActionIncarico(type, ID) {
-    
+
     let question = "Sei sicuro ";
 
-    // 
+    //
     switch (type) {
         case "send":
             question += "di voler inviare i dati?";
             break;
-        
+
         case "edit":
             question += "di voler modificare i dati?";
             break;
-        
+
         case "delete":
             question += "di voler eliminare i dati?";
             break;
-        
+
         case "more":
             question += "di voler inviare i dati?";
             break;
@@ -131,8 +136,8 @@ function createRequestActionIncarico(type, ID) {
         '<button type="button" class="btn btn-primary btn-sm" onclick="' + type + 'Incarico(' + ID + ')" style="margin-left: 0.5vw; border-radius: 5%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
             '<i class="far fa-check-circle"></i> Sì' +
         '</button>' + // nel caso di click su annulla viene ricreata la tabella
-        '<button type="button" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%" onclick="createTableIncarico()">' + 
-            '<!--<i class="fas fa-minus-circle"></i>--> Annulla' + 
+        '<button type="button" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%" onclick="createTableIncarico()">' +
+            '<!--<i class="fas fa-minus-circle"></i>--> Annulla' +
         '</button>';
 
     // restituisco il form creato
@@ -179,8 +184,8 @@ function createTableIncarico() {
                     body_table_incarico.innerHTML += createRecordIncarico(element);
 
                 });
-                
-                
+
+
             }
 
         },
@@ -199,13 +204,13 @@ function createTableIncarico() {
 // in base all'id passato cerco di creare un nuovo incarico
 function addIncarico() {
     console.log("Aggiungo un incarico");
-	
+
     // creo l'oggetto data da mandare in post
-    let data = {"StatodiAvanzamento": document.getElementById("newStatodiAvanzamento").value, "IdUtente": document.getElementById("newIdUtente").value, "IdTicket": document.getElementById("newIdTicket").value};
+    
+    let data = {"IdUtente": document.getElementById("newIdUtente").value, "IdTicket": document.getElementById("newIdTicket").value};
 
     // effettuo la chiamata ajax
     $.ajax({
-
         url: HOSTNAME + "/api/incarichi.php",
         type: "post",
         data: data,
@@ -227,7 +232,7 @@ function addIncarico() {
 
                 // in caso positivo creo la tabella per gli incarichi
                 createTableIncarico();
-                
+
             }
 
         },
@@ -243,7 +248,7 @@ function addIncarico() {
 
 // in base all'id passato elimino l'incarico
 function editIncarico(ID) {   // può anche essere passato un array
-    
+
     console.log("Modifico: " + ID);
 
     // creo l'oggetto data da mandare in post
@@ -290,12 +295,12 @@ function editIncarico(ID) {   // può anche essere passato un array
 
 // in base all'id passato elimino l'incarico
 function deleteIncarico(ID) {   // può anche essere passato un array
-    
+
     console.log("Elimino: " + ID);
 
     // creo l'oggetto data da mandare in post
     let data = {"id": ID};
-	
+
     // effettuo la chiamata ajax
     $.ajax({
 
@@ -337,18 +342,18 @@ function deleteIncarico(ID) {   // può anche essere passato un array
 
 // imposta tutti i checkbox dei record della tabella incarico con la modalità passata
 function setCheckboxRecordIncarico(mode) {
-    
+
     // per ogni id checkboxN, imposto su true il checked
     for (let index = 0; index < body_table_incarico.childElementCount; index += 2) {
-        
+
         // tramite il body della tabella, richiamo i suoi elementi figli e recupero l'input checkbox impostandolo con mode
         body_table_incarico.children.item(index).getElementsByTagName("input")[0].checked = mode;
-    }       
+    }
 }
 
 // crea il codice HTML del form da inserire in formato record per creare un nuovo incarico
 function createFormNewIncarico() {
-    
+
     // record che sarà restituito
     let record = "";
 
@@ -361,28 +366,28 @@ function createFormNewIncarico() {
 
     // inserisco l'ID
     // Predisposizione IdIncarico: record += '<td>' + incarico.IdIncarico + '</td>';
-    
+
     // inserisco StatodiAvanzamento
-	record += '<td>' + 
-    "Nuovo" + 
+	record += '<td>' +
+    "Nuovo" +
     '</td>';
-    
+
     // inserisco IdUtente
     record += '<td>' + 
     '<select name="select" class="form-control" id="newIdUtente"></select>' + 
     '</td>';
-	
+
 	// inserisco IdTicket
-    record += '<td>' + 
-    '<select name="select" class="form-control" id="newIdTicket"></select>' + 
+    record += '<td>' +
+    '<input class="form-control" type="text"  placeholder = "IdTicket" id="newIdTicket">' +
     '</td>';
 
     // inserisco i bottoni per le diverse azioni
     record += '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_incarico" onclick="addIncarico()" style="margin-left: 0.5vw; border-radius: 5%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
         '<i class="far fa-check-circle"></i> Conferma' +
-    '</button>' + 
-    '<button type="button" onclick="createTableIncarico()" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%">' + 
-        '<!--<i class="fas fa-minus-circle"></i>--> Annulla' + 
+    '</button>' +
+    '<button type="button" onclick="createTableIncarico()" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%">' +
+        '<!--<i class="fas fa-minus-circle"></i>--> Annulla' +
     '</button></td>';
 
     // inserisco il record di spaziatura
@@ -396,30 +401,30 @@ function createFormNewIncarico() {
 
 // controllo se posso abilitare il bottone per la conferma della nuova incarico
 function checkFormNewIncarico(ID = "btn_confirm_new_incarico") {
-    
+
     let btn_confirm_new_incarico = document.getElementById(ID);
 
     if(btn_confirm_new_incarico == null) {
 
         console.error("Il button per la conferma non esiste");
         return false;
-    } 
+    }
 
     if(check_new_nome_incarico)
 		btn_confirm_new_incarico.removeAttribute("disabled");
     else
 		btn_confirm_new_incarico.setAttribute("disabled", "disabled");
-        
+
 }
 
-// funzione che elimina tutti gli id selezionati 
+// funzione che elimina tutti gli id selezionati
 function getArrayIncaricoChecked() {
 
     let array = Array();
-    
+
     // per ogni record della tabella cerco l'input checkbox
     for (let index = 0; index < body_table_incarico.childElementCount; index++) {
-        
+
         // verifico che non sia un record spacer verificando che esista un figlio
         let tr = body_table_incarico.children[index];
         if(tr.firstElementChild != null) {
@@ -438,7 +443,7 @@ function getArrayIncaricoChecked() {
 
 // controllo se abilitare il bottone
 function checkCheckboxIncarico() {
-    
+
     let array = getArrayIncaricoChecked();
 
     console.log(array);
@@ -446,7 +451,7 @@ function checkCheckboxIncarico() {
     if(array.length > 0) {
 
         btn_delete_checked_incarico.removeAttribute("disabled");
-		
+
 		if(array.length == 1)
 			btn_delete_checked_incarico.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella ' + array.length + ' incarico selezionata</font></font>';
 		else
@@ -463,7 +468,7 @@ function checkCheckboxIncarico() {
 
 // funzione che modifica il record della tabella con id passato, predisponendolo come form
 function changeFormNewIncarico(ID) {
-    
+
     // elimino il form per l'inserimento di una nuova incarico
     removeForm("form_new_incarico");
 
@@ -494,29 +499,28 @@ function changeFormNewIncarico(ID) {
     td_IdTicket.innerHTML = '<select class="form-control" id="editIdTicket"></select>'
 	addAllTicket(document.getElementById("editIdTicket"), feedback_table_management_incarico, 10);
     document.getElementById("editIdTicket").value = IdTicket;
-	
 
 	// ACTION
     let td_action_incaricoId = document.getElementById("td_action_incaricoId_" + ID);
     td_action_incaricoId.innerHTML = '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_incarico" onclick="editIncarico(' + ID + ')" style="margin-left: 0.5vw; border-radius: 5%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
         '<i class="far fa-check-circle"></i> Conferma' +
-    '</button>' + 
-    '<button type="button" onclick="createTableIncarico()" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%">' + 
-        '<!--<i class="fas fa-minus-circle"></i>--> Annulla' + 
+    '</button>' +
+    '<button type="button" onclick="createTableIncarico()" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%">' +
+        '<!--<i class="fas fa-minus-circle"></i>--> Annulla' +
     '</button></td>';
 }
 
 // ----------------------------------------------------------------
-// ----------------------- EVENTI --------------------------------- 
+// ----------------------- EVENTI ---------------------------------
 // ----------------------------------------------------------------
 
 // al click del checkbox generale, verifico il suo stato e modifico tutti quelli presenti di conseguenza
 general_checkbox_incarico.addEventListener("change", () => {
-    
+
     // controllo lo stato del bottone e richiamo la funzione con il valore del checkbox giusta
     setCheckboxRecordIncarico(general_checkbox_incarico.checked);
     checkCheckboxIncarico();
-    
+
 });
 
 // aggiungo il form per l'aggiunta di una nuova incarico
@@ -528,7 +532,7 @@ form_add_incarico.addEventListener("click", () => {
     createTableIncarico();
     let actual_body = body_table_incarico.innerHTML
     body_table_incarico.innerHTML = createFormNewIncarico() + actual_body;
-	
+
 	// richiamo le funzioni per aggiungere categorie e permessi
     addAllUsers(document.getElementById("newIdUtente"), feedback_table_management_incarico, 10);
     addAllTicket(document.getElementById("newIdTicket"), feedback_table_management_incarico, 10);
@@ -537,10 +541,10 @@ form_add_incarico.addEventListener("click", () => {
 // ricarico la tabella riaggiungendola al click del bottone di refresh
 btn_refresh_management_incarico.addEventListener("click", () => {
 
-    
+
 
     // disabilito il bottone per 3 secondi
-    
+
     // creo la tabella
     createTableIncarico();
 
@@ -551,7 +555,7 @@ btn_refresh_management_incarico.addEventListener("click", () => {
     btn_refresh_management_incarico.color = "#ededed";
 
     setTimeout(() => {
-        
+
         // abilito il bottone
         btn_refresh_management_incarico.disabled = false;
 
