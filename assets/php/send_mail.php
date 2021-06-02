@@ -74,6 +74,5 @@
 		echo send_mail($_POST['name'], $_POST['email'], $_POST['subject'], $_POST['message']);
 	}
 
-	//var_dump($_POST);
 
 ?>
