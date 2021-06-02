@@ -55,7 +55,7 @@ function createRecordMacroarea(macroarea) {   //macroarea è un oggetto contenen
     
     // inserisco la DESCRIZIONE
 	if(macroarea.Descrizione == null)
-		record += '<td id="descrizioneMacroarea' + macroarea.IdMacroarea + '">' + 'N/D' + '</td>';
+		record += '<td id="descrizioneMacroarea' + macroarea.IdMacroarea + '">' + '-' + '</td>';
 	else
 		record += '<td id="descrizioneMacroarea' + macroarea.IdMacroarea + '">' + macroarea.Descrizione + '</td>';
 

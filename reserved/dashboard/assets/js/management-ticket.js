@@ -67,7 +67,7 @@ function createRecordTicket(ticket) {   //ticket è un oggetto contenente le inf
     if(ticket.Immagine != null && ticket.Immagine != undefined && ticket.Immagine.trim() != "")
         record += '<td id="immagineTicket' + ticket.IdTicket + '"><button type="button" onclick="showImage(\'' + ticket.Immagine + '\')" class="btn btn-outline-secondary btn-sm"><i class="fas fa-eye"></i></button></td>';
     else
-        record += '<td id="immagineTicket' + ticket.IdTicket + '">N / D </td>';
+        record += '<td id="immagineTicket' + ticket.IdTicket + '"> - </td>';
 
 
     // inserisco la STATO DI AVANZAMENTO
@@ -93,7 +93,7 @@ function createRecordTicket(ticket) {   //ticket è un oggetto contenente le inf
 
 	// inserisco IDUNIONE
 		let data_unione = ticket.IdUnione.trim() == "" ? "null" : ticket.IdUnione.trim();
-		let value_unione = ticket.IdUnione.trim() == "" ? "N / D" : ticket.IdUnione.trim();
+		let value_unione = ticket.IdUnione.trim() == "" ? "-" : ticket.IdUnione.trim();
   	record += '<td id="unioneTicket' + ticket.IdTicket + '" data-unione="'+ data_unione + '">'+ cutString(value_unione, 10)  + "</td>";
 
 
@@ -437,13 +437,13 @@ function createFormNewTicket() {
     '</td>';
 
     // inserisco l'Immagine
-    record += '<td>' +
+    record += '<td>' + "-" + 
     //'<input type="file" placeholder="Immagine" oninput="checkNewImmagineTicket()" class="form-control" id="newImmagineTicket">' +
     '</td>';
 
     // inserisco la Stato
     record += '<td>' +
-    '<input type="text" placeholder="Stato di avanzamento" oninput="checkNewStatoDiAvanzamentoTicket()" class="form-control" id="newStatoTicket">' +
+    'Nuovo' +
     '</td>';
 
 		// inserisco la Priorità
@@ -451,40 +451,37 @@ function createFormNewTicket() {
 		'<input type="number" placeholder="Priorità" oninput="checkNewPrioritaTicket()"  min = "0" class="form-control" id="newPrioritaTicket">' +
 		'</td>';
 
+        let data_corrente = new Date();
 		// inserisco la Data
 		record += '<td>' +
 		//'<input type="text" placeholder="Data" oninput="" class="form-control" id="newDataTicket">' +
+        data_corrente.getFullYear() + "-" + data_corrente.getMonth() + "-" + data_corrente.getDay() +
 		'</td>';
 
 		// inserisco la Ora
 		record += '<td>' +
 		//'<input type="text" placeholder="Ora" oninput="" class="form-control" id="newOraTicket">' +
+        data_corrente.getHours() + ":" + data_corrente.getMinutes() + ":" + data_corrente.getSeconds() +
 		'</td>';
 
 		// inserisco la Macroarea
-			 record += '<td>';
-			 record += '<select name="select" oninput="checkNewMacroareaTicket()" class="form-control" id="macroarea_add_ticket"></select>';
-			 record += '</td>';
+	    record += '<td>';
+		record += '<select name="select" oninput="checkNewMacroareaTicket()" class="form-control" id="macroarea_add_ticket"></select>';
+		record += '</td>';
 
 		// inserisco la Utente
-			 record += '<td>';
-			 record += USER.Nome + ' ' + USER.Cognome;
-			 record += '</td>';
+		record += '<td>';
+		record += USER.Nome + ' ' + USER.Cognome;
+		record += '</td>';
 
 		// inserisco la Aula
-			 record += '<td>';
-			 record += '<select name="select" oninput="checkNewAulaTicket()" class="form-control" id="aula_add_ticket"></select>';
-			 record += '</td>';
+		record += '<td>';
+		record += '<select name="select" oninput="checkNewAulaTicket()" class="form-control" id="aula_add_ticket"></select>';
+		record += '</td>';
 
 		// inserisco la Unione
-		record += '<td>' +
+		record += '<td>' + '-' + 
 		//'<input type="text" placeholder="StatoDiAvanzamento" oninput="" class="form-control" id="newUnioneTicket">' +
-		'</td>';
-
-		// inserisco la Visualizzato
-		record += '<td>' +
-
-		//'<input type="text" placeholder="StatoDiAvanzamento" oninput="" class="form-control" id="newVisualizzatoTicket">' +
 		'</td>';
 
 /*    // inserisco la CATEGORIA
