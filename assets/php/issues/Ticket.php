@@ -345,16 +345,16 @@ public function show($id = null) {
 								if($result)
 								{
 									if($i == 0)
-										$totDescr .= "Utente " . $IdTicket[$i] . " eliminato correttamente";
+										$totDescr .= "Ticket " . $IdTicket[$i] . " eliminato correttamente";
 									else
-										$totDescr .= ";Utente " . $IdTicket[$i] . " eliminato correttamente";
+										$totDescr .= "; Ticket " . $IdTicket[$i] . " eliminato correttamente";
 								}
 								else
 								{
 									if($i == 0)
-										$totDescr .= "Utente " . $IdTicket[$i] . " non eliminato";
+										$totDescr .= "Ticket " . $IdTicket[$i] . " non eliminato";
 									else
-										$totDescr .= ";Utente " . $IdTicket[$i] . " non eliminato";
+										$totDescr .= "; Ticket " . $IdTicket[$i] . " non eliminato";
 								}
 
 							}
@@ -362,9 +362,9 @@ public function show($id = null) {
 							{
 								$ver = 0;
 								if($i == 0)
-									$totDescr .= "Utente " . $IdTicket[$i] . " non eliminato";
+									$totDescr .= "Ticket " . $IdTicket[$i] . " non eliminato";
 								else
-									$totDescr .= ";Utente " . $IdTicket[$i] . " non eliminato";
+									$totDescr .= "; Ticket " . $IdTicket[$i] . " non eliminato";
 							}
 						}
 						if($ver == 0)
@@ -374,7 +374,7 @@ public function show($id = null) {
 						}
 						else
 						{
-							$st = '{"result":false,"description":"' . $totDescr . '"}';
+							$st = '{"result":true,"description":"' . $totDescr . '"}';
 							return $st;
 						}
 
