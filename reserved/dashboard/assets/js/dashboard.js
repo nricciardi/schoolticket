@@ -26,6 +26,9 @@ var USER = null;
 // variabile contenente tutti gli utenti
 var ALL_USERS = null
 
+// variabile contenente i ticket
+var TICKET = null;
+
 // - Dato errato
 var error_data = "#ff5757";
 var error_background = "#ffeded";
@@ -213,6 +216,9 @@ async function init() {
 
     // imposto gli utenti prelevati dal database attraverso una chiamata ajax
     await set_allUsers();
+	
+	// imposto i ticket prelevati dal database attraverso una chiamata ajax
+    await set_ticket();
 
     // imposto le classi attraverso una chiamata ajax
 	await set_classrooms();
@@ -525,6 +531,32 @@ function addAllUsers(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
             let text = cutString(element.Email, n_char_max_to_print);
             if (element.Descrizione !== null)       // se è presente una descrizione la inserisco
                 text += " - " + cutString(element.Nome, n_char_max_to_print);
+            option.text = text;
+            // inserisco l'oggetto option
+            input.appendChild(option);
+
+        });
+    } else {
+        // errore
+        result.style.color = error_data;
+        result.innerHTML = "Errore nella richiesta delle aule, riprovare più tardi o contattare l'assistenza.";
+    }
+}
+
+// aggiungo i ticket al form
+function addTicket(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
+    input.innerHTML = "";
+
+    // per ogni ticket creo un option e la aggiungo alla select-box
+    if(TICKET !== null) {
+        TICKET.forEach(element => {
+            //console.log(element);
+            // creo l'elemento option
+            let option = document.createElement("option");
+            // inserisco il value nell'option
+            option.value = element.IdTicket;
+            // inserisco il testo nell'option
+            let text = cutString(element.Nome, n_char_max_to_print);
             option.text = text;
             // inserisco l'oggetto option
             input.appendChild(option);
@@ -1040,6 +1072,35 @@ async function set_allUsers() {
 
     //console.debug("end set user");
 
+}
+
+// funzione per inviare i dati tramite ajax
+async function set_ticket() {
+
+    TICKET = null;
+
+    await $.ajax({
+        url: HOSTNAME + '/api/incarichi.php',
+        type: 'GET',
+        headers: {
+            'Authorization': 'Basic ' + btoa(USER.Email + ':' + USER.Password)
+        },
+        dataType: "text",
+        success: function( data, textStatus, jQxhr ){
+            console.debug("set TICKET");
+            //console.log(data);
+            //console.log(JSON.parse(data));
+
+            // controllo che non abbia restituito errori
+            if(JSON.parse(data).result == false) {
+                TICKET = null;
+            } else {
+                TICKET = JSON.parse(data).result;
+            }
+
+
+        }
+    });
 }
 
 // funzione per inviare i dati tramite ajax
