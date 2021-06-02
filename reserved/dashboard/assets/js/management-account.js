@@ -1,7 +1,6 @@
 // ----------------------------------------------------------------
 // ----------------------- VARIABILI ------------------------------
 // ---------------------------------------------------------------- 
-
 // tbody della tabella utenti
 var body_table_accounts = document.getElementById("body_table_accounts");
 
@@ -29,9 +28,9 @@ function createTableAccount()
     // elimino gli elementi esistenti
     body_table_accounts.innerHTML = "";
 
-		document.getElementById("Cognome").innerText = USER.Cognome;
-		document.getElementById("Nome").innerText = USER.Nome;
-		document.getElementById("Email").innerText = USER.Email;
+		document.getElementById("Cgnm").innerText = USER.Cognome;
+		document.getElementById("Nm").innerText = USER.Nome;
+		document.getElementById("Eml").innerText = USER.Email;
 		document.getElementById("Ctgr").innerText = USER.Categoria;
 		document.getElementById("Prmss").innerText = USER.Permessi;
 		
