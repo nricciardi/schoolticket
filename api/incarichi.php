@@ -95,7 +95,7 @@
 
                 //var_dump($st->fetchAll());
                 while($record = $st->fetch()){
-                    
+
                   //Utente:
                     $Utente = $record["IdUtente"];
                     $st2 = $this->PDOconn->prepare("SELECT schoolticket.utente.* FROM schoolticket.utente WHERE schoolticket.utente.IdUtente = ?");		// Se è 1 visualizza tutti gli utenti
@@ -258,6 +258,13 @@
                     $query .= "`IdTicket`,";
                     $end_query .= "?,";
                     array_push($array_values, $idTicket);
+
+                    $statoo = "Aperto";
+                    $idticket2 = $incarico["IdTicket"];
+                    $q = "UPDATE schoolticket.ticket SET StatoDiAvanzamento = ? WHERE IdTicket = ?";
+              			$st200 = $this->PDOconn->prepare($q);
+              			$result2 = $st200->execute([$statoo, $idticket2]);
+
                 } else {
                     $control = false;
                     $return_message .= "IdTicket mancante; ";
