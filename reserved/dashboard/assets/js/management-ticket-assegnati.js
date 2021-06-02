@@ -33,17 +33,17 @@ function createRecordTicketAssegnati(ticketassegnati) {   //ticketassegnati è u
 
     // inserisco l'ID
     // Predisposizione IdIncarico: record += '<td>' + ticketassegnati.IdIncarico + '</td>';
-    
+
     // inserisco il NOME
     record += '<td id="nomeTicketAssegnati' + ticketassegnati.IdTicket + '">' + ticketassegnati.Nome + '</td>';
-    
+
     // inserisco la STATO DI AVANZAMENTO
 	if(ticketassegnati.StatoDiAvanzamento == null)
 		record += '<td id="statoTicketAssegnati' + ticketassegnati.IdTicket + '">' + 'N/D' + '</td>';
 	else
 		record += '<td id="statoTicketAssegnati' + ticketassegnati.IdTicket + '">' + ticketassegnati.StatoDiAvanzamento + '</td>';
-    
-	
+
+
     // record += '<td id="laboratorioAula' + ticketassegnati.IdIncarico + '">' + ticketassegnati.Laboratorio + '</td>';
 
     // inserisco i bottoni per le diverse azioni
@@ -60,14 +60,14 @@ function createRecordTicketAssegnati(ticketassegnati) {   //ticketassegnati è u
 }
 
 // funzione che crea un box per la conferma prima di eseguire effettivamente "send", "edit", "delete" o "more"
-function requestActionTicketAssegnati(type, ID) {      // passo il tipo di richiesta che viene chiesta 
+function requestActionTicketAssegnati(type, ID) {      // passo il tipo di richiesta che viene chiesta
     switch (type) {
         case "send":
-            
+
             break;
-    
+
         case "edit":
-            
+
             changeFormNewTicketAssegnati(ID);
             break;
 
@@ -78,15 +78,15 @@ function requestActionTicketAssegnati(type, ID) {      // passo il tipo di richi
 
 // crea il codice HTML per la richiesta da aggiungere sopra il bottone cliccato
 function createRequestActionTicketAssegnati(type, ID) {
-    
+
     let question = "Sei sicuro ";
 
-    // 
+    //
     switch (type) {
         case "send":
             question += "di voler inviare i dati?";
             break;
-        
+
         case "edit":
             question += "di voler modificare i dati?";
             break;
@@ -102,8 +102,8 @@ function createRequestActionTicketAssegnati(type, ID) {
         '<button type="button" class="btn btn-primary btn-sm" onclick="' + type + 'TicketAssegnati(' + ID + ')" style="margin-left: 0.5vw; border-radius: 5%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
             '<i class="far fa-check-circle"></i> Sì' +
         '</button>' + // nel caso di click su annulla viene ricreata la tabella
-        '<button type="button" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%" onclick="createTableTicketAssegnati()">' + 
-            '<!--<i class="fas fa-minus-circle"></i>--> Annulla' + 
+        '<button type="button" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%" onclick="createTableTicketAssegnati()">' +
+            '<!--<i class="fas fa-minus-circle"></i>--> Annulla' +
         '</button>';
 
     // restituisco il form creato
@@ -119,12 +119,12 @@ function createTableTicketAssegnati() {
     // elimino gli elementi esistenti
     body_table_ticketassegnati.innerHTML = "";
 
-	let data = {"Submit":"Show"};
+	   //let data = {"Submit":"Show"};
     // effettuo la chiamata
     $.ajax({
-        url: HOSTNAME + "/assets/php/issues/Ticket.php",
-        type: "POST",
-        data: data,
+        url: HOSTNAME + "/api/incarichi.php",
+        type: "GET",
+        //data: data,
         dataType: "json",
         success: (res) => {
             console.log(res);
@@ -149,8 +149,8 @@ function createTableTicketAssegnati() {
                     body_table_ticketassegnati.innerHTML += createRecordTicketAssegnati(element);
 
                 });
-                
-                
+
+
             }
 
         },
@@ -168,12 +168,12 @@ function createTableTicketAssegnati() {
 
 // in base all'id passato elimino l'ticketassegnati
 function editTicketAssegnati(ID) {   // può anche essere passato un array
-    
+
     console.log("Modifico: " + ID);
 
     let checkbox_edit_mode = 0;
     if(document.getElementById("editStatoTicketAssegnati").checked)
-        checkbox_edit_mode = 1; 
+        checkbox_edit_mode = 1;
 
     // creo l'oggetto data da mandare in post
     let data = {"IdIncarico": ID, "Stato": document.getElementById("editStatoTicketAssegnati").value};
@@ -217,9 +217,9 @@ function editTicketAssegnati(ID) {   // può anche essere passato un array
 
 }
 
-// imposto le funzioni per gli eventi del form 
+// imposto le funzioni per gli eventi del form
 /*function checkNewNomeTicketAssegnati(ID = "newNomeTicketAssegnati") {
-    
+
     // controllo che sia aggiunto almeno un valore per il nome
 
     if(document.getElementById(ID).value.trim() == "") {
@@ -240,7 +240,7 @@ function editTicketAssegnati(ID) {   // può anche essere passato un array
 }
 
 function checkNewStatoTicketAssegnati(ID = "newStatoTicketAssegnati") {
-    
+
 
     if(document.getElementById(ID).value.trim() == "") {
 
@@ -261,10 +261,10 @@ function checkNewStatoTicketAssegnati(ID = "newStatoTicketAssegnati") {
 
 // funzione che modifica il record della tabella con id passato, predisponendolo come form
 function changeFormNewTicketAssegnati(ID) {
-    
+
     // elimino il form per l'inserimento di una nuova ticketassegnati
     removeForm("form_new_ticketassegnati");
-   
+
     // STATO
     // recupero la referenza della stato del record della tabella tramite ID
    /* let td_stato = document.getElementById("statoTicketAssegnati" + ID);
@@ -278,23 +278,23 @@ function changeFormNewTicketAssegnati(ID) {
     let td_action_ticketassegnatiId = document.getElementById("td_action_ticketassegnatiId_" + ID);
     td_action_ticketassegnatiId.innerHTML = '<td><button type="button" class="btn btn-primary btn-sm" id="btn_confirm_new_ticketassegnati" onclick="editTicketAssegnati(' + ID + ')" style="margin-left: 0.5vw; border-radius: 5%">' +   // aggiungo l'onclick per effettuare correttamente l'azione
         '<i class="far fa-check-circle"></i> Conferma' +
-    '</button>' + 
-    '<button type="button" onclick="createTableTicketAssegnati()" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%">' + 
-        '<!--<i class="fas fa-minus-circle"></i>--> Annulla' + 
+    '</button>' +
+    '<button type="button" onclick="createTableTicketAssegnati()" class="btn btn-danger btn-sm" style="margin-left: 0.5vw; border-radius: 5%">' +
+        '<!--<i class="fas fa-minus-circle"></i>--> Annulla' +
     '</button></td>';
 }
 
 // ----------------------------------------------------------------
-// ----------------------- EVENTI --------------------------------- 
+// ----------------------- EVENTI ---------------------------------
 // ----------------------------------------------------------------
 
 // ricarico la tabella riaggiungendola al click del bottone di refresh
 btn_refresh_management_ticketassegnati.addEventListener("click", () => {
 
-    
+
 
     // disabilito il bottone per 3 secondi
-    
+
     // creo la tabella
     createTableTicketAssegnati();
 
@@ -305,7 +305,7 @@ btn_refresh_management_ticketassegnati.addEventListener("click", () => {
     btn_refresh_management_ticketassegnati.color = "#ededed";
 
     setTimeout(() => {
-        
+
         // abilito il bottone
         btn_refresh_management_ticketassegnati.disabled = false;
 
