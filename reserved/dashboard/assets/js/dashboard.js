@@ -218,7 +218,7 @@ async function init() {
     await set_allUsers();
 	
 	// imposto i ticket prelevati dal database attraverso una chiamata ajax
-    await set_ticket();
+    //await set_ticket();
 
     // imposto le classi attraverso una chiamata ajax
 	await set_classrooms();
@@ -1074,13 +1074,14 @@ async function set_allUsers() {
 
 }
 
+/*
 // funzione per inviare i dati tramite ajax
 async function set_ticket() {
 
     TICKET = null;
 	
     // creo l'oggetto data da mandare in post
-    let data = {"Submit": "Show"};
+    //let data = {"Submit": "Show"};
 
     await $.ajax({
         url: HOSTNAME + '/assets/php/issues/Ticket.php',
@@ -1103,6 +1104,7 @@ async function set_ticket() {
         }
     });
 }
+*/
 
 // funzione per inviare i dati tramite ajax
 async function set_macroaree() {
