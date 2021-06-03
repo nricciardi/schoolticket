@@ -156,6 +156,9 @@ function createTableTicketInseriti() {
 
             } else {    // in caso positivo creo la tabella per le ticketinseriti
                 
+
+                let count = 0;
+
                 // recupero le ticketinseriti passate da "result"
                 let ticketinseriti = res.result;
                 if(ticketinseriti.length > 0)
@@ -163,8 +166,11 @@ function createTableTicketInseriti() {
                     console.log(res.description);
                     // per ogni ticketinseriti in ticket creo il codice HTML per il record
                     ticketinseriti.forEach((element) => {
-                     // aggiungo il record alla tabella
-                    body_table_ticketinseriti.innerHTML += createRecordTicketInseriti(element);
+                        // aggiungo il record alla tabella
+                        if(element.Utente.IdUtente == USER.IdUtente) {
+                            body_table_ticketinseriti.innerHTML += createRecordTicketInseriti(element);
+                            count += 1;
+                        }
                     });
                 }
                 else
@@ -172,6 +178,14 @@ function createTableTicketInseriti() {
                     feedback_table_management_ticketinseriti.innerText = "Non hai ancora inserito dei ticket";
                     feedback_table_management_ticketinseriti.style.color = "#f7c352";
                 }
+
+                console.log(count);
+
+                if(count <= 0) {
+                    feedback_table_management_ticketinseriti.innerText = "Non hai ancora inserito dei ticket";
+                    feedback_table_management_ticketinseriti.style.color = "#f7c352";
+                }
+
                 
             }
         },
