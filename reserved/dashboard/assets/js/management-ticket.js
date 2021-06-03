@@ -46,7 +46,7 @@ function createRecordTicket(ticket) {   //ticket è un oggetto contenente le inf
     let record = "";
 
     // inserisco la parte del CHECKBOX del record (tr)
-    record += '<tr class="tr-shadow">'; // inserisco il tag di apertura
+    record += '<tr class="tr-shadow" id="trTicket'+ ticket.IdTicket +'">'; // inserisco il tag di apertura
 
     record += '<td>';       // creo il primo campo
     record += '<label class="au-checkbox">';
@@ -187,7 +187,7 @@ function createRequestActionTicket(type, ID) {
 }
 
 // richiama gli utenti dal database tramite chiamata AJAX e successivamente crea la tabella
-function createTableTicket() {
+function createTableTicket(IdTicket = null) {
 
     feedback_table_management_ticket.innerText = "Sto caricando la tabella...";
     feedback_table_management_ticket.style.color = "#ededed";
@@ -218,6 +218,8 @@ function createTableTicket() {
                 // recupero gli utenti passati da "result"
                 let tickets = res.result;
 
+                let count = 0;
+
                 console.log(res.description);
 
                 // per ogni utente in tickets creo il codice HTML per il record
@@ -225,10 +227,27 @@ function createTableTicket() {
 
                     // aggiungo il record alla tabella
                     body_table_tickets.innerHTML += createRecordTicket(element);
+                    count += 1;
 
                 });
 
+                if(count <= 0) {
+                    feedback_table_management_ticket.innerText = "Non hai ancora inserito dei ticket";
+                    feedback_table_management_ticket.style.color = "#f7c352";
+                }
+            }
 
+
+            if(document.getElementById("trTicket" + IdTicket) != null && document.getElementById("trTicket" + IdTicket) != undefined) {
+                document.getElementById("trTicket" + IdTicket).style.border = "2px solid blue";
+            }
+
+            if(IdTicket != null && document.getElementById("trTicket" + IdTicket) != null) {
+                setTimeout(() => {
+
+                    document.getElementById("trTicket" + IdTicket).style.border = "";
+            
+                }, 3000);
             }
 
         },
@@ -256,7 +275,7 @@ function addTicket() {
         return false;*/
 								//	"Photo": document.getElementById("newImmagineTicket").value,
     // creo l'oggetto data da mandare in post
-    let data = {"Submit": "insert", "Name": document.getElementById("newNameTicket").value, "Description": document.getElementById("newDescrizioneTicket").value,  "State": document.getElementById("newStatoTicket").value, "Prt": document.getElementById("newPrioritaTicket").value,/* "data": document.getElementById("newDataTicket").value, "ora": document.getElementById("newDataTicket").value,*/ "IdMacroarea": document.getElementById("macroarea_add_ticket").value, /*"IdUtente": document.getElementById("utente_add_ticket").value, */"Classroom": document.getElementById("aula_add_ticket").value/*, "IdUnione": document.getElementById("newUnioneTicket").value, "visualizzato": document.getElementById("newVisualizzatoTicket").value */};
+    let data = {"Submit": "insert", "Name": document.getElementById("newNameTicket").value, "Description": document.getElementById("newDescrizioneTicket").value, "Prt": document.getElementById("newPrioritaTicket").value,/* "data": document.getElementById("newDataTicket").value, "ora": document.getElementById("newDataTicket").value,*/ "IdMacroarea": document.getElementById("macroarea_add_ticket").value, /*"IdUtente": document.getElementById("utente_add_ticket").value, */"Classroom": document.getElementById("aula_add_ticket").value/*, "IdUnione": document.getElementById("newUnioneTicket").value, "visualizzato": document.getElementById("newVisualizzatoTicket").value */};
 
     // effettuo la chiamata ajax
     $.ajax({
@@ -701,7 +720,7 @@ function checkFormNewTicket(ID = "btn_confirm_new_ticket") {
     }
 		console.log();
 
-    if(check_new_name_ticket && check_new_stato_ticket && check_new_priorita_ticket)
+    if(check_new_name_ticket && check_new_priorita_ticket)
         btn_confirm_new_ticket.removeAttribute("disabled");
     else
         btn_confirm_new_ticket.setAttribute("disabled", "disabled");
@@ -876,12 +895,12 @@ function checkCheckboxTicket() {
     if(array.length > 0) {
 
         btn_delete_checked_ticket.removeAttribute("disabled");
-        btn_delete_checked_ticket.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella ' + array.length + ' utenti selezionati</font></font>';
+        btn_delete_checked_ticket.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella ' + array.length + ' ticket selezionati</font></font>';
 
     } else {
 
         btn_delete_checked_ticket.setAttribute("disabled", "disabled");
-        btn_delete_checked_ticket.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella 0 utenti selezionati</font></font>';
+        btn_delete_checked_ticket.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella 0 ticket selezionati</font></font>';
 
     }
 

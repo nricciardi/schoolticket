@@ -73,6 +73,15 @@
                                 <i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella 0 ticket selezionati</font></font>
                             </button>
                         </td>
+                    <tr class="spacer"></tr>
+                    <tr class="tr-shadow">
+                        <td>
+                            <button type="button" class="btn btn-danger" id="btn_union_checked_ticket" disabled>
+                                <i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Unisci 0 ticket selezionati</font></font>
+                            </button>
+
+                        </td>  
+                    </tr>
                     </tr>
                 </tfoot>
             </table>

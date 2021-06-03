@@ -5,7 +5,7 @@
                         <div class="row">
                             <div class="col-md-6 col-lg-3">
                                 <div class="statistic__item">
-                                    <h2 class="number">N / D</h2>
+                                    <h2 class="number" id="ticketAperti">N / D</h2>
                                     <span class="desc">Ticket aperti</span>
                                     <div class="icon">
                                         <i class="fas fa-tools"></i>
