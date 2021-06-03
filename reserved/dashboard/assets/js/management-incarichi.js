@@ -57,10 +57,8 @@ function createRecordIncarico(incarico) {   //incarico è un oggetto contenente 
 	record += '<td id="idUtenteIncarico' + incarico.IdIncarico + '" data-utente="' + incarico.Utente.IdUtente + '">' + incarico.Utente.Email + '</td>';
 
 	// inserisco IdTicket
-	record += '<td id="idTicketIncarico' + incarico.IdIncarico + '" data-ticket="' + incarico.Ticket.IdTicket + '">' + incarico.Ticket.Nome + '</td>';
+	record += '<td id="idTicketIncarico' + incarico.IdIncarico + '" data-ticket="' + incarico.Ticket.IdTicket + '">' + incarico.Ticket.Nome + '<button type="button" onclick="showtick(\'' + incarico.Ticket.IdTicket + '\')" class="btn btn-outline-secondary btn-sm"><i class="fas fa-eye"></i></button>' + '</td>';
 
-
-    
 
 
 
@@ -82,6 +80,22 @@ function createRecordIncarico(incarico) {   //incarico è un oggetto contenente 
     // restituisco la stringa
     return record;
 }
+
+
+function showtick(IdTicket){
+    hideAllDynamicPage();
+
+    // creo la tabella degli utenti
+    createTableTicket(IdTicket);
+
+    div_management_ticket.style.display = "";
+
+    // chiudo il menù
+    $("#header-desktop-menu").removeClass("show-sidebar");
+    $("#header-desktop-menu2").removeClass("show-sidebar");
+
+}
+
 
 // funzione che crea un box per la conferma prima di eseguire effettivamente "send", "edit", "delete" o "more"
 function requestActionIncarico(type, ID) {      // passo il tipo di richiesta che viene chiesta
