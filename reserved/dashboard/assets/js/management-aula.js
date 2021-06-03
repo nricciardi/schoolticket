@@ -188,16 +188,19 @@ function createTableAula() {
                 let aula = res.result;
 
                 console.log(res.description);
-
+                let count = 0;
                 // per ogni aula in aula creo il codice HTML per il record
                 aula.forEach((element) => {
 
                     // aggiungo il record alla tabella
                     body_table_aula.innerHTML += createRecordAula(element);
-
+                    count += 1;
                 });
                 
-                
+                if(count <= 0) {
+                    feedback_table_management_aula.innerText = "Non hai ancora inserito delle aule";
+                    feedback_table_management_aula.style.color = "#f7c352";
+                }
             }
 
         },
@@ -644,8 +647,11 @@ btn_delete_checked_aula.addEventListener("click", () => {
     // richiamo al funzione per elimiare
     deleteAula(getArrayAulaChecked());
 	setCheckboxRecordAula(general_checkbox_aula.checked);
-	checkCheckboxAula();
-
+    checkCheckboxAula();
+    
+    btn_delete_checked_aula.innerText = "Cancella 0 aule selezionate";
+    btn_delete_checked_aula.disabled = true;
+    general_checkbox_aula.checked = false;
 });
 
 // -------------------------------------------------------------------------------

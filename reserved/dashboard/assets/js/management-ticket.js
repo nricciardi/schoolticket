@@ -218,6 +218,8 @@ function createTableTicket() {
                 // recupero gli utenti passati da "result"
                 let tickets = res.result;
 
+                let count = 0;
+
                 console.log(res.description);
 
                 // per ogni utente in tickets creo il codice HTML per il record
@@ -225,8 +227,14 @@ function createTableTicket() {
 
                     // aggiungo il record alla tabella
                     body_table_tickets.innerHTML += createRecordTicket(element);
+                    count += 1;
 
                 });
+
+                if(count <= 0) {
+                    feedback_table_management_ticket.innerText = "Non hai ancora inserito dei ticket";
+                    feedback_table_management_ticket.style.color = "#f7c352";
+                }
 
 
             }
@@ -876,12 +884,12 @@ function checkCheckboxTicket() {
     if(array.length > 0) {
 
         btn_delete_checked_ticket.removeAttribute("disabled");
-        btn_delete_checked_ticket.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella ' + array.length + ' utenti selezionati</font></font>';
+        btn_delete_checked_ticket.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella ' + array.length + ' ticket selezionati</font></font>';
 
     } else {
 
         btn_delete_checked_ticket.setAttribute("disabled", "disabled");
-        btn_delete_checked_ticket.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella 0 utenti selezionati</font></font>';
+        btn_delete_checked_ticket.innerHTML = '<i class="fas fa-trash-alt"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp; Cancella 0 ticket selezionati</font></font>';
 
     }
 
