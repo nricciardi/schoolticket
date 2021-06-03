@@ -139,6 +139,9 @@ var btn_show_note = document.getElementById("btn_show_note");
 var btn_show_note2 = document.getElementById("btn_show_note_2");
 
 // Variabile per scrivere il numero di ticket
+var newTicketAperti = document.getElementById("ticketAperti");
+
+// Variabile per scrivere il numero di ticket
 var newTicket = document.getElementById("ticketNumber");
 
 // Variabile per scrivere il numero di ticket
@@ -237,6 +240,9 @@ async function init() {
 
     // imposto il profilo in modo dinamico
     setProfile();
+	
+	// restituisce il numero di ticket aperti
+	setNewTicketAperti();
 
 	// restituisce il numero di ticket non visualizzati
 	setNewTicketNumber();
@@ -328,7 +334,7 @@ function setProfile() {
 
                                 user_img.src = HOSTNAME + "/reserved/dashboard/assets/images/users/base.png";
                                 user_img2.src = HOSTNAME + "/reserved/dashboard/assets/images/users/base.png";
-
+								window.location.href = HOSTNAME + "/page/login.php";
                             }
 
                         }
@@ -1192,6 +1198,39 @@ async function set_categorie() {
     });
 }
 
+// restituisce il numero di ticket aperti
+async function setNewTicketAperti()
+{
+	// Chiamata Ajax
+	let data = {"Submit":"NewTicketAperti"};
+
+	$.ajax({
+		type: "POST",
+		url: HOSTNAME + "/assets/php/issues/Ticket.php",
+		data: data,
+		dataType: "json",
+		success: function (response)
+		{
+			if(response.result === false)
+			{
+				// In caso response.result == False --> restituisce il messaggio di errore
+				newTicketAperti.innerText = "N / D";													// Messaggio restituito all'utente
+				console.debug(response.description);
+				console.error("Errore nella restituzione dei dati da parte del server");		// Messaggio restituito su console
+			}
+			else
+			{
+				// In caso response.result == True --> restituisce il numero di ticket
+				newTicketAperti.innerHTML = response.result;											// Restituisce all'utente il numero di ticket non visualizzati
+			}
+		},
+		error: (response) => {
+			// Errore in caso di problemi al server
+			newTicketAperti.innerText = "N / D";														// Messaggio restituito all'utente
+			console.error("Impossibile collegarsi al server");									// Messaggio restituito su console
+		}
+	});
+}
 
 // restituisce il numero di ticket non visualizzati
 async function setNewTicketNumber()

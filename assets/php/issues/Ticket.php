@@ -1104,6 +1104,27 @@ public function Union($IdTicket1, $IdTicket2){
 //Fine UNION;
 }
 
+public function NewTicketAperti(){//Restituisce il numero di ticket aperti:
+//Eseguo la query che trova i ticket aperti:
+  $st = $this->PDOconn->prepare("SELECT schoolticket.ticket.IdTicket FROM schoolticket.ticket WHERE schoolticket.ticket.StatoDiAvanzamento = 'Aperto'");
+  $result = $st->execute();
+  if($result == false){
+    $st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
+    return $st;
+  }
+  $valore = $st->fetchAll();
+
+//Vedo il risultato come un array e conto da quanti elementi è composto;
+  $num = 0;
+  $num = count($valore);
+
+  $r = '{"result":';
+  $r .= $num;
+  $r .= ', "description":"Numero dei ticket aperti"}';
+
+  return $r;
+}
+
 public function NewTicketNumber(){//Restituisce il numero di ticket non letti:
 //Eseguo la query che trova i ticket non letti:
   $st = $this->PDOconn->prepare("SELECT schoolticket.ticket.IdTicket FROM schoolticket.ticket WHERE schoolticket.ticket.Visualizzato = 0 ");
@@ -1225,6 +1246,10 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "Delete"){
 
 
 
+}
+
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "NewTicketAperti"){
+  echo $ticket->NewTicketAperti();
 }
 
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "NewTicketNumber"){
