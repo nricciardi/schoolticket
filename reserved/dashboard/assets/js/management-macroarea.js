@@ -170,14 +170,19 @@ function createTableMacroarea() {
                 let macroarea = res.result;
 
                 console.log(res.description);
-
+                let count = 0;
                 // per ogni macroarea in macroarea creo il codice HTML per il record
                 macroarea.forEach((element) => {
 
                     // aggiungo il record alla tabella
                     body_table_macroarea.innerHTML += createRecordMacroarea(element);
-
+                    count += 1;
                 });
+
+                if(count <= 0) {
+                    feedback_table_management_macroarea.innerText = "Non hai ancora inserito delle macroaree";
+                    feedback_table_management_macroarea.style.color = "#f7c352";
+                }
             }
         },
         error: (res) => {

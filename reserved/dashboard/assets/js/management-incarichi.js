@@ -179,7 +179,7 @@ function createTableIncarico() {
 
                 // recupero le incarichi passate da "result"
                 let incarico = res.result;
-
+                let count = 0;
                 console.log(res.description);
 
                 // per ogni incarico in incarico creo il codice HTML per il record
@@ -187,9 +187,13 @@ function createTableIncarico() {
                   console.log(element);
                     // aggiungo il record alla tabella
                     body_table_incarico.innerHTML += createRecordIncarico(element);
+                    count += 1;
 
                 });
-
+                if(count <= 0) {
+                    feedback_table_management_incarico.innerText = "Non hai ancora inserito degli incarichi";
+                    feedback_table_management_incarico.style.color = "#f7c352";
+                }
 
             }
 

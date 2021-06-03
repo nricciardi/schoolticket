@@ -199,6 +199,11 @@ function validatePassword (password)
   }
 }
 
+async function setAll()
+{
+    
+}
+
 // funzione che viene richiamata all'inizio
 async function init() {
 
