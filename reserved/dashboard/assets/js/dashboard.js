@@ -218,7 +218,7 @@ async function init() {
     await set_allUsers();
 	
 	// imposto i ticket prelevati dal database attraverso una chiamata ajax
-    //await set_ticket();
+    await set_ticket();
 
     // imposto le classi attraverso una chiamata ajax
 	await set_classrooms();
@@ -565,7 +565,7 @@ function addAllTicket(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
     } else {
         // errore
         result.style.color = error_data;
-        result.innerHTML = "Errore nella richiesta delle aule, riprovare più tardi o contattare l'assistenza.";
+        result.innerHTML = "Errore nella richiesta dei ticket, riprovare più tardi o contattare l'assistenza.";
     }
 }
 
@@ -1074,14 +1074,14 @@ async function set_allUsers() {
 
 }
 
-/*
+
 // funzione per inviare i dati tramite ajax
 async function set_ticket() {
 
     TICKET = null;
 	
     // creo l'oggetto data da mandare in post
-    //let data = {"Submit": "Show"};
+    let data = {"Submit": "Show"};
 
     await $.ajax({
         url: HOSTNAME + '/assets/php/issues/Ticket.php',
@@ -1094,17 +1094,17 @@ async function set_ticket() {
             //console.log(JSON.parse(data));
 
             // controllo che non abbia restituito errori
-            if(JSON.parse(data).result == false) {
+            if(data.result == false) {
                 TICKET = null;
             } else {
-                TICKET = JSON.parse(data).result;
+                TICKET = data.result;
             }
 
 
         }
     });
 }
-*/
+
 
 // funzione per inviare i dati tramite ajax
 async function set_macroaree() {
