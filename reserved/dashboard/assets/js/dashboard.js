@@ -235,7 +235,7 @@ async function init() {
 	// nascondo tutte le pagine dimaniche presenti
 	hideAllDynamicPage();
 
-    setAll();
+    await setAll();
 
     // creo il menù in modo dinamico
     createMenu();
