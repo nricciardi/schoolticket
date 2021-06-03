@@ -202,18 +202,8 @@ function validatePassword (password)
   }
 }
 
-// funzione che viene richiamata all'inizio
-async function init() {
-
-	console.log("Initialized...");
-
-	// Inserisco i link per il login e la registrazione
-	a_login.href = HOSTNAME + '/page/login.php';
-	a_signup.href = HOSTNAME + '/page/signup.php';
-
-	// nascondo tutte le pagine dimaniche presenti
-	hideAllDynamicPage();
-
+async function setAll()
+{
     // imposto l'utente loggato attraverso una chiamata ajax
     await set_user();
 
@@ -221,7 +211,7 @@ async function init() {
     await set_allUsers();
 	
 	// imposto i ticket prelevati dal database attraverso una chiamata ajax
-    //await set_ticket();
+    await set_ticket();
 
     // imposto le classi attraverso una chiamata ajax
 	await set_classrooms();
@@ -234,6 +224,21 @@ async function init() {
 
     // imposto le categorie attraverso una chiamata ajax
     await set_categorie();
+}
+
+// funzione che viene richiamata all'inizio
+async function init() {
+
+	console.log("Initialized...");
+
+	// Inserisco i link per il login e la registrazione
+	a_login.href = HOSTNAME + '/page/login.php';
+	a_signup.href = HOSTNAME + '/page/signup.php';
+
+	// nascondo tutte le pagine dimaniche presenti
+	hideAllDynamicPage();
+
+    await setAll();
 
     // creo il menù in modo dinamico
     createMenu();
@@ -571,7 +576,7 @@ function addAllTicket(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
     } else {
         // errore
         result.style.color = error_data;
-        result.innerHTML = "Errore nella richiesta delle aule, riprovare più tardi o contattare l'assistenza.";
+        result.innerHTML = "Errore nella richiesta dei ticket, riprovare più tardi o contattare l'assistenza.";
     }
 }
 
@@ -1080,14 +1085,14 @@ async function set_allUsers() {
 
 }
 
-/*
+
 // funzione per inviare i dati tramite ajax
 async function set_ticket() {
 
     TICKET = null;
 	
     // creo l'oggetto data da mandare in post
-    //let data = {"Submit": "Show"};
+    let data = {"Submit": "Show"};
 
     await $.ajax({
         url: HOSTNAME + '/assets/php/issues/Ticket.php',
@@ -1100,17 +1105,17 @@ async function set_ticket() {
             //console.log(JSON.parse(data));
 
             // controllo che non abbia restituito errori
-            if(JSON.parse(data).result == false) {
+            if(data.result == false) {
                 TICKET = null;
             } else {
-                TICKET = JSON.parse(data).result;
+                TICKET = data.result;
             }
 
 
         }
     });
 }
-*/
+
 
 // funzione per inviare i dati tramite ajax
 async function set_macroaree() {
@@ -1488,7 +1493,7 @@ btn_change_password2.addEventListener("click", () => {
 // show utenti
 
 btn_show_user.addEventListener("click", async () => {
-
+    setAll();
     hideAllDynamicPage();
 
     console.debug("show management user");
@@ -1504,7 +1509,7 @@ btn_show_user.addEventListener("click", async () => {
 });
 
 btn_show_user2.addEventListener("click", async () => {
-
+    setAll();
     hideAllDynamicPage();
 
     console.debug("show management user");
@@ -1522,7 +1527,7 @@ btn_show_user2.addEventListener("click", async () => {
 // show ticket
 
 btn_show_ticket.addEventListener("click", () => {
-
+    setAll();
     hideAllDynamicPage();
 
     // creo la tabella degli utenti
@@ -1537,7 +1542,7 @@ btn_show_ticket.addEventListener("click", () => {
 });
 
 btn_show_ticket2.addEventListener("click", () => {
-
+    setAll();
     hideAllDynamicPage();
 
     // creo la tabella degli utenti
@@ -1554,7 +1559,7 @@ btn_show_ticket2.addEventListener("click", () => {
 // show categorie
 
 btn_show_categorie.addEventListener("click", () => {
-
+    setAll();
     hideAllDynamicPage();
 
     // creo la tabella degli utenti
@@ -1569,7 +1574,7 @@ btn_show_categorie.addEventListener("click", () => {
 });
 
 btn_show_categorie2.addEventListener("click", () => {
-
+    setAll();
     hideAllDynamicPage();
 
     // creo la tabella degli utenti
@@ -1586,7 +1591,7 @@ btn_show_categorie2.addEventListener("click", () => {
 // show macroaree
 
 btn_show_macroaree.addEventListener("click", () => {
-
+    setAll();
     hideAllDynamicPage();
 
     // creo la tabella per le macroaree
@@ -1601,7 +1606,7 @@ btn_show_macroaree.addEventListener("click", () => {
 });
 
 btn_show_macroaree2.addEventListener("click", () => {
-
+    setAll();
     hideAllDynamicPage();
 
     // creo la tabella per le macroaree
@@ -1618,7 +1623,7 @@ btn_show_macroaree2.addEventListener("click", () => {
 // show permessi
 
 btn_show_permessi.addEventListener("click", () => {
-
+    setAll();
     hideAllDynamicPage();
 
     // creo la tabella degli utenti
@@ -1633,7 +1638,7 @@ btn_show_permessi.addEventListener("click", () => {
 });
 
 btn_show_permessi2.addEventListener("click", () => {
-
+    setAll();
     hideAllDynamicPage();
 
     // creo la tabella degli utenti
@@ -1650,7 +1655,7 @@ btn_show_permessi2.addEventListener("click", () => {
 // show aule
 
 btn_show_aule.addEventListener("click", () => {
-
+    setAll();
     hideAllDynamicPage();
 
     // creo la tabella delle aule
@@ -1665,7 +1670,7 @@ btn_show_aule.addEventListener("click", () => {
 });
 
 btn_show_aule2.addEventListener("click", () => {
-
+    setAll();
     hideAllDynamicPage();
 
     // creo la tabella delle aule
@@ -1682,7 +1687,7 @@ btn_show_aule2.addEventListener("click", () => {
 // show competenze
 
 btn_show_competenze.addEventListener("click", () => {
-
+    setAll();
     hideAllDynamicPage();
 
     // creo la tabella delle aule
@@ -1697,7 +1702,7 @@ btn_show_competenze.addEventListener("click", () => {
 });
 
 btn_show_competenze2.addEventListener("click", () => {
-
+    setAll();
     hideAllDynamicPage();
 
     // creo la tabella delle aule
@@ -1714,7 +1719,7 @@ btn_show_competenze2.addEventListener("click", () => {
 // show incarichi
 
 btn_show_incarichi.addEventListener("click", () => {
-
+    setAll();
     hideAllDynamicPage();
 
     // creo la tabella degli incarichi
@@ -1729,7 +1734,7 @@ btn_show_incarichi.addEventListener("click", () => {
 });
 
 btn_show_incarichi2.addEventListener("click", () => {
-
+    setAll();
     hideAllDynamicPage();
 
     // creo la tabella degli incarichi
@@ -1744,7 +1749,7 @@ btn_show_incarichi2.addEventListener("click", () => {
 });
 
 btn_show_ticketinseriti.addEventListener("click", () => {
-
+    setAll();
     hideAllDynamicPage();
 
     // creo la tabella delle aule
@@ -1759,7 +1764,7 @@ btn_show_ticketinseriti.addEventListener("click", () => {
 });
 
 btn_show_ticketassegnati.addEventListener("click", () => {
-
+    setAll();
     hideAllDynamicPage();
 
     // creo la tabella delle aule

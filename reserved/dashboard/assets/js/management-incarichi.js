@@ -57,7 +57,12 @@ function createRecordIncarico(incarico) {   //incarico è un oggetto contenente 
 	record += '<td id="idUtenteIncarico' + incarico.IdIncarico + '" data-utente="' + incarico.Utente.IdUtente + '">' + incarico.Utente.Email + '</td>';
 
 	// inserisco IdTicket
-	record += '<td id="idTicketIncarico' + incarico.IdIncarico + '" data-ticket="' + incarico.Ticket.IdTicket + '">' + incarico.Ticket.IdTicket + '</td>';
+	record += '<td id="idTicketIncarico' + incarico.IdIncarico + '" data-ticket="' + incarico.Ticket.IdTicket + '">' + incarico.Ticket.Nome + '</td>';
+
+
+    
+
+
 
 	///record += '<td id="idUtenteIncarico' + incarico.IdIncarico + '">' + incarico.Utente.IdUtente + '</td>';
 
@@ -174,7 +179,7 @@ function createTableIncarico() {
 
                 // recupero le incarichi passate da "result"
                 let incarico = res.result;
-
+                let count = 0;
                 console.log(res.description);
 
                 // per ogni incarico in incarico creo il codice HTML per il record
@@ -182,9 +187,13 @@ function createTableIncarico() {
                   console.log(element);
                     // aggiungo il record alla tabella
                     body_table_incarico.innerHTML += createRecordIncarico(element);
+                    count += 1;
 
                 });
-
+                if(count <= 0) {
+                    feedback_table_management_incarico.innerText = "Non hai ancora inserito degli incarichi";
+                    feedback_table_management_incarico.style.color = "#f7c352";
+                }
 
             }
 
@@ -379,7 +388,7 @@ function createFormNewIncarico() {
 
 	// inserisco IdTicket
     record += '<td>' +
-    '<input class="form-control" type="text"  placeholder = "IdTicket" id="newIdTicket">' +
+    '<select class="form-control" id="newIdTicket"></select>' +
     '</td>';
 
     // inserisco i bottoni per le diverse azioni
@@ -428,11 +437,18 @@ function getArrayIncaricoChecked() {
         // verifico che non sia un record spacer verificando che esista un figlio
         let tr = body_table_incarico.children[index];
         if(tr.firstElementChild != null) {
-            let checkbox = tr.firstElementChild.firstElementChild.firstElementChild;
-            let checkbox_checked = checkbox.checked;
-
-            if(checkbox_checked)    // se il checkbox è spuntato allora lo aggiungo all'array da eliminare
+			
+			if(tr.firstElementChild.firstElementChild.firstElementChild === null && checkbox.checked === null){
+			            let checkbox = tr.firstElementChild.firstElementChild.firstElementChild;
+						let checkbox_checked = checkbox.checked;	
+				
+				if(checkbox_checked)    // se il checkbox è spuntato allora lo aggiungo all'array da eliminare
                 array.push(checkbox.value);
+			}
+			
+
+
+            
         }
     }
 
@@ -488,8 +504,9 @@ function changeFormNewIncarico(ID) {
     IdTicket = td_IdTicket.dataset.ticket;     // recupero il valore del IdTicket
 
     // modifico la label in un input:text
-    td_IdTicket.innerHTML = '<input type="text"  placeholder="IdTicket" id = "editIdTicket" class="form-control">'
-    //td_IdTicket.innerHTML = '<select value="' + IdTicket + '" class="form-control" id="editIdTicket"></select>'
+    //td_IdTicket.innerHTML = '<input type="text"  placeholder="IdTicket" id = "editIdTicket" class="form-control">'
+    td_IdTicket.innerHTML = '<select class="form-control" id="editIdTicket"></select>';
+    document.getElementById("editIdTicket").value = IdTicket;
 
 
 	// ACTION
@@ -526,8 +543,8 @@ form_add_incarico.addEventListener("click", () => {
     body_table_incarico.innerHTML = createFormNewIncarico() + actual_body;
 
 	// richiamo le funzioni per aggiungere categorie e permessi
-    addAllUsers(document.getElementById("newIdUtente"), feedback_table_management_incarico, 10);
-    addAllTicket(document.getElementById("newIdTicket"), feedback_table_management_incarico, 10);
+    addAllUsers(document.getElementById("newIdUtente"), feedback_table_management_incarico, 15);
+    addAllTicket(document.getElementById("newIdTicket"), feedback_table_management_incarico, 20);
 });
 
 // ricarico la tabella riaggiungendola al click del bottone di refresh

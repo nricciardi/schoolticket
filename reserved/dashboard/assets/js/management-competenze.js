@@ -161,15 +161,18 @@ function createTableCompetenza() {
                 let competenza = res.result;
 
                 console.log(res.description);
-
+                let count = 0;
                 // per ogni competenza in competenza creo il codice HTML per il record
                 competenza.forEach((element) => {
 
                     // aggiungo il record alla tabella
                     body_table_competenza.innerHTML += createRecordCompetenza(element);
-
+                    count += 1;
                 });
-                
+                if(count <= 0) {
+                    feedback_table_management_competenza.innerText = "Non hai ancora inserito delle competenze";
+                    feedback_table_management_competenza.style.color = "#f7c352";
+                }
             }
 
         },
