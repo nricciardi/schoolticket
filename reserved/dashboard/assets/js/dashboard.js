@@ -139,7 +139,13 @@ var btn_show_note = document.getElementById("btn_show_note");
 var btn_show_note2 = document.getElementById("btn_show_note_2");
 
 // Variabile per scrivere il numero di ticket
+var newTicketAperti = document.getElementById("ticketAperti");
+
+// Variabile per scrivere il numero di ticket
 var newTicket = document.getElementById("ticketNumber");
+
+// Variabile per scrivere il numero di ticket
+var newTicketCompletati = document.getElementById("ticketCompletati");
 
 // Variabile per scrivere il numero di ticket
 var percentualeTicket = document.getElementById("percentualeTicket");
@@ -199,26 +205,23 @@ function validatePassword (password)
   }
 }
 
-// funzione che viene richiamata all'inizio
-async function init() {
-
-	console.log("Initialized...");
-
-	// Inserisco i link per il login e la registrazione
-	a_login.href = HOSTNAME + '/page/login.php';
-	a_signup.href = HOSTNAME + '/page/signup.php';
-
-	// nascondo tutte le pagine dimaniche presenti
-	hideAllDynamicPage();
-
+async function setAll()
+{
+	
+	
     // imposto l'utente loggato attraverso una chiamata ajax
     await set_user();
+	
+	if(USER == null) {
+		window.location.href = HOSTNAME + "/page/login.php";
+		return false;
+	}
 
     // imposto gli utenti prelevati dal database attraverso una chiamata ajax
     await set_allUsers();
 	
 	// imposto i ticket prelevati dal database attraverso una chiamata ajax
-    //await set_ticket();
+    await set_ticket();
 
     // imposto le classi attraverso una chiamata ajax
 	await set_classrooms();
@@ -231,12 +234,30 @@ async function init() {
 
     // imposto le categorie attraverso una chiamata ajax
     await set_categorie();
+}
+
+// funzione che viene richiamata all'inizio
+async function init() {
+
+	console.log("Initialized...");
+
+	// Inserisco i link per il login e la registrazione
+	a_login.href = HOSTNAME + '/page/login.php';
+	a_signup.href = HOSTNAME + '/page/signup.php';
+
+	// nascondo tutte le pagine dimaniche presenti
+	hideAllDynamicPage();
+
+    await setAll();
 
     // creo il menù in modo dinamico
     createMenu();
 
     // imposto il profilo in modo dinamico
     setProfile();
+	
+	// restituisce il numero di ticket aperti
+	setNewTicketAperti();
 
 	// restituisce il numero di ticket non visualizzati
 	setNewTicketNumber();
@@ -246,6 +267,9 @@ async function init() {
     
     // imposto le notifiche nella dashboard
     set_notifications_dropdown();
+	
+	// restituisce il numero di ticket completati
+	setNewTicketCompletati();
 
 }
 
@@ -328,7 +352,7 @@ function setProfile() {
 
                                 user_img.src = HOSTNAME + "/reserved/dashboard/assets/images/users/base.png";
                                 user_img2.src = HOSTNAME + "/reserved/dashboard/assets/images/users/base.png";
-
+								window.location.href = HOSTNAME + "/page/login.php";
                             }
 
                         }
@@ -565,7 +589,7 @@ function addAllTicket(input, result, n_char_max_to_print = N_CHAR_TO_PRINT) {
     } else {
         // errore
         result.style.color = error_data;
-        result.innerHTML = "Errore nella richiesta delle aule, riprovare più tardi o contattare l'assistenza.";
+        result.innerHTML = "Errore nella richiesta dei ticket, riprovare più tardi o contattare l'assistenza.";
     }
 }
 
@@ -1074,14 +1098,14 @@ async function set_allUsers() {
 
 }
 
-/*
+
 // funzione per inviare i dati tramite ajax
 async function set_ticket() {
 
     TICKET = null;
 	
     // creo l'oggetto data da mandare in post
-    //let data = {"Submit": "Show"};
+    let data = {"Submit": "Show"};
 
     await $.ajax({
         url: HOSTNAME + '/assets/php/issues/Ticket.php',
@@ -1094,17 +1118,17 @@ async function set_ticket() {
             //console.log(JSON.parse(data));
 
             // controllo che non abbia restituito errori
-            if(JSON.parse(data).result == false) {
+            if(data.result == false) {
                 TICKET = null;
             } else {
-                TICKET = JSON.parse(data).result;
+                TICKET = data.result;
             }
 
 
         }
     });
 }
-*/
+
 
 // funzione per inviare i dati tramite ajax
 async function set_macroaree() {
@@ -1192,6 +1216,39 @@ async function set_categorie() {
     });
 }
 
+// restituisce il numero di ticket aperti
+async function setNewTicketAperti()
+{
+	// Chiamata Ajax
+	let data = {"Submit":"NewTicketAperti"};
+
+	$.ajax({
+		type: "POST",
+		url: HOSTNAME + "/assets/php/issues/Ticket.php",
+		data: data,
+		dataType: "json",
+		success: function (response)
+		{
+			if(response.result === false)
+			{
+				// In caso response.result == False --> restituisce il messaggio di errore
+				newTicketAperti.innerText = "N / D";													// Messaggio restituito all'utente
+				console.debug(response.description);
+				console.error("Errore nella restituzione dei dati da parte del server");		// Messaggio restituito su console
+			}
+			else
+			{
+				// In caso response.result == True --> restituisce il numero di ticket
+				newTicketAperti.innerHTML = response.result;											// Restituisce all'utente il numero di ticket non visualizzati
+			}
+		},
+		error: (response) => {
+			// Errore in caso di problemi al server
+			newTicketAperti.innerText = "N / D";														// Messaggio restituito all'utente
+			console.error("Impossibile collegarsi al server");									// Messaggio restituito su console
+		}
+	});
+}
 
 // restituisce il numero di ticket non visualizzati
 async function setNewTicketNumber()
@@ -1227,6 +1284,40 @@ async function setNewTicketNumber()
 	});
 }
 
+// Ticket Completati
+async function setNewTicketCompletati()
+{
+	// Chiamata Ajax
+	let data = {"Submit":"NewTicketCompletati"};
+
+	$.ajax({
+		type: "POST",
+		url: HOSTNAME + "/assets/php/issues/Ticket.php",
+		data: data,
+		dataType: "json",
+		success: function (response)
+		{
+			if(response.result === false)
+			{
+				// In caso response.result == False --> restituisce il messaggio di errore
+				newTicketCompletati.innerText = "N / D";													// Messaggio restituito all'utente
+				console.debug(response.description);
+				console.error("Errore nella restituzione dei dati da parte del server");		// Messaggio restituito su console
+			}
+			else
+			{
+				// In caso response.result == True --> restituisce il numero di ticket
+				newTicketCompletati.innerHTML = response.result;											// Restituisce all'utente il numero di ticket non visualizzati
+			}
+		},
+		error: (response) => {
+			// Errore in caso di problemi al server
+			newTicketCompletati.innerText = "N / D";														// Messaggio restituito all'utente
+			console.error("Impossibile collegarsi al server");									// Messaggio restituito su console
+		}
+	});
+}
+
 
 // Calcolo ticket con discostamento percentuale
 async function setDeviationTicketNumber()
@@ -1256,7 +1347,7 @@ async function setDeviationTicketNumber()
 
 				let deviation = "";
 				if(response.result.deviation < 0)
-					deviation += '<span class="number" style="color: ' + error_data + '; font-size: 0.6em; margin-left: 4px;" id="percentualeTicket">' + "-" + response.result.deviation + "%" + "</span>";
+					deviation += '<span class="number" style="color: ' + error_data + '; font-size: 0.6em; margin-left: 4px;" id="percentualeTicket">' + "" + response.result.deviation + "%" + "</span>";
 				if(response.result.deviation == 0)
 					deviation += '<span class="number" style="color: ' + default_text_color + '; font-size: 0.6em; margin-left: 4px;" id="percentualeTicket">' + response.result.deviation + "%" + "</span>";
 				if(response.result.deviation > 0)
@@ -1449,7 +1540,7 @@ btn_change_password2.addEventListener("click", () => {
 // show utenti
 
 btn_show_user.addEventListener("click", async () => {
-
+    setAll();
     hideAllDynamicPage();
 
     console.debug("show management user");
@@ -1465,7 +1556,7 @@ btn_show_user.addEventListener("click", async () => {
 });
 
 btn_show_user2.addEventListener("click", async () => {
-
+    setAll();
     hideAllDynamicPage();
 
     console.debug("show management user");
@@ -1483,7 +1574,7 @@ btn_show_user2.addEventListener("click", async () => {
 // show ticket
 
 btn_show_ticket.addEventListener("click", () => {
-
+    setAll();
     hideAllDynamicPage();
 
     // creo la tabella degli utenti
@@ -1498,7 +1589,7 @@ btn_show_ticket.addEventListener("click", () => {
 });
 
 btn_show_ticket2.addEventListener("click", () => {
-
+    setAll();
     hideAllDynamicPage();
 
     // creo la tabella degli utenti
@@ -1515,7 +1606,7 @@ btn_show_ticket2.addEventListener("click", () => {
 // show categorie
 
 btn_show_categorie.addEventListener("click", () => {
-
+    setAll();
     hideAllDynamicPage();
 
     // creo la tabella degli utenti
@@ -1530,7 +1621,7 @@ btn_show_categorie.addEventListener("click", () => {
 });
 
 btn_show_categorie2.addEventListener("click", () => {
-
+    setAll();
     hideAllDynamicPage();
 
     // creo la tabella degli utenti
@@ -1547,7 +1638,7 @@ btn_show_categorie2.addEventListener("click", () => {
 // show macroaree
 
 btn_show_macroaree.addEventListener("click", () => {
-
+    setAll();
     hideAllDynamicPage();
 
     // creo la tabella per le macroaree
@@ -1562,7 +1653,7 @@ btn_show_macroaree.addEventListener("click", () => {
 });
 
 btn_show_macroaree2.addEventListener("click", () => {
-
+    setAll();
     hideAllDynamicPage();
 
     // creo la tabella per le macroaree
@@ -1579,7 +1670,7 @@ btn_show_macroaree2.addEventListener("click", () => {
 // show permessi
 
 btn_show_permessi.addEventListener("click", () => {
-
+    setAll();
     hideAllDynamicPage();
 
     // creo la tabella degli utenti
@@ -1594,7 +1685,7 @@ btn_show_permessi.addEventListener("click", () => {
 });
 
 btn_show_permessi2.addEventListener("click", () => {
-
+    setAll();
     hideAllDynamicPage();
 
     // creo la tabella degli utenti
@@ -1611,7 +1702,7 @@ btn_show_permessi2.addEventListener("click", () => {
 // show aule
 
 btn_show_aule.addEventListener("click", () => {
-
+    setAll();
     hideAllDynamicPage();
 
     // creo la tabella delle aule
@@ -1626,7 +1717,7 @@ btn_show_aule.addEventListener("click", () => {
 });
 
 btn_show_aule2.addEventListener("click", () => {
-
+    setAll();
     hideAllDynamicPage();
 
     // creo la tabella delle aule
@@ -1643,7 +1734,7 @@ btn_show_aule2.addEventListener("click", () => {
 // show competenze
 
 btn_show_competenze.addEventListener("click", () => {
-
+    setAll();
     hideAllDynamicPage();
 
     // creo la tabella delle aule
@@ -1658,7 +1749,7 @@ btn_show_competenze.addEventListener("click", () => {
 });
 
 btn_show_competenze2.addEventListener("click", () => {
-
+    setAll();
     hideAllDynamicPage();
 
     // creo la tabella delle aule
@@ -1675,7 +1766,7 @@ btn_show_competenze2.addEventListener("click", () => {
 // show incarichi
 
 btn_show_incarichi.addEventListener("click", () => {
-
+    setAll();
     hideAllDynamicPage();
 
     // creo la tabella degli incarichi
@@ -1690,7 +1781,7 @@ btn_show_incarichi.addEventListener("click", () => {
 });
 
 btn_show_incarichi2.addEventListener("click", () => {
-
+    setAll();
     hideAllDynamicPage();
 
     // creo la tabella degli incarichi
@@ -1705,7 +1796,7 @@ btn_show_incarichi2.addEventListener("click", () => {
 });
 
 btn_show_ticketinseriti.addEventListener("click", () => {
-
+    setAll();
     hideAllDynamicPage();
 
     // creo la tabella delle aule
@@ -1720,7 +1811,7 @@ btn_show_ticketinseriti.addEventListener("click", () => {
 });
 
 btn_show_ticketassegnati.addEventListener("click", () => {
-
+    setAll();
     hideAllDynamicPage();
 
     // creo la tabella delle aule

@@ -168,7 +168,7 @@ function createTableTicketAssegnati() {
                 let ticketassegnati = res.result;
 
                 //console.log(res.description);
-
+                let count = 0;
                 // per ogni ticketassegnati in ticketassegnati creo il codice HTML per il record
                 ticketassegnati.forEach((element) => {
 
@@ -177,11 +177,13 @@ function createTableTicketAssegnati() {
                       // aggiungo il record alla tabella
                       body_table_ticketassegnati.innerHTML += createRecordTicketAssegnati(element);
                     }
-
-
+                    count += 1;
 
                 });
-
+                if(count <= 0) {
+                    feedback_table_management_ticketassegnati.innerText = "Non hai ancora assegnato dei ticket";
+                    feedback_table_management_ticketassegnati.style.color = "#f7c352";
+                }
 
             }
 

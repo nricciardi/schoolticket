@@ -175,7 +175,7 @@ function createTableCategoria() {
 
                 // recupero le categorie passate da "result"
                 let categoria = res.result;
-
+                let count = 0;
                 console.log(res.description);
 
                 // per ogni categoria in categoria creo il codice HTML per il record
@@ -183,9 +183,12 @@ function createTableCategoria() {
 
                     // aggiungo il record alla tabella
                     body_table_categoria.innerHTML += createRecordCategoria(element);
-
+                    count += 1;
                 });
-                
+                if(count <= 0) {
+                    feedback_table_management_categoria.innerText = "Non hai ancora inserito delle categorie";
+                    feedback_table_management_categoria.style.color = "#f7c352";
+                }
                 
             }
 
