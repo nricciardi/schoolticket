@@ -74,7 +74,7 @@
             <hr style="width: 90%; margin-left: 5%;">
 
             <section>
-                <div class="section__content section__content--p30">
+                <div class="section__content section__content--p30" style="overflow-x: scroll;">
                     <div class="container-fluid">
                         <div class="row" id="dynamic-page">
 

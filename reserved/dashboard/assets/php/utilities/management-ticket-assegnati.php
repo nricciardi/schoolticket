@@ -40,6 +40,7 @@
                         <th>Descrizione</th>
                         <th>Immagine</th>
                         <th>Priorita</th>
+                      
                         <th>Completato?</th>
                     </tr>
                 </thead>
