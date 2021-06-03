@@ -179,7 +179,7 @@ function createTableTicketInseriti() {
                     feedback_table_management_ticketinseriti.style.color = "#f7c352";
                 }
 
-                console.log(count);
+                //console.log(count);
 
                 if(count <= 0) {
                     feedback_table_management_ticketinseriti.innerText = "Non hai ancora inserito dei ticket";

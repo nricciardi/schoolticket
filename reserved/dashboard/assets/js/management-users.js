@@ -187,15 +187,18 @@ async function createTableUser() {
 
                 // elimino gli elementi esistenti
                 body_table_users.innerHTML = "";
-
+                let count = 0;
                 // per ogni utente in users creo il codice HTML per il record
                 users.forEach((element) => {
 
                     // aggiungo il record alla tabella
                     body_table_users.innerHTML += createRecordUser(element);
-
+                    count += 1;
                 });
-
+                if(count <= 0) {
+                    feedback_table_management_user.innerText = "Non hai ancora inserito degli utenti";
+                    feedback_table_management_user.style.color = "#f7c352";
+                }
 
             }
 

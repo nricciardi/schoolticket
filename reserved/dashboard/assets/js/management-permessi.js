@@ -218,15 +218,19 @@ function createTablePermessi() {
                 let permessi = res.result;
 
                 console.log(res.description);
+                let count = 0;
 
                 // per ogni utente in users creo il codice HTML per il record
                 permessi.forEach((element) => {
 
                     // aggiungo il record alla tabella
                     body_table_permessi.innerHTML += createRecordPermessi(element);
-
+                    count += 1;
                 });
-
+                if(count <= 0) {
+                    feedback_table_management_permessi.innerText = "Non hai ancora inserito dei permessi";
+                    feedback_table_management_permessi.style.color = "#f7c352";
+                }
 
             }
 
