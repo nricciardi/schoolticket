@@ -172,6 +172,7 @@ btn_submit_ticket.addEventListener("click", () => {
         send_data_add_ticket(form_data);
 
     }
+	init();
 
 })
 

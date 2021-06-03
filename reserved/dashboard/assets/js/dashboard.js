@@ -142,6 +142,9 @@ var btn_show_note2 = document.getElementById("btn_show_note_2");
 var newTicket = document.getElementById("ticketNumber");
 
 // Variabile per scrivere il numero di ticket
+var newTicketCompletati = document.getElementById("ticketCompletati");
+
+// Variabile per scrivere il numero di ticket
 var percentualeTicket = document.getElementById("percentualeTicket");
 
 // Calcolo ticket con discostamento percentuale
@@ -246,6 +249,9 @@ async function init() {
     
     // imposto le notifiche nella dashboard
     set_notifications_dropdown();
+	
+	// restituisce il numero di ticket completati
+	setNewTicketCompletati();
 
 }
 
@@ -1227,6 +1233,40 @@ async function setNewTicketNumber()
 	});
 }
 
+// Ticket Completati
+async function setNewTicketCompletati()
+{
+	// Chiamata Ajax
+	let data = {"Submit":"NewTicketCompletati"};
+
+	$.ajax({
+		type: "POST",
+		url: HOSTNAME + "/assets/php/issues/Ticket.php",
+		data: data,
+		dataType: "json",
+		success: function (response)
+		{
+			if(response.result === false)
+			{
+				// In caso response.result == False --> restituisce il messaggio di errore
+				newTicketCompletati.innerText = "N / D";													// Messaggio restituito all'utente
+				console.debug(response.description);
+				console.error("Errore nella restituzione dei dati da parte del server");		// Messaggio restituito su console
+			}
+			else
+			{
+				// In caso response.result == True --> restituisce il numero di ticket
+				newTicketCompletati.innerHTML = response.result;											// Restituisce all'utente il numero di ticket non visualizzati
+			}
+		},
+		error: (response) => {
+			// Errore in caso di problemi al server
+			newTicketCompletati.innerText = "N / D";														// Messaggio restituito all'utente
+			console.error("Impossibile collegarsi al server");									// Messaggio restituito su console
+		}
+	});
+}
+
 
 // Calcolo ticket con discostamento percentuale
 async function setDeviationTicketNumber()
@@ -1256,7 +1296,7 @@ async function setDeviationTicketNumber()
 
 				let deviation = "";
 				if(response.result.deviation < 0)
-					deviation += '<span class="number" style="color: ' + error_data + '; font-size: 0.6em; margin-left: 4px;" id="percentualeTicket">' + "-" + response.result.deviation + "%" + "</span>";
+					deviation += '<span class="number" style="color: ' + error_data + '; font-size: 0.6em; margin-left: 4px;" id="percentualeTicket">' + "" + response.result.deviation + "%" + "</span>";
 				if(response.result.deviation == 0)
 					deviation += '<span class="number" style="color: ' + default_text_color + '; font-size: 0.6em; margin-left: 4px;" id="percentualeTicket">' + response.result.deviation + "%" + "</span>";
 				if(response.result.deviation > 0)

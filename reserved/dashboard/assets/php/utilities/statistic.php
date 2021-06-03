@@ -32,7 +32,7 @@
                             </div>
                             <div class="col-md-6 col-lg-3">
                                 <div class="statistic__item">
-                                    <h2 class="number">N / D</h2>
+                                    <h2 class="number" id="ticketCompletati">N / D</h2>
                                     <span class="desc">Ticket completati</span>
                                     <div class="icon">
                                         <i class="far fa-check-square"></i>

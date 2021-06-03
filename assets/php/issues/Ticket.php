@@ -1125,6 +1125,27 @@ public function NewTicketNumber(){//Restituisce il numero di ticket non letti:
   return $r;
 }
 
+public function NewTicketCompletati(){//Restituisce il numero di ticket non letti:
+//Eseguo la query che trova i ticket non letti:
+  $st = $this->PDOconn->prepare("SELECT schoolticket.ticket.IdTicket FROM schoolticket.ticket WHERE schoolticket.ticket.StatoDiAvanzamento = 'Chiuso'");
+  $result = $st->execute();
+  if($result == false){
+    $st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
+    return $st;
+  }
+  $valore = $st->fetchAll();
+
+//Vedo il risultato come un array e conto da quanti elementi è composto;
+  $num = 0;
+  $num = count($valore);
+
+  $r = '{"result":';
+  $r .= $num;
+  $r .= ', "description":"Numero dei ticket non letti"}';
+
+  return $r;
+}
+
 //Calcolo ticket con discostamento percentuale:
 public function DeviationTicketNumber(){
   //$nGiorni
@@ -1141,10 +1162,10 @@ public function DeviationTicketNumber(){
 //Calcolo ticket inseriti negli ultimi $nGiorni(30):
 $str = "- " .$this->nGiorni ." day";
 $dataFinale =  strftime('%Y-%m-%d',strtotime($str));//trova la data di 30 giorni fa;
-//echo $dataFinale;
+//var_dump($dataFinale);
 
 
-$st = $this->PDOconn->prepare("SELECT COUNT(schoolticket.ticket.IdTicket) FROM schoolticket.ticket WHERE schoolticket.ticket.Data >= ? ");
+$st = $this->PDOconn->prepare("SELECT COUNT(schoolticket.ticket.IdTicket) FROM schoolticket.ticket WHERE schoolticket.ticket.Data >= ?");
 $result = $st->execute([$dataFinale]);
 if($result == false){
   $st = '{"result":false,"description":"La query non è stata eseguita con successo"}';
@@ -1152,13 +1173,12 @@ if($result == false){
 }
 $risultato = $st->fetchAll();
 $Ticket30g = $risultato[0][0];//Qui abbiamo i ticket inseriti negli ultimi 30 giorni;
-//echo $Ticket30g;
+//var_dump ($Ticket30g);
 
 //Calcolo i ticket inseriti nei 2nGiorni prima:
-$nGiorni2 = 2*$this->nGiorni;
-$str2 = "- " .$nGiorni2 ." day";
-$dataFinale2 =  strftime('%Y-%m-%d',strtotime($str2));//trova la data di 2nGiorni fa;
-//echo $dataFinale2;
+//var_dump($dataFinale2);
+$dataFinale2 = strtotime('-1 month', strtotime($dataFinale));
+$dataFinale2 = date('Y-m-d', $dataFinale2);
 
 $st = $this->PDOconn->prepare("SELECT COUNT(schoolticket.ticket.IdTicket) FROM schoolticket.ticket WHERE schoolticket.ticket.Data >= ? AND schoolticket.ticket.Data <= ? ");
 $result = $st->execute([$dataFinale2,$dataFinale]);
@@ -1167,12 +1187,20 @@ if($result == false){
   return $st;
 }
 $risultato2 = $st->fetchAll();
-$Ticket2ngiorni = $risultato2[0][0];
-//echo $Ticket2ngiorni;
-
-//Calcolo il discostamento percentuale:  $Ticket2ngiorni : 100 = $Ticket30g : x
-$Ticket30g *= 100;
-$temp = $Ticket30g * $Ticket2ngiorni;
+$TicketMesePrima = $risultato2[0][0];
+/*var_dump($Ticket30g);
+var_dump($TicketMesePrima);*/
+//Calcolo il discostamento percentuale:  $Ticket30g : 100 = x : ($TicketMesePrima + $Ticket30g);
+$temp = ($Ticket30g / $TicketMesePrima) * 100;
+$temp = 100 - abs(round($temp));
+//var_dump($temp);
+if($Ticket30g < $TicketMesePrima)
+	$temp *= -1;
+else 
+{	if(abs(round($temp) < 0))
+		$temp *= -1;
+}
+//var_dump($temp);
 
 //Composizione stringa JSON:
   $r = '{"result": {"TicketTotali":';
@@ -1229,6 +1257,10 @@ if(isset($_POST["Submit"]) && $_POST["Submit"] == "Delete"){
 
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "NewTicketNumber"){
   echo $ticket->NewTicketNumber();
+}
+
+if(isset($_POST["Submit"]) && $_POST["Submit"] == "NewTicketCompletati"){
+  echo $ticket->NewTicketCompletati();
 }
 
 if(isset($_POST["Submit"]) && $_POST["Submit"] == "insert"){
