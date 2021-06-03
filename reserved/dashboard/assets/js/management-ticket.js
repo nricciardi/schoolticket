@@ -46,7 +46,7 @@ function createRecordTicket(ticket) {   //ticket è un oggetto contenente le inf
     let record = "";
 
     // inserisco la parte del CHECKBOX del record (tr)
-    record += '<tr class="tr-shadow">'; // inserisco il tag di apertura
+    record += '<tr class="tr-shadow" id="trTicket'+ ticket.IdTicket +'">'; // inserisco il tag di apertura
 
     record += '<td>';       // creo il primo campo
     record += '<label class="au-checkbox">';
@@ -187,7 +187,7 @@ function createRequestActionTicket(type, ID) {
 }
 
 // richiama gli utenti dal database tramite chiamata AJAX e successivamente crea la tabella
-function createTableTicket() {
+function createTableTicket(IdTicket = null) {
 
     feedback_table_management_ticket.innerText = "Sto caricando la tabella...";
     feedback_table_management_ticket.style.color = "#ededed";
@@ -235,8 +235,19 @@ function createTableTicket() {
                     feedback_table_management_ticket.innerText = "Non hai ancora inserito dei ticket";
                     feedback_table_management_ticket.style.color = "#f7c352";
                 }
+            }
 
 
+            if(document.getElementById("trTicket" + IdTicket) != null && document.getElementById("trTicket" + IdTicket) != undefined) {
+                document.getElementById("trTicket" + IdTicket).style.border = "2px solid blue";
+            }
+
+            if(IdTicket != null && document.getElementById("trTicket" + IdTicket) != null) {
+                setTimeout(() => {
+
+                    document.getElementById("trTicket" + IdTicket).style.border = "";
+            
+                }, 3000);
             }
 
         },
