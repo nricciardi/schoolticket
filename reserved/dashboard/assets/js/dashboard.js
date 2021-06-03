@@ -204,8 +204,15 @@ function validatePassword (password)
 
 async function setAll()
 {
+	
+	
     // imposto l'utente loggato attraverso una chiamata ajax
     await set_user();
+	
+	if(USER == null) {
+		window.location.href = HOSTNAME + "/page/login.php";
+		return false;
+	}
 
     // imposto gli utenti prelevati dal database attraverso una chiamata ajax
     await set_allUsers();
