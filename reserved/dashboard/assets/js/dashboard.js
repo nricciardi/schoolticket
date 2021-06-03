@@ -212,10 +212,12 @@ async function setAll()
     // imposto l'utente loggato attraverso una chiamata ajax
     await set_user();
 	
-	if(USER == null) {
+	/*if(USER == null) {
 		window.location.href = HOSTNAME + "/page/login.php";
 		return false;
-	}
+	}*/
+	
+	console.log(USER);
 
     // imposto gli utenti prelevati dal database attraverso una chiamata ajax
     await set_allUsers();
@@ -250,6 +252,7 @@ async function init() {
 
     await setAll();
 
+	console.log(USER);
     // creo il menù in modo dinamico
     createMenu();
 
@@ -1540,7 +1543,7 @@ btn_change_password2.addEventListener("click", () => {
 // show utenti
 
 btn_show_user.addEventListener("click", async () => {
-    setAll();
+    await setAll();
     hideAllDynamicPage();
 
     console.debug("show management user");
@@ -1556,7 +1559,7 @@ btn_show_user.addEventListener("click", async () => {
 });
 
 btn_show_user2.addEventListener("click", async () => {
-    setAll();
+    await setAll();
     hideAllDynamicPage();
 
     console.debug("show management user");
@@ -1573,8 +1576,8 @@ btn_show_user2.addEventListener("click", async () => {
 
 // show ticket
 
-btn_show_ticket.addEventListener("click", () => {
-    setAll();
+btn_show_ticket.addEventListener("click", async () => {
+    await setAll();
     hideAllDynamicPage();
 
     // creo la tabella degli utenti
@@ -1588,8 +1591,8 @@ btn_show_ticket.addEventListener("click", () => {
 
 });
 
-btn_show_ticket2.addEventListener("click", () => {
-    setAll();
+btn_show_ticket2.addEventListener("click", async () => {
+    await setAll();
     hideAllDynamicPage();
 
     // creo la tabella degli utenti
@@ -1605,8 +1608,8 @@ btn_show_ticket2.addEventListener("click", () => {
 
 // show categorie
 
-btn_show_categorie.addEventListener("click", () => {
-    setAll();
+btn_show_categorie.addEventListener("click", async () => {
+    await setAll();
     hideAllDynamicPage();
 
     // creo la tabella degli utenti
@@ -1620,8 +1623,8 @@ btn_show_categorie.addEventListener("click", () => {
 
 });
 
-btn_show_categorie2.addEventListener("click", () => {
-    setAll();
+btn_show_categorie2.addEventListener("click", async () => {
+    await setAll();
     hideAllDynamicPage();
 
     // creo la tabella degli utenti
@@ -1637,8 +1640,8 @@ btn_show_categorie2.addEventListener("click", () => {
 
 // show macroaree
 
-btn_show_macroaree.addEventListener("click", () => {
-    setAll();
+btn_show_macroaree.addEventListener("click", async () => {
+    await setAll();
     hideAllDynamicPage();
 
     // creo la tabella per le macroaree
@@ -1652,8 +1655,8 @@ btn_show_macroaree.addEventListener("click", () => {
 
 });
 
-btn_show_macroaree2.addEventListener("click", () => {
-    setAll();
+btn_show_macroaree2.addEventListener("click", async () => {
+    await setAll();
     hideAllDynamicPage();
 
     // creo la tabella per le macroaree
@@ -1669,8 +1672,8 @@ btn_show_macroaree2.addEventListener("click", () => {
 
 // show permessi
 
-btn_show_permessi.addEventListener("click", () => {
-    setAll();
+btn_show_permessi.addEventListener("click", async () => {
+    await setAll();
     hideAllDynamicPage();
 
     // creo la tabella degli utenti
@@ -1684,8 +1687,8 @@ btn_show_permessi.addEventListener("click", () => {
 
 });
 
-btn_show_permessi2.addEventListener("click", () => {
-    setAll();
+btn_show_permessi2.addEventListener("click", async () => {
+    await setAll();
     hideAllDynamicPage();
 
     // creo la tabella degli utenti
@@ -1701,8 +1704,8 @@ btn_show_permessi2.addEventListener("click", () => {
 
 // show aule
 
-btn_show_aule.addEventListener("click", () => {
-    setAll();
+btn_show_aule.addEventListener("click", async () => {
+    await setAll();
     hideAllDynamicPage();
 
     // creo la tabella delle aule
@@ -1716,8 +1719,8 @@ btn_show_aule.addEventListener("click", () => {
 
 });
 
-btn_show_aule2.addEventListener("click", () => {
-    setAll();
+btn_show_aule2.addEventListener("click", async () => {
+    await setAll();
     hideAllDynamicPage();
 
     // creo la tabella delle aule
@@ -1733,8 +1736,8 @@ btn_show_aule2.addEventListener("click", () => {
 
 // show competenze
 
-btn_show_competenze.addEventListener("click", () => {
-    setAll();
+btn_show_competenze.addEventListener("click", async () => {
+    await setAll();
     hideAllDynamicPage();
 
     // creo la tabella delle aule
@@ -1748,8 +1751,8 @@ btn_show_competenze.addEventListener("click", () => {
 
 });
 
-btn_show_competenze2.addEventListener("click", () => {
-    setAll();
+btn_show_competenze2.addEventListener("click", async () => {
+    await setAll();
     hideAllDynamicPage();
 
     // creo la tabella delle aule
@@ -1765,8 +1768,8 @@ btn_show_competenze2.addEventListener("click", () => {
 
 // show incarichi
 
-btn_show_incarichi.addEventListener("click", () => {
-    setAll();
+btn_show_incarichi.addEventListener("click", async () => {
+    await setAll();
     hideAllDynamicPage();
 
     // creo la tabella degli incarichi
@@ -1780,8 +1783,8 @@ btn_show_incarichi.addEventListener("click", () => {
 
 });
 
-btn_show_incarichi2.addEventListener("click", () => {
-    setAll();
+btn_show_incarichi2.addEventListener("click", async () => {
+    await setAll();
     hideAllDynamicPage();
 
     // creo la tabella degli incarichi
@@ -1795,8 +1798,8 @@ btn_show_incarichi2.addEventListener("click", () => {
 
 });
 
-btn_show_ticketinseriti.addEventListener("click", () => {
-    setAll();
+btn_show_ticketinseriti.addEventListener("click", async () => {
+    await setAll();
     hideAllDynamicPage();
 
     // creo la tabella delle aule
@@ -1810,8 +1813,8 @@ btn_show_ticketinseriti.addEventListener("click", () => {
 
 });
 
-btn_show_ticketassegnati.addEventListener("click", () => {
-    setAll();
+btn_show_ticketassegnati.addEventListener("click", async () => {
+    await setAll();
     hideAllDynamicPage();
 
     // creo la tabella delle aule

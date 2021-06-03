@@ -172,7 +172,20 @@ btn_submit_ticket.addEventListener("click", () => {
         send_data_add_ticket(form_data);
 
     }
-	init();
+	// restituisce il numero di ticket aperti
+	setNewTicketAperti();
+
+	// restituisce il numero di ticket non visualizzati
+	setNewTicketNumber();
+
+	// Calcolo ticket con discostamento percentuale
+    setDeviationTicketNumber();
+	
+	// restituisce il numero di ticket completati
+	setNewTicketCompletati();
+	
+	
+    div_form_add_ticket.style.display = "";
 
 })
 

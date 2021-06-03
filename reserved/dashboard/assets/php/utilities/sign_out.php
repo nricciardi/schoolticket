@@ -16,7 +16,7 @@
 			return '{"result":false,"description":"Sign out non effettuato correttamente"}';
 	}
 	
-	//echo sign_out();
+	echo sign_out();
 	Header ('Location: http://localhost/phoneix/');
 ?>
 </html>

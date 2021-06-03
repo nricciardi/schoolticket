@@ -321,6 +321,7 @@
 				$check = false;
 			}
 
+			//var_dump($_SESSION["logged"]); 
 			if($_SESSION["logged"] == false){ 					//controllo che se il permesso inserito è vuoto (0) lo metto di default a 1
 
 				$IdPermessi = $this->permessoDefault;
@@ -915,14 +916,14 @@
 				$codice = rand(10000000,99999999);			// genero un numero causuale (codice) da inviare all'utente
 				$_SESSION["code"] = $codice;						// tengo in memoria il codice						!!!!!!!!!!!!!!!!!!! controllare che in caso di più utenti non sia necessario tenere in memoria il codice in una variabile di sessione
 				$body = "Il codice per il cambio della password è ".$_SESSION["code"];
-				$result = send_mail(" ",$mail,"Codice per il cambio password", $body);		// richiamo la funzione per l'invio dell'email
+				$result = send_mail("Schoolticket","pierogobetti2021@gmail.com","Codice per il cambio password", $body, $mail);		// richiamo la funzione per l'invio dell'email
 
 				// DEBUG:
 				//var_dump(json_decode($result));
 				//echo json_decode($result)->result;
 				$result = json_decode($result)->result;		// catturo la risposta della funzione
 				if($result)
-					return '{"result":true, "description":"Codice inviato! Controlla la tua casella di posta elettronica."}';
+					return '{"result":true, "description":"Codice inviato! a ' . $mail . '. Controlla la tua casella di posta elettronica."}';
 				else
 					return '{"result":false, "description":"Errore nell\'invio del codice."}';
 

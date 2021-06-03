@@ -4,7 +4,7 @@
 						<ul>
 							<li><a href="index.php">Home</a></li>
 							<li>
-								<a href="#" class="icon solid fa-angle-down">Layouts</a>
+								<a href="#" class="icon solid fa-angle-down">Menù</a>
 								<ul>
 									<!--<li><a href="generic.html">Generic</a></li>-->
 									<li><a href="contact.php">Contact</a></li>

@@ -1212,15 +1212,23 @@ $TicketMesePrima = $risultato2[0][0];
 /*var_dump($Ticket30g);
 var_dump($TicketMesePrima);*/
 //Calcolo il discostamento percentuale:  $Ticket30g : 100 = x : ($TicketMesePrima + $Ticket30g);
-$temp = ($Ticket30g / $TicketMesePrima) * 100;
-$temp = 100 - abs(round($temp));
-//var_dump($temp);
-if($Ticket30g < $TicketMesePrima)
-	$temp *= -1;
-else 
-{	if(abs(round($temp) < 0))
-		$temp *= -1;
+if($TicketMesePrima == 0)
+{
+	$temp = $Ticket30g * 100;
 }
+else
+{
+	$temp = ($Ticket30g / $TicketMesePrima) * 100;
+	$temp = 100 - abs(round($temp));
+	//var_dump($temp);
+	if($Ticket30g < $TicketMesePrima)
+		$temp *= -1;
+	else 
+	{	if(abs(round($temp) < 0))
+			$temp *= -1;
+	}
+}
+
 //var_dump($temp);
 
 //Composizione stringa JSON:
